@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class EntityRelationshipTest < ActiveSupport::TestCase
+
   def setup
   end
 

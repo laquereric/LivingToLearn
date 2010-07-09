@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class EntityTest < ActiveSupport::TestCase
+
   def setup
   end
 
@@ -9,4 +10,4 @@ class EntityTest < ActiveSupport::TestCase
     assert_not_nil e
   end
 
-end 
+end
