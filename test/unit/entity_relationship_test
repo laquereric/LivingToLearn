@@ -1,0 +1,12 @@
+require 'test_helper'
+
+class MedicationTest < ActiveSupport::TestCase
+  def setup
+  end
+
+  test "factory should create" do
+    m = Factory(:medication)
+    assert_not_nil m
+  end
+
+ 
