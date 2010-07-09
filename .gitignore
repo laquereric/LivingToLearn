@@ -1,0 +1,15 @@
+*.swp
+.DS_Store
+log/*.log
+tmp/**/*
+db/*.sqlite3
+doc/*.doc
+doc/*.pdf
+public/system/*
+private/*
+webrat*
+capybara*
+rerun.txt
+app/views/home/test.html.haml
+log/mongrel.pid
+public/stylesheets/payment-process.css
