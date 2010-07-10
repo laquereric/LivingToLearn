@@ -8,6 +8,7 @@ class EntityRelationshipTest < ActiveSupport::TestCase
   def test_new_should_create
     er = EntityRelationship.create
     assert_not_nil er
+    assert_equal er.errors.count , 2
   end
 
   def test_should_allow_from_to
