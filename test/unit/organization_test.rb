@@ -12,21 +12,21 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   def test_new_should_not_create_wo_name
-    ps = Person.create :first_name => "Joe"
+    ps = Organization.create :first_name => "Joe"
+    assert_not_nil ps
+    assert_equal ps.errors.count , 2
+  end
+
+   def test_new_should_not_create_w_first_name
+    ps = Organization.create :name => "Company", :first_name => "Smith"
     assert_not_nil ps
     assert_equal ps.errors.count , 1
   end
 
-   def test_new_should_not_create_w_first_name
-    ps = Person.create :name => "Company", :first_name => "Smith"
-    assert_not_nil ps
-    assert_equal ps.errors.count , 2
-  end
-
   def test_new_should_not_create_w_last_name
-    ps = Person.create  :name => "Company", :last_name => "Smith"
+    ps = Organization.create  :name => "Company", :last_name => "Smith"
     assert_not_nil ps
-    assert_equal ps.errors.count , 2
+    assert_equal ps.errors.count , 1
   end
 
 end
