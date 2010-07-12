@@ -5,7 +5,7 @@ class EntityWebLinks < ActiveRecord::Migration
   end
 
   def self.down
-    drop_column "entities", "web_address", :string
-    drop_column "entities", "wikipedia_address", :string
+    remove_column "entities", "web_address", :string
+    remove_column "entities", "wikipedia_address", :string
   end
 end
