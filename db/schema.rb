@@ -9,7 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100709211800) do
+ActiveRecord::Schema.define(:version => 20100712045402) do
+
+  create_table "cities", :force => true do |t|
+    t.integer "township_boro_id"
+    t.integer "government_id"
+    t.integer "entity_id"
+  end
+
+  create_table "counties", :force => true do |t|
+    t.integer "state_id"
+    t.integer "entity_id"
+  end
+
+  create_table "countries", :force => true do |t|
+    t.integer "entity_id"
+  end
 
   create_table "entities", :force => true do |t|
     t.string   "type"
@@ -21,6 +36,8 @@ ActiveRecord::Schema.define(:version => 20100709211800) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "web_address"
+    t.string   "wikipedia_address"
   end
 
   create_table "entity_details", :force => true do |t|
@@ -30,22 +47,49 @@ ActiveRecord::Schema.define(:version => 20100709211800) do
     t.string  "detail_type"
   end
 
-  create_table "entity_relationships", :force => true do |t|
-    t.string  "type"
-    t.integer "from_id"
-    t.integer "to_id"
+  create_table "locations", :force => true do |t|
+    t.string  "street"
+    t.string  "suite"
+    t.string  "zip5"
+    t.string  "zip4"
+    t.integer "neighborhood_id"
+    t.integer "city_id"
+    t.integer "township_id"
+    t.integer "school_dstrict_id"
+    t.integer "county_id"
+    t.integer "state_id"
+    t.integer "country_id"
+    t.integer "detail_id"
+    t.string  "detail_type"
   end
 
-  create_table "note_detail", :force => true do |t|
-    t.text     "note"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "neighborhoods", :force => true do |t|
+    t.integer "city_id"
+    t.integer "government_id"
+    t.integer "entity_id"
   end
 
   create_table "notes", :force => true do |t|
     t.text     "note"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "entity_id"
+  end
+
+  create_table "school_districts", :force => true do |t|
+    t.integer "county_id"
+    t.integer "entity_id"
+  end
+
+  create_table "states", :force => true do |t|
+    t.integer "country_id"
+    t.integer "entity_id"
+  end
+
+  create_table "township_boros", :force => true do |t|
+    t.integer "county_id"
+    t.integer "government_id"
+    t.integer "entity_id"
   end
 
 end
