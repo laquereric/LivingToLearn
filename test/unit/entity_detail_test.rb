@@ -8,18 +8,14 @@ class EntityDetailTest < ActiveSupport::TestCase
   def test_new_should_create
     edd = EntityDetail.create
     assert_not_nil edd
-    assert_equal edd.errors.count , 2
+    assert_not_equal edd.errors.count , 0
   end
 
   def test_should_be_able_to_note
     e = Entity.create
-    n = Note.create :note => "a note"
-    edd = EntityDetail.new
-    edd.entity = e
-    edd.detail = n
-    edd.save
-    assert_not_nil edd
-    assert_equal edd.errors.count , 0
+    note= e.add_detail( Note, {:note => "a note"} )
+    assert_equal e.entity_details.count , 1
+    assert_not_nil note.entity_detail
   end
 
 end
