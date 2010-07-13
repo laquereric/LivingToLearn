@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100713015402) do
+ActiveRecord::Schema.define(:version => 20100713024554) do
 
   create_table "entities", :force => true do |t|
     t.string   "type"
@@ -47,6 +47,28 @@ ActiveRecord::Schema.define(:version => 20100713015402) do
     t.integer "entity_id"
   end
 
+  create_table "government_neighborhoods", :force => true do |t|
+    t.integer "city_id"
+    t.integer "government_id"
+    t.integer "entity_id"
+  end
+
+  create_table "government_school_districts", :force => true do |t|
+    t.integer "county_id"
+    t.integer "entity_id"
+  end
+
+  create_table "government_states", :force => true do |t|
+    t.integer "country_id"
+    t.integer "entity_id"
+  end
+
+  create_table "government_township_boros", :force => true do |t|
+    t.integer "county_id"
+    t.integer "government_id"
+    t.integer "entity_id"
+  end
+
   create_table "locations", :force => true do |t|
     t.string  "street"
     t.string  "suite"
@@ -63,33 +85,11 @@ ActiveRecord::Schema.define(:version => 20100713015402) do
     t.string  "detail_type"
   end
 
-  create_table "neighborhoods", :force => true do |t|
-    t.integer "city_id"
-    t.integer "government_id"
-    t.integer "entity_id"
-  end
-
   create_table "notes", :force => true do |t|
     t.text     "note"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "entity_id"
-  end
-
-  create_table "school_districts", :force => true do |t|
-    t.integer "county_id"
-    t.integer "entity_id"
-  end
-
-  create_table "states", :force => true do |t|
-    t.integer "country_id"
-    t.integer "entity_id"
-  end
-
-  create_table "township_boros", :force => true do |t|
-    t.integer "county_id"
-    t.integer "government_id"
-    t.integer "entity_id"
   end
 
 end
