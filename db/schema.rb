@@ -9,22 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100712045402) do
-
-  create_table "cities", :force => true do |t|
-    t.integer "township_boro_id"
-    t.integer "government_id"
-    t.integer "entity_id"
-  end
-
-  create_table "counties", :force => true do |t|
-    t.integer "state_id"
-    t.integer "entity_id"
-  end
-
-  create_table "countries", :force => true do |t|
-    t.integer "entity_id"
-  end
+ActiveRecord::Schema.define(:version => 20100713015402) do
 
   create_table "entities", :force => true do |t|
     t.string   "type"
@@ -45,6 +30,21 @@ ActiveRecord::Schema.define(:version => 20100712045402) do
     t.integer "entity_id"
     t.integer "detail_id"
     t.string  "detail_type"
+  end
+
+  create_table "government_cities", :force => true do |t|
+    t.integer "township_boro_id"
+    t.integer "government_id"
+    t.integer "entity_id"
+  end
+
+  create_table "government_counties", :force => true do |t|
+    t.integer "state_id"
+    t.integer "entity_id"
+  end
+
+  create_table "government_countries", :force => true do |t|
+    t.integer "entity_id"
   end
 
   create_table "locations", :force => true do |t|
