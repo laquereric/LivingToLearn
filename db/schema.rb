@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100713032133) do
+ActiveRecord::Schema.define(:version => 20100713201832) do
 
   create_table "entities", :force => true do |t|
     t.string   "type"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20100713032133) do
 
   create_table "government_cities", :force => true do |t|
     t.integer "township_boro_id"
-    t.integer "government_id"
     t.integer "entity_id"
   end
 
@@ -49,7 +48,6 @@ ActiveRecord::Schema.define(:version => 20100713032133) do
 
   create_table "government_neighborhoods", :force => true do |t|
     t.integer "city_id"
-    t.integer "government_id"
     t.integer "entity_id"
   end
 
@@ -70,7 +68,6 @@ ActiveRecord::Schema.define(:version => 20100713032133) do
 
   create_table "government_township_boros", :force => true do |t|
     t.integer "county_id"
-    t.integer "government_id"
     t.integer "entity_id"
   end
 
