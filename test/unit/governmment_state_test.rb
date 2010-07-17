@@ -16,4 +16,11 @@ class GovernmentStateTest < ActiveSupport::TestCase
     assert_not_equal st.errors.count, 0
   end
 
+  def test_should_be_able_to_find_or_add_name_wo_dup
+    sc = Government::State.find_or_add_name_details( "New Jersey", {} )
+    assert_equal Government::State.count, 1
+    sc = Government::State.find_or_add_name_details( "New Jersey", {} )
+    assert_equal Government::State.count, 1
+  end
+
 end

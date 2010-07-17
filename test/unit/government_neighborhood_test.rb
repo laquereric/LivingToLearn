@@ -16,4 +16,11 @@ class GovernmentNeighborhoodTest < ActiveSupport::TestCase
     assert_not_equal nh.errors.count, 0
   end
 
+  def test_should_be_able_to_find_or_add_name_wo_dup
+    sc = Government::Neighborhood.find_or_add_name_details( "Wedgewood", {} )
+    assert_equal Government::Neighborhood.count, 1
+    sc = Government::Neighborhood.find_or_add_name_details( "Wedgewood", {} )
+    assert_equal Government::Neighborhood.count, 1
+  end
+
 end

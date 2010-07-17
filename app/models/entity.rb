@@ -1,6 +1,7 @@
 class Entity < ActiveRecord::Base
 
   has_many :entity_details
+  named_scope :named, lambda { |name| {:conditions => ["name = ?", name ] } }
 
   def self.fields_used
     [:prefix,:first_name,:middle_name,:last_name,:suffix,:name]
@@ -24,7 +25,7 @@ class Entity < ActiveRecord::Base
 
   def add_detail (type,params)
     detail= type.create( self.class.exclude_entity_params(params).merge!({ :entity_id => self.id }) )
-    entity_detail= EntityDetail.create({:entity=>self,:detail=>detail})
+    entity_detail= EntityDetail.create({:entity => self, :detail_id => detail.id , :detail_type => detail.class.to_s })
     self.entity_details<< entity_detail
     return detail
   end

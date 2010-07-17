@@ -16,4 +16,11 @@ class GovernmentSchoolTest < ActiveSupport::TestCase
     assert_not_equal sc.errors.count, 0
   end
 
+  def test_should_be_able_to_find_or_add_name_wo_dup
+    sc = Government::School.find_or_add_name_details(  "Wedgewood Elementary School" , {} )
+    assert_equal Government::School.count, 1
+    sc = Government::School.find_or_add_name_details(  "Wedgewood Elementary School" , {} )
+    assert_equal Government::School.count, 1
+  end
+
 end

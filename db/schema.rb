@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100713201832) do
+ActiveRecord::Schema.define(:version => 20100717114436) do
 
   create_table "entities", :force => true do |t|
     t.string   "type"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20100713201832) do
   create_table "government_counties", :force => true do |t|
     t.integer "state_id"
     t.integer "entity_id"
+    t.integer "government_state_id"
+    t.integer "government_country_id"
   end
 
   create_table "government_countries", :force => true do |t|
@@ -52,8 +54,20 @@ ActiveRecord::Schema.define(:version => 20100713201832) do
   end
 
   create_table "government_school_districts", :force => true do |t|
-    t.integer "county_id"
+    t.integer "government_county_id"
     t.integer "entity_id"
+    t.integer "government_district_code"
+    t.integer "government_country_id"
+    t.integer "government_state_id"
+    t.integer "district_code"
+    t.integer "at_risk_pupils_fy2010"
+    t.integer "poverty_pupils_fy2010"
+    t.decimal "arra_allocation_fy2010"
+    t.decimal "ses_allocation_fy2010"
+    t.integer "at_risk_pupils_fy2011"
+    t.integer "poverty_pupils_fy2011"
+    t.decimal "arra_allocation_fy2011"
+    t.decimal "ses_allocation_fy2011"
   end
 
   create_table "government_schools", :force => true do |t|
@@ -64,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20100713201832) do
   create_table "government_states", :force => true do |t|
     t.integer "country_id"
     t.integer "entity_id"
+    t.integer "government_country_id"
   end
 
   create_table "government_township_boros", :force => true do |t|

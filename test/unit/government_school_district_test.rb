@@ -16,4 +16,18 @@ class GovernmentSchoolDistrictTest < ActiveSupport::TestCase
     assert_not_equal sd.errors.count, 0
   end
 
+  def test_should_be_able_to_find_or_add_name_wo_dup
+    sc = Government::SchoolDistrict.find_or_add_name_details( "Wedgewood Elementary School", {:government_county_id => 1} )
+    assert_equal Government::SchoolDistrict.count, 1
+    sc = Government::SchoolDistrict.find_or_add_name_details( "Wedgewood Elementary School", {:government_county_id => 1} )
+    assert_equal Government::SchoolDistrict.count, 1
+  end
+
+  def test_should_be_able_to_find_or_add_names_with_unique_details
+    sc = Government::SchoolDistrict.find_or_add_name_details( "Wedgewood Elementary School", {:government_county_id => 1} )
+    assert_equal Government::SchoolDistrict.count, 1
+    sc = Government::SchoolDistrict.find_or_add_name_details( "Wedgewood Elementary School", {:government_county_id => 2} )
+    assert_equal Government::SchoolDistrict.count, 2
+  end
+
 end
