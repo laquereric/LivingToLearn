@@ -4,9 +4,9 @@ class Government::GovernmentDetail < Detail
     Government::Government
   end
 
-  belongs_to :government, :class_name => 'Entity', :foreign_key => :entity_id
+  belongs_to :government_entity, :class_name => 'Entity', :foreign_key => :entity_id
   named_scope :named, lambda { |name|
-    { :include => :government, :conditions => ["entities.name = ?", name] }
+    { :include => :government_entity, :conditions => ["entities.name = ?", name] }
   }
 
   def self.purge

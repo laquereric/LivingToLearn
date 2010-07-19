@@ -1,8 +1,8 @@
 class Government::SchoolDistrict < Government::GovernmentDetail
   set_table_name :government_school_districts
-  belongs_to :county, :class_name => "Entity", :foreign_key => :government_county_id
-  belongs_to :state, :class_name => "Entity", :foreign_key => :government_state_id
-  belongs_to :country, :class_name => "Entity", :foreign_key => :government_country_id
+  belongs_to :county_entity, :class_name => "Entity", :foreign_key => :government_county_id
+  belongs_to :state_entity, :class_name => "Entity", :foreign_key => :government_state_id
+  belongs_to :country_entity, :class_name => "Entity", :foreign_key => :government_country_id
 
   def total_funded_pupils_fy2010
     at_risk_pupils_fy2010 + poverty_pupils_fy2010 
