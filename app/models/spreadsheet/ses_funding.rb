@@ -1,7 +1,6 @@
 class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
 
   def self.load_records()
-    self.filename = File.join( RAILS_ROOT, "data" , "US_NJ_SES_FUNDING.ods")
 p "header:"
     self.each_header 
     self.convert_header()
@@ -14,7 +13,7 @@ p "header:"
 
 p "records:"
     self.each_record { |row,r|
-p row.inspect
+p "row: #{row.inspect}"
 p "hash: #{r.inspect}"
 
       country_entity, country_details = Government::Country.find_or_add_name_details( r['country'],{} )
@@ -48,5 +47,15 @@ p "school_district_entity: #{school_district_entity.inspect} county_details: #{ 
   }
 
   end
+
+  def self.load_record_file(filename)
+    self.filename = filename
+    self.load_records()
+  end
+
+  def self.load_data_records()
+    self.load_recordfile( File.join( RAILS_ROOT, "data" , "US_NJ_SES_FUNDING.ods") )
+  end
+
 
 end

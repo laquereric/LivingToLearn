@@ -14,8 +14,13 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.open
-     self.spreadsheet = Openoffice.new(self.filename) if self.spreadsheet.nil?
-     self.spreadsheet
+    if self.spreadsheet.nil?
+      ext= self.filename.split('.')[1]
+      #self.spreadsheet = Openoffice.new(self.filename) if self.spreadsheet.nil?
+      self.spreadsheet = Openoffice.new(self.filename) if ext == 'ods'
+      self.spreadsheet = Excel.new(self.filename) if ext == 'xls'
+    end
+    p self.spreadsheet.to_s
   end
 
   def self.close
@@ -47,11 +52,13 @@ class Spreadsheet::Spreadsheet
   def self.each_record(&block)
       row = 2
       end_of_list = false
+debugger
       while not( end_of_list )
         row_content = {}
         end_of_list = true
         self.column_key.each_pair{ |col,field|
           row_content[field] = ( content = self.spreadsheet.cell(row,col) )
+p "row: #{row} col: #{col} field: #{field} content: #{content}"
           end_of_list =  false if end_of_list and !content.nil?
         }
         yield(row,row_content)  if not(end_of_list)
