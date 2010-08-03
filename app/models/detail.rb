@@ -1,10 +1,14 @@
 class Detail < ActiveRecord::Base
   has_one :entity_detail, :foreign_key => :detail_id , :dependent => :destroy
-  has_one :entity, :through=> :entity_detail
+  has_one :entity, :through => :entity_detail
 
   belongs_to :entity
   validates_presence_of :entity
   validates_associated :entity
+
+  def self.cardinality
+    :many
+  end
 
   def name
     self.entity.name
@@ -22,7 +26,7 @@ class Detail < ActiveRecord::Base
     entity_details= self.named(name).find( :all, :conditions => details ).compact
     #TODO error check
     entity= if entity_details.length > 0 then entity_details[0].entity else nil end
-    return entity, entity_details #.map{|ed| ed.detail}
+    return entity, entity_details
   end
 
   def self.find_or_add_name_details( name, unique_details={}, other_details={} )
@@ -30,8 +34,11 @@ class Detail < ActiveRecord::Base
     entity, details =
       self.find_by_name_and_details( name , unique_details )
     if entity.nil?
-     entity, details =
-       self.add_entity_detail( { :name => name }.merge( unique_details).merge( other_details) )
+      entity, details =
+        self.add_entity_detail( { :name => name }.merge( unique_details).merge( other_details) )
+    else
+      if self.cardinality == :one
+      end
     end
     return entity, details
   end

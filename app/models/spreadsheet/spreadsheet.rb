@@ -19,8 +19,10 @@ class Spreadsheet::Spreadsheet
       #self.spreadsheet = Openoffice.new(self.filename) if self.spreadsheet.nil?
       self.spreadsheet = Openoffice.new(self.filename) if ext == 'ods'
       self.spreadsheet = Excel.new(self.filename) if ext == 'xls'
+      self.spreadsheet = Excel.new(self.filename) if ext == 'gss'
     end
-    p self.spreadsheet.to_s
+    #p self.spreadsheet.to_s
+    self.spreadsheet
   end
 
   def self.close
@@ -29,7 +31,8 @@ class Spreadsheet::Spreadsheet
 
   def self.each_header(&block)
     if (s = self.open)
-      #p "loaded!"
+#debugger
+     #p "loaded!"
       column = 1
       self.raw_column_key = {}
       while not( content = s.cell(1,column) ).nil?
@@ -52,7 +55,6 @@ class Spreadsheet::Spreadsheet
   def self.each_record(&block)
       row = 2
       end_of_list = false
-debugger
       while not( end_of_list )
         row_content = {}
         end_of_list = true

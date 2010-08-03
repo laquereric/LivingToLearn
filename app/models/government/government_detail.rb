@@ -1,5 +1,9 @@
 class Government::GovernmentDetail < Detail
 
+  def self.cardinality
+    :one
+  end
+
   def self.entity_class
     Government::Government
   end

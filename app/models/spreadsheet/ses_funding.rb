@@ -51,6 +51,7 @@ p "school_district_entity: #{school_district_entity.inspect} county_details: #{ 
   def self.load_record_file(filename)
     self.filename = filename
     self.load_records()
+    self.spreadsheet
   end
 
   def self.load_data_records()
