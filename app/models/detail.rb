@@ -31,8 +31,7 @@ class Detail < ActiveRecord::Base
 
   def self.find_or_add_name_details( name, unique_details={}, other_details={} )
     rec= nil
-    entity, details =
-      self.find_by_name_and_details( name , unique_details )
+    entity, details = self.find_by_name_and_details( name , unique_details )
     if entity.nil?
       entity, details =
         self.add_entity_detail( { :name => name }.merge( unique_details).merge( other_details) )

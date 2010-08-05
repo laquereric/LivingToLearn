@@ -52,6 +52,16 @@ class Spreadsheet::Spreadsheet
     }
   end
 
+  def self.each_row(&block)
+      row = 2
+      end_of_list = false
+      while not( end_of_list )
+        row_content = {}
+        end_of_list= yield( self.spreadsheet, row )
+        row += 1
+      end
+  end
+
   def self.each_record(&block)
       row = 2
       end_of_list = false
