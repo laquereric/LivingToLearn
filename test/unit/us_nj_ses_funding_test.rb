@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GovernmentCityTest < ActiveSupport::TestCase
+class UsNjSesFundingTest < ActiveSupport::TestCase
   attr_accessor :filename
 
   def setup

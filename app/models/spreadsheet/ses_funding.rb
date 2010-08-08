@@ -55,8 +55,8 @@ p "school_district_entity: #{school_district_entity.inspect} county_details: #{ 
   end
 
   def self.load_data_records()
+    self.spreadsheet = nil
     self.load_recordfile( File.join( RAILS_ROOT, "data" , "US_NJ_SES_FUNDING.ods") )
   end
-
 
 end

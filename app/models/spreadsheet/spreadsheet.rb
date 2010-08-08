@@ -48,6 +48,7 @@ class Spreadsheet::Spreadsheet
   def self.convert_header()
     self.column_key = {}
     self.raw_column_key.each_pair{ |col,header|
+p "col: #{col} header: #{header}"
       self.column_key[col] = header.gsub(' ','').underscore
     }
   end
