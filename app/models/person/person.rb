@@ -1,4 +1,4 @@
-class Person < Entity
+class Person::Person < Entity
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_each :name do |record, attr, value|

@@ -1,0 +1,31 @@
+require 'test_helper'
+
+class PersonPartnerTest < ActiveSupport::TestCase
+
+  def setup
+  end
+
+  def test_should_be_able_to_add
+    person_entity , person_details =
+      Person::Partner.add_entity_detail( { :name => "Wonetta" } )
+    assert_equal person_entity.errors.count, 0
+    assert_equal person_entity.entity_details.count , 1
+    assert_equal person_details.length , 1
+  end
+
+  def test_should_not_be_able_to_add_wo_name
+    person_entity , person_details =
+      Person::Partner.add_entity_detail( {} )
+    assert_not_equal person_entity.errors.count, 0
+  end
+
+  def test_should_be_able_to_find_or_add_name_wo_dup
+    person_entity , person_details =
+      Person::Partner.find_or_add_name_details( "New Jersey", {} )
+    assert_equal Person::Partner.count, 1
+    person_entity , person_details =
+      Person::Partner.find_or_add_name_details( "New Jersey", {} )
+    assert_equal Person::Partner.count, 1
+  end
+
+end
