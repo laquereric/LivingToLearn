@@ -13,3 +13,4 @@ rerun.txt
 app/views/home/test.html.haml
 log/mongrel.pid
 public/stylesheets/payment-process.css
+.~lock*
