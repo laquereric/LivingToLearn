@@ -14,10 +14,6 @@ class UsNjSesProviderTest < ActiveSupport::TestCase
   def confirm_cell_values
     spreadsheet= Spreadsheet::SesProviders.load_record_file( filename )
 
-    assert_equal spreadsheet.cell(1,1),"Name"
-    assert_equal spreadsheet.cell(1,2),"Areas Served"
-    assert_equal spreadsheet.cell(1,3),"Content Areas/\nGrade Levels/\nPopulation Served"
-    assert_equal spreadsheet.cell(1,4),"Statement of Qualifications & Effectiveness"
     assert_equal Organization::SesProvider.count, 2
 
     assert_equal spreadsheet.cell(2,1),"#1 in Learning"

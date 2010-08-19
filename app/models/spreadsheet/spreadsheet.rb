@@ -14,13 +14,19 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.headers
-    []
+    [
+    ]
   end
 
   def self.check_headers
     ok = true
     Spreadsheet::Administrators.headers.each_index{ |index|
-      ok= false if self.spreadsheet.cell(1,index+1) != self.headers[index]
+      actual = self.spreadsheet.cell(1,index+1) 
+      expected = self.headers[index]
+      if actual != expected
+        p "expected: #{expected} actual: #{actual}"
+        ok = false
+      end
     }
     return ok
   end
@@ -33,7 +39,10 @@ class Spreadsheet::Spreadsheet
       self.spreadsheet = Excel.new(self.filename) if ext == 'xls'
       self.spreadsheet = Excel.new(self.filename) if ext == 'gss'
     end
-    #p self.spreadsheet.to_s
+    ok= self.check_headers
+    if !ok
+      p "Spreadsheet Header mismatch in #{self.filename}"
+    end
     self.spreadsheet
   end
 
@@ -43,8 +52,6 @@ class Spreadsheet::Spreadsheet
 
   def self.each_header(&block)
     if (s = self.open)
-#debugger
-     #p "loaded!"
       column = 1
       self.raw_column_key = {}
       while not( content = s.cell(1,column) ).nil?
@@ -53,14 +60,13 @@ class Spreadsheet::Spreadsheet
         raw_column_key[column] = content
         column += 1
       end
-      p column_key.inspect
+#p column_key.inspect
     end
   end
 
   def self.convert_header()
     self.column_key = {}
     self.raw_column_key.each_pair{ |col,header|
-p "col: #{col} header: #{header}"
       self.column_key[col] = header.gsub(' ','').underscore
     }
   end
@@ -83,7 +89,6 @@ p "col: #{col} header: #{header}"
         end_of_list = true
         self.column_key.each_pair{ |col,field|
           row_content[field] = ( content = self.spreadsheet.cell(row,col) )
-p "row: #{row} col: #{col} field: #{field} content: #{content}"
           end_of_list =  false if end_of_list and !content.nil?
         }
         yield(row,row_content)  if not(end_of_list)

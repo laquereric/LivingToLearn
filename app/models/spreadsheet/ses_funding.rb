@@ -1,7 +1,16 @@
 class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
 
-  def self.load_records()
-p "header:"
+  def self.headers
+    [
+    'Country','State','County','DistrictCode','District',
+    'PovertyPupilsFy2010','AtRiskPupilsFy2010','TotalFundedPupilsFy2010',
+    'SesAllocationFy2010','ArraAllocationFy2010','TotalAllocationFy2010','PerPupilAllocationFy2010',
+    'PovertyPupilsFy2011','AtRiskPupilsFy2011','TotalFundedPupilsFy2011',
+    'SesAllocationFy2011','ArraAllocationFy2011','TotalAllocationFy2011','PerPupilAllocationFy2011'
+    ]
+  end
+
+ def self.load_records()
     self.each_header 
     self.convert_header()
     self.lookup_cache = {
@@ -11,24 +20,18 @@ p "header:"
       :school_districts => {},
     }
 
-p "records:"
     self.each_record { |row,r|
-p "row: #{row.inspect}"
-p "hash: #{r.inspect}"
 
       country_entity, country_details = Government::Country.find_or_add_name_details( r['country'],{} )
-p "country_entity: #{country_entity.inspect} country_details: #{ country_details.inspect}"
 
       state_entity, state_details = Government::State.find_or_add_name_details( r['state'], {
              :government_country_id => country_entity.id
            } )
-p "state_entity: #{state_entity.inspect} state_details: #{ state_details.inspect}"
 
       county_entity, county_details = Government::County.find_or_add_name_details( r['county'],{
              :government_country_id => country_entity.id,
              :government_state_id => state_entity.id
            }  )
-p "county_entity: #{county_entity.inspect} county_details: #{ county_details.inspect}"
 
       school_district_entity, school_district_details =
         Government::SchoolDistrict.find_or_add_name_details( r['district'],{
@@ -43,7 +46,6 @@ p "county_entity: #{county_entity.inspect} county_details: #{ county_details.ins
              :arra_allocation_fy2010  => r['arra_allocation_fy2010'],
              :ses_allocation_fy2010  => r['ses_allocation_fy2010']
         } )
-p "school_district_entity: #{school_district_entity.inspect} county_details: #{ school_district_details.inspect}"
   }
 
   end
