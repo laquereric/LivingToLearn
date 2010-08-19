@@ -1,6 +1,6 @@
 require 'gdocs4ruby'
 
-class Google::Client
+class GoogleApi::Client
   cattr_accessor :service
 
   def self.login

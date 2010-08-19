@@ -1,4 +1,4 @@
-class Google::Document < Google::Client
+class GoogleApi::Document < GoogleApi::Client
   cattr_accessor :document_list
   cattr_accessor :folder_list
 
