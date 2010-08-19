@@ -13,6 +13,18 @@ class Spreadsheet::Spreadsheet
   def self.purge
   end
 
+  def self.headers
+    []
+  end
+
+  def self.check_headers
+    ok = true
+    Spreadsheet::Administrators.headers.each_index{ |index|
+      ok= false if self.spreadsheet.cell(1,index+1) != self.headers[index]
+    }
+    return ok
+  end
+
   def self.open
     if self.spreadsheet.nil?
       ext= self.filename.split('.')[1]
