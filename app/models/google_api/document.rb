@@ -1,25 +1,35 @@
 class GoogleApi::Document < GoogleApi::Client
-  cattr_accessor :document_list
-  cattr_accessor :folder_list
+  cattr_accessor :list
 
-  def self.get_document_list
-    return self.document_list if !self.document_list.nil?
-    self.login
-    self.document_list= self.service.files
+  def self.find(pathext)
+    path,full_name= File.split(pathext)
+    name,ext= full_name.split('.')
+    return nil if ext != 'gxls'
+    folder= GoogleApi::Folder.find_by_path_array( path.split('/') )
+    files = folder.files.select{ |file| file.title == name }
+    files[0]
   end
 
-  def self.get_folder_list
-    return self.folder_list if !self.folder_list.nil?
+  def self.find_by_path_array(path_array)
+    folder = GoogleApi::Folder.find_by_path_array(path_array[0..-2])[0][:folder]
+    files = folder.files.select{ |file|
+      file.title == path_array[-1]
+    }
+    files[0]
+  end
+
+  def self.get_list
+    return self.list if !self.list.nil?
     self.login
-    self.folder_list= self.service.folders
+    self.list= self.service.files
   end
 
   def self.find_by_title(title)
-    self.get_document_list.select{ |doc| doc.title == title }
+    self.get_list.select{ |doc| doc.title == title }
   end
 
   def self.find_by_type(type)
-    self.get_document_list.select{ |doc|
+    self.get_list.select{ |doc|
       doc_type= doc.title.split('_')[-1]
       ( doc_type == type )
     }

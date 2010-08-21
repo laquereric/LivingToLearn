@@ -33,11 +33,14 @@ class Spreadsheet::Spreadsheet
 
   def self.open
     if self.spreadsheet.nil?
-      ext= self.filename.split('.')[1]
-      #self.spreadsheet = Openoffice.new(self.filename) if self.spreadsheet.nil?
+      name,ext= self.filename.split('.')
       self.spreadsheet = Openoffice.new(self.filename) if ext == 'ods'
       self.spreadsheet = Excel.new(self.filename) if ext == 'xls'
-      self.spreadsheet = Excel.new(self.filename) if ext == 'gss'
+      if ext == 'gxls'
+        file= GoogleApi::Document.find(self.filename)
+        key = /spreadsheet:(.*)/.match(file.id)[1]
+        self.spreadsheet = Google.new(key) 
+      end
     end
     ok= self.check_headers
     if !ok

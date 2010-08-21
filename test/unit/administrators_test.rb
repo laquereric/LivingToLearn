@@ -6,6 +6,11 @@ class AdminstratorsTest < ActiveSupport::TestCase
   def setup
   end
 
+  def test_google_doc_cell_values
+    self.filename = File.join( "test" , "fixtures" , "ADMINISTRATORS.gxls" )
+    confirm_cell_values
+  end
+
   def test_ods_cell_values
     self.filename= File.join( RAILS_ROOT, "test" , "fixtures" , "ADMINISTRATORS.ods")
     confirm_cell_values

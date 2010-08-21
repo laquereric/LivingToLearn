@@ -2,7 +2,11 @@ class Spreadsheet::SesProviders < Spreadsheet::Spreadsheet
 
   def self.headers
     [
-    'Name','AreasServed','Services','Qualifications'
+    'Name','AreasServed','Services','Qualifications',
+    'Joined',
+    'FirstName','LastName',
+    'AddressLine1','AddressLine2','City','State','Zip',
+    'Phone','Email'
     ]
   end
 

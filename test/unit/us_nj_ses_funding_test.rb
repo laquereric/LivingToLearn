@@ -6,8 +6,9 @@ class UsNjSesFundingTest < ActiveSupport::TestCase
   def setup
   end
 
-  def test_xls_cell_values
-   #Spreadsheet::SesFunding.load_record_file( File.join( RAILS_ROOT, "test" , "fixtures" , "US_NJ_SES_FUNDING.xls") )
+  def test_google_cell_values
+    self.filename= File.join( "test" , "fixtures" , "US_NJ_SES_FUNDING.gxls")
+    confirm_cell_values
   end
 
   def test_ods_cell_values

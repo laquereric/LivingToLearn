@@ -6,6 +6,11 @@ class UsNjSesProviderTest < ActiveSupport::TestCase
   def setup
   end
 
+  def test_google_cell_values
+    self.filename= File.join( "test" , "fixtures" , "US_NJ_SES_PROVIDERS.gxls")
+    confirm_cell_values
+  end
+
   def test_ods_cell_values
     self.filename= File.join( RAILS_ROOT, "test" , "fixtures" , "US_NJ_SES_PROVIDERS.ods")
     confirm_cell_values
@@ -19,7 +24,7 @@ class UsNjSesProviderTest < ActiveSupport::TestCase
     assert_equal spreadsheet.cell(2,1),"#1 in Learning"
     assert_equal Organization::SesProvider.first.name,"#1 in Learning"
 
-    assert_not_nil spreadsheet.cell(3,2).match(/Brandon/)
+    assert_equal spreadsheet.cell(3,6), 'Brandon'
     assert_not_nil Organization::SesProvider.first.contact.match(/Brandon/)
 
     assert_equal spreadsheet.cell(4,2),"All of New Jersey"
