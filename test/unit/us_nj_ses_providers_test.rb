@@ -24,7 +24,7 @@ class UsNjSesProviderTest < ActiveSupport::TestCase
     assert_equal spreadsheet.cell(2,1),"#1 in Learning"
     assert_equal Organization::SesProvider.first.name,"#1 in Learning"
 
-    assert_equal spreadsheet.cell(3,6), 'Brandon'
+    assert_equal spreadsheet.cell(3,7), 'Brandon'
     assert_not_nil Organization::SesProvider.first.contact.match(/Brandon/)
 
     assert_equal spreadsheet.cell(4,2),"All of New Jersey"
@@ -32,7 +32,7 @@ class UsNjSesProviderTest < ActiveSupport::TestCase
 
     assert_not_nil spreadsheet.cell(4,3).match(/Literacy/)
     assert_not_nil Organization::SesProvider.first.services.match(/Literacy/)
-    
+
     assert_not_nil spreadsheet.cell(4,4).match(/ATOK/)
     assert_not_nil Organization::SesProvider.first.qualifications.match(/ATOK/)
 

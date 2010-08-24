@@ -4,7 +4,7 @@ class Spreadsheet::SesProviders < Spreadsheet::Spreadsheet
     [
     'Name','AreasServed','Services','Qualifications',
     'Joined',
-    'FirstName','LastName',
+    'Prefix','FirstName','MiddleName','LastName','Suffix',
     'AddressLine1','AddressLine2','City','State','Zip',
     'Phone','Email'
     ]
