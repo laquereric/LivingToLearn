@@ -5,13 +5,22 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
     'Country','State','County','DistrictCode','District',
     'PovertyPupilsFy2010','AtRiskPupilsFy2010','TotalFundedPupilsFy2010',
     'SesAllocationFy2010','ArraAllocationFy2010','TotalAllocationFy2010','PerPupilAllocationFy2010',
-    'PovertyPupilsFy2011','AtRiskPupilsFy2011','TotalFundedPupilsFy2011',
-    'SesAllocationFy2011','ArraAllocationFy2011','TotalAllocationFy2011','PerPupilAllocationFy2011'
+
+    'PovertyPupilsFy2011',
+    'AtRiskPupilsFy2011','TotalFundedPupilsFy2011',
+    'SesAllocationFy2011',
+    'PerPupilAllocationFy2011',
+    'Exceptions',
+    'AfterSchool Hours','AtHome Hours',
+    'AfterSchoolAttendanceBonus','AtHomeAttendanceBonus',
+    'AfterSchoolCommission','AtHomeCommission',
+    'AfterSchoolWeeks','AtHomeWeeks',
+    'TotalAvail'
     ]
   end
 
  def self.load_records()
-    self.each_header 
+    self.each_header
     self.convert_header()
     self.lookup_cache = {
       :countries => {},
