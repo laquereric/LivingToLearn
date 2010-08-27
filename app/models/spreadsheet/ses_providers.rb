@@ -6,7 +6,7 @@ class Spreadsheet::SesProviders < Spreadsheet::Spreadsheet
     'Joined',
     'Prefix','FirstName','MiddleName','LastName','Suffix',
     'AddressLine1','AddressLine2','City','State','Zip',
-    'Phone','Email'
+    'Phone','Extension','Email'
     ]
   end
 
@@ -43,13 +43,6 @@ class Spreadsheet::SesProviders < Spreadsheet::Spreadsheet
       end
       end_of_list
     }
-  end
-
-  def self.load_record_file(filename)
-    self.spreadsheet = nil
-    self.filename = filename
-    self.load_records()
-    self.spreadsheet
   end
 
   def self.load_data_records()

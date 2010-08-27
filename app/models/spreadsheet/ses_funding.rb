@@ -11,12 +11,11 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
     'SesAllocationFy2011',
     'PerPupilAllocationFy2011',
     'Exceptions',
-    'AfterSchool Hours','AtHome Hours',
+    'AfterSchoolHours','AtHomeHours',
     'AfterSchoolAttendanceBonus','AtHomeAttendanceBonus',
     'AfterSchoolCommission','AtHomeCommission',
     'AfterSchoolWeeks','AtHomeWeeks',
-    'TotalAvail',
-    'Sponsor'
+    'TotalAvail'
     ]
   end
 
