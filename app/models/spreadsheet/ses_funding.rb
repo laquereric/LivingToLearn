@@ -15,9 +15,16 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
     'AfterSchoolAttendanceBonus','AtHomeAttendanceBonus',
     'AfterSchoolCommission','AtHomeCommission',
     'AfterSchoolWeeks','AtHomeWeeks',
-    'TotalAvail'
+    'TotalAvail',
+    'Sponsor'
     ]
   end
+
+ def self.remove_dolar_sign(raw)
+   return raw.to_i if raw.is_a? Float
+   m= /\$(.*)/.match(raw)
+   r= if m then m[1].to_i else 0 end
+ end
 
  def self.load_records()
     self.each_header
@@ -30,7 +37,6 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
     }
 
     self.each_record { |row,r|
-
       country_entity, country_details = Government::Country.find_or_add_name_details( r['country'],{} )
 
       state_entity, state_details = Government::State.find_or_add_name_details( r['state'], {
@@ -48,14 +54,18 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
              :government_state_id => state_entity.id,
              :government_county_id => county_entity.id,
 
-             :government_district_code  => r['government_district_code']
+             :government_district_code  => r['district_code'].to_i
         },{
-             :at_risk_pupils_fy2010  => r['at_risk_pupils_fy2010'],
-             :poverty_pupils_fy2010  => r['poverty_pupils_fy2010'],
-             :arra_allocation_fy2010  => r['arra_allocation_fy2010'],
-             :ses_allocation_fy2010  => r['ses_allocation_fy2010']
+             :at_risk_pupils_fy2010  => r['at_risk_pupils_fy2010'].to_i,
+             :poverty_pupils_fy2010  => r['poverty_pupils_fy2010'].to_i,
+             :arra_allocation_fy2010 => self.remove_dolar_sign(r['arra_allocation_fy2010']),
+             :ses_allocation_fy2010  => self.remove_dolar_sign(r['ses_allocation_fy2010']),
+
+             :at_risk_pupils_fy2011  => r['at_risk_pupils_fy2011'].to_i,
+             :poverty_pupils_fy2011  => r['poverty_pupils_fy2011'].to_i,
+             :ses_allocation_fy2011  => self.remove_dolar_sign(r['ses_allocation_fy2011'])
         } )
-  }
+    }
 
   end
 
@@ -69,6 +79,13 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
   def self.load_data_records()
     self.spreadsheet = nil
     self.load_recordfile( File.join( RAILS_ROOT, "data" , "US_NJ_SES_FUNDING.ods") )
+  end
+
+  def self.initialize
+    truncate_db_table(:government_country)
+    truncate_db_table(:government_state)
+    truncate_db_table(:government_county)
+    truncate_db_table(:government_school_district)
   end
 
 end
