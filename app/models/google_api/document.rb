@@ -6,8 +6,9 @@ class GoogleApi::Document < GoogleApi::Client
     name,ext= full_name.split('.')
     return nil if ext != 'gxls'
     folder= GoogleApi::Folder.find_by_path_array( path.split('/') )
+    return nil if folder.nil?
     files = folder.files.select{ |file| file.title == name }
-    files[0]
+    return files[0]
   end
 
   def self.find_by_path_array(path_array)

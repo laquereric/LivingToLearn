@@ -31,7 +31,8 @@ class GoogleApi::Folder < GoogleApi::Client
       end
       match
     }
-    return fs[0][:folder]
+    result= if fs.length == 0 then nil else fs[0][:folder] end
+    return result
   end
 
   def self.find_by_title(title)
