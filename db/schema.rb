@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100819123715) do
+ActiveRecord::Schema.define(:version => 20100826201654) do
 
   create_table "entities", :force => true do |t|
     t.string   "type"
@@ -62,12 +62,11 @@ ActiveRecord::Schema.define(:version => 20100819123715) do
     t.integer "district_code"
     t.integer "at_risk_pupils_fy2010"
     t.integer "poverty_pupils_fy2010"
-    t.decimal "arra_allocation_fy2010"
-    t.decimal "ses_allocation_fy2010"
     t.integer "at_risk_pupils_fy2011"
     t.integer "poverty_pupils_fy2011"
-    t.decimal "arra_allocation_fy2011"
-    t.decimal "ses_allocation_fy2011"
+    t.integer "ses_allocation_fy2010"
+    t.integer "ses_allocation_fy2011"
+    t.integer "arra_allocation_fy2010"
   end
 
   create_table "government_schools", :force => true do |t|
