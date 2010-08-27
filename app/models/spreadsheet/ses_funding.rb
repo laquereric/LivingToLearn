@@ -56,6 +56,8 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
 
              :government_district_code  => r['district_code'].to_i
         },{
+             :district_code  => r['district_code'],
+
              :at_risk_pupils_fy2010  => r['at_risk_pupils_fy2010'].to_i,
              :poverty_pupils_fy2010  => r['poverty_pupils_fy2010'].to_i,
              :arra_allocation_fy2010 => self.remove_dolar_sign(r['arra_allocation_fy2010']),
