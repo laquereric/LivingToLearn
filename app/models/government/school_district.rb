@@ -4,6 +4,25 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   belongs_to :state_entity, :class_name => "Entity", :foreign_key => :government_state_id
   belongs_to :country_entity, :class_name => "Entity", :foreign_key => :government_country_id
 
+  def self.cursor_filename
+    File.join( RAILS_ROOT, 'cursors','Government_SchoolDistrict' )
+  end
+
+  def self.at_cursor
+    #text= nil
+    cursor_file= File.open(self.cursor_filename, 'r') #{ |f| text= f.read }
+    text= cursor_file.read
+    hash= YAML.load(text)
+    self.find_by_district_code( hash[:district_code] )
+  end
+
+  def set_cursor
+    text = {:district_code => self.district_code}.to_yaml
+    File.open(self.class.cursor_filename, 'w') { |f| 
+      f.write(text)
+    }
+  end
+
   def total_funded_pupils_fy2010
     at_risk_pupils_fy2010 + poverty_pupils_fy2010 
   end
