@@ -10,17 +10,45 @@ class Spreadsheet::Spreadsheet
 
   cattr_accessor :lookup_cache
 
+  def self.spreadsheet_file_keys
+    {
+    :adminstrators => Spreadsheet::Administrators,
+    :church_leaders => nil,
+    :ptos => nil,
+    :schools => nil,
+    :guidance_counselors => nil
+    }
+  end
+
+  def self.cursor_filename
+    File.join( RAILS_ROOT, 'cursors','Spreadsheet' )
+  end
+
+  def self.set_cursor(key)
+    text = {:spreadsheet_file_key => key}.to_yaml
+    File.open(self.cursor_filename, 'w') { |f|
+      f.write(text)
+    }
+  end
+
+  def self.get_cursor
+    cursor_file= File.open(self.cursor_filename, 'r')
+    text= cursor_file.read
+    hash= YAML.load(text)
+    hash[:spreadsheet_file_key]
+  end
+
   def self.purge
   end
 
   def self.headers
-    [
-    ]
+    nil
   end
 
   def self.check_headers
     ok = true
-    Spreadsheet::Administrators.headers.each_index{ |index|
+    return ok if self.headers.nil?
+    self.headers.each_index{ |index|
       actual = self.spreadsheet.cell(1,index+1) 
       expected = self.headers[index]
       if actual != expected
@@ -29,6 +57,30 @@ class Spreadsheet::Spreadsheet
       end
     }
     return ok
+  end
+
+  def self.load_records()
+    self.column_key = {}
+    self.each_header{ |column,content|
+p "column: #{column},content: #{content}"
+    }
+    self.each_row { |spreadsheet,row|
+p "row: #{row}"
+    }
+  end
+
+  def self.load_record_file(filename)
+    self.spreadsheet = nil
+    self.filename = filename
+    self.load_records()
+    self.spreadsheet
+  end
+
+  def self.csv_record_file(spreadsheet_filename,csv_filename)
+    self.spreadsheet = nil
+    self.filename = spreadsheet_filename
+    self.open
+    self.spreadsheet.to_csv(csv_filename)
   end
 
   def self.open
@@ -63,7 +115,6 @@ class Spreadsheet::Spreadsheet
         raw_column_key[column] = content
         column += 1
       end
-#p column_key.inspect
     end
   end
 
