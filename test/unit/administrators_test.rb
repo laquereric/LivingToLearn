@@ -7,6 +7,7 @@ class AdminstratorsTest < ActiveSupport::TestCase
   end
 
   def test_google_doc_cell_values
+    return if ENV['GOOGLE_TEST'] == 'false'
     self.filename = File.join( "test" , "fixtures" , "ADMINISTRATORS.gxls" )
     confirm_cell_values
   end

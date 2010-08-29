@@ -7,6 +7,7 @@ class UsNjSesFundingTest < ActiveSupport::TestCase
   end
 
   def test_google_cell_values
+    return if ENV['GOOGLE_TEST'] == 'false'
     self.filename= File.join( "test" , "fixtures" , "US_NJ_SES_FUNDING.gxls")
     confirm_cell_values
   end
