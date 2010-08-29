@@ -16,3 +16,4 @@ log/mongrel.pid
 public/stylesheets/payment-process.css
 .~lock*
 cursors/*
+db/schema.rb
