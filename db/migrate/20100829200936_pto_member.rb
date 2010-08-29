@@ -1,0 +1,14 @@
+class PtoMember < ActiveRecord::Migration
+
+  def self.up
+    create_table "person_pto_member", :force => true do |t|
+      t.integer "entity_id"
+      t.integer "government_school_entity_id"
+    end
+  end
+
+  def self.down
+    drop_table "person_pto_member"
+  end
+
+end
