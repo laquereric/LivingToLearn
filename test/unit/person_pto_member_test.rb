@@ -13,6 +13,21 @@ class PersonPtoMemberTest < ActiveSupport::TestCase
     assert_equal sda_details.length , 1
   end
 
+  def test_should_be_able_to_associate
+    s_entity, s_details =
+      Government::School.add_entity_detail( { :name => "Washington Township School" } )
+    s_detail= s_details[0]
+
+    pm_entity, pm_details =
+      Person::PtoMember.add_entity_detail( { :first_name => "john" , :last_name => "jones" } )
+    pm_detail= pm_details[0]
+    
+    s_detail.person_pto_member_details<< pm_detail
+    s_detail.save
+    assert_not_nil pm_detail.government_school_detail
+    assert_equal s_detail.person_pto_member_details.length, 1
+  end
+
 =begin
   def test_should_be_able_to_associate
     sd_entity, sd_details =
