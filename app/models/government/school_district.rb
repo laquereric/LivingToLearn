@@ -1,8 +1,11 @@
 class Government::SchoolDistrict < Government::GovernmentDetail
+
   set_table_name :government_school_districts
   belongs_to :county_entity, :class_name => "Entity", :foreign_key => :government_county_id
   belongs_to :state_entity, :class_name => "Entity", :foreign_key => :government_state_id
   belongs_to :country_entity, :class_name => "Entity", :foreign_key => :government_country_id
+
+  has_many :person_school_district_administrators , :class_name => "Person::SchoolDistrictAdministrator", :foreign_key => :government_school_district_entity_id
 
   attr_accessor :spreadsheets
 
