@@ -16,13 +16,16 @@ class PersonSchoolDistrictAdministratorTest < ActiveSupport::TestCase
   def test_should_be_able_to_associate
     sd_entity, sd_details =
       Government::SchoolDistrict.add_entity_detail( { :name=>"Washington Township School District"})
+    sd_detail= sd_details[0]
+ 
     sda_entity, sda_details =
       Person::SchoolDistrictAdministrator.add_entity_detail( { :first_name => "john" , :last_name => "jones" } )
     sda_detail=sda_details[0]
-    sda_detail.government_school_district_entity= sd_entity
+
+    sda_detail.government_school_district_detail= sd_detail
     sda_detail.save
-    assert_not_nil sda_detail.government_school_district_entity
-    assert_equal sd_details[0].person_school_district_administrators.length, 1
+    assert_not_nil sda_detail.government_school_district_detail
+    assert_equal sd_details[0].person_school_district_administrator_details.length, 1
   end
 
 end
