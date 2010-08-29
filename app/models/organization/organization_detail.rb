@@ -1,5 +1,7 @@
 class Organization::OrganizationDetail < Detail
+
   belongs_to :organization, :foreign_key => :entity_id
+
   def self.cardinality
     :one
   end
