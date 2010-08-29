@@ -12,6 +12,9 @@ class PersonSuperintendentTest < ActiveSupport::TestCase
     assert_equal s_entity.entity_details.count , 1
     assert_equal s_details.length , 1
   end
+
+end
+
 =begin
   def test_should_not_be_able_to_add_wo_name
     school_entity, school_details =
@@ -28,4 +31,4 @@ class PersonSuperintendentTest < ActiveSupport::TestCase
     assert_equal Government::School.count, 1
   end
 =end
-end
+
