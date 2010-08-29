@@ -17,7 +17,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   end
 
   def self.csv_filename(key)
-    File.join( RAILS_ROOT,'tmp',"#{key.to_s}.csv" )
+    File.join( RAILS_ROOT,'tmp','merge',"#{key.to_s}.csv" )
   end
 
   def csv_spreadsheet(key)

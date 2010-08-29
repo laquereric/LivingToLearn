@@ -49,7 +49,7 @@ class Spreadsheet::Spreadsheet
     ok = true
     return ok if self.headers.nil?
     self.headers.each_index{ |index|
-      actual = self.spreadsheet.cell(1,index+1) 
+      actual = self.spreadsheet.cell(1,index+1)
       expected = self.headers[index]
       if actual != expected
         p "expected: #{expected} actual: #{actual}"
@@ -91,7 +91,7 @@ p "row: #{row}"
       if ext == 'gxls'
         file= GoogleApi::Document.find(self.filename)
         key = /spreadsheet:(.*)/.match(file.id)[1]
-        self.spreadsheet = Google.new(key) 
+        self.spreadsheet = Google.new(key)
       end
     end
     ok= self.check_headers
