@@ -1,9 +1,52 @@
 class Merge::Merge
   cattr_accessor :original_document_filename
+  cattr_accessor :type_symbol
+
+####
+
+  def self.type_cursor_filename
+    File.join( RAILS_ROOT, 'cursors', 'Merge' )
+  end
+
+  def self.set_type_cursor(key)
+    text = {:type_symbol => key}.to_yaml
+    File.open(self.type_cursor_filename, 'w') { |f|
+      f.write(text)
+    }
+  end
+
+  def self.get_type_cursor
+    cursor_file= File.open(self.type_cursor_filename, 'r')
+    text= cursor_file.read
+    hash= YAML.load(text)
+    hash[:type_symbol]
+  end
+
+#####
+
+  def self.name_cursor_filename
+    File.join( RAILS_ROOT, 'cursors','Merge' )
+  end
+
+  def self.set_name_cursor(key)
+    text = {:name_symbol => key}.to_yaml
+    File.open(self.doc_cursor_filename, 'w') { |f|
+      f.write(text)
+    }
+  end
+
+  def self.get_doc_cursor
+    cursor_file= File.open(self.name_cursor_filename, 'r')
+    text= cursor_file.read
+    hash= YAML.load(text)
+    hash[:name_symbol]
+  end
 
   def self.document_filename(name_symbol)
     return "#{self.type_symbol.to_s}_#{name_symbol.to_s}.odt"
   end
+
+####
 
   def self.tmp_document_filename
     return "document.odt"
@@ -44,13 +87,5 @@ class Merge::Merge
      self.get_document(name_symbol)
     %x[swriter #{tmp_document_path(name_symbol)} &]
   end
-
-#  def self.clear_merged
-#    %x[rm -rf  #{ self.tmp_merged_dir }]
-#  end
-
-#  def self.swriter_letter_ses_administrators_intro()
-#    self.swriter_letter('ses_administrators_intro')
-#  end
 
 end
