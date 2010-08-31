@@ -77,10 +77,15 @@ p "row: #{row}"
   end
 
   def self.csv_record_file(spreadsheet_filename,csv_filename)
+    p "Opening ss #{spreadsheet_filename} to create csv: #{csv_filename}"
     self.spreadsheet = nil
     self.filename = spreadsheet_filename
     self.open
-    self.spreadsheet.to_csv(csv_filename)
+    if self.spreadsheet.nil?
+      p "spreadsheet not found!"
+    else
+      self.spreadsheet.to_csv(csv_filename)
+    end
   end
 
   def self.open
@@ -90,8 +95,12 @@ p "row: #{row}"
       self.spreadsheet = Excel.new(self.filename) if ext == 'xls'
       if ext == 'gxls'
         file= GoogleApi::Document.find(self.filename)
-        key = /spreadsheet:(.*)/.match(file.id)[1]
-        self.spreadsheet = Google.new(key)
+        if file
+          key = /spreadsheet:(.*)/.match(file.id)[1]
+          self.spreadsheet = Google.new(key)
+        else
+          p "File #{self.filename} not found"
+        end
       end
     end
     ok= self.check_headers
