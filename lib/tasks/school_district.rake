@@ -1,3 +1,10 @@
+desc "ses_funding write csv file"
+task :ses_funding => :environment do
+   ss_filename= File.join('TutoringClub','Data','us_nj_ses_funding.gxls')
+   csv_filename= File.join(RAILS_ROOT,'tmp','merge','Data','us_nj_ses_funding.gxls')
+   Government::SchoolDistrict.csv_record_file(ss_filename,csv_filename)
+end
+
 namespace :school_district do
 
   desc "CSV spreadsheet at cursor"
