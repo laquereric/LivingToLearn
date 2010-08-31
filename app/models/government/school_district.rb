@@ -9,6 +9,10 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
   attr_accessor :spreadsheets
 
+  def self.active_list
+    self.all.select{ |sd| sd.status == "active" }
+  end
+
   def full_name_pretty
     "#{self.name_pretty} School District"
   end
@@ -16,6 +20,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   def name_pretty
     self.name.split('_').map{ |n| n.capitalize}.join(' ')
   end
+
+  def make_active
+    self.status="active"
+    r= save!
+  end
+
   def spreadsheet_klass(key)
     klass= Spreadsheet::Spreadsheet.spreadsheet_file_keys[key]
     ss_klass= if klass then
