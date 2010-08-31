@@ -9,6 +9,13 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
   attr_accessor :spreadsheets
 
+  def full_name_pretty
+    "#{self.name_pretty} School District"
+  end
+
+  def name_pretty
+    self.name.split('_').map{ |n| n.capitalize}.join(' ')
+  end
   def spreadsheet_klass(key)
     klass= Spreadsheet::Spreadsheet.spreadsheet_file_keys[key]
     ss_klass= if klass then
