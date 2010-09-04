@@ -142,15 +142,27 @@ p csv_line
   end
 
   def total_funded_pupils_fy2011
-    at_risk_pupils_fy2010 + poverty_pupils_fy2010
-  end
-
-  def total_allocation_fy2011
-    arra_allocation_fy2010 + ses_allocation_fy2010
+    at_risk_pupils_fy2011 + poverty_pupils_fy2011
   end
 
   def per_pupil_allocation_fy2011
-    total_allocation_fy2010 / total_funded_pupils_fy2010
+    format('%.0f',ses_allocation_fy2011.to_f / total_funded_pupils_fy2011.to_f )
+  end
+
+  def after_school_hours
+    format('%.0f', per_pupil_allocation_fy2011.to_f / 43.67)
+  end
+
+  def after_school_weeks
+     format('%.0f', after_school_hours.to_f / 2 )
+  end
+
+  def at_home_hours
+     format('%.0f', per_pupil_allocation_fy2011.to_f / 81.88 )
+  end
+
+  def at_home_weeks
+     format('%.0f',  at_home_hours.to_f / 2 )
   end
 
 end
