@@ -11,6 +11,45 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
   attr_accessor :spreadsheets
 
+  def self.csv_of_records(records)
+    p "Pulling CSV from database"
+    csv= ""
+    fields= [
+      :district_code,
+      :at_risk_pupils_fy2011,
+      :poverty_pupils_fy2011,
+      :ses_allocation_fy2011,
+      :per_pupil_allocation_fy2011,
+      :after_school_hours,
+      :after_school_weeks,
+      :at_home_hours,
+      :at_home_weeks
+    ]
+    csv << [:country,:state,:county,:school_district].map{ |cts| cts.to_s.camelcase}.join(',')
+    csv << ','
+    csv << fields.map{|f| f.to_s.camelcase}.join(',')
+    csv << "\n"
+    #self.all
+    records.each{ |sd|
+      csv_line=""
+      csv_line << sd.country_entity.name
+      csv_line << ','
+      csv_line << sd.state_entity.name
+      csv_line << ','
+      csv_line << Government::County.full_name_pretty(sd.county_entity)
+      csv_line << ','
+      csv_line << Government::SchoolDistrict.full_name_pretty(sd.entity)
+      csv_line << ','
+      csv_line << fields.map{|f|
+        sd.send(f)
+      }.join(',')
+      csv_line << "\n"
+p csv_line
+      csv << csv_line
+    }
+    csv
+  end
+
   def self.active_list
     self.all.select{ |sd| sd.status == "active" }
   end
