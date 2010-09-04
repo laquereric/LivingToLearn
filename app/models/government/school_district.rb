@@ -15,12 +15,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     self.all.select{ |sd| sd.status == "active" }
   end
 
-  def full_name_pretty
-    "#{self.name_pretty} School District"
+  def self.full_name_pretty(entity)
+    "#{self.name_pretty(entity)} School District"
   end
 
-  def name_pretty
-    self.name.split('_').map{ |n| n.capitalize}.join(' ')
+  def self.name_pretty(entity)
+    entity.name.split('_').map{ |n| n.capitalize}.join(' ')
   end
 
   def make_active
