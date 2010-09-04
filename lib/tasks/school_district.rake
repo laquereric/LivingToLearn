@@ -1,8 +1,18 @@
-desc "ses_funding write csv file"
-task :ses_funding => :environment do
+desc "ses_funding from google => write csv file"
+task :ses_funding_google_csv => :environment do
    ss_filename= File.join('TutoringClub','Data','us_nj_ses_funding.gxls')
-   csv_filename= File.join(RAILS_ROOT,'tmp','merge','Data','us_nj_ses_funding.gxls')
-   Government::SchoolDistrict.csv_record_file(ss_filename,csv_filename)
+   csv_filename= File.join(RAILS_ROOT,'tmp','merge','US_NJ_SES_FUNDING.csv')
+   Spreadsheet::SesFunding.csv_record_file(ss_filename,csv_filename)
+end
+
+desc "ses_funding from database => write csv file"
+task :ses_funding_database_csv => :environment do
+   csv_filename= File.join(RAILS_ROOT,'tmp','merge','US_NJ_SES_FUNDING.csv')
+   sd= Government::SchoolDistrict.at_cursor()
+   csv= Government::SchoolDistrict.csv_of_records( [sd] )
+   File.open(csv_filename, 'w') { |f|
+      f.write(csv)
+   }
 end
 
 namespace :school_district do
