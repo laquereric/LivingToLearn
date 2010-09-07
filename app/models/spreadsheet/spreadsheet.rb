@@ -10,33 +10,7 @@ class Spreadsheet::Spreadsheet
 
   cattr_accessor :lookup_cache
 
-  def self.spreadsheet_file_keys
-    {
-    :adminstrators => Spreadsheet::Administrators,
-    :church_leaders => nil,
-    :ptos => nil,
-    :schools => nil,
-    :guidance_counselors => nil
-    }
-  end
-
-  def self.cursor_filename
-    File.join( RAILS_ROOT, 'cursors','Spreadsheet' )
-  end
-
-  def self.set_cursor(key)
-    text = {:spreadsheet_file_key => key}.to_yaml
-    File.open(self.cursor_filename, 'w') { |f|
-      f.write(text)
-    }
-  end
-
-  def self.get_cursor
-    cursor_file= File.open(self.cursor_filename, 'r')
-    text= cursor_file.read
-    hash= YAML.load(text)
-    hash[:spreadsheet_file_key]
-  end
+  cattr_accessor :record_hash_array
 
   def self.purge
   end
@@ -59,13 +33,33 @@ class Spreadsheet::Spreadsheet
     return ok
   end
 
-  def self.load_records()
+  def self.clean_row_hash(row_hash)
+    row_hash
+  end
+
+  def self.load_record_hash_array
+    self.record_hash_array= []
+    self.load_records{ |rh|
+      record_hash_array<< self.clean_row_hash(rh)
+    }
+    self.record_hash_array
+  end
+
+  def self.load_records(&block)
     self.column_key = {}
     self.each_header{ |column,content|
-p "column: #{column},content: #{content}"
     }
+    return if !block_given?
     self.each_row { |spreadsheet,row|
-p "row: #{row}"
+      row_hash= {}
+      self.headers.each_index{ |i|
+        val= spreadsheet.cell(row,i+1)
+        val.strip! if !val.nil? and val.is_a? String
+        row_hash[ self.headers[i].underscore.to_sym ]= val
+      }
+      end_of_list= (row_hash.values.compact.length == 0)
+      yield(row_hash) if !end_of_list
+      end_of_list
     }
   end
 
@@ -111,7 +105,7 @@ p "row: #{row}"
   end
 
   def self.close
-     self.spreadsheet = nil
+    self.spreadsheet = nil
   end
 
   def self.each_header(&block)
@@ -119,7 +113,6 @@ p "row: #{row}"
       column = 1
       self.raw_column_key = {}
       while not( content = s.cell(1,column) ).nil?
-        #p content.inspect
         yield(column,content) if block_given?
         raw_column_key[column] = content
         column += 1
@@ -157,6 +150,11 @@ p "row: #{row}"
         yield(row,row_content)  if not(end_of_list)
         row += 1
       end
+  end
+
+  def google_filename
+    fn= self.class.to_s.split('::')[1]
+    "#{fn}.gxls"
   end
 
 end
