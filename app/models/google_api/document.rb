@@ -5,10 +5,10 @@ class GoogleApi::Document < GoogleApi::Client
     path,full_name= File.split(pathext)
     name,ext= full_name.split('.')
     return nil if ext != 'gxls'
-    folder= GoogleApi::Folder.find_by_path_array( path.split('/') )
-    return nil if folder.nil?
-    files = folder.files.select{ |file| file.title == name }
-    return files[0]
+
+    service= self.login
+    docs = GDocs4Ruby::BaseObject.find(service, {:title => name},'any')
+    return docs[0]
   end
 
   def self.find_by_path_array(path_array)
