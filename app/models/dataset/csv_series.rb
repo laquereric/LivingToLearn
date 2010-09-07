@@ -24,7 +24,7 @@ class Dataset::Csv_3x < Dataset::Csv
         }
         r.merge(common_hash)
         offset_records= []
-    endi
+    end
   end
 
 end
