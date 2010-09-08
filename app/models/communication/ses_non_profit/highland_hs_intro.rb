@@ -1,4 +1,5 @@
 class Communication::SesNonProfit::HighlandHsIntro < Communication::Communication
+
   attr_accessor :envelope
   attr_accessor :letter
   attr_accessor :postcards_same
@@ -20,15 +21,15 @@ class Communication::SesNonProfit::HighlandHsIntro < Communication::Communicatio
     rh[:county]= Government::County.full_name_pretty(school_district.county_entity)
     rh[:school_district]= Government::SchoolDistrict.full_name_pretty(school_district.entity)
     [
-        :district_code,
-        :at_risk_pupils_fy2011,
-        :poverty_pupils_fy2011,
-        :ses_allocation_fy2011,
-        :per_pupil_allocation_fy2011,
-        :after_school_hours,
-        :after_school_weeks,
-        :at_home_hours,
-        :at_home_weeks
+      :district_code,
+      :at_risk_pupils_fy2011,
+      :poverty_pupils_fy2011,
+      :ses_allocation_fy2011,
+      :per_pupil_allocation_fy2011,
+      :after_school_hours,
+      :after_school_weeks,
+      :at_home_hours,
+      :at_home_weeks
     ].each{ |f|
         rh[f]= school_district.send(f)
     }
@@ -79,15 +80,15 @@ class Communication::SesNonProfit::HighlandHsIntro < Communication::Communicatio
     get_dataset
 
     m= get_envelope
-    save_merge(  m.type , m.path, m.csv_content)
+    save_merge( m.type , m.path, m.csv_content )
 
     m= get_letter
-    save_merge(  m.type , m.path, m.csv_content)
+    save_merge( m.type , m.path, m.csv_content )
 
     m= get_postcards_same
-    save_merge(  m.type , m.path, m.csv_content)
+    save_merge( m.type , m.path, m.csv_content )
 
-    zip_path= zip
+    self.zip_communication_file()
 
   end
 
