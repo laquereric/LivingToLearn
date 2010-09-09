@@ -117,6 +117,8 @@ class Spreadsheet::Spreadsheet
         raw_column_key[column] = content
         column += 1
       end
+    else
+      p "Could not open spreadshet #{self.filename}"
     end
   end
 
