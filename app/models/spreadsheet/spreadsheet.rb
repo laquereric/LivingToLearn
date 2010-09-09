@@ -37,10 +37,15 @@ class Spreadsheet::Spreadsheet
     row_hash
   end
 
+  def self.use_row?(row_hash)
+    true
+  end
+
   def self.load_record_hash_array
     self.record_hash_array= []
     self.load_records{ |rh|
-      record_hash_array<< self.clean_row_hash(rh)
+      clean_row= self.clean_row_hash(rh)
+      record_hash_array<< self.clean_row_hash(rh) if use_row?(clean_row)
     }
     self.record_hash_array
   end
