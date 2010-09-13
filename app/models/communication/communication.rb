@@ -1,4 +1,5 @@
 require 'zip/zip'
+
 class Communication::Communication
   attr_accessor :dataset
 
@@ -15,7 +16,6 @@ class Communication::Communication
   end
 
   def save_merge( doc_type, doc_file_path, csv_content )
-
     %x[mkdir -p #{self.tmp_dir}]
     tmp_document_path= File.join( self.tmp_dir, "#{doc_type.to_s}.odt" )
 

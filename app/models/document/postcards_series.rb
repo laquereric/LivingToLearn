@@ -1,7 +1,7 @@
 class Document::PostcardsSeries <  Document::OoWriter
 
   def type
-    :postcard
+    :postcards_series
   end
 
   def csv_klass

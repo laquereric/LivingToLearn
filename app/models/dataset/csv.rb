@@ -4,6 +4,8 @@ class Dataset::Csv < Dataset::Dataset
   attr_accessor :header_titles
   attr_accessor :output
 
+  attr_accessor :last_record
+
   def set_data(dataset)
     super
     set_header_symbols_from_hash
@@ -22,21 +24,30 @@ class Dataset::Csv < Dataset::Dataset
       record_number+= 1
       m
     }
+    self.last_record= record_hash_array[record_number-1] 
+  end
+
+  def variable_header_symbols
+    self.record_hash_array[0].keys.sort{ |x,y| x.to_s <=> y.to_s }
   end
 
   def set_header_symbols_from_hash
     self.header_symbols= [
-      self.record_hash_array[0].keys.sort{ |x,y| x.to_s <=> y.to_s },
+      variable_header_symbols,
       self.common_hash.keys.sort{ |x,y| x.to_s <=> y.to_s }
     ].flatten
   end
 
   def set_header_titles_from_symbols
-    self.header_titles= self.header_symbols.map{ |hs| hs.to_s.camelcase }
+    r= self.header_titles= self.header_symbols.map{ |hs| hs.to_s.camelcase }
+debugger
+    return r
   end
 
   def get_output_header
-    self.header_titles.join(',')
+    r= self.header_titles.join(',')
+debugger
+    return r
   end
 
   def get_output_field(val)
@@ -66,6 +77,7 @@ class Dataset::Csv < Dataset::Dataset
     csv << "\n"
     csv << get_output_records()
     csv << "\n"
+debugger
     csv
   end
 
