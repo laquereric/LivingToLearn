@@ -27,18 +27,9 @@ class Spreadsheet::SesClients < Spreadsheet::Spreadsheet
     'Tutor',
     'Phone1',
     'Phone2',
+    'LastCall',
     'Email'
     ]
-  end
-
-  def self.clean_row_hash(row_hash)
-    raw= row_hash[:zip]
-    row_hash[:zip]= if raw.is_a? Integer then 
-      "%.5i" % raw
-    else
-      raw.to_s
-    end
-    row_hash
   end
 
 end

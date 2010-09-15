@@ -23,10 +23,5 @@ class Spreadsheet::NonProfitLeaders < Spreadsheet::Spreadsheet
     ]
   end
 
-  def self.clean_row_hash(row_hash)
-    row_hash[:zip]= "%.5i" % row_hash[:zip]
-    row_hash
-  end
-
 end
 

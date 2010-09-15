@@ -164,4 +164,17 @@ class Spreadsheet::Spreadsheet
     "#{fn}.gxls"
   end
 
+  def self.clean_row_hash(row_hash)
+    raw= row_hash[:zip]
+    row_hash[:zip]= if raw.is_a? Integer then
+      "_%.5i" % raw
+    elsif raw.is_a? Float then
+      "_%.5i" % raw.to_i
+    else
+      raw.to_s
+    end
+    row_hash
+  end
+
+
 end
