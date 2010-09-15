@@ -15,24 +15,20 @@ class Communication::Communication
     %x[rm -r #{tmp_dir}] if File.exists?(tmp_dir)
   end
 
-  def save_merge( doc_type, doc_file_path, csv_content )
+  def move_doc_to_tmp( doc_type, doc_file_path, csv_content )
     %x[mkdir -p #{self.tmp_dir}]
     tmp_document_path= File.join( self.tmp_dir, "#{doc_type.to_s}.odt" )
 
     p "Moving DOCUMENT: #{doc_file_path} TO: #{tmp_document_path}"
     %x[cp -f #{doc_file_path} #{tmp_document_path} ]
+  end
 
+  def write_csv( doc_type, doc_file_path, csv_content )
     csv_document_path= File.join( self.tmp_dir, "#{doc_type.to_s}.csv" )
     p "Writing CSV: #{csv_document_path}"
     File.open(csv_document_path, 'w') { |f|
       f.write(csv_content)
     }
-
-  end
-
-  def zip_file_name
-    return File.join(RAILS_ROOT,'communications','communication')
-    #return File.join(RAILS_ROOT,'tmp','communication')
   end
 
   def communication_class
@@ -44,18 +40,30 @@ class Communication::Communication
     DateTime.now.strftime("%Y_%m_%d_%H_%M_%S")
   end
 
-  def communication_dir
-    return File.join(RAILS_ROOT,'communication')
+  def filename
+    "#{communication_class}__#{date_time}"
   end
 
-  def communication_filename
-    return File.join(communication_dir,"#{communication_class}__#{date_time}.tar")
+  def send_file( dir, target_path )
+    %x[mkdir #{ dir }]
+    %x[cd #{ tmp_dir } && tar -zcvf #{ target_path } ./* && cd #{RAILS_ROOT}]
   end
 
-  def zip_communication_file()
-    %x[mkdir #{communication_dir}]
-    #%x[tar -czf #{communication_filename} #{tmp_dir}/*]
-    %x[cd #{tmp_dir} && tar -zcvf #{communication_filename} ./* && cd #{RAILS_ROOT}]
+  def send_file_to_shared()
+    dir= ENV['SHARED_COMMUNICATIONS_DIR']
+    send_file(dir,File.join( dir, filename ) )
+  end
+
+  def send_file_to_archive()
+    dir= ENV['ARCHIVED_COMMUNICATIONS_DIR']
+    send_file( dir, File.join( dir, filename ) )
+  end
+
+  def save_merge( doc_type, doc_file_path, csv_content )
+    move_doc_to_tmp( doc_type, doc_file_path, csv_content )
+    write_csv( doc_type, doc_file_path, csv_content )
+    send_file_to_archive()
+    send_file_to_shared()
   end
 
 end
