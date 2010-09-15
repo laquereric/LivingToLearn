@@ -28,6 +28,7 @@ class Dataset::Csv < Dataset::Dataset
   end
 
   def variable_header_symbols
+    return [] if record_hash_array.nil?
     self.record_hash_array[0].keys.sort{ |x,y| x.to_s <=> y.to_s }
   end
 
@@ -40,13 +41,11 @@ class Dataset::Csv < Dataset::Dataset
 
   def set_header_titles_from_symbols
     r= self.header_titles= self.header_symbols.map{ |hs| hs.to_s.camelcase }
-debugger
     return r
   end
 
   def get_output_header
     r= self.header_titles.join(',')
-debugger
     return r
   end
 
@@ -77,7 +76,6 @@ debugger
     csv << "\n"
     csv << get_output_records()
     csv << "\n"
-debugger
     csv
   end
 

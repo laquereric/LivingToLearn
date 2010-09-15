@@ -30,7 +30,7 @@ class Dataset::CsvSeries < Dataset::Csv
     self.offset_records.each{ |h|
       r.merge!(h)
     }
-    r.merge(common_hash)
+    r.merge!(common_hash)
     offset_records= []
     r
   end
