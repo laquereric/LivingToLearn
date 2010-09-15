@@ -11,11 +11,12 @@ class Communication::SesAlumni::ComeBack < Communication::Communication
       when school =~ /Evergreen/ : 5860
       when school =~ /Winslow/ : 5820
       when school =~ /Highland/ : 390
-      when school =~ /Triton/ : nil
       when school =~ /Camden Co/ : 700
       when school =~ /Gateway/ : 1715
       when school =~ /Clearview/ : 870
       when school =~ /Glassboro/ : 1730
+
+      when school =~ /Triton/ : nil
       when school =~ /Simmons/ : nil
       when school =~ /Clementon/ : nil
       when school =~ /Clearview/ : nil
@@ -71,12 +72,11 @@ class Communication::SesAlumni::ComeBack < Communication::Communication
       !row_hash[:city].nil? and
       !row_hash[:state].nil? and
       !row_hash[:zip].nil? )
-    return true
+    return r
   end
 
   def use_row?(row_hash)
     ( right_district(row_hash) and enough_data(row_hash) )
-    #right_district(row_hash)
   end
 
   def ses_clients_hash
