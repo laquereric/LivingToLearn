@@ -61,8 +61,22 @@ class Communication::SesAlumni::ComeBack < Communication::Communication
 
   end
 
+  def right_district(row_hash)
+    map_school_to_district( row_hash[:school] ) == self.school_district.district_code
+  end
+
+  def enough_data(row_hash)
+    return false if row_hash.nil?
+    r= ( !row_hash[:address_line1].nil? and
+      !row_hash[:city].nil? and
+      !row_hash[:state].nil? and
+      !row_hash[:zip].nil? )
+    return true
+  end
+
   def use_row?(row_hash)
-    ( map_school_to_district( row_hash[:school] ) == self.school_district.district_code )
+    ( right_district(row_hash) and enough_data(row_hash) )
+    #right_district(row_hash)
   end
 
   def ses_clients_hash
@@ -100,8 +114,6 @@ class Communication::SesAlumni::ComeBack < Communication::Communication
 
     m= get_postcards_series
     save_merge( m.type , m.path, m.csv_content )
-
-    self.zip_communication_file()
 
   end
 
