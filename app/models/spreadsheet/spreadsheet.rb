@@ -19,13 +19,19 @@ class Spreadsheet::Spreadsheet
     nil
   end
 
+  def self.header_match(actual,expected)
+    n_actual= actual.strip.gsub('_','').gsub(' ','')
+    n_expected= expected.strip.gsub('_','').gsub(' ','')
+    return n_actual == n_expected
+  end
+
   def self.check_headers
     ok = true
     return ok if self.headers.nil?
     self.headers.each_index{ |index|
       actual = self.spreadsheet.cell(1,index+1)
       expected = self.headers[index]
-      if actual != expected
+      if !header_match(actual,expected)
         p "expected: #{expected} actual: #{actual}"
         ok = false
       end
@@ -45,9 +51,13 @@ class Spreadsheet::Spreadsheet
     self.record_hash_array= []
     self.load_records{ |rh|
       clean_row= self.clean_row_hash(rh)
-      record_hash_array<< self.clean_row_hash(rh) if use_row?(clean_row)
+      record_hash_array<< clean_row if use_row?(clean_row)
     }
     self.record_hash_array
+  end
+
+  def self.key_for_header(header)
+    header.gsub(' ','').underscore.to_sym 
   end
 
   def self.load_records(&block)
@@ -60,7 +70,7 @@ class Spreadsheet::Spreadsheet
       self.headers.each_index{ |i|
         val= spreadsheet.cell(row,i+1)
         val.strip! if !val.nil? and val.is_a? String
-        row_hash[ self.headers[i].underscore.to_sym ]= val
+        row_hash[ key_for_header(self.headers[i]) ]= val
       }
       end_of_list= (row_hash.values.compact.length == 0)
       yield(row_hash) if !end_of_list
@@ -113,11 +123,16 @@ class Spreadsheet::Spreadsheet
     self.spreadsheet = nil
   end
 
+  def self.normalize_header(h)
+    r = if h.nil? then nil else h.gsub('_','').gsub(' ','') end
+    return r
+  end
+
   def self.each_header(&block)
     if (s = self.open)
       column = 1
       self.raw_column_key = {}
-      while not( content = s.cell(1,column) ).nil?
+      while not( content = normalize_header(s.cell(1,column)) ).nil?
         yield(column,content) if block_given?
         raw_column_key[column] = content
         column += 1
