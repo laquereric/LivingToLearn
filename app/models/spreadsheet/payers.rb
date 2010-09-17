@@ -1,11 +1,18 @@
-class Spreadsheet::PayerClients < Spreadsheet::Spreadsheet
+class Spreadsheet::Payers < Spreadsheet::Spreadsheet
+
+  def initialize()
+    self.class.filename= self.google_path
+    self.class.load_record_hash_array
+  end
 
   def google_path
-    File.join( 'TutoringClub', 'Data', 'Parents' )
+    File.join( 'TutoringClub', 'Data','Parents', self.google_filename )
   end
 
   def self.headers
-    [
+    [ 'Select',
+    'ClientId',
+    'Payer Id',
     'StudentFirstName',
     'StudentLastName',
     'FirstName',
@@ -22,13 +29,7 @@ class Spreadsheet::PayerClients < Spreadsheet::Spreadsheet
     'Phone1',
     'Phone2',
     'Email',
-    'LastCall'
-    ]
-  end
-
-  def self.clean_row_hash(row_hash)
-    row_hash[:zip]= "%.5i" % row_hash[:zip]
-    row_hash
+    'LastCall' ]
   end
 
 end
