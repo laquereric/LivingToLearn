@@ -20,6 +20,7 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.header_match(actual,expected)
+    return false if actual.nil?
     n_actual= actual.strip.gsub('_','').gsub(' ','')
     n_expected= expected.strip.gsub('_','').gsub(' ','')
     return n_actual == n_expected
@@ -103,9 +104,16 @@ class Spreadsheet::Spreadsheet
   def self.open
     if self.spreadsheet.nil?
       name,ext= self.filename.split('.')
-      self.spreadsheet = Openoffice.new(self.filename) if ext == 'ods'
-      self.spreadsheet = Excel.new(self.filename) if ext == 'xls'
+      if ext == 'ods'
+p "Opening Open Office SS #{self.filename}"
+          self.spreadsheet = Openoffice.new(self.filename) 
+      end
+      if ext == 'xls'
+p "Opening Excel SS #{self.filename}"
+        self.spreadsheet = Excel.new(self.filename)
+      end
       if ext == 'gxls'
+p "Opening Google Doc #{self.filename}"
         file= GoogleApi::Document.find(self.filename)
         if file
           key = /spreadsheet:(.*)/.match(file.id)[1]
@@ -192,6 +200,28 @@ class Spreadsheet::Spreadsheet
       raw.to_s
     end
     row_hash
+  end
+
+########################
+# Better I/F
+########################
+
+  def self.get_spreadsheet( filename )
+    self.spreadsheet= nil
+    self.filename= filename
+    self.open
+    return self.spreadsheet
+  end
+
+  def initialize(params)
+  end
+
+  def self.get_hash_array( filename )
+    self.spreadsheet= nil
+    self.filename= filename
+    ss_object= self.new({})
+    load_record_hash_array
+    return ss_object.class.record_hash_array
   end
 
 end
