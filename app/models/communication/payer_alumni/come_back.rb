@@ -45,7 +45,6 @@ class Communication::PayerAlumni::ComeBack < Communication::Communication
     stripped= set.map{ |row_hash|
       strip_row(row_hash)
     }
-debugger
     return stripped
   end
 
