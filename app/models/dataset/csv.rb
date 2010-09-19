@@ -28,7 +28,7 @@ class Dataset::Csv < Dataset::Dataset
   end
 
   def variable_header_symbols
-    return [] if record_hash_array.nil?
+    return [] if record_hash_array.nil? or ( record_hash_array.length == 0 )
     self.record_hash_array[0].keys.sort{ |x,y| x.to_s <=> y.to_s }
   end
 

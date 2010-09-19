@@ -26,6 +26,7 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.check_headers
+    p "Checking Headers"
     ok = true
     return ok if self.headers.nil?
     self.headers.each_index{ |index|
@@ -61,6 +62,7 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.load_records(&block)
+    p "Loading Records"
     self.column_key = {}
     self.each_header{ |column,content|
     }
@@ -72,6 +74,7 @@ class Spreadsheet::Spreadsheet
         val.strip! if !val.nil? and val.is_a? String
         row_hash[ key_for_header(self.headers[i]) ]= val
       }
+      putc('.')
       end_of_list= (row_hash.values.compact.length == 0)
       yield(row_hash) if !end_of_list
       end_of_list
@@ -190,6 +193,5 @@ class Spreadsheet::Spreadsheet
     end
     row_hash
   end
-
 
 end
