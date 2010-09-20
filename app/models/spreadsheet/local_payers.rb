@@ -4,6 +4,7 @@ class Spreadsheet::LocalPayers < Spreadsheet::Spreadsheet
     ins= self.new({:section=>section})
     "#{ins.google_path(section)}"
   end
+
   def initialize(params)
     self.class.filename= "#{self.google_path(params[:section])}" if params[:section]
     super
@@ -36,7 +37,8 @@ class Spreadsheet::LocalPayers < Spreadsheet::Spreadsheet
       person_entity, person_details =
          self.identity_class.find_or_add_name_details( Person::Person.get_name_hash( hash ),{
       },{
-        :source  => filename
+        :source  => filename,
+        :prospect_id  => hash[:prospect_id]
       } )
       location_hash= Location.get_location_hash( hash )
       location= Location.new( location_hash )
