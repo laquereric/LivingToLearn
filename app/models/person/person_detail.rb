@@ -1,6 +1,5 @@
 class Person::PersonDetail < Detail
 
-#  belongs_to :person_entity, :foreign_key => :entity_id
   belongs_to :person_entity, :class_name => 'Entity', :foreign_key => :entity_id
 
   def self.entity_class

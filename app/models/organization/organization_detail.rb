@@ -38,5 +38,4 @@ class Organization::OrganizationDetail < Detail
     return entity, details
   end
 
- 
 end

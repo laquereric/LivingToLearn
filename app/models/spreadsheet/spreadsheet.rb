@@ -27,7 +27,6 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.check_headers
-    p "Checking Headers"
     ok = true
     return ok if self.headers.nil?
     self.headers.each_index{ |index|
@@ -63,7 +62,6 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.load_records(&block)
-    p "Loading Records"
     self.column_key = {}
     self.each_header{ |column,content|
     }
@@ -90,7 +88,6 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.csv_record_file(spreadsheet_filename,csv_filename)
-    p "Opening ss #{spreadsheet_filename} to create csv: #{csv_filename}"
     self.spreadsheet = nil
     self.filename = spreadsheet_filename
     self.open
@@ -105,15 +102,12 @@ class Spreadsheet::Spreadsheet
     if self.spreadsheet.nil?
       name,ext= self.filename.split('.')
       if ext == 'ods'
-p "Opening Open Office SS #{self.filename}"
           self.spreadsheet = Openoffice.new(self.filename) 
       end
       if ext == 'xls'
-p "Opening Excel SS #{self.filename}"
         self.spreadsheet = Excel.new(self.filename)
       end
       if ext == 'gxls'
-p "Opening Google Doc #{self.filename}"
         file= GoogleApi::Document.find(self.filename)
         if file
           key = /spreadsheet:(.*)/.match(file.id)[1]
