@@ -224,4 +224,20 @@ p "Opening Google Doc #{self.filename}"
     return ss_object.class.record_hash_array
   end
 
+  def self.get_records( filename )
+    self.spreadsheet= nil
+    self.filename= filename
+    ss_object= self.new({})
+    load_record_hash_array
+    return ss_object.class.record_hash_array
+  end
+
+  def self.store(filename)
+    hash_array= get_hash_array( filename )
+    hash_array.each{ |hash|
+      self.store_hash(filename,hash)
+    }
+    self.identity_class.from_source(filename)
+  end
+
 end
