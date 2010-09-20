@@ -1,5 +1,9 @@
 class Spreadsheet::LocalPayers < Spreadsheet::Spreadsheet
 
+  def self.get_section_filename(section)
+    ins= self.new({:section=>section})
+    "#{ins.google_path(section)}"
+  end
   def initialize(params)
     self.class.filename= "#{self.google_path(params[:section])}" if params[:section]
     super
