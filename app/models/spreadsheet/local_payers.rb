@@ -29,15 +29,16 @@ class Spreadsheet::LocalPayers < Spreadsheet::Spreadsheet
   end
 
   def self.store_hash( filename, hash )
-      name_hash= {}
-      Person::Person.fields_used.each{ |field|
-        name_hash[field]= hash[field]
-      }
       person_entity, person_details =
-         self.identity_class.find_or_add_name_details( name_hash,{
+         self.identity_class.find_or_add_name_details( Person::Person.get_name_hash( hash ),{
       },{
         :source  => filename
       } )
+      location_hash= Location.get_location_hash( hash )
+      location= Location.new( location_hash )
+      person_entity.locations<< location
+      person_entity.save
+      location.save
   end
 
 end
