@@ -1,5 +1,6 @@
 class Entity < ActiveRecord::Base
 
+  has_many :locations
   has_many :entity_details
   #has_many :details, :through => :entity_details
   named_scope :named, lambda { |name| {:conditions => ["name = ?", name ] } }
