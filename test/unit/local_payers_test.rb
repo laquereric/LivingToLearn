@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UsNjSesProviderTest < ActiveSupport::TestCase
+class LocalPayersTest < ActiveSupport::TestCase
   attr_accessor :filename
 
   def setup
@@ -10,38 +10,41 @@ class UsNjSesProviderTest < ActiveSupport::TestCase
     return if ENV['GOOGLE_TEST'] == 'false'
     self.filename= File.join( "test" , "fixtures" , "LocalPayers.gxls")
     confirm_cell_values
+    confirm_hash_values
+    confirm_record_values
   end
 
   def test_ods_cell_values
     self.filename= File.join( RAILS_ROOT, "test" , "fixtures" , "LocalPayers.ods")
     confirm_cell_values
+    confirm_hash_values
+    confirm_record_values
   end
 
   def confirm_cell_values
-    spreadsheet= Spreadsheet::LocalPayers.load_record_file( filename )
-
-    assert_equal Organization::LocalPayers.count, 2
-
-    assert_equal spreadsheet.cell(2,1),"#1 in Learning"
-    assert_equal Organization::LocalPayers.first.name,"#1 in Learning"
-
-    assert_equal spreadsheet.cell(3,7), 'Brandon'
-    assert_not_nil Organization::LocalPayers.first.contact.match(/Brandon/)
-
-    assert_equal spreadsheet.cell(4,2),"All of New Jersey"
-    assert_equal Organization::LocalPayers.first.areas_served,"All of New Jersey"
-
-    assert_not_nil spreadsheet.cell(4,3).match(/Literacy/)
-    assert_not_nil Organization::LocalPayers.first.services.match(/Literacy/)
-
-    assert_not_nil spreadsheet.cell(4,4).match(/ATOK/)
-    assert_not_nil Organization::LocalPayers.first.qualifications.match(/ATOK/)
+    spreadsheet= Spreadsheet::LocalPayers.get_spreadsheet(filename)
+    #spreadsheet= Spreadsheet::LocalPayers.load_record_file( filename )
+    assert_equal spreadsheet.cell(1,1),'Prospect Id'
+    assert_equal spreadsheet.cell(1,2), 'Prefix'
+    assert_equal spreadsheet.cell(2,1),1.0
+    assert_equal spreadsheet.cell(2,2), 'Mr.'
+    assert_equal spreadsheet.cell(2,3),"Joseph"
+  end
 
 #####
 
-    assert_equal spreadsheet.cell(5,1),"1 to 1 Tutor"
-    assert_equal Organization::SesProvider.all[1].name,"1 to 1 Tutor"
+  def confirm_hash_values
+    hash_array= Spreadsheet::LocalPayers.get_hash_array(filename)
+    assert_equal hash_array.length, 2
+    assert_equal hash_array[0][:prefix], 'Mr.'
+    assert_equal hash_array[0][:first_name], "Joseph"
+    assert_equal hash_array[1][:first_name], 'Salvatore'
+  end
 
+  def confirm_record_values
+    records= Spreadsheet::LocalPayers.store(filename)
+    assert_equal Person::ParentPotentialPayer.count, 2
+    assert_equal records[0].entity.first_name, 'Joseph'
   end
 
 end
