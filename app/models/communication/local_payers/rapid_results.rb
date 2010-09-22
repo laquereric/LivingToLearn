@@ -1,11 +1,24 @@
 class Communication::LocalPayers::RapidResults < Communication::Communication
+
   attr_accessor :first
-  attr_accessor :last
+  attr_accessor :count
+
+  def self.produce_all
+    Communication::Job.sets{ |first_id,set_size|
+      c= self.new( { :first => first_id, :count => set_size } )
+      c.produce
+      count= c.dataset.record_hash_array.length
+      p "Starting at record id: #{first_id} count: #{count} filename: #{c.filename}"
+      done= ( count < set_size )
+      last_id= if count > 0 then c.dataset.record_hash_array[-1][:prospect_id] else 0 end
+      [done,last_id]
+    }
+  end
 
   def initialize(params)
 
     self.first= params[:first]
-    self.last= params[:last]
+    self.count= params[:count]
 
   end
 
@@ -27,14 +40,9 @@ class Communication::LocalPayers::RapidResults < Communication::Communication
   end
 
   def payer_hash_array
-
-    Person::ParentPotentialPayer.all[self.first..self.last].map{|pyr| pyr.get_flat_hash}
-    #.select{ |rh|
-    #  use_row?(rh)
-    #}
-    #transformed_rows= rows.map{ |raw_row|
-    #  transform_row(raw_row)
-    #}
+    record_set= Person::ParentPotentialPayer.next_set(self.first,self.count)
+    hash_array= record_set.map{ |pyr| pyr.get_flat_hash }
+    return hash_array
 
   end
 
