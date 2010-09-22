@@ -41,7 +41,7 @@ class Communication::Communication
   end
 
   def filename
-    "#{communication_class}__#{date_time}"
+    "#{communication_class}__#{date_time}_produce"
   end
 
   def send_file( dir, target_path )
