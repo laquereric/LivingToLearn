@@ -10,7 +10,7 @@ class Communication::Job
     done= false
     last_id= 0
     while !done do
-      done,last_id= yield( last_id, self.set_size )
+      done,last_id= yield( last_id+1, self.set_size )
     end
   end
 
