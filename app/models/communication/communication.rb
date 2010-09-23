@@ -46,7 +46,7 @@ class Communication::Communication
 
   def send_file( dir, target_path )
     %x[mkdir #{ dir }]
-    %x[cd #{ tmp_dir } && tar -zcvf #{ target_path } ./* && cd #{RAILS_ROOT}]
+    %x[cd #{ tmp_dir } && tar -zcvf #{ target_path }.gzip ./* && cd #{RAILS_ROOT}]
   end
 
   def send_file_to_shared()
