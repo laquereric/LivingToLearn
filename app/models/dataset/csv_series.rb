@@ -37,12 +37,13 @@ class Dataset::CsvSeries < Dataset::Csv
 
   def record_merge(record_number,record_hash,common_hash)
     self.offset_records=[] if offset_records.nil?
-    offset = record_number & 3
+    offset = record_number % 3
     self.offset_records[offset]= prefix(offset,record_hash)
     r= case offset
       when 0 , 1: nil
       when 2 : assemble_record()
     end
+    return r
   end
 
   def fill_out_with(record_hash)
