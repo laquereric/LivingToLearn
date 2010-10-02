@@ -14,9 +14,9 @@ namespace :ses do
   end
 
   namespace :postcard do
-    desc "WaitingThanks"
-    task :waiting_thanks => :environment do
-      Communication::Ses::WaitingThanks.new.produce
+    desc "ThanksWaiting"
+    task :thanks_waiting => :environment do
+      Communication::Ses::ThanksWaiting.new.produce
     end
   end
 
