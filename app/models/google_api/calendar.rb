@@ -72,4 +72,19 @@ class GoogleApi::Calendar < GoogleApi::Client
     return r
   end
 
+  def self.dead_id(c)
+    m= c.title.match(/zz(.*)/)
+    return nil if m.nil? or m.length<2
+    return m[1]
+  end
+
+  def self.get_dead_calendar_hash
+    r={}
+    self.get_list.each{ |c|
+      id= dead_id(c)
+      r[id]=c if !id.nil?
+    }
+    return r
+  end
+
 end
