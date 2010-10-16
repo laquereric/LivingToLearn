@@ -11,18 +11,23 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
 
 
   def self.headers
+
     [
-      'Select','Client Id',
-      'ProgramS',
+      'Client Id',
+      'Select',
+      'To Do',
+      'Program S',
       'Prefix','First Name','Middle Name','Last Name','Suffix',
       'Email',
       'Last Consumed Hour','Last Paid Hour',
       'Give Invoice','Contract Hrs Per Week','Prev Contract End Hour','Contracted Hours','Last Contract Hour', 'Closed End',
       'Direct','Prepaid','Active',
       'AddressLine1','AddressLine2','City','State','Zip','Phone1','Phone2','Phone3',
-      'DOB','Grade','School',
+      'DOB','Grade',
       'ParentXxPrefix','ParentXxFirstName','ParentXxMiddleName','ParentXxLastName','ParentXxSuffix',
-      'ParentXyPrefix','ParentXyFirstName','ParentXyMiddleName','ParentXyLastName','ParentXySuffix', 'School District'
+      'ParentXyPrefix','ParentXyFirstName','ParentXyMiddleName','ParentXyLastName','ParentXySuffix',
+      'School District', 'School',
+      'Origin', 'Representatives','Result','Status','Location'
     ]
   end
 

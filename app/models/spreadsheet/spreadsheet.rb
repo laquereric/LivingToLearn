@@ -234,4 +234,12 @@ class Spreadsheet::Spreadsheet
     self.identity_class.from_source(filename)
   end
 
+################
+#
+################
+
+  def self.test_google_ss
+    return self.new
+  end
+
 end
