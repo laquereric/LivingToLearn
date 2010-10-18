@@ -20,5 +20,12 @@ namespace :ses do
     end
   end
 
+  namespace :postcard do
+    desc "StillWaiting"
+    task :still_waiting => :environment do
+      Communication::Ses::StillWaiting.new.produce
+    end
+  end
+
 end
 
