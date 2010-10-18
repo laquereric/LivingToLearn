@@ -46,7 +46,7 @@ p "cal.title: #{cal.title}"
        }
 p "fetched"
        cache
-     }
+    }
   end
 
 ###########
