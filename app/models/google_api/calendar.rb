@@ -1,22 +1,126 @@
 require 'gcal4ruby'
+require 'tzinfo'
 
 class GoogleApi::Calendar < GoogleApi::Client
-  cattr_accessor :list
 
   def self.service_class
     GCal4Ruby::Service
   end
 
-  def self.get_list
-    return self.list if !self.list.nil?
-    self.login
-    self.list = service.calendars
-    return self.list
+############
+#
+############
+
+   def self.cache_name
+     'gcal_calendar_titles'
+   end
+
+   def self.cache_dump   
+      Rails.cache.read(self.cache_name)
+   end
+
+   def self.cache_load
+     GoogleApi::Calendar.login
+     Rails.cache.delete(self.cache_name)
+     Rails.cache.fetch(self.cache_name) {
+       cache= {}
+       list= GoogleApi::Calendar.get_list
+       list.each{ |cal|
+p "cal.title: #{cal.title}"
+         next if cal.title.nil? or cal.title.length==0
+         events_array= cal.events.map{ |e| 
+           self.event_hash(e) 
+         }
+         ch= { 
+           :title => cal.title,
+           :gcal_calendar_url => self.gcal_calendar_url( cal.id ),
+           :events => events_array
+         }
+         if ( cid = client_id(cal) )
+           ch[:client_id]= cid
+         end
+         if ( tid = tutor_id(cal) )
+           ch[:tutor_id]= tid
+         end
+         cache[cal.title]= ch
+       }
+p "fetched"
+       cache
+     }
   end
 
-  def self.hash(c)
-    { :events => c.events.map{ |e| event_hash(e) } }
+###########
+#
+###########
+
+  def self.gcal_calendar_url(id)
+    id.gsub('%40','@')
   end
+
+  def self.gcal_event_url(id)
+    id.gsub('%40','@')
+  end
+
+##############
+#
+##############
+
+  def self.local_dst?
+    Time.now.dst?
+  end
+
+  def self.from_utc(ut)
+    l=ut
+    l= if self.local_dst?
+      l+1.hour
+    else
+      l
+    end
+    return l.in_time_zone('EST')
+  end
+
+  def self.to_utc(lt)
+    r= lt.in_time_zone()
+    return r
+  end
+
+  def self.event_hash(e)
+    r= {}
+    r[:url]= self.gcal_event_url(e.id)
+    r[:title]= e.title
+    r[:raw_content]= e.content
+    r[:start_time]= e_start_time = self.to_utc( e.start_time() )
+    r[:end_time]= e_end_time =   self.to_utc( e.end_time() )
+    difference =   e_end_time - e_start_time
+    r[:duration]=   difference/60/60 
+    r.merge!( self.content_hash(e.content) )
+    return r
+  end
+
+###########
+#
+###########
+
+  def self.client_id(c)
+    m= c.title.match(/(.*)__(.*)/)
+    return nil if m.nil? or m.length<3
+    m2= m[2].match(/Client_(.*)/)
+    return nil if m2.nil? or m.length< 2
+    id= m2[1].to_i
+    return id
+  end
+
+  def self.tutor_id(c)
+    m= c.title.match(/(.*)__(.*)/)
+    return nil if m.nil? or m.length<3
+    m2= m[2].match(/Tutor_(.*)/)
+    return nil if m2.nil? or m.length< 2
+    return m2[1].to_i
+  end
+
+###########
+#
+###########
  
   def self.content_hash(content)
     r= {}
@@ -28,63 +132,45 @@ class GoogleApi::Calendar < GoogleApi::Client
     return r
   end
 
-  def self.event_hash(e)
-    r= {}
-    r[:start_time]= e.start_time()
-    r[:end_time]= e.end_time()
-    difference =   r[:end_time] - r[:start_time] 
-    r[:duration]=   difference/60/60 
-    r.merge!( self.content_hash(e.content) )
-    return r
-  end
+###########
+#
+###########
 
-  def self.client_id(c)
-    m= c.title.match(/(.*)__(.*)/)
-    return nil if m.nil? or m.length<3
-    m2= m[2].match(/Client_(.*)/)
-    return nil if m2.nil? or m.length< 2
-    return m2[1].to_i
-  end
-
-  def self.tutor_id(c)
-    m= c.title.match(/(.*)__(.*)/)
-    return nil if m.nil? or m.length<3
-    m2= m[2].match(/Tutor_(.*)/)
-    return nil if m2.nil? or m.length< 2
-    return m2[1].to_i
-  end
-
-  def self.get_client_calendar_hash
-    r={}
-    self.get_list.each{ |c|
-      id= client_id(c)
-      r[id]=c if !id.nil?
+  def self.each_event()
+    self.cache_dump.values.each{ |calendar|
+      calendar[:events].each{ |event|
+        before= event[:start_time] < period.begin_time
+        after= event[:start_time] > period.end_time
+        yield(calendar,event)
+      }
     }
-    return r
   end
 
-  def self.get_tutor_calendar_hash
-    r={}
-    self.get_list.each{ |c|
-      id= tutor_id(c)
-      r[id]=c if !id.nil?
+  def self.each_event_in_period(period)
+    self.cache_dump.values.each{ |calendar|
+      calendar[:events].each{ |event|
+        before= event[:start_time] < period.begin_time
+        after= event[:start_time] > period.end_time
+        yield(calendar,event) if !before and !after
+      }
     }
-    return r
   end
 
-  def self.dead_id(c)
-    m= c.title.match(/zz(.*)/)
-    return nil if m.nil? or m.length<2
-    return m[1]
+  def self.get_list
+    self.login
+    return service.calendars
   end
-
-  def self.get_dead_calendar_hash
-    r={}
-    self.get_list.each{ |c|
-      id= dead_id(c)
-      r[id]=c if !id.nil?
-    }
-    return r
+###############
+#
+###############
+  def self.event_stings(c,e) 
+    r=[]
+    r<< "Calendar #{c[:title]}"
+    r<< "  title #{e[:title]}"
+    #r<< "  start_time_utc #{ e[:start_time] }"
+    r<< "  start_time #{  self.from_utc( e[:start_time]) }"
+    r<< "  end_time #{  self.from_utc( e[:end_time] ) }"
+    r<< "  duration #{e[:duration]}"
   end
 
 end

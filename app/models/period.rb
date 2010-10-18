@@ -2,9 +2,6 @@ class Period
   attr_accessor :begin_time
   attr_accessor :end_time
 
-  def self.this_fiscal_year
-  end
-
   def self.this_school_year(ref=Time.now)
     period= self.new
     begin_year= if ref.month >= 9 then ref.year else ref.last_year.year end
