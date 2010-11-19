@@ -8,27 +8,24 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
      'current_clients'
    end
 
-   def self.cache_dump
-      Rails.cache.read(self.cache_name)
-   end
-
-   def self.cache_load
-     ss= self.new
-     Rails.cache.fetch(ss.class.cache_name) {
-       ss.class.filename= ss.google_path
-       ss.class.load_record_hash_array
-     }
-   end
-
 ####################
 #
 #####################
+
   def self.each_client
     ss= self.new
     client_array= ss.class.record_hash_array
     client_array.each{ |client|
       yield(client)
     }
+  end
+#
+  def self.client_hash
+    r= {}
+    self.each_client{ |client|
+      r[ client[:client_id].to_i]= client
+    }
+    return r
   end
 
   def initialize()
@@ -38,7 +35,6 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
   def google_path
     File.join( 'TutoringClub', 'Data', 'Clients', self.google_filename )
   end
-
 
   def self.headers
 
