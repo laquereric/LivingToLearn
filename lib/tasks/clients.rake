@@ -26,6 +26,42 @@ namespace :clients do
       }
     end
 
+    desc "contract_or_revenue"
+    task :contract_or_revenue  => :environment do
+      p "Contract or Revenue:"
+      Spreadsheet::CurrentClients.each_client{ |client|
+        next if client[:result] != 'contract' and client[:result] != 'revenue'
+        p "#{ client[:school_district] } => #{client[:result]} #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name] }"
+     }
+    end
+
+    desc "contract"
+    task :contract  => :environment do
+      p "Contract:"
+      Spreadsheet::CurrentClients.each_client{ |client|
+        next if client[:result] != 'contract'
+        p "id: #{ client[:school_district] } => #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name] }"
+     }
+    end
+
+    desc "parent_pay"
+    task :parent_pay  => :environment do
+      p "Parent Pay:"
+      Spreadsheet::CurrentClients.each_client{ |client|
+        next if client[:result] != 'parent_pay'
+        p "id: #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name] }"
+     }
+    end
+
+    desc "revenue"
+    task :revenue  => :environment do
+      p "Revenue:"
+      Spreadsheet::CurrentClients.each_client{ |client|
+        next if client[:result] != 'revenue'
+        p "id: #{ client[:school_district] } => #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name] }"
+     }
+    end
+
   end
 
 end
