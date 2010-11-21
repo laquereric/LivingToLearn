@@ -16,6 +16,14 @@ class Spreadsheet::Spreadsheet
 #
 ###################
 
+  def self.cache_name
+    self.to_s.split('::').last.underscore
+  end
+
+###################
+#
+###################
+
    def self.cache_dump
       Rails.cache.read(self.cache_name)
    end
