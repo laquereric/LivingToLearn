@@ -76,11 +76,9 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.load_record_hash_array
-p "load_record_hash_array"
      self.record_hash_array= []
     self.load_records{ |rh|
       clean_row= self.clean_row_hash(rh)
-p rh.inspect
       record_hash_array<< clean_row if use_row?(clean_row)
     }
     self.record_hash_array
