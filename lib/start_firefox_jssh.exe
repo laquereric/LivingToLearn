@@ -1,0 +1,3 @@
+#!/bin/bash 
+ps auxwww | grep firefox 
+/Applications/Firefox.app/Contents/MacOS/firefox-bin -jssh &
