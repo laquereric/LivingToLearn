@@ -32,11 +32,19 @@ class Document::Fax
       frame.links.each{ |l| zip_fax_link = l  if /prepZipFax/.match( l.href ) }
       zip_fax_link.click
 
-      frame= browser.frame(:name,'content')
+      dl_frame= browser.frame(:name,'content')
 
-      pdf_link= frame.links[3]
+      pdf_link= dl_frame.links[3]
       pdf_link.onclick
+
+      browser.back
+
+      save_fax_link= nil
+      frame.links.each{ |l| save_fax_link = l  if /moveFax/.match( l.href ) }
+      save_fax_link.click
+
     end
+    return num_faxes
   end
 
   def self.get_download_fax_zip_filename
