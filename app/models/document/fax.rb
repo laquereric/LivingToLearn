@@ -18,11 +18,9 @@ class Document::Fax
     pin_field.set("7668603")
     enter.click
     return browser
-    #file=  File.new("/Users/eric/new_fax_frame.html")
-    #doc= Hpricot.parse(file.read)
   end
 
-  def self.download_fax_zip_file
+ def self.download_fax_zip_file
     fax_zip_file= nil
     browser= self.browse_fax_frame
     frame= browser.frame(:name,'content')
