@@ -47,18 +47,30 @@ class Document::Fax
     return num_faxes
   end
 
-  def self.get_download_fax_zip_filename
+  def self.get_download_fax_zip_filenames
     fax_zip_files= Dir.glob( ENV['DOWNLOADED_FAX_ZIP_GLOB'] )
-    if fax_zip_files.length == 0
-      p "fax_zip_file not downloaded"
-    elsif fax_zip_files.length > 1
-      p "more than 1 fax_zip_file downloaded"
-    else
-      p "1 fax_zip_file downloaded"
-      fax_zip_file= fax_zip_files[0]
-      debugger
-    end
-    return fax_zip_file
+    return fax_zip_files
+  end
+
+  def self.tmp_dir
+    return File.join(RAILS_ROOT,'tmp','fax_extract')
+  end
+
+  def self.init_tmp_dir()
+    %x[rm -r #{tmp_dir}] if File.exists?(tmp_dir)
+    %x[mkdir #{tmp_dir}]
+  end
+
+  def self.pdf_fax_filenames(zfn)
+    self.init_tmp_dir()
+    %x(cd #{self.tmp_dir}; unzip #{zfn} )
+    pdf_glob= File.join(self.tmp_dir,"**","*.fax.pdf")
+    pdf_fns= Dir.glob( pdf_glob )
+    return pdf_fns
+  end
+
+  def self.mv_to_faxes(fn)
+    %x(mv #{fn} #{ENV['FAXES_DIR']} )
   end
 
 end
