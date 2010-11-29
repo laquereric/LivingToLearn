@@ -1,7 +1,3 @@
-require 'rubygems'
-require 'pdf/reader'
-#require 'hpricot'
-
 class Document::Fax
 
   def self.browse_accessline
@@ -20,7 +16,7 @@ class Document::Fax
     return browser
   end
 
- def self.download_fax_zip_file
+  def self.download_fax_zip_file
     fax_zip_file= nil
     browser= self.browse_fax_frame
     frame= browser.frame(:name,'content')
@@ -31,7 +27,6 @@ class Document::Fax
       zip_fax_link= nil
       frame.links.each{ |l| zip_fax_link = l  if /prepZipFax/.match( l.href ) }
       zip_fax_link.click
-
       dl_frame= browser.frame(:name,'content')
 
       pdf_link= dl_frame.links[3]
