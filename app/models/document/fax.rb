@@ -29,10 +29,15 @@ class Document::Fax
       zip_fax_link.click
       dl_frame= browser.frame(:name,'content')
 
-      pdf_link= dl_frame.links[3]
-      pdf_link.onclick
+      sleep 1
+      dl_frame.links[3].onclick
 
+      sleep 1
       browser.back
+      sleep 1
+
+      frame= browser.frame(:name,'content')
+      frame.checkbox(:value,"Check All").set
 
       save_fax_link= nil
       frame.links.each{ |l| save_fax_link = l  if /moveFax/.match( l.href ) }
