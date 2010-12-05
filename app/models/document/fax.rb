@@ -16,7 +16,7 @@ class Document::Fax
     return browser
   end
 
-  def self.download_fax_zip_file
+  def self.download_fax_zip_files
     fax_zip_file= nil
     browser= self.browse_fax_frame
     frame= browser.frame(:name,'content')
