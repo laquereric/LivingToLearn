@@ -25,10 +25,6 @@ class Government::School < Government::GovernmentDetail
     }
   end
 
-  def self.nj_elem_schools
-    Rails.cache.read('nj_elem_schools')
-  end
-
   def self.parse_nj_address( line, address)
     if line.match(%r/\A\d/) or line.match(%r/\ PLACE/)  or line.match(%r/\APO /)  or line.match(%r/\AP.O./) or line.match(%r/ Lane/) or line.match(%r/ LANE/)  or line.match(%r/Blvd./) or line.match(%r/DR/)  or line.match(%r/RD/) or line.match(%r/ Drive/) or line.match(%r/ Parkway/) or line.match(%r/ Way/) or line.match(%r/ Road /) or line.match(%r/BLVD/)  or line.match(%r/Ave./) or line.match(%r/AVE/) or line.match(%r/Boulevard/) or line.match(%r/ST/)  or line.match(%r/Street/) or line.match(%r/Avenue/) or line.match(%r/ and /)
       address = line.strip
@@ -173,27 +169,41 @@ class Government::School < Government::GovernmentDetail
   def self.cache_nj_file( filename , sym )
     schools = parse_nj_file( filename ).map{ |sc|
       sc[:kind] = sym
-#p sc
       sc
     }
     p "parsed from http://www.state.nj.us #{schools.length} #{sym} schools"
-p schools[0..1]
     return schools
   end
 
   def self.cache_nj
     Rails.cache.delete('nj_schools')
-    #return
-    schools= []
+    #Rails.cache.delete('nj_school_map')
+    school_hash= {}
     self.nj_types.each_key{ |key|
       filename= "NJ#{key.to_s.camelcase}Schools"
-      cache_nj_file( filename, key.to_s).each{ |sc| schools<< sc }
+      cache_nj_file( filename, key.to_s).each{ |sc| school_hash[ sc[:id] ]= sc }
     }
-    Rails.cache.fetch('nj_schools') { schools }
+    Rails.cache.fetch('nj_schools') { school_hash }
+    #Rails.cache.fetch('nj_district_school_map') { nj_district_school_map }
   end
 
-  def self.nj_school_cache
+  def self.nj_cache
     Rails.cache.read('nj_schools')
   end
- 
+
+  def self.nj_map_cache
+     self.nj_district_school_map
+     #Rails.cache.read('nj_district_school_map')
+  end
+
+  def self.nj_district_school_map
+    map = {}
+    self.nj_cache.each_value{ |sc|
+p sc
+      map[ sc[:sd_id] ] = [] if map[ sc[:sd_id] ].nil?
+      map[ sc[:sd_id] ] << sc
+    }
+    return map
+  end
+
 end
