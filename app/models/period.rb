@@ -2,6 +2,16 @@ class Period
   attr_accessor :begin_time
   attr_accessor :end_time
 
+  def self.update_cycle(cycle_key)
+    period= self.new
+    period.begin_time= Time.now
+    case cycle_key
+      when :monday_am
+         period.begin_time= Time.now+7.days
+    end
+    return period
+  end
+
   def self.this_school_year(ref=Time.now)
     period= self.new
     begin_year= if ref.month >= 9 then ref.year else ref.last_year.year end
