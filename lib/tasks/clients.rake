@@ -28,15 +28,14 @@ namespace :clients do
 
     desc "by_origin"
     task :by_origin  => :environment do
-      p "By Origin:"
+      p "By Origin:  #{Date.today} #{Time.now}"
       results= {}
       Spreadsheet::CurrentClients.each_client{ |client|
         origin = client[:origin]
-p origin
         origin = 'unknown' if origin.nil? or  origin.length == 0
         origin= origin.to_s.underscore.to_sym if client[:origin]
         origin = :other if client[:origin].nil?
-        line= "#{client[:school_district]} #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]}"
+        line= "#{client[:school_district]} #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]} => #{ client[:result]}"
         results[origin] = [] if results[origin].nil?
         results[origin]<< line
       }
@@ -50,18 +49,17 @@ p origin
 
     desc "by_result"
     task :by_result  => :environment do
-      p "By Result:"
+      p "By Result:  #{Date.today} #{Time.now}"
       results= {}
       Spreadsheet::CurrentClients.each_client{ |client|
         result= client[:result].to_sym if client[:result]
-        #next if result and result != :contract and result != :revenue
         result= :other if result and result != :contract and result != :revenue
         line= "#{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]}"
         sd= client[:school_district]
         results[sd] = { :contract => [], :revenue => [] , :other => [] } if results[sd].nil?
-        results[sd][:contract]<< line if result == :contract 
-        results[sd][:revenue]<< line if result == :revenue 
-        results[sd][:other]<< line if result == :other 
+        results[sd][:contract]<< line if result == :contract
+        results[sd][:revenue]<< line if result == :revenue
+        results[sd][:other]<< line if result == :other
       }
       results.each_key{ |sdn|
         p sdn
@@ -80,22 +78,15 @@ p origin
       }
     end
 
-    desc "parent_pay"
-    task :parent_pay  => :environment do
-      p "Parent Pay:"
-      Spreadsheet::CurrentClients.each_client{ |client|
-        next if client[:result] != 'parent_pay'
-        p "id: #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name] }"
-     }
-    end
-
-    desc "revenue"
-    task :revenue  => :environment do
-      p "Revenue:"
-      Spreadsheet::CurrentClients.each_client{ |client|
-        next if client[:result] != 'revenue'
-        p "id: #{ client[:school_district] } => #{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name] }"
-     }
+    desc "by_school"
+    task :by_school  => :environment do
+      p "By School:  #{Date.today} #{Time.now}"
+      results= Person::Client.by_school_hash{ |client|
+        true
+      }
+      Person::Client.by_school_report(results) { |line|
+        p line if line
+      }
     end
 
   end

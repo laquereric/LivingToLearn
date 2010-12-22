@@ -28,10 +28,22 @@ namespace :school_district do
     p "Spreadsheet Key: #{ss_key}"
 
     sd.csv_spreadsheet(ss_key)
-   
+
+  end
+
+  namespace :ses_clients do
+    desc "SES Clients By School"
+    task :by_school => :environment do
+      Government::SchoolDistrict.each_district_with_ses_contract{ |d|
+p d.code_name
+        d.store_clients_by_school()
+      }
+    end
+
   end
 
   namespace :cursor do
+
     desc "Paulsboro Boro"
     task :paulsboro_boro_sd => :environment do
        sd= Government::SchoolDistrict.find_by_district_code(4020)
