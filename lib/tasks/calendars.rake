@@ -30,11 +30,12 @@ namespace :calendar do
     end
 
 
-    desc "missing_id"
-    task :missing_id  => :environment do
+    desc "missing_ids"
+    task :missing_ids  => :environment do
       p "Missing Ids:"
-      l= GoogleApi::Calendar.cache_dump.keys.select{ |k| /xx/.match(k) }
-      l.each{ |m_id| p m_id }
+      GoogleApi::Calendar.missing_ids.each{ |line| p line}
+      #l= GoogleApi::Calendar.cache_dump.keys.select{ |k| /_x/.match(k) }
+      #l.each{ |m_id| p m_id }
     end
 
     desc "client_ids"
