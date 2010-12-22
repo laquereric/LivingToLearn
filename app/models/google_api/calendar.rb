@@ -3,6 +3,15 @@ require 'tzinfo'
 
 class GoogleApi::Calendar < GoogleApi::Client
 
+  def self.missing_ids
+     lines=[]
+     list= self.cache_dump.keys.select{ |k| /_x/.match(k) }
+     list.each{ |m_id|
+         lines<< m_id
+     }
+     return lines
+  end
+
   def self.service_class
     GCal4Ruby::Service
   end
