@@ -32,11 +32,11 @@ namespace :school_district do
   end
 
   namespace :ses_clients do
-    desc "SES Clients By School"
-    task :by_school => :environment do
+    desc "SES Clients List"
+    task :list => :environment do
       Government::SchoolDistrict.each_district_with_ses_contract{ |d|
-p d.code_name
-        d.store_clients_by_school()
+        p d.code_name
+        p Contract::SchoolDistrict.get_for_sd(d)
       }
     end
 
