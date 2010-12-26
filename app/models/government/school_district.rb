@@ -15,6 +15,9 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   def local_directory
     ENV['ARCHIVED_COMMUNICATIONS_DIR']
   end
+
+  def dropbox_directory
+    File.join('/', 'Communications',"#{self.code_name}")
   end
 
   def google_base_folder
