@@ -90,8 +90,14 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #################
 #
 #################
+  def self.districts_with_ses_contracts
+    [7520,5820,5860,3280,2990,1940,390,5820,1730]
+    #[1730]
+    #[7520]
+  end
+
   def self.each_district_with_ses_contract(&block)
-    [5820,5860,3280,2990,1940,390,5820,1730].each{ |sd_id|
+    self.districts_with_ses_contracts.each{ |sd_id|
       yield( Government::SchoolDistrict.find_by_government_district_code(sd_id) )
     }
   end
