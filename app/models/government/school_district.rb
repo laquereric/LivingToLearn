@@ -70,21 +70,51 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 ################
 #
 ################
-  def store_clients_by_school()
+  def store_clients_by_school(dropbox_session=nil)
+
     lines = []
-    ts= Time.now.to_s.gsub(' ','_')
-    Dir.mkdir(self.directory) if !File.exists?(self.directory)
-    report_file = File.join(self.directory,"clients_by_school_as_of_#{ts}")
-    status= "Stored Report to #{report_file}"
+    status_lines = []
+    #Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
+
+    status= "Stored Report to #{self.local_directory}"
     lines << status
+    status_lines << status
     lines<< " "
-    lines= self.clients_by_school(lines)
-    File.open(report_file,'w+') do |file|
+    client_array= Person::Client.by_school_array{ |client|
+      (client[:school_district] == self.code_name)
+    }
+    lines= self.client_report_by_school(client_array,lines)
+    File.open(self.local_report_file,'w+') do |file|
       lines.flatten.each{ |line|
         file.puts line
        }
     end
-    return status
+
+    if dropbox_session
+      dropbox_session.upload self.local_report_file, self.dropbox_directory, {:mode=>:dropbox}
+      db_status= "Stored Report to DropBox #{self.dropbox_directory}"
+      status_lines << db_status
+      lines << db_status
+      lines<< " "
+    end
+
+    lines= []
+    lines= self.csv_clients_by_school(client_array,lines)
+    File.open( self.local_csv_file,'w+') do |file|
+      lines.flatten.each{ |line|
+        file.puts line
+      }
+    end
+
+    if dropbox_session
+      dropbox_session.upload  self.local_csv_file, self.dropbox_directory, {:mode=>:dropbox}
+      db_status= "Stored CSV to DropBox #{self.dropbox_directory}"
+      status_lines << db_status
+      lines << db_status
+      lines<< " "
+    end
+
+    return status_lines
   end
 
 #################
@@ -102,15 +132,24 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     }
   end
 
-  def clients_by_school(lines=[])
+  def client_report_by_school(client_array,lines=[])
     lines<< "As of #{Date.today} #{Time.now}"
     lines<< "Clients in School District #{self.code_name} By School:"
     lines<< " "
-    results= Person::Client.by_school_hash{ |client|
-      (client[:school_district] == self.code_name)
-    }
-    Person::Client.by_school_report(results) { |line|
+    client_hash= Person::Client.by_school_hash( client_array )
+    Person::Client.by_school_report(client_hash) { |line|
       lines<< line if line
+    }
+    return lines
+  end
+
+  def csv_clients_by_school(client_array,lines=[])
+    lines<< Person::Client.csv_line_header
+    client_array.each{ |client_hash|
+      h= Person::Client.csv_hash(client_hash)
+      next if h.nil?
+      line = Person::Client.csv_line( h )
+      lines<< line #if !line.nil?
     }
     return lines
   end
@@ -348,5 +387,5 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   def self.nj_cache
     Rails.cache.read(self.cache_key)
   end
- 
+
 end
