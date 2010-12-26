@@ -28,6 +28,25 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     File.join( self.google_base_folder,"#{self.district_code}__#{name}")
   end
 
+  def self.timestamp
+    Time.now.to_s.gsub('-','').gsub(':','_').gsub(' ','__')
+  end
+
+  def local_report_base
+    File.join(self.local_directory,"#{self.code_name}_clients_by_school_as_of_#{self.class.timestamp}")
+  end
+
+  def local_csv_base
+    File.join(self.local_directory,"invoices")
+  end
+
+  def local_report_file
+    "#{self.local_report_base}.txt"
+  end
+
+  def local_csv_file
+    "#{self.local_csv_base}.csv"
+  end
 
 #  has_many :organization_non_profit_details,
 #    :class_name => "Organization::NonProfit",
