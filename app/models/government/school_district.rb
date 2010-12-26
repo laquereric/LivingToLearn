@@ -36,6 +36,14 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     "#{self.government_district_code}__#{self.name}"
   end
 
+  def self.id_from_code_name(cn)
+    cn.split('__')[0]
+  end
+
+  def self.for_code_name(cn)
+    return self.find_by_government_district_code( self.id_from_code_name(cn) )
+  end
+
 ################
 #
 ################
