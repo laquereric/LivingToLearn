@@ -17,8 +17,34 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
       'ParentXxPrefix','ParentXxFirstName','ParentXxMiddleName','ParentXxLastName','ParentXxSuffix',
       'ParentXyPrefix','ParentXyFirstName','ParentXyMiddleName','ParentXyLastName','ParentXySuffix',
       'School District', 'School',
-      'Origin', 'Representatives','Result','Status','Location'
-    ]
+      'Origin', 'Representatives','Result','Status','Location',
+      'First Contract',
+      'FC Hrs 9',
+      'FC Hrs 10',
+      'FC Hrs 11',
+      'FC Hrs 12',
+      'FC Hrs 1',
+      'FC Hrs 2',
+      'FC Hrs 3',
+      'FC Hrs 4',
+      'FC Hrs 5',
+      'FC Hrs 6',
+      'FC Hrs 7',
+      'FC Hrs 8',
+      'Second Contract',
+      'SC Hrs 9',
+      'SC Hrs 10',
+      'SC Hrs 11',
+      'SC Hrs 12',
+      'SC Hrs 1',
+      'SC Hrs 2',
+      'SC Hrs 3',
+      'SC Hrs 4',
+      'SC Hrs 5',
+      'SC Hrs 6',
+      'SC Hrs 7',
+      'SC Hrs 8'
+      ]
   end
 
 ############
@@ -31,7 +57,7 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
 
 ####################
 #
-#####################
+####################
 
   def self.each_client
     ss= self.new
