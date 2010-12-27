@@ -101,7 +101,7 @@ class Person::Client #< Person::PersonDetail
      #hash.each_value.map{ |vl| vl.to_s }.join(',')
   end
 
-  def self.csv_hash(client_hash)
+  def self.csv_hash(month,year,client_hash)
     r={}
     r[:client_code]= "\'#{client_hash[:client_id].to_i}\'"
     r[:student_first_name]= client_hash[:first_name]
@@ -121,17 +121,13 @@ class Person::Client #< Person::PersonDetail
     r[:district_zip] = sd_rec[:zip]
 
     r[:invoice_date] =  Invoice.get[:invoice_date]
-    r[:period_month] = month = Invoice.get[:period_month]
-    r[:period_year] = Invoice.get[:period_year]
 
     sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
     fc = sd_ca[0]
     r[:per_pupil_amount]= fc[:per_pupil_amount]
 
-    fc_hrs_field_sym = "fc_hrs#{month}".to_sym
-    fc_hours = client_hash[fc_hrs_field_sym]
-    fc_hours ||= 0
-    r[:fc_hours] = fc_hours
+    r[:fc_hours] = fc_hours = self.fc_hours_in_period(client_hash,month,year)
+
     r[:fc_rate] = fc_rate = fc[:rate]
     r[:fc_amount] = fc_amount = fc_hours * fc_rate
 
@@ -141,19 +137,35 @@ class Person::Client #< Person::PersonDetail
       r[:sc_hours] = sc_hours = 0
     else
       sc = sd_ca[1]
-      sc_hrs_field_sym = "SC Hrs #{month}".to_sym
-      sc_hours = client_hash[sc_hrs_field_sym]
-      sc_hours ||= 0
-      r[:sc_hours] = sc_hours
+      r[:sc_hours] = sc_hours = self.sc_hours_in_period(client_hash,month,year)
       r[:sc_rate] = sc_rate = sc[:rate]
       r[:sc_amount]= sc_amount = sc_hours * sc_rate
     end
 
-    return nil if fc_hours == 0 and sc_hours == 0
+    if fc_hours == 0 and sc_hours == 0
+      p "record wo hours! #{r.inspect}"
+    end
 
     r[:amount]= fc_amount + sc_amount
-p r
     return r
+  end
+
+  def self.total_hours_in_period(client_hash,month,year)
+      return self.fc_hours_in_period(client_hash,month,year) + self.sc_hours_in_period(client_hash,month,year)
+  end
+
+  def self.fc_hours_in_period(client_hash,month,year)
+    fc_hrs_field_sym = "fc_hrs#{month}".to_sym
+    fc_hours = client_hash[fc_hrs_field_sym]
+    fc_hours ||= 0
+    return fc_hours
+  end
+
+  def self.sc_hours_in_period(client_hash,month,year)
+    sc_hrs_field_sym = "sc_hrs#{month}".to_sym
+    sc_hours = client_hash[sc_hrs_field_sym]
+    sc_hours ||= 0
+    return sc_hours
   end
 
   def self.by_school_report(results,&block)

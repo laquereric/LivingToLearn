@@ -33,11 +33,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   end
 
   def local_report_base
-    File.join(self.local_directory,"#{self.code_name}_clients_by_school_as_of_#{self.class.timestamp}")
+    File.join(self.local_directory,"#{self.code_name}_report_clients_by_school_as_of_#{self.class.timestamp}")
   end
 
   def local_csv_base
-    File.join(self.local_directory,"invoices")
+    File.join(self.local_directory,"#{self.code_name}_invoices_for_#{}_as_of_#{self.class.timestamp}")
+    #File.join(self.local_directory,"invoices")
   end
 
   def local_report_file
@@ -79,6 +80,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     status= "Stored Report to #{self.local_directory}"
     lines << status
     status_lines << status
+
     lines<< " "
     client_array= Person::Client.by_school_array{ |client|
       (client[:school_district] == self.code_name)
@@ -98,8 +100,24 @@ class Government::SchoolDistrict < Government::GovernmentDetail
       lines<< " "
     end
 
+  end
+
+  def store_invoice_csv(month,year,dropbox_session=nil)
+
+    lines = []
+    status_lines = []
+
+    client_array = Person::Client.by_school_array{ |client|
+      right_sd = (client[:school_district] == self.code_name)
+      hrs_in_period = Person::Client.total_hours_in_period( client, month, year )
+      zero_hrs_in_period = ( hrs_in_period == 0 ) 
+      use= ( !zero_hrs_in_period and right_sd )
+p "id #{client[:client_id].to_i} #{use} right_sd: #{right_sd} hrs_in_period #{hrs_in_period}"
+      use
+    }
+
     lines= []
-    lines= self.csv_clients_by_school(client_array,lines)
+    lines= self.csv_clients_by_school(month,year,client_array,lines)
     File.open( self.local_csv_file,'w+') do |file|
       lines.flatten.each{ |line|
         file.puts line
@@ -115,15 +133,16 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     end
 
     return status_lines
+
   end
 
 #################
 #
 #################
   def self.districts_with_ses_contracts
-    [7520,5820,5860,3280,2990,1940,390,5820,1730]
+    #[7520,5820,5860,3280,2990,1940,390,5820,1730]
     #[1730]
-    #[7520]
+    [7520]
   end
 
   def self.each_district_with_ses_contract(&block)
@@ -143,11 +162,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     return lines
   end
 
-  def csv_clients_by_school(client_array,lines=[])
+  def csv_clients_by_school(month,year,client_array,lines=[])
+#p client_array
     lines<< Person::Client.csv_line_header
     client_array.each{ |client_hash|
-      h= Person::Client.csv_hash(client_hash)
-      next if h.nil?
+      h= Person::Client.csv_hash(month,year,client_hash)
+      #next if h.nil?
       line = Person::Client.csv_line( h )
       lines<< line #if !line.nil?
     }

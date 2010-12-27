@@ -54,6 +54,21 @@ namespace :school_district do
       }
     end
 
+    desc "Invoice CSV File"
+    task :invoice_csv => :environment do
+      require 'dropbox'
+      dropbox_session = if Service::Dropbox.logged_in?
+        Service::Dropbox.session
+      else
+        nil
+      end
+
+      Government::SchoolDistrict.each_district_with_ses_contract{ |d|
+        p d.code_name
+        d.store_invoice_csv(Invoice.get[:period_month],Invoice.get[:period_year],dropbox_session).each{ |l| p l }
+      }
+    end
+
   end
 
 end
