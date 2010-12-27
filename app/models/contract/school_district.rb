@@ -3,30 +3,15 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   set_table_name :contract_school_districts
 
   def self.get_for_sd(d)
-    self.send("get_#{d.government_district_code}")
+    hs= self.send("get_#{d.government_district_code}")
+    return hs.map{ |h| self.create(h) }
   end
 
-  #5820__WINSLOW_TOWNSHIP"
-  def self.get_5820
-    h= {
-      :school_district_id => 5820 ,
-      :number => 0,
-      :school => 'Highland HS' ,
-      :school_city => 'Blackwood' ,
-      :school_state => 'NJ' ,
-      :school_zip => '08012',
-      :hours_in_program => 49.1,
-      :per_pupil_amount => 2146.00
-    }
-    return [h]
-  end
-
-  #7520__PleasanTech"
+ #7520__PleasanTech"
   def self.get_7520
     h= {
       :school_district_id => 7520 ,
-      :number => 0,
-      :hours_in_program => 49.1,
+      :date => 11/1/2010,
       :rate => 43.67,
       :per_pupil_amount => 2146.00
     }
@@ -37,8 +22,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.get_5860
     h= {
       :school_district_id => 5860,
-      :number=> 0 ,
-      :hours_in_program => 49.1,
+      :date => 11/1/2010,
       :rate => 43.67,
       :per_pupil_amount => 2146.00
     }
@@ -49,8 +33,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.get_3280
     h= {
       :school_district_id => 3280,
-      :number=> 0 ,
-      :hours_in_program => 49.1,
+      :date => 11/1/2010,
       :rate => 43.67,
       :per_pupil_amount => 2146.00
     }
@@ -62,8 +45,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.get_2990
     h= {
       :school_district_id => 2990,
-      :number=> 0 ,
-      :hours_in_program => 49.1,
+      :date => 11/1/2010,
       :rate => 43.67,
       :per_pupil_amount => 2146.00
     }
@@ -73,9 +55,8 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #1940__HAMILTON_TOWNSHIP"
   def self.get_1940
     h= {
-      :school_district_id=>1,
-      :number=> 0 ,
-      :hours_in_program => 49.1,
+      :school_district_id => 5860,
+      :date => 11/1/2010,
       :rate => 43.67,
       :per_pupil_amount => 2146.00
     }
@@ -85,24 +66,18 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #390__BLACK_HORSE_PIKE_REGIONAL
   def self.get_390
     h0= {
-      :school_district_id => 5820 ,
-      :number => 0,
-      :school => 'Highland HS' ,
-      :school_city => 'Blackwood' ,
-      :school_state => 'NJ' ,
-      :school_zip => '08012',
-      :hours_in_program => 49.1,
+      :school_district_id => 390 ,
+      :name => 'first_group',
+      :date => 11/1/2010,
+      :rate => 43.67,
       :per_pupil_amount => 2146.00
     }
     h1= {
-      :school_district_id => 5820 ,
-      :number => 1,
-      :school => 'Highland HS' ,
-      :school_city => 'Blackwood' ,
-      :school_state => 'NJ' ,
-      :school_zip => '08012',
-      :hours_in_program => 49.1,
-      :per_pupil_amount => 2146.00
+      :school_district_id => 390 ,
+      :name => 'second_group',
+      :date => 11/2/2010,
+      :rate => 43.67,
+      :per_pupil_amount => 900.00
     }
     return [h0,h1]
   end
@@ -110,31 +85,38 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #5820___WINSLOW_TOWNSHIP
   def self.get_5820
     h= {
-      :school_district_id=>390,
-      #:school=>1,
-      #:school_city=>1,
-      #:school_state=>1,
-      #:school_zip=>1,
-      :per_pupil_amount=>1,
-      :rate =>43.67,
-      :hours_in_program =>1,
+      :school_district_id=>5820,
+      :date => 11/1/2010,
+      :rate => 43.67,
+      :per_pupil_amount => 2146.00
     }
     return [h]
   end
 
   #1730__GLASSBORO
   def self.get_1730
-    h= {
-      :school_district_id=>1730,
-      #:school=>1,
-      #:school_city=>1,
-      #:school_state=>1,
-      #:school_zip=>1,
-      :per_pupil_amount=>1,
-      :rate =>43.67,
-      :hours_in_program =>1,
+    h0= {
+      :school_district_id => 1730 ,
+      :name => 'home_school',
+      :date => 11/1/2010,
+      :master_sub => 'M',
+      :per_pupil_amount => 2146.00
     }
-    return [h]
+    h1= {
+      :school_district_id => 1730 ,
+      :name => 'school',
+      :date => 11/2/2010,
+      :rate => 43.67,
+      :master_sub => 'S'
+    }
+    h2= {
+      :school_district_id => 1730 ,
+      :name => 'home',
+      :date => 11/2/2010,
+      :rate => 70.00,
+      :master_sub => 'S'
+    }
+    return [h0,h1,h2]
   end
 
 end
