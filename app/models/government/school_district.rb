@@ -162,26 +162,6 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     entity.name.split('_').map{ |n| n.capitalize}.join(' ')
   end
 
-#########
-
-  def self.at_cursor
-    cursor_file= File.open(self.cursor_filename, 'r')
-    text= cursor_file.read
-    hash= YAML.load(text)
-    self.find_by_district_code( hash[:district_code] )
-  end
-
-  def self.cursor_filename
-    File.join( RAILS_ROOT, 'cursors','Government_SchoolDistrict' )
-  end
-
-  def set_cursor
-    text = {:district_code => self.district_code}.to_yaml
-    File.open(self.class.cursor_filename, 'w') { |f|
-      f.write(text)
-    }
-  end
-
 ###########
 
   def history_total_funded_pupils_fy2010

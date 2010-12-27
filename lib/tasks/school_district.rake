@@ -53,66 +53,7 @@ namespace :school_district do
         d.store_clients_by_school(dropbox_session).each{ |l| p l }
       }
     end
-  end
 
-  namespace :cursor do
-
-    desc "Paulsboro Boro"
-    task :paulsboro_boro_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(4020)
-       sd.set_cursor
-    end
-    desc "Monroe Township"
-    task :monroe_township_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(3280)
-       sd.set_cursor
-    end
-    desc "Clayton"
-    task :clayton_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(860)
-       sd.set_cursor
-    end
-    desc "Clearview"
-    task :clearview_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(870)
-       sd.set_cursor
-    end
-    desc "Camden Co Tech"
-    task :black_horse_pike_regional_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(700)
-       sd.set_cursor
-    end
-    desc "Gateway Regional"
-    task :gateway_regional_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(1715)
-       sd.set_cursor
-    end
-    desc "Blackhorse Pike Regional"
-    task :blackhorse_pike_regional_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(390)
-       sd.set_cursor
-    end
-    desc "Washington Township"
-    task :washington_township_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(5500)
-       sd.set_cursor
-    end
-    desc "Winslow"
-    task :winslow_township_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(5820)
-       sd.set_cursor
-    end
-    desc "Woodbury City"
-    task :woodbury_city_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(5860)
-       sd.set_cursor
-    end
-    desc "Glassboro"
-    task :glassboro_sd => :environment do
-       sd= Government::SchoolDistrict.find_by_district_code(1730)
-       sd.set_cursor
-    end
- 
   end
 
 end
