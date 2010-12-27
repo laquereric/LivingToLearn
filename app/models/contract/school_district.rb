@@ -38,12 +38,9 @@ class Contract::SchoolDistrict < ActiveRecord::Base
     h= {
       :school_district_id => 5860,
       :number=> 0 ,
-      :school=>1,
-      :school_city=>1,
-      :school_state=>1,
-      :school_zip=>1,
-      :hours_in_program =>1,
-      :per_pupil_amount=>1
+      :hours_in_program => 49.1,
+      :rate => 43.67,
+      :per_pupil_amount => 2146.00
     }
     return [h]
   end
@@ -52,13 +49,10 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.get_3280
     h= {
       :school_district_id => 3280,
-      :number=>0,
-      :school=>1,
-      :school_city=>1,
-      :school_state=>1,
-      :school_zip=>1,
-      :hours_in_program =>1,
-      :per_pupil_amount=>1
+      :number=> 0 ,
+      :hours_in_program => 49.1,
+      :rate => 43.67,
+      :per_pupil_amount => 2146.00
     }
     return [h]
   end
@@ -68,13 +62,10 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.get_2990
     h= {
       :school_district_id => 2990,
-      :number => 0,
-      :school => 1,
-      :school_city => 1,
-      :school_state => 1,
-      :school_zip => 1,
-      :hours_in_program =>1,
-      :per_pupil_amount => 1
+      :number=> 0 ,
+      :hours_in_program => 49.1,
+      :rate => 43.67,
+      :per_pupil_amount => 2146.00
     }
     return [h]
   end
@@ -83,13 +74,10 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.get_1940
     h= {
       :school_district_id=>1,
-      :number => 0,
-      :school=>1,
-      :school_city=>1,
-      :school_state=>1,
-      :school_zip=>1,
-      :hours_in_program =>1,
-      :per_pupil_amount=>1
+      :number=> 0 ,
+      :hours_in_program => 49.1,
+      :rate => 43.67,
+      :per_pupil_amount => 2146.00
     }
     return [h]
   end
@@ -120,7 +108,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   end
 
   #5820___WINSLOW_TOWNSHIP
-  def self.get_390
+  def self.get_5820
     h= {
       :school_district_id=>390,
       #:school=>1,
