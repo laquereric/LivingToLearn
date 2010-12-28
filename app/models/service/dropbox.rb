@@ -2,6 +2,16 @@ require 'dropbox'
 
 class Service::Dropbox
 
+  def self.get_session
+    require 'dropbox'
+    dropbox_session = if Service::Dropbox.logged_in?
+      Service::Dropbox.session
+    else
+      nil
+    end
+    return dropbox_session
+  end
+
   def self.dropbox_session_filename
     '/Users/eric/.dropbox_session'
   end
