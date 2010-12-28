@@ -2,4 +2,23 @@ class Invoice::SchoolDistrict < ActiveRecord::Base
 
   set_table_name :invoice_school_districts
 
+  def self.erb_template_filename
+    File.join(RAILS_ROOT,'app','views','invoices','school_district.html')
+  end
+
+  def invoice_html
+    require 'erb'
+    template_text= File.new(self.class.erb_template_filename,'r').read
+    template_text.gsub!('&lt;','<');
+    template_text.gsub!('&gt;','>');
+    template = ERB.new( template_text )
+    return template.result( binding )
+  end
+
+  def self.create_for(client_hash,month,year)
+    h = Person::Client.invoice_hash(month,year,client_hash)
+    i = self.create(h)
+    return i
+  end
+
 end

@@ -14,8 +14,9 @@ class SdInvoice < ActiveRecord::Migration
 
     create_table "invoice_school_districts", :force => true do |t|
 
-      t.integer "school_district_id"
-      t.integer "contract_school_district_id"
+      t.integer "district_code"
+      t.integer "contract_date"
+      t.integer "client_id"
       t.string  "school"
 
       t.string "student_first_name"
@@ -42,6 +43,8 @@ class SdInvoice < ActiveRecord::Migration
       t.decimal "sc_rate",   :precision => 8, :scale => 2
       t.decimal "sc_hours",   :precision => 8, :scale => 2
       t.decimal "sc_amount",   :precision => 8, :scale => 2
+      
+      t.decimal "total_amount",   :precision => 8, :scale => 2
       
       t.decimal "hours_in_program",   :precision => 8, :scale => 2
       t.decimal "per_pupil_amount",   :precision => 8, :scale => 2
