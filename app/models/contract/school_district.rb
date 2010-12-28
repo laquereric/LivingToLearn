@@ -10,6 +10,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
  #7520__PleasanTech"
   def self.get_7520
     h= {
+      :name => 'only',
       :school_district_id => 7520 ,
       :date => 11/1/2010,
       :rate => 43.67,
@@ -21,6 +22,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #"5860__WOODBURY_CITY"
   def self.get_5860
     h= {
+      :name => 'only',
       :school_district_id => 5860,
       :date => 11/1/2010,
       :rate => 43.67,
@@ -32,6 +34,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #3280__MONROE_TOWNSHIP"
   def self.get_3280
     h= {
+      :name => 'only',
       :school_district_id => 3280,
       :date => 11/1/2010,
       :rate => 43.67,
@@ -44,6 +47,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #2990__MANTUA_TOWNSHIP"
   def self.get_2990
     h= {
+      :name => 'only',
       :school_district_id => 2990,
       :date => 11/1/2010,
       :rate => 43.67,
@@ -55,6 +59,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #1940__HAMILTON_TOWNSHIP"
   def self.get_1940
     h= {
+      :name => 'only',
       :school_district_id => 5860,
       :date => 11/1/2010,
       :rate => 43.67,
@@ -85,6 +90,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   #5820___WINSLOW_TOWNSHIP
   def self.get_5820
     h= {
+      :name => 'only',
       :school_district_id=>5820,
       :date => 11/1/2010,
       :rate => 43.67,
