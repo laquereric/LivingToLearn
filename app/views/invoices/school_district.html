@@ -7,33 +7,29 @@
 	<META NAME="AUTHOR" CONTENT="Eric Laquer">
 	<META NAME="CREATED" CONTENT="20101223;18584000">
 	<META NAME="CHANGEDBY" CONTENT="Eric Laquer">
-	<META NAME="CHANGED" CONTENT="20101227;10400300">
+	<META NAME="CHANGED" CONTENT="20101227;16445800">
 	<META NAME="CHANGEDBY" CONTENT="Eric Laquer">
 	<STYLE TYPE="text/css">
 	<!--
-		@page { margin: 0.79in }
-		P { margin-bottom: 0.08in }
+		@page { margin: 0.75in }
+		P { margin-bottom: 2in }
 		A:link { so-language: zxx }
 	-->
 	</STYLE>
 </HEAD>
 <BODY LANG="en-US" DIR="LTR">
-<DIV ID="UpperLeftLogo" DIR="LTR" STYLE="position: absolute; top: 0.82in; left: 0.08in; width: 3in; height: 2in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P><IMG SRC="/../Dropbox/OpenOffice/InvoiceMerge_html_m150af9f5.jpg" NAME="graphics1" ALIGN=LEFT WIDTH=245 HEIGHT=132 BORDER=0><BR CLEAR=LEFT><BR><BR>
+<DIV ID="UpperLeftLogo" DIR="LTR" STYLE="position: absolute; top: 1in; left: 0.5in; width: 3in; height: 1.5in; border: none; padding: 0in; background: #ffffff">
+	<P><IMG SRC="/Users/eric/projects/degrees/public/images/tc_logo.jpg" NAME="tc_logo" ALIGN=LEFT WIDTH=245 HEIGHT=132 BORDER=0><BR CLEAR=LEFT><BR><BR>
 	</P>
 </DIV>
-<DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 3.75in; left: 0.13in; width: 7in; height: 1in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
+<DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 3.5in; left: 0.49in; width: 7.05in; height: 1.125in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%=student_first_name%&gt;
 	&lt;%=student_last_name%&gt;</P>
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%=district_name%&gt;</P>
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%=district_city%&gt;,
 	&lt;%=district_state%&gt; &lt;%=district_zip%&gt;</P>
 </DIV>
-<DIV ID="UpperRightCorpInfo" DIR="LTR" STYLE="position: absolute; top: 0.79in; left: 4.08in; width: 3in; height: 2in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
-	</P>
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
-	</P>
+<DIV ID="UpperRightCorpInfo" DIR="LTR" STYLE="position: absolute; top: 1in; left: 4.5in; width: 3in; height: 1.5in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">TUTORING CLUB of
 	Washington Twp</P>
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">279 -D Egg Harbor Road</P>
@@ -44,47 +40,76 @@
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">c/o Director –
 	&lt;%=director_name%&gt;</P>
 </DIV>
-<DIV ID="BodyTitleLeft" DIR="LTR" STYLE="position: absolute; top: 3.33in; left: 0.13in; width: 3in; height: 0.25in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">INVOICE # :&lt;%=invoice_number%&gt;</P>
+<DIV ID="BodyTitleLeft" DIR="LTR" STYLE="position: absolute; top: 3in; left: 0.5in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-bottom: 0in">INVOICE # : &lt;%=invoice_number%&gt;</P>
 </DIV>
-<DIV ID="BodyLeft" DIR="LTR" STYLE="position: absolute; top: 5in; left: 0.13in; width: 3in; height: 3in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">Testing Fee $&lt;%=testing_fee%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Registration fee
-	$&lt;%=registration_fee%&gt;</P>
+<DIV ID="BodyLeft" DIR="LTR" STYLE="position: absolute; top: 5.9in; left: 2.01in; width: 1.36in; height: 3in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-bottom: 0in">Testing Fee</P>
+	<P STYLE="margin-bottom: 0in">Registration Fee</P>
 	<P STYLE="margin-bottom: 0in"><BR>
 	</P>
-	<P STYLE="margin-bottom: 0in">Contract &lt;%=fc_name%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Hourly Rate $&lt;%=fc_rate%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Hours &lt;%=district_zip%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Contract Amount &lt;%=fc_amount%&gt;</P>
-	<P STYLE="margin-bottom: 0in"><BR>
+	&lt;%if sc_name%&gt;
+	<P STYLE="margin-bottom: 0in">Contract Line</P>
+	&lt;%end%&gt; 
+	<P STYLE="margin-bottom: 0in">Hourly Rate</P>
+	<P STYLE="margin-bottom: 0in">Hours</P>
+	&lt;%if sc_name%&gt;
+		<P STYLE="margin-bottom: 0in">Line Amount</P>
+	&lt;%end%&gt;
+		<P STYLE="margin-bottom: 0in"><BR>
 	</P>
-	<P STYLE="margin-bottom: 0in">Contract &lt;%=sc_name%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Hourly Rate &lt;%=sc_rate%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Hours &lt;%=sc_hours%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Contract Amount &lt;%=sc_amount%&gt;</P>
-	<P STYLE="margin-bottom: 0in"><BR>
+	&lt;%if sc_name%&gt;
+	<P STYLE="margin-bottom: 0in">Contract</P>
+	<P STYLE="margin-bottom: 0in">Hourly Rate</P>
+	<P STYLE="margin-bottom: 0in">Hours</P>
+	<P STYLE="margin-bottom: 0in">Line Amount</P>
+		<P STYLE="margin-bottom: 0in"><BR>
+	&lt;%end%&gt;
 	</P>
-	<P STYLE="margin-bottom: 0in">Total Amount Due &lt;%=total_amount%&gt;</P>
+	<P STYLE="margin-bottom: 0in">Total Amount Due</P>
 </DIV>
-<DIV ID="BodyTitleRight" DIR="LTR" STYLE="position: absolute; top: 3.33in; left: 4.13in; width: 3in; height: 0.25in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">INVOICE DATE: &lt;%=invoice_date%&gt;</P>
+<DIV ID="BodyTitleRight" DIR="LTR" STYLE="position: absolute; top: 3in; left: 4.52in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-bottom: 0in">INVOICE DATE : &lt;%="#{invoice_date.strftime( '%b %d , %Y' ) }"%&gt;</P>
 </DIV>
-<DIV ID="BodyBottom" DIR="LTR" STYLE="position: absolute; top: 8in; left: 0.13in; width: 7in; height: 1.2in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">School &lt;%=district_zip%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Hours in Program &lt;%=district_zip%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Per Pupil Amount &lt;%=district_zip%&gt;</P>
-	<P STYLE="margin-bottom: 0in"><BR>
-	</P>
+<DIV ID="TopTitle" DIR="LTR" STYLE="position: absolute; top: 2.63in; left: 2.5in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
+	<P ALIGN=CENTER STYLE="margin-bottom: 0in">MONTHLY TUITION</P>
+</DIV>
+<DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 4.88in; left: 0.51in; width: 7in; height: 0.7in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
+	<P STYLE="margin-bottom: 0in">School : &lt;%=school%&gt;</P>
+	<P STYLE="margin-bottom: 0in">Per Pupil Amount : 
+	$&lt;%= sprintf( '%2.2f', per_pupil_amount) %&gt;</P>
+</DIV>
+<DIV ID="SignatureBlock" DIR="LTR" STYLE="position: absolute; top: 9.18in; left: 0.51in; width: 7in; height: 0.92in; border: 2.50pt solid #800000; padding: 0.02in; background: #ffffff">
 	<P STYLE="margin-bottom: 0in">SIGN/DATE</P>
+	<P STYLE="margin-bottom: 0in"><BR>
+	</P>
 	<P ALIGN=LEFT STYLE="margin-bottom: 0in">Director –
 	&lt;%=director_name%&gt;</P>
 </DIV>
-<DIV ID="TopTitle" DIR="LTR" STYLE="position: absolute; top: 2.94in; left: 1.96in; width: 3in; height: 0.25in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">MONTHLY TUITION</P>
-</DIV>
-<DIV ID="BodyRight" DIR="LTR" STYLE="position: absolute; top: 5in; left: 4.13in; width: 3in; height: 3in; border: 1px solid #000000; padding: 0.06in; background: #ffffff">
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">Program</P>
+<DIV ID="BodyRight" DIR="LTR" STYLE="position: absolute; top: 5.9in; left: 3.43in; width: 3in; height: 3in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', testing_fee)%&gt;</P>
+	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', registration_fee)%&gt;</P>
+	<P STYLE="margin-bottom: 0in"><BR>
+	</P>
+	&lt;%if sc_name%&gt;
+	<P STYLE="margin-bottom: 0in">: &lt;%=fc_name%&gt;</P>
+	&lt;%end%&gt;
+	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', fc_rate )%&gt;</P>
+	<P STYLE="margin-bottom: 0in">: &lt;%=fc_hours%&gt;</P>
+	&lt;%if sc_name%&gt;
+	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', fc_amount )%&gt;</P>
+	&lt;%end%&gt;
+	<P STYLE="margin-bottom: 0in"><BR>
+	</P>
+	&lt;%if sc_name%&gt;
+	<P STYLE="margin-bottom: 0in">: &lt;%=sc_name%&gt;</P>
+	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', sc_rate)%&gt;</P>
+	<P STYLE="margin-bottom: 0in">: &lt;%=sc_hours%&gt;</P>
+	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', sc_amount)%&gt;</P>
+	<P STYLE="margin-bottom: 0in"><BR>
+	&lt;%end%&gt;
+		</P>
+	<P ALIGN=LEFT STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', total_amount)%&gt;</P>
 </DIV>
 <P STYLE="margin-bottom: 0in"><BR>
 </P>
