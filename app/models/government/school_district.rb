@@ -10,14 +10,22 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     :foreign_key => :government_school_district_detail_id
 
 #############
-# Files
+# Directory
 #############
   def local_directory
-    ENV['ARCHIVED_COMMUNICATIONS_DIR']
+    File.join(ENV['ARCHIVED_COMMUNICATIONS_DIR'],"#{self.code_name}")
+  end
+
+  def local_invoices_directory
+    File.join(self.local_directory,'invoices')
   end
 
   def dropbox_directory
     File.join('/', 'Communications',"#{self.code_name}")
+  end
+
+  def dropbox_invoice_directory
+    File.join( self.dropbox_directory,'invoiices')
   end
 
   def google_base_folder
@@ -28,25 +36,16 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     File.join( self.google_base_folder,"#{self.district_code}__#{name}")
   end
 
+#############
+# Files
+#############
+
   def self.timestamp
     Time.now.to_s.gsub('-','').gsub(':','_').gsub(' ','__')
   end
 
-  def local_report_base
-    File.join(self.local_directory,"#{self.code_name}_report_clients_by_school_as_of_#{self.class.timestamp}")
-  end
-
-  def local_csv_base
-    File.join(self.local_directory,"#{self.code_name}_invoices_for_#{}_as_of_#{self.class.timestamp}")
-    #File.join(self.local_directory,"invoices")
-  end
-
-  def local_report_file
-    "#{self.local_report_base}.txt"
-  end
-
-  def local_csv_file
-    "#{self.local_csv_base}.csv"
+  def base(title='report')
+    "#{self.code_name}_#{title}_as_of_#{self.class.timestamp}"
   end
 
 #  has_many :organization_non_profit_details,
@@ -75,8 +74,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
     lines = []
     status_lines = []
-    #Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
-
+    Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
+    filename= File.join(self.local_directory,"#{self.base('clients_by_school')}.txt")
     status= "Stored Report to #{self.local_directory}"
     lines << status
     status_lines << status
@@ -91,7 +90,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
         file.puts line
        }
     end
-
+=begin
     if dropbox_session
       dropbox_session.upload self.local_report_file, self.dropbox_directory, {:mode=>:dropbox}
       db_status= "Stored Report to DropBox #{self.dropbox_directory}"
@@ -99,41 +98,44 @@ class Government::SchoolDistrict < Government::GovernmentDetail
       lines << db_status
       lines<< " "
     end
-
+=end
   end
 
   def store_invoice_csv(month,year,dropbox_session=nil)
+    Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
+    Dir.mkdir(self.local_invoices_directory) if !File.exists?(self.local_invoices_directory)
+    filename= File.join(self.local_invoices_directory,"#{self.base('spreadsheet')}.csv")
 
     lines = []
     status_lines = []
-
-    client_array = Person::Client.by_school_array{ |client|
-      right_sd = (client[:school_district] == self.code_name)
-      hrs_in_period = Person::Client.total_hours_in_period( client, month, year )
-      zero_hrs_in_period = ( hrs_in_period == 0 ) 
-      use= ( !zero_hrs_in_period and right_sd )
-p "id #{client[:client_id].to_i} #{use} right_sd: #{right_sd} hrs_in_period #{hrs_in_period}"
-      use
-    }
+    client_array = Person::Client.with_logged_hours(self,month, year)
 
     lines= []
     lines= self.csv_clients_by_school(month,year,client_array,lines)
-    File.open( self.local_csv_file,'w+') do |file|
+    File.open( self.filename,'w+') do |file|
       lines.flatten.each{ |line|
         file.puts line
       }
     end
 
-    if dropbox_session
-      dropbox_session.upload  self.local_csv_file, self.dropbox_directory, {:mode=>:dropbox}
-      db_status= "Stored CSV to DropBox #{self.dropbox_directory}"
-      status_lines << db_status
-      lines << db_status
-      lines<< " "
-    end
-
     return status_lines
 
+  end
+
+  def store_invoices(month,year,dropbox_session=nil,&block)
+
+    Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
+    Dir.mkdir(self.local_invoices_directory) if !File.exists?(self.local_invoices_directory)
+    hash_array = Person::Client.with_logged_hours(self, month, year)
+
+    hash_array.map{ |client_hash|
+      client_field = "client_#{client_hash[:client_id].to_i}"
+      filename = File.join(self.local_invoices_directory,"invoice_for_#{self.base(client_field)}.html")
+      i = Invoice::SchoolDistrict.create_for( client_hash, month, year)
+      html = i.invoice_html
+      File.open( filename,'w+').write(html)
+      yield "Invoice for #{client_hash[:client_id].to_i} in amount of #{i.total_amount} "
+    }
   end
 
 #################
@@ -166,10 +168,13 @@ p "id #{client[:client_id].to_i} #{use} right_sd: #{right_sd} hrs_in_period #{hr
 #p client_array
     lines<< Person::Client.csv_line_header
     client_array.each{ |client_hash|
-      h= Person::Client.csv_hash(month,year,client_hash)
+      #h = Person::Client.invoice_hash(month,year,client_hash)
+#p h
+#      i = Invoice::SchoolDistrict.create(h)
+#p i
       #next if h.nil?
-      line = Person::Client.csv_line( h )
-      lines<< line #if !line.nil?
+      #line = Person::Client.csv_line( h )
+      #lines<< line #if !line.nil?
     }
     return lines
   end
