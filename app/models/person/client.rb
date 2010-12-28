@@ -1,4 +1,6 @@
-class Person::Client #< Person::PersonDetail
+class Person::Client  < ActiveRecord::Base
+
+  set_table_name ('person_clients')
 
   def self.csv_line(client,indent=0)
     l = ""
@@ -101,9 +103,13 @@ class Person::Client #< Person::PersonDetail
      #hash.each_value.map{ |vl| vl.to_s }.join(',')
   end
 
-  def self.csv_hash(month,year,client_hash)
+  def self.invoice_hash(month,year,client_hash)
     r={}
-    r[:client_code]= "\'#{client_hash[:client_id].to_i}\'"
+    r[:director_name] = 'Eric Laquer'
+
+    r[:testing_fee] = 0
+    r[:registration_fee] = 0
+    r[:client_id]= client_hash[:client_id].to_i
     r[:student_first_name]= client_hash[:first_name]
     r[:student_last_name]= client_hash[:last_name]
 
@@ -112,20 +118,23 @@ class Person::Client #< Person::PersonDetail
     Government::SchoolDistrict.nj_cache()
 
     sd_id = Government::SchoolDistrict.id_from_code_name( client_hash[:school_district] )
-    r[:district_code]=sd_id
+    r[:district_code] = sd_id
     sd_rec = Government::SchoolDistrict.nj_cache[ sd_id ]
 
-    r[:district_name] = sd.name
+    r[:district_name] = sd.name.gsub('_',' ')
     r[:district_city] = sd_rec[:city]
     r[:district_state] = sd_rec[:state]
     r[:district_zip] = sd_rec[:zip]
 
     r[:invoice_date] =  Invoice.get[:invoice_date]
-
+    
     sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
     fc = sd_ca[0]
-    r[:per_pupil_amount]= fc[:per_pupil_amount]
 
+    r[:fc_name]= fc[:name]
+    r[:sc_name]= nil
+
+    r[:per_pupil_amount]= fc[:per_pupil_amount]
     r[:fc_hours] = fc_hours = self.fc_hours_in_period(client_hash,month,year)
 
     r[:fc_rate] = fc_rate = fc[:rate]
@@ -137,6 +146,8 @@ class Person::Client #< Person::PersonDetail
       r[:sc_hours] = sc_hours = 0
     else
       sc = sd_ca[1]
+      r[:sc_name]= sc[:name]
+
       r[:sc_hours] = sc_hours = self.sc_hours_in_period(client_hash,month,year)
       r[:sc_rate] = sc_rate = sc[:rate]
       r[:sc_amount]= sc_amount = sc_hours * sc_rate
@@ -146,7 +157,10 @@ class Person::Client #< Person::PersonDetail
       p "record wo hours! #{r.inspect}"
     end
 
-    r[:amount]= fc_amount + sc_amount
+    r[:total_amount]= fc_amount + sc_amount
+
+    r[:invoice_number] = "SD#{r[:district_code]}_C#{r[:client_id]}_P#{year}_#{month}"
+
     return r
   end
 
@@ -346,7 +360,25 @@ class Person::Client #< Person::PersonDetail
     return r
   end
 
-  #set_table_name :person_church_leaders
-  #belongs_to :organization_church_detail, :class_name => "Organization::Church", :foreign_key => :organization_church_detail_id
+  def self.with_logged_hours( sd, month, year )
+    client_array = Person::Client.by_school_array{ |client|
+      right_sd = ( client[:school_district] == sd.code_name )
+      hrs_in_period = Person::Client.total_hours_in_period( client, month, year )
+      zero_hrs_in_period = ( hrs_in_period == 0 )
+      use= ( !zero_hrs_in_period and right_sd )
+#p "id #{client[:client_id].to_i} #{use} right_sd: #{right_sd} hrs_in_period #{hrs_in_period}"
+      use
+    }
+    return client_array
+  end
+
+  def self.hash_array_to_object_array( hash_array )
+    return hash_array.map{ |h|
+#p "h #{h.inspect}"
+      r= self.create( h )
+#p "r #{r}"
+       r
+    }
+  end
 
 end

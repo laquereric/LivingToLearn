@@ -1,0 +1,85 @@
+class Client < ActiveRecord::Migration
+  def self.up
+    create_table "person_clients", :force => true do |t|
+   t.string  :contracted_hours
+   t.string  :parent_xx_prefix
+   t.string  :sc_hrs7
+   t.string  :second_contract
+   t.string  :sc_hrs12
+   t.string  :middle_name
+   t.string  :select
+   t.string  :fc_hrs2
+   t.string  :sc_hrs11
+   t.string  :fc_hrs1
+   t.string  :last_paid_hour
+   t.string  :fc_hrs5
+   t.string  :to_do
+   t.string  :give_invoice
+   t.string  :fc_hrs10
+   t.string  :school_district
+   t.string  :representatives
+   t.string  :zip
+   t.string  :parent_xx_middle_name
+   t.string  :school
+   t.string  :active
+   t.string  :phone3
+   t.string  :contract_hrs_per_week
+   t.string  :sc_hrs2
+   t.string  :last_contract_hour
+   t.string  :parent_xy_first_name
+   t.string  :prefix
+   t.string  :prepaid
+   t.string  :phone2
+   t.string  :closed_end
+   t.string  :fc_hrs12
+   t.string  :parent_xy_last_name
+   t.string  :origin
+   t.string  :state
+   t.string  :parent_xy_suffix
+   t.string  :city
+   t.string  :fc_hrs3
+   t.string  :direct
+   t.string  :sc_hrs10
+   t.string  :sc_hrs9
+   t.string  :address_line2
+   t.string  :email
+   t.string  :parent_xx_suffix
+   t.string  :status
+   t.string  :parent_xx_last_name
+   t.string  :last_consumed_hour
+   t.string  :location
+   t.string  :prev_contract_end_hour
+   t.string  :phone1
+   t.string  :sc_hrs3
+   t.string  :suffix
+   t.string  :dob
+   t.string  :parent_xy_prefix
+   t.string  :client_id
+   t.string  :fc_hrs6
+   t.string  :fc_hrs9
+   t.string  :last_name
+   t.string  :sc_hrs8
+   t.string  :fc_hrs11
+   t.string  :address_line1
+   t.string  :grade
+   t.string  :sc_hrs6
+   t.string  :sc_hrs4
+   t.string  :parent_xy_middle_name
+   t.string  :first_name
+   t.string  :program_s
+   t.string  :first_contract
+   t.string  :fc_hrs4
+   t.string  :result
+   t.string  :parent_xx_first_name
+   t.string  :sc_hrs1
+   t.string  :fc_hrs8
+   t.string  :fc_hrs7
+   t.string  :last_attended_date 
+   t.string  :sc_hrs5
+    end
+  end
+
+  def self.down
+    drop_table "person_clients"
+  end
+end
