@@ -8,6 +8,37 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   has_many :person_school_district_administrator_details,
     :class_name => "Person::SchoolDistrictAdministrator",
     :foreign_key => :government_school_district_detail_id
+  
+  def self.status_report( month_type = :last_month )
+    invoice= Invoice.get_for_month_type(month_type)
+    dropbox_session = Service::Dropbox.get_session
+    Government::SchoolDistrict.each_district_with_ses_contract{ |d|
+      p d.code_name
+      d.store_clients_by_school(invoice[:period_month],invoice[:period_year],dropbox_session).each{ |l| p l }
+    }
+  end
+
+  def self.invoice_csv( month_type = :last_month )
+    invoice = Invoice.get_for_month_type(month_type)
+    dropbox_session = Service::Dropbox.get_session
+    Government::SchoolDistrict.each_district_with_ses_contract{ |d|
+      #p d.code_name
+      d.store_invoice_csv(invoice[:period_month],invoice[:period_year],dropbox_session).each{ |l|
+        p l
+      }
+    }
+  end
+
+  def self.invoices( month_type = :last_month )
+    invoice = Invoice.get_for_month_type(month_type)
+    dropbox_session = Service::Dropbox.get_session
+    Government::SchoolDistrict.each_district_with_ses_contract{ |d|
+      p d.code_name
+      d.store_invoices(invoice[:period_month],invoice[:period_year],dropbox_session){ |l| 
+        p l
+      }
+    }
+  end
 
 #################
 #
