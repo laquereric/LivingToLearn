@@ -14,7 +14,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :school_district_id => 7520 ,
       :date => 11/1/2010,
       :rate => 43.67,
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 1235.00
     }
     return [h]
   end
@@ -26,7 +26,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :school_district_id => 5860,
       :date => 11/1/2010,
       :rate => 43.67,
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 1037.00
     }
     return [h]
   end
@@ -38,7 +38,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :school_district_id => 3280,
       :date => 11/1/2010,
       :rate => 43.67,
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 1297.00
     }
     return [h]
   end
@@ -51,7 +51,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :school_district_id => 2990,
       :date => 11/1/2010,
       :rate => 43.67,
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 680.00
     }
     return [h]
   end
@@ -63,7 +63,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :school_district_id => 5860,
       :date => 11/1/2010,
       :rate => 43.67,
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 1245.00
     }
     return [h]
   end
@@ -82,7 +82,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :name => 'second_group',
       :date => 11/2/2010,
       :rate => 43.67,
-      :per_pupil_amount => 900.00
+      :per_pupil_amount => 836.00
     }
     return [h0,h1]
   end
@@ -94,7 +94,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :school_district_id=>5820,
       :date => 11/1/2010,
       :rate => 43.67,
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 1344.00
     }
     return [h]
   end
@@ -106,7 +106,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
       :name => 'home_school',
       :date => 11/1/2010,
       :master_sub => 'M',
-      :per_pupil_amount => 2146.00
+      :per_pupil_amount => 1575.00
     }
     h1= {
       :school_district_id => 1730 ,
