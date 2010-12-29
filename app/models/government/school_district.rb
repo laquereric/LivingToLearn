@@ -12,8 +12,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #
 #################
   def self.districts_with_ses_contracts
-    #[7520,5820,5860,3280,2990,1940,390,5820,1730]
-    [7520,5820,5860,3280,2990,1940,390]
+    ['7520','5820','5860','3280','2990','1940','0390','1730']
   end
 
   def self.each_district_with_ses_contract(&block)
@@ -73,16 +72,16 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #
 ###############
   def code_name
-    "#{self.government_district_code}__#{self.name}"
+    "#{self.government_district_code.to_s}__#{self.name}"
   end
 
   def self.id_from_code_name(cn)
     return 0 if cn.nil?
-    cn.split('__')[0]
+    cn.split('__')[0].to_s
   end
 
   def same_sd?( code_name )
-    return ( self.district_code.to_i == self.class.id_from_code_name( code_name ).to_i )
+    return ( self.government_district_code.to_s == self.class.id_from_code_name( code_name ).to_s )
   end
 
   def self.for_code_name(cn)
