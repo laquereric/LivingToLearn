@@ -17,7 +17,7 @@ class Invoice
   end
 
   def self.get_for_month_type(month_type)
-       invoice= if month_type= ==:last_month then Invoice.get_last_month else Invoice.get_this_month end
+       invoice= if month_type ==:last_month then Invoice.get_last_month else Invoice.get_this_month end
        return invoice
   end
 

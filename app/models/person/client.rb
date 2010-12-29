@@ -126,7 +126,8 @@ class Person::Client  < ActiveRecord::Base
     r[:district_state] = sd_rec[:state]
     r[:district_zip] = sd_rec[:zip]
 
-    r[:invoice_date] =  Invoice.get[:invoice_date]
+    r[:invoice_date] =  Date.today
+#Invoice.get[:invoice_date]
 
     sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
     fc = sd_ca[0]

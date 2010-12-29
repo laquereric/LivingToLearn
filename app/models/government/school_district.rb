@@ -12,10 +12,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #
 #################
   def self.districts_with_ses_contracts
-    [7520,5820,5860,3280,2990,1940,390,5820,1730]
-    #[1730]
-    #[7520]
-    #[390]
+    #[7520,5820,5860,3280,2990,1940,390,5820,1730]
+    [7520,5820,5860,3280,2990,1940,390]
   end
 
   def self.each_district_with_ses_contract(&block)
@@ -44,7 +42,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   end
 
   def dropbox_invoice_directory
-    File.join( self.dropbox_directory,'invoiices')
+    File.join( self.dropbox_directory,'invoices')
   end
 
   def google_base_folder
@@ -129,47 +127,55 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   end
 
   def store_invoice_csv(month,year,dropbox_session=nil)
+    sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
-    Dir.mkdir(self.local_invoices_directory) if !File.exists?(self.local_invoices_directory)
-    filename= File.join(self.local_invoices_directory,"#{self.base('spreadsheet')}.csv")
+    Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
 
     lines = []
     status_lines = []
-    client_array = Person::Client.with_logged_hours(self,month, year)
-
-    lines= []
-    lines= self.csv_clients_by_school(month,year,client_array,lines)
-    File.open( self.filename,'w+') do |file|
-      lines.flatten.each{ |line|
-        file.puts line
-      }
+    filename= File.join(self.local_invoices_directory(month,year),"spreadsheet_as_of__#{self.class.timestamp}.csv")
+    File.open( filename,'w+') do |file|
+        file.puts(Invoice::SchoolDistrict.csv_headers)
+        self.each_invoice(month,year){ |client_hash, invoice, description|
+          sd_total += invoice.total_amount
+          file.puts(invoice.csv_line)
+          status_lines<< description
+        }
     end
-
+    status_lines<< "sd_total= #{sd_total}"
     return status_lines
-
   end
 
-  def invoice_date_field(month_year)
+  def invoice_date_field(month,year)
     "#{month}_#{year}"
   end
 
-  def store_invoices(month,year,dropbox_session=nil,&block)
+  def each_invoice(month,year,&block)
 
+    hash_array = Person::Client.with_logged_hours(self, month, year)
+    hash_array.each{ |client_hash|
+      invoice = Invoice::SchoolDistrict.create_for( client_hash, month, year)
+      description = "Invoice for #{client_hash[:last_name]}_#{client_hash[:first_name]}__Client_#{client_hash[:client_id].to_i} in amount of #{invoice.total_amount} "
+      yield( client_hash, invoice, description )
+    }
+  end
+
+  def store_invoices(month,year,dropbox_session=nil,&block)
+    sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
-    hash_array = Person::Client.with_logged_hours(self, month, year)
-
-    hash_array.map{ |client_hash|
+    self.each_invoice(month,year){ |client_hash,invoice, description|
       client_name_field = "#{client_hash[:last_name]}_#{client_hash[:first_name]}"
       client_id_field = "Client_#{client_hash[:client_id].to_i}"
-      dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field}")
+      dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field(month,year)}")
       Dir.mkdir(dir_name) if !File.exists?(dir_name)
       filename= File.join(dir_name,"invoice.html")
-      i = Invoice::SchoolDistrict.create_for( client_hash, month, year)
-      html = i.invoice_html
+      html = invoice.invoice_html
       File.open( filename,'w+').write(html)
-      yield "Invoice for #{client_hash[:last_name]}_#{client_hash[:first_name]}__Client_#{client_hash[:client_id].to_i} in amount of #{i.total_amount} "
+      sd_total += invoice.total_amount
+      yield(description)
     }
+    yield "sd_total= #{sd_total}"
   end
 
   def client_report_by_school(month,year,client_array,lines=[])
@@ -419,8 +425,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   def self.status_report( month_type = :last_month )
     invoice= Invoice.get_for_month_type(month_type)
     dropbox_session = Service::Dropbox.get_session
-    Government::SchoolDistrict.each_district_with_ses_contract{ |d|
-      p d.code_name
+    self.each_district_with_ses_contract{ |d|
+p "SchoolDistrict #{d.code_name}"
       d.store_clients_by_school(invoice[:period_month],invoice[:period_year],dropbox_session).each{ |l| p l }
     }
   end
@@ -429,7 +435,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     invoice = Invoice.get_for_month_type(month_type)
     dropbox_session = Service::Dropbox.get_session
     Government::SchoolDistrict.each_district_with_ses_contract{ |d|
-      #p d.code_name
+p "SchoolDistrict #{d.code_name}"
       d.store_invoice_csv(invoice[:period_month],invoice[:period_year],dropbox_session).each{ |l|
         p l
       }
@@ -440,9 +446,9 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     invoice = Invoice.get_for_month_type(month_type)
     dropbox_session = Service::Dropbox.get_session
     Government::SchoolDistrict.each_district_with_ses_contract{ |d|
-      p d.code_name
-      d.store_invoices(invoice[:period_month],invoice[:period_year],dropbox_session){ |l| 
-        p l
+p "SchoolDistrict #{d.code_name}"
+     d.store_invoices(invoice[:period_month],invoice[:period_year],dropbox_session){ |l|
+p l
       }
     }
   end

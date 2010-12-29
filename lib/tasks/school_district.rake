@@ -14,17 +14,17 @@ namespace :school_district do
 
       desc "Status Report"
       task :status_report => :environment do
-        Government::SchoolDistric.status_report(:last_month)
+        Government::SchoolDistrict.status_report(:last_month)
       end
 
       desc "Invoice spreadsheets Files"
       task :invoice_speadsheets => :environment do
-        Government::SchoolDistric.invoice_csv(:last_month)
+        Government::SchoolDistrict.invoice_csv(:last_month)
       end
 
       desc "Invoices"
       task :invoices => :environment do
-        Government::SchoolDistrict.invoice(:last_month)
+        Government::SchoolDistrict.invoices(:last_month)
       end
 
     end
@@ -32,17 +32,17 @@ namespace :school_district do
     namespace :this_month do
       desc "Status Report"
       task :status_report => :environment do
-        Government::SchoolDistric.status_report(:this_month)
+        Government::SchoolDistrict.status_report(:this_month)
       end
 
       desc "Invoice spreadsheets Files"
       task :invoice_speadsheets => :environment do
-        Government::SchoolDistric.invoice_csv(:this_month)
+        Government::SchoolDistrict.invoice_csv(:this_month)
       end
 
       desc "Invoices"
       task :invoices => :environment do
-        Government::SchoolDistrict.invoice(:this_month)
+        Government::SchoolDistrict.invoices(:this_month)
       end
     end
 
