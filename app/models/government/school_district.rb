@@ -9,6 +9,22 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     :class_name => "Person::SchoolDistrictAdministrator",
     :foreign_key => :government_school_district_detail_id
 
+#################
+#
+#################
+  def self.districts_with_ses_contracts
+    [7520,5820,5860,3280,2990,1940,390,5820,1730]
+    #[1730]
+    #[7520]
+    #[390]
+  end
+
+  def self.each_district_with_ses_contract(&block)
+    self.districts_with_ses_contracts.each{ |sd_id|
+      yield( Government::SchoolDistrict.find_by_government_district_code(sd_id) )
+    }
+  end
+
 #############
 # Directory
 #############
@@ -16,8 +32,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     File.join(ENV['ARCHIVED_COMMUNICATIONS_DIR'],"#{self.code_name}")
   end
 
-  def local_invoices_directory
-    File.join(self.local_directory,'invoices')
+  def local_invoices_directory(month,year)
+    File.join(self.local_directory,"invoices_#{month}_#{year}")
+  end
+
+  def local_status_directory()
+    File.join(self.local_directory,"status")
   end
 
   def dropbox_directory
@@ -60,7 +80,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   end
 
   def self.id_from_code_name(cn)
+    return 0 if cn.nil?
     cn.split('__')[0]
+  end
+
+  def same_sd?( code_name )
+    return ( self.district_code.to_i == self.class.id_from_code_name( code_name ).to_i )
   end
 
   def self.for_code_name(cn)
@@ -70,22 +95,25 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 ################
 #
 ################
-  def store_clients_by_school(dropbox_session=nil)
+  def store_clients_by_school(month,year,dropbox_session=nil)
 
     lines = []
     status_lines = []
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
-    filename= File.join(self.local_directory,"#{self.base('clients_by_school')}.txt")
+    Dir.mkdir(self.local_status_directory) if !File.exists?(self.local_status_directory)
+    filename= File.join( self.local_status_directory, "as_of__#{self.class.timestamp}" )
+    #filename= File.join(self.local_directory,"#{self.base('clients_by_school')}.txt")
     status= "Stored Report to #{self.local_directory}"
     lines << status
     status_lines << status
 
     lines<< " "
     client_array= Person::Client.by_school_array{ |client|
-      (client[:school_district] == self.code_name)
+      same_sd?( client[:school_district] )
+      #(client[:school_district] == self.code_name)
     }
-    lines= self.client_report_by_school(client_array,lines)
-    File.open(self.local_report_file,'w+') do |file|
+    lines= self.client_report_by_school(month,year,client_array,lines)
+    File.open(filename,'w+') do |file|
       lines.flatten.each{ |line|
         file.puts line
        }
@@ -122,43 +150,35 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
   end
 
+  def invoice_date_field(month_year)
+    "#{month}_#{year}"
+  end
+
   def store_invoices(month,year,dropbox_session=nil,&block)
 
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
-    Dir.mkdir(self.local_invoices_directory) if !File.exists?(self.local_invoices_directory)
+    Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
     hash_array = Person::Client.with_logged_hours(self, month, year)
 
     hash_array.map{ |client_hash|
-      client_field = "client_#{client_hash[:client_id].to_i}"
-      filename = File.join(self.local_invoices_directory,"invoice_for_#{self.base(client_field)}.html")
+      client_name_field = "#{client_hash[:last_name]}_#{client_hash[:first_name]}"
+      client_id_field = "Client_#{client_hash[:client_id].to_i}"
+      dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field}")
+      Dir.mkdir(dir_name) if !File.exists?(dir_name)
+      filename= File.join(dir_name,"invoice.html")
       i = Invoice::SchoolDistrict.create_for( client_hash, month, year)
       html = i.invoice_html
       File.open( filename,'w+').write(html)
-      yield "Invoice for #{client_hash[:client_id].to_i} in amount of #{i.total_amount} "
+      yield "Invoice for #{client_hash[:last_name]}_#{client_hash[:first_name]}__Client_#{client_hash[:client_id].to_i} in amount of #{i.total_amount} "
     }
   end
 
-#################
-#
-#################
-  def self.districts_with_ses_contracts
-    #[7520,5820,5860,3280,2990,1940,390,5820,1730]
-    #[1730]
-    [7520]
-  end
-
-  def self.each_district_with_ses_contract(&block)
-    self.districts_with_ses_contracts.each{ |sd_id|
-      yield( Government::SchoolDistrict.find_by_government_district_code(sd_id) )
-    }
-  end
-
-  def client_report_by_school(client_array,lines=[])
+  def client_report_by_school(month,year,client_array,lines=[])
     lines<< "As of #{Date.today} #{Time.now}"
     lines<< "Clients in School District #{self.code_name} By School:"
     lines<< " "
     client_hash= Person::Client.by_school_hash( client_array )
-    Person::Client.by_school_report(client_hash) { |line|
+    Person::Client.by_school_report(client_hash,month,year) { |line|
       lines<< line if line
     }
     return lines
