@@ -1,6 +1,7 @@
 namespace :school_district do
 
   namespace :ses_clients do
+
     desc "SES Contracts"
     task :contracts => :environment do
       Government::SchoolDistrict.each_district_with_ses_contract{ |d|

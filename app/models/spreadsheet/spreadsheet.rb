@@ -12,6 +12,25 @@ class Spreadsheet::Spreadsheet
 
   cattr_accessor :record_hash_array
 
+#############
+# Directory
+#############
+  def ss_backup_directory
+    File.join(ENV['ARCHIVED_COMMUNICATIONS_DIR'],'spreadsheet_backup')
+  end
+
+  def cache_directory
+    File.join(self.ss_backup_directory,self.class.cache_name)
+  end
+
+############
+# Files
+#############
+
+  def self.timestamp
+    Time.now.to_s.gsub('-','').gsub(':','_').gsub(' ','__')
+  end
+
 ###################
 #
 ###################
@@ -33,8 +52,17 @@ class Spreadsheet::Spreadsheet
      ss.class.filename= ss.google_path
      record_hash_array= ss.class.load_record_hash_array
      Rails.cache.write(ss.class.cache_name, record_hash_array)
+     ss.cache_snapshot(record_hash_array)
    end
 
+   def cache_snapshot(record_hash_array)
+     Dir.mkdir(self.ss_backup_directory) if !File.exists?(self.ss_backup_directory)
+     Dir.mkdir(self.cache_directory) if !File.exists?(self.cache_directory)
+     #filename= File.join(self.cache_directory,"as_of__#{self.class.timestamp}.json")
+     #File.open( filename,'w+').write(record_hash_array.to_json)
+     filename= File.join(self.cache_directory,"as_of__#{self.class.timestamp}.xml")
+     File.open( filename,'w+').write(record_hash_array.to_xml)
+   end
 #############
 #
 #############
