@@ -127,7 +127,7 @@ class Person::Client  < ActiveRecord::Base
     r[:district_zip] = sd_rec[:zip]
 
     r[:invoice_date] =  Invoice.get[:invoice_date]
-    
+
     sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
     fc = sd_ca[0]
 
@@ -182,7 +182,7 @@ class Person::Client  < ActiveRecord::Base
     return sc_hours
   end
 
-  def self.by_school_report(results,&block)
+  def self.by_school_report(results,month,year,&block)
         total_consumed_hours = 0
         results.each_key{ |sdn|
         "++++++++++++++++++++++++++++++++"
@@ -217,6 +217,7 @@ class Person::Client  < ActiveRecord::Base
                 yield Person::Client.result_line(client,8) if rt == :other
                 yield Person::Client.grade_line(client,8)
                 yield Person::Client.origin_line(client,8)
+                yield Person::Client.invoice_hrs_line(client,month,year,8)
                 yield Person::Client.representative_line(client,8)
                 ch= Person::Client.contract_hours_line(client,8)
                 yield ch if ch
@@ -280,6 +281,15 @@ class Person::Client  < ActiveRecord::Base
        :no_ses_funds => "There were no SES funds available",
        :other=>''
      }
+  end
+
+  def self.invoice_hrs_line(client,month,year,indent=0)
+    l = ""
+    indent.times{ l<<' ' }
+    fc_hours = self.fc_hours_in_period(client,month,year)
+    sc_hours = self.sc_hours_in_period(client,month,year)
+    l<< "month => #{ month } fc_hrs => #{ fc_hours } sc_hrs => #{ sc_hours }"
+    return l
   end
 
   def self.representative_line(client,indent=0)
