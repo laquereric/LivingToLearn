@@ -2,9 +2,21 @@ class Contract::SchoolDistrict < ActiveRecord::Base
 
   set_table_name :contract_school_districts
 
-  def self.has_sc?(d)
-     ca= get_for_sd(d)
-     return (ca.length > 1)
+  # will print two invoice lines
+  def self.has_master_slave_contracts?(d)
+    ca= self.get_for_sd(d)
+    return ( ca[0].master_sub == 'M' )
+  end
+
+  # will print only one invoice line
+  def self.has_two_contracts?(d)
+     ca = self.get_for_sd(d)
+     return ( ca.length == 2 )
+  end
+
+  # wil print only one invoice line
+  def self.second_invoice_line?(d)
+    return self.has_master_slave_contracts?(d)
   end
 
   def merge_sub(s)
@@ -16,7 +28,8 @@ class Contract::SchoolDistrict < ActiveRecord::Base
 
   def self.fc_for_sd(d)
     ca= get_for_sd(d)
-    r = if ca[0].master_sub != 'M' then
+    #r = if ca[0].master_sub != 'M' then
+    r = if !self.has_master_slave_contracts?(d) then
       ca[0]
     else
        ca[0].merge_sub( ca[1] )
@@ -27,7 +40,8 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   def self.sc_for_sd(d)
     ca= get_for_sd(d)
     p "district w/o contract? #{d.inspect}" if ca.nil?
-    r = if ca[0][:master_sub] != 'M' then
+    r = if !self.has_master_slave_contracts?(d) then
+    #r = if ca[0][:master_sub] != 'M' then
       ca[0]
     else
       ca[0].merge_sub( ca[2] )

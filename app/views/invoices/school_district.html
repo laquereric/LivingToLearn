@@ -48,18 +48,18 @@
 	<P STYLE="margin-bottom: 0in">Registration Fee</P>
 	<P STYLE="margin-bottom: 0in"><BR>
 	</P>
-	&lt;%if sc_name%&gt;
+	&lt;%if second_invoice_line%&gt;
 	<P STYLE="margin-bottom: 0in">Contract Line</P>
 	&lt;%end%&gt; 
 	<P STYLE="margin-bottom: 0in">Hourly Rate</P>
 	<P STYLE="margin-bottom: 0in">Hours</P>
-	&lt;%if sc_name%&gt;
-		<P STYLE="margin-bottom: 0in">Line Amount</P>
+	&lt;%if second_invoice_line%&gt;
+	<P STYLE="margin-bottom: 0in">Line Amount</P>
 	&lt;%end%&gt;
 		<P STYLE="margin-bottom: 0in"><BR>
 	</P>
-	&lt;%if sc_name%&gt;
-	<P STYLE="margin-bottom: 0in">Contract</P>
+	&lt;%if second_invoice_line%&gt;
+	<P STYLE="margin-bottom: 0in">Contract Line</P>
 	<P STYLE="margin-bottom: 0in">Hourly Rate</P>
 	<P STYLE="margin-bottom: 0in">Hours</P>
 	<P STYLE="margin-bottom: 0in">Line Amount</P>
@@ -91,17 +91,17 @@
 	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', registration_fee)%&gt;</P>
 	<P STYLE="margin-bottom: 0in"><BR>
 	</P>
-	&lt;%if sc_name%&gt;
+	&lt;%if second_invoice_line%&gt;
 	<P STYLE="margin-bottom: 0in">: &lt;%=fc_name%&gt;</P>
 	&lt;%end%&gt;
 	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', fc_rate )%&gt;</P>
 	<P STYLE="margin-bottom: 0in">: &lt;%=fc_hours%&gt;</P>
-	&lt;%if sc_name%&gt;
+	&lt;%if second_invoice_line%&gt;
 	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', fc_amount )%&gt;</P>
 	&lt;%end%&gt;
 	<P STYLE="margin-bottom: 0in"><BR>
 	</P>
-	&lt;%if sc_name%&gt;
+	&lt;%if second_invoice_line%&gt;
 	<P STYLE="margin-bottom: 0in">: &lt;%=sc_name%&gt;</P>
 	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', sc_rate)%&gt;</P>
 	<P STYLE="margin-bottom: 0in">: &lt;%=sc_hours%&gt;</P>

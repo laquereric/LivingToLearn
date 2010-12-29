@@ -140,18 +140,35 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     r[:fc_rate] = fc_rate = fc[:rate]
     r[:fc_amount] = fc_amount = fc_hours * fc_rate
 
-    if !Contract::SchoolDistrict.has_sc?(sd)
+    r[:sc_name] = sc_name = nil
+    r[:sc_amount] = sc_amount= 0
+    r[:sc_hours] = sc_hours = 0
+    r[:sc_rate] = sc_rate = 0
+ 
+    if not(Contract::SchoolDistrict.has_two_contracts?(sd) or 
+      Contract::SchoolDistrict.has_master_slave_contracts?(sd) )
       r[:hours_in_program]= fc[:hours_in_program]
-      sc_amount= 0
-      r[:sc_hours] = sc_hours = 0
-    else
+   else
       sc = Contract::SchoolDistrict.sc_for_sd(sd)
       r[:sc_name]= sc[:name]
-
       r[:sc_hours] = sc_hours = self.sc_hours_in_period(client_hash,month,year)
       r[:sc_rate] = sc_rate = sc[:rate]
       r[:sc_amount]= sc_amount = sc_hours * sc_rate
     end
+
+    if Contract::SchoolDistrict.has_two_contracts?(sd) and r[:sc_hours] > 0 then
+      r[:fc_name]= r[:sc_name]
+      r[:fc_hours] = r[:sc_hours]
+      r[:fc_rate] = r[:sc_hours]
+      r[:fc_amount]= r[:sc_hours]
+
+      r[:sc_name]=nil
+      r[:sc_hours] = 0
+      r[:sc_rate] = 0
+      r[:sc_amount] = 0
+    end
+
+    r[:second_invoice_line] = Contract::SchoolDistrict.second_invoice_line?(sd)
 
     if fc_hours == 0 and sc_hours == 0
       p "record wo hours! #{r.inspect}"
