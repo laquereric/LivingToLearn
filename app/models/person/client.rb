@@ -129,8 +129,10 @@ class Person::Client  < ActiveRecord::Base
     r[:invoice_date] =  Date.today
 #Invoice.get[:invoice_date]
 
-    sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
-    fc = sd_ca[0]
+    #sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
+    #fc = sd_ca[0]
+
+    fc = Contract::SchoolDistrict.fc_for_sd(sd)
 
     r[:fc_name]= fc[:name]
     r[:sc_name]= nil
@@ -141,12 +143,14 @@ class Person::Client  < ActiveRecord::Base
     r[:fc_rate] = fc_rate = fc[:rate]
     r[:fc_amount] = fc_amount = fc_hours * fc_rate
 
-    if sd_ca.length == 1
+    if Contract::SchoolDistrict.has_sc?(sd)
+    #if sd_ca.length == 1
       r[:hours_in_program]= fc[:hours_in_program]
       sc_amount= 0
       r[:sc_hours] = sc_hours = 0
     else
-      sc = sd_ca[1]
+      sc = Contract::SchoolDistrict.fc_for_sd(sd)
+      #sc = sd_ca[1]
       r[:sc_name]= sc[:name]
 
       r[:sc_hours] = sc_hours = self.sc_hours_in_period(client_hash,month,year)

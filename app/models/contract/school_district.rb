@@ -2,6 +2,18 @@ class Contract::SchoolDistrict < ActiveRecord::Base
 
   set_table_name :contract_school_districts
 
+  def self.has_sc?(d)
+    get_for_sd(d).length > 1
+  end
+
+  def self.fc_for_sd(d)
+    get_for_sd(d)[0]
+  end
+
+  def self.sc_for_sd(d)
+    get_for_sd(d)[1]
+  end
+ 
   def self.get_for_sd(d)
     hs= self.send("get_#{d.government_district_code}")
     return hs.map{ |h| self.create(h) }
