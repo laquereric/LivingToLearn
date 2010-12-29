@@ -3,17 +3,38 @@ class Contract::SchoolDistrict < ActiveRecord::Base
   set_table_name :contract_school_districts
 
   def self.has_sc?(d)
-    get_for_sd(d).length > 1
+     ca= get_for_sd(d)
+     return (ca.length > 1)
+  end
+
+  def merge_sub(s)
+    self.rate = s.rate
+    self.name = s.name
+    self.master_sub= 'I'
+    return self
   end
 
   def self.fc_for_sd(d)
-    get_for_sd(d)[0]
+    ca= get_for_sd(d)
+    r = if ca[0].master_sub != 'M' then
+      ca[0]
+    else
+       ca[0].merge_sub( ca[1] )
+    end
+    return r
   end
 
   def self.sc_for_sd(d)
-    get_for_sd(d)[1]
+    ca= get_for_sd(d)
+    p "district w/o contract? #{d.inspect}" if ca.nil?
+    r = if ca[0][:master_sub] != 'M' then
+      ca[0]
+    else
+      ca[0].merge_sub( ca[2] )
+    end
+    return r
   end
- 
+
   def self.get_for_sd(d)
     hs= self.send("get_#{d.government_district_code}")
     return hs.map{ |h| self.create(h) }
@@ -80,8 +101,8 @@ class Contract::SchoolDistrict < ActiveRecord::Base
     return [h]
   end
 
-  #390__BLACK_HORSE_PIKE_REGIONAL
-  def self.get_390
+  #0390__BLACK_HORSE_PIKE_REGIONAL
+  def self.get_0390
     h0= {
       :school_district_id => 390 ,
       :name => 'first_group',
