@@ -91,7 +91,7 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def self.csv_keys
-    [:student_first_name,:student_last_name,:district_name,:district_code,:client_code,:period_month,:period_year,:invoice_date,:school,:district_city,:district_state,:district_zip,:fc_rate,:sc_rate,:fc_hours,:sc_hours,:fc_amount,:sc_amount,:amount,:per_pupil_amount,:hours_in_program]
+    [:student_first_name,:student_last_name,:district_name,:government_district_code,:client_code,:period_month,:period_year,:invoice_date,:school,:district_city,:district_state,:district_zip,:fc_rate,:sc_rate,:fc_hours,:sc_hours,:fc_amount,:sc_amount,:amount,:per_pupil_amount,:hours_in_program]
   end
 
   def self.csv_line_header
@@ -105,6 +105,7 @@ class Person::Client  < ActiveRecord::Base
 
   def self.invoice_hash(month,year,client_hash)
     r={}
+
     r[:director_name] = 'Eric Laquer'
 
     r[:testing_fee] = 0
@@ -120,17 +121,13 @@ class Person::Client  < ActiveRecord::Base
     sd_id = Government::SchoolDistrict.id_from_code_name( client_hash[:school_district] )
     r[:district_code] = sd_id
     sd_rec = Government::SchoolDistrict.nj_cache[ sd_id ]
-
+p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     r[:district_name] = sd.name.gsub('_',' ')
     r[:district_city] = sd_rec[:city]
     r[:district_state] = sd_rec[:state]
     r[:district_zip] = sd_rec[:zip]
 
     r[:invoice_date] =  Date.today
-#Invoice.get[:invoice_date]
-
-    #sd_ca = Contract::SchoolDistrict.get_for_sd(sd)
-    #fc = sd_ca[0]
 
     fc = Contract::SchoolDistrict.fc_for_sd(sd)
 
@@ -143,14 +140,12 @@ class Person::Client  < ActiveRecord::Base
     r[:fc_rate] = fc_rate = fc[:rate]
     r[:fc_amount] = fc_amount = fc_hours * fc_rate
 
-    if Contract::SchoolDistrict.has_sc?(sd)
-    #if sd_ca.length == 1
+    if !Contract::SchoolDistrict.has_sc?(sd)
       r[:hours_in_program]= fc[:hours_in_program]
       sc_amount= 0
       r[:sc_hours] = sc_hours = 0
     else
-      sc = Contract::SchoolDistrict.fc_for_sd(sd)
-      #sc = sd_ca[1]
+      sc = Contract::SchoolDistrict.sc_for_sd(sd)
       r[:sc_name]= sc[:name]
 
       r[:sc_hours] = sc_hours = self.sc_hours_in_period(client_hash,month,year)
@@ -173,17 +168,26 @@ class Person::Client  < ActiveRecord::Base
       return self.fc_hours_in_period(client_hash,month,year) + self.sc_hours_in_period(client_hash,month,year)
   end
 
+  def self.clean_hours(raw)
+    c =  case raw.class.to_s
+      when 'String' : raw.to_i
+      when 'Float' : raw
+      when 'NilClass' : 0
+    end
+    return c
+  end
+
   def self.fc_hours_in_period(client_hash,month,year)
     fc_hrs_field_sym = "fc_hrs#{month}".to_sym
-    fc_hours = client_hash[fc_hrs_field_sym]
-    fc_hours ||= 0
+    raw = client_hash[fc_hrs_field_sym]
+    fc_hours =  self.clean_hours(raw)
     return fc_hours
   end
 
   def self.sc_hours_in_period(client_hash,month,year)
     sc_hrs_field_sym = "sc_hrs#{month}".to_sym
-    sc_hours = client_hash[sc_hrs_field_sym]
-    sc_hours ||= 0
+    raw = client_hash[sc_hrs_field_sym]
+    sc_hours =  self.clean_hours(raw)
     return sc_hours
   end
 
@@ -246,10 +250,7 @@ class Person::Client  < ActiveRecord::Base
 
   def self.by_school_hash (client_array)
       results= {}
-      #Person::Client.each_client{ |client|
       client_array.each{ |client|
-      #Spreadsheet::CurrentClients.each_client{ |client|
-        #next if block_given? and !yield(client)
         sd = Person::Client.school_district_sym(client)
         school = Person::Client.school_sym(client)
         result = Person::Client.clean_result(client)
@@ -377,11 +378,10 @@ class Person::Client  < ActiveRecord::Base
 
   def self.with_logged_hours( sd, month, year )
     client_array = Person::Client.by_school_array{ |client|
-      right_sd = ( client[:school_district] == sd.code_name )
+      right_sd = sd.same_sd?( client[:school_district] )
       hrs_in_period = Person::Client.total_hours_in_period( client, month, year )
       zero_hrs_in_period = ( hrs_in_period == 0 )
       use= ( !zero_hrs_in_period and right_sd )
-#p "id #{client[:client_id].to_i} #{use} right_sd: #{right_sd} hrs_in_period #{hrs_in_period}"
       use
     }
     return client_array
@@ -389,9 +389,7 @@ class Person::Client  < ActiveRecord::Base
 
   def self.hash_array_to_object_array( hash_array )
     return hash_array.map{ |h|
-#p "h #{h.inspect}"
       r= self.create( h )
-#p "r #{r}"
        r
     }
   end
