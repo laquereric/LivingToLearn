@@ -12,7 +12,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #
 #################
   def self.districts_with_ses_contracts
-    ['7520','5820','5860','3280','2990','1940','0390','1730']
+    #['7520','5820','5860','3280','2990','1940','0390','1730']
+    ['0390']
   end
 
   def self.each_district_with_ses_contract(&block)

@@ -9,8 +9,8 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def self.each_client (&block)
-    Spreadsheet::CurrentClients.each_client{ |client|
-      yield(client)
+    Spreadsheet::CurrentClients.each_client{ |client_o|
+      yield( client_o )
     }
   end
 
@@ -18,8 +18,9 @@ class Person::Client  < ActiveRecord::Base
     [:revenue,:contract]
   end
 
-  def self.binder_total(indent,results)
-    t=0
+  def binder_total(indent,results)
+    client= self
+     t=0
     i="";indent.times{ i<< ' ' };
     l=""
     self.binder_types.each{ |rt|
@@ -36,8 +37,9 @@ class Person::Client  < ActiveRecord::Base
     return "#{i}binder total #{t} [ #{l} ]"
   end
 
-  def self.representative_total(indent,results)
-    t=0
+  def representative_total(indent,results)
+    client= self
+     t=0
     i="";indent.times{ i<< ' ' };
     l=""
     [:revenue,:contract,:test_done,:testing,:test_only,:waiting_for_contract].each{ |rt|
@@ -54,16 +56,18 @@ class Person::Client  < ActiveRecord::Base
     return "#{i}representative total #{t} [ #{l} ]"
   end
 
-  def self.prep_line(client,indent=0)
-    return nil if !self.binder_types.include? client[:result]
+  def prep_line(indent=0)
+    client= self
+     return nil if !client.class.binder_types.include? client[:result]
     l = ""
     indent.times{ l<<' ' }
     l<< "prepped => [          ]"
     return l
   end
 
-  def self.last_attended_line(client,indent=0)
-    l = ""
+  def last_attended_line(indent=0)
+    client= self
+     l = ""
     indent.times{ l<<' ' }
     l << if client[:last_attended_date]
       "last attended #{client[:last_attended_date]}"
@@ -74,7 +78,8 @@ class Person::Client  < ActiveRecord::Base
     return l
   end
 
-  def self.attendance_line(client,indent=0)
+  def attendance_line(indent=0)
+     client= self
     #return nil if !self.binder_types.include? client[:result]
     l = ""
     indent.times{ l<<' ' }
@@ -82,8 +87,9 @@ class Person::Client  < ActiveRecord::Base
     return l
   end
 
-  def self.updated_line(client,indent=0)
-    #return nil if !self.binder_types.include? client[:result]
+  def updated_line(indent=0)
+    client = self
+     #return nil if !self.binder_types.include? client[:result]
     l = ""
     indent.times{ l<<' ' }
     l<< "updated => [          ]"
@@ -135,7 +141,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     r[:sc_name]= nil
 
     r[:per_pupil_amount]= fc[:per_pupil_amount]
-    r[:fc_hours] = fc_hours = self.fc_hours_in_period(client_hash,month,year)
+    r[:fc_hours] = fc_hours = client_hash.fc_hours_in_period(month,year)
 
     r[:fc_rate] = fc_rate = fc[:rate]
     r[:fc_amount] = fc_amount = fc_hours * fc_rate
@@ -144,14 +150,14 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     r[:sc_amount] = sc_amount= 0
     r[:sc_hours] = sc_hours = 0
     r[:sc_rate] = sc_rate = 0
- 
-    if not(Contract::SchoolDistrict.has_two_contracts?(sd) or 
+
+    if not(Contract::SchoolDistrict.has_two_contracts?(sd) or
       Contract::SchoolDistrict.has_master_slave_contracts?(sd) )
       r[:hours_in_program]= fc[:hours_in_program]
    else
       sc = Contract::SchoolDistrict.sc_for_sd(sd)
       r[:sc_name]= sc[:name]
-      r[:sc_hours] = sc_hours = self.sc_hours_in_period(client_hash,month,year)
+      r[:sc_hours] = sc_hours = client_hash.sc_hours_in_period(month,year)
       r[:sc_rate] = sc_rate = sc[:rate]
       r[:sc_amount]= sc_amount = sc_hours * sc_rate
     end
@@ -181,8 +187,9 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return r
   end
 
-  def self.total_hours_in_period(client_hash,month,year)
-      return self.fc_hours_in_period(client_hash,month,year) + self.sc_hours_in_period(client_hash,month,year)
+  def total_hours_in_period(month,year)
+    client = self
+    return client.fc_hours_in_period(month,year) + client.sc_hours_in_period(month,year)
   end
 
   def self.clean_hours(raw)
@@ -194,17 +201,19 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return c
   end
 
-  def self.fc_hours_in_period(client_hash,month,year)
+  def fc_hours_in_period(month,year)
+    client = self
     fc_hrs_field_sym = "fc_hrs#{month}".to_sym
-    raw = client_hash[fc_hrs_field_sym]
-    fc_hours =  self.clean_hours(raw)
+    raw = client[fc_hrs_field_sym]
+    fc_hours =  client.class.clean_hours(raw)
     return fc_hours
   end
 
-  def self.sc_hours_in_period(client_hash,month,year)
+  def sc_hours_in_period(month,year)
+    client = self
     sc_hrs_field_sym = "sc_hrs#{month}".to_sym
-    raw = client_hash[sc_hrs_field_sym]
-    sc_hours =  self.clean_hours(raw)
+    raw = client[sc_hrs_field_sym]
+    sc_hours =  client.class.clean_hours(raw)
     return sc_hours
   end
 
@@ -219,8 +228,8 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
           yield "  ------------------------------"
           yield "  School - #{scn.to_s}"
           yield "  -------------------------------"
-          yield self.representative_total(4,results)
-          yield self.binder_total(4,results)
+          #yield client.representative_total(4,results)
+          #yield client.binder_total(4,results)
           Person::Client.result_types.each{ |rt|
               next if !results[sdn][scn][rt] or results[sdn][scn][rt].length == 0
               yield ""
@@ -234,19 +243,23 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
                 if  client[:last_consumed_hour] and client[:last_consumed_hour].is_a? Fixnum
                   total_consumed_hours += client[:last_consumed_hour]
                 end
-                yield Person::Client.client_line(client,6)
-                yield Person::Client.prep_line(client,6)
-                yield Person::Client.last_attended_line(client,8)
-                yield Person::Client.attendance_line(client,8)
-                yield Person::Client.updated_line(client,8)
-                yield Person::Client.phone_line(client,8)
-                yield Person::Client.result_line(client,8) if rt == :other
-                yield Person::Client.grade_line(client,8)
-                yield Person::Client.origin_line(client,8)
-                yield Person::Client.invoice_hrs_line(client,month,year,8)
-                yield Person::Client.representative_line(client,8)
-                ch= Person::Client.contract_hours_line(client,8)
-                yield ch if ch
+                yield client.client_line(6)
+                yield client.prep_line(6)
+                yield client.last_attended_line(8)
+                yield client.attendance_line(8)
+                yield client.updated_line(8)
+                yield client.phone_line(8)
+                yield client.result_line(8) if rt == :other
+                yield client.grade_line(8)
+                yield client.origin_line(8)
+                yield client.invoice_hrs_line(month,year,8)
+                yield client.representative_line(8)
+                if ( ch= client.contract_hours_line(8) )
+                  yield ch
+                end
+                if ( cial = client.invoice_audit_line(8) )
+                  yield cial
+                end
                 yield ""
               }
           }
@@ -306,66 +319,95 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
      }
   end
 
-  def self.invoice_hrs_line(client,month,year,indent=0)
+  def invoice_hrs_line(month,year,indent=0)
+    client=self
     l = ""
     indent.times{ l<<' ' }
-    fc_hours = self.fc_hours_in_period(client,month,year)
-    sc_hours = self.sc_hours_in_period(client,month,year)
+    fc_hours = client.fc_hours_in_period(month,year)
+    sc_hours = client.sc_hours_in_period(month,year)
     l<< "month => #{ month } fc_hrs => #{ fc_hours } sc_hrs => #{ sc_hours }"
     return l
   end
 
-  def self.representative_line(client,indent=0)
+  def representative_line(indent=0)
+    client= self
     l = ""
     indent.times{ l<<' ' }
     l<< "representative => #{ client[:representatives] }"
     return l
   end
 
-  def self.client_line(client,indent=0)
+  def client_line(indent=0)
+    client= self
     l = ""
     indent.times{ l<<' ' }
     l<< "#{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]}"
     return l
   end
 
-  def self.result_line(client,indent=0)
+  def result_line(indent=0)
+    client= self
     l = ""
     indent.times{ l<<' ' }
     l<< "result => #{ client[:result] }"
     return l
   end
 
-  def self.contract_hours_line(client,indent=0)
+  def total_fc_sc_hrs
+    client= self
+    total_hrs = 0
+    ['fc','sc'].each{ |c|
+      [9,10,11,12,1,2,3,4,5,6,7,8].each{ |m|
+        field_sym = "#{c}_hrs#{m}".to_sym
+        hrs=  client.class.clean_hours( client.send(field_sym) )
+        total_hrs += hrs
+      }
+    }
+    return total_hrs
+  end
+
+  def invoice_audit_line(indent=0)
+    client=self
+    l = ""
+    indent.times{ l<<' ' }
+    l<< "Total fc plus sc hrs => #{ client.total_fc_sc_hrs }"
+    return l
+  end
+
+  def contract_hours_line(indent=0)
+    client=self
     l= nil
-    result= client[:result].to_sym if client[:result]
-    result= :other if !result_types.include? result
+    result= client.result.to_sym if client.result
+    result= :other if !client.class.result_types.include? result
     if [:revenue,:contract,:contract_dead].include? result
       l = ""
       indent.times{ l<<' ' }
-      l<< "Contracted Hours => #{ client[:contracted_hours] }"
+      l<< "Contracted Hours => #{ client.contracted_hours }"
       l<< " , "
-      l<< "Last Consumed Hour => #{ client[:last_consumed_hour] }"
+      l<< "Last Consumed Hour => #{ client.last_consumed_hour }"
 
     end
     return l
   end
 
-  def self.grade_line(client,indent=0)
+  def grade_line(indent=0)
+    client=self
     l= ""
     indent.times{ l<< ' ' }
     l<< "grade => #{ client[:grade].to_i }"
     return l
   end
 
-  def self.origin_line(client,indent=0)
+  def origin_line(indent=0)
+    client=self
     l= ""
     indent.times{ l<< ' ' }
     l<< "origin => #{ client[:origin] }"
     return l
   end
 
-  def self.phone_line(client,indent=0)
+  def phone_line(indent=0)
+    client=self
     l= ""
     indent.times{ l<< ' ' }
     l<< "phone_1 => #{ client[:phone1] } phone_2 => #{ client[:phone2] }"
@@ -396,7 +438,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
   def self.with_logged_hours( sd, month, year )
     client_array = Person::Client.by_school_array{ |client|
       right_sd = sd.same_sd?( client[:school_district] )
-      hrs_in_period = Person::Client.total_hours_in_period( client, month, year )
+      hrs_in_period = client.total_hours_in_period( month, year )
       zero_hrs_in_period = ( hrs_in_period == 0 )
       use= ( !zero_hrs_in_period and right_sd )
       use

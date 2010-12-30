@@ -59,14 +59,15 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
 #
 ####################
 
-  def self.each_client
+def self.each_client
     ss= self.new
     client_array= ss.class.record_hash_array
-    client_array.each{ |client|
-      yield(client)
+    client_array.each{ |client_h|
+      yield( Person::Client.create(client_h) )
+      #yield(client)
     }
   end
-#
+
   def self.client_hash
     r= {}
     self.each_client{ |client|
