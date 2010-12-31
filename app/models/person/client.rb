@@ -113,6 +113,11 @@ class Person::Client  < ActiveRecord::Base
     client = self
     r = Invoice::SchoolDistrict.new
 
+    period = Period.this_month( Date.parse("#{month}\/01\/#{year}" ) )
+
+    r[:period_start] = period.begin_time
+    r[:period_end] = period.end_time
+
     r[:director_name] = 'Eric Laquer'
 
     r[:testing_fee] = 0
