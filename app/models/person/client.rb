@@ -165,10 +165,12 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     if Contract::SchoolDistrict.has_two_contracts?(sd) and r[:sc_hours] > 0 then
       r[:fc_name]= r[:sc_name]
       r[:fc_hours] = r[:sc_hours]
-      r[:fc_rate] = r[:sc_hours]
-      r[:fc_amount]= r[:sc_hours]
+      r[:fc_rate] = r[:sc_rate]
+      r[:fc_amount] = r[:sc_amount]
 
-      r[:sc_name]=nil
+      r[:per_pupil_amount] = sc[:per_pupil_amount]
+
+      r[:sc_name] = nil
       r[:sc_hours] = 0
       r[:sc_rate] = 0
       r[:sc_amount] = 0
