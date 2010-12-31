@@ -24,7 +24,7 @@ class Invoice::SchoolDistrict < ActiveRecord::Base
   end
 
   def self.create_for(client_hash,month,year)
-    h = Person::Client.invoice_hash(month,year,client_hash)
+    h = client_hash.invoice_for(month,year)
     i = self.create(h)
     return i
   end

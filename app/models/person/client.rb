@@ -109,7 +109,8 @@ class Person::Client  < ActiveRecord::Base
      #hash.each_value.map{ |vl| vl.to_s }.join(',')
   end
 
-  def self.invoice_hash(month,year,client_hash)
+  def invoice_for(month,year)
+    client_hash = self
     r = {}
     #r = Invoice::SchoolDistrict.new
 
