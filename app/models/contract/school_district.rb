@@ -42,7 +42,7 @@ class Contract::SchoolDistrict < ActiveRecord::Base
     p "district w/o contract? #{d.inspect}" if ca.nil?
     r = if !self.has_master_slave_contracts?(d) then
     #r = if ca[0][:master_sub] != 'M' then
-      ca[0]
+      ca[1]
     else
       ca[0].merge_sub( ca[2] )
     end
