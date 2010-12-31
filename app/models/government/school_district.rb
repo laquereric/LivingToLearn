@@ -135,7 +135,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     filename = File.join(self.local_invoices_directory(month,year),"spreadsheet_as_of__#{self.class.timestamp}.csv")
     File.open( filename,'w+') do |file|
         file.puts(Invoice::SchoolDistrict.csv_headers)
-        self.each_invoice(month,year){ |client_hash, invoice, description|
+        self.each_invoice(month,year){ |client, invoice, description|
           sd_total += invoice.total_amount
           file.puts(invoice.csv_line)
           status_lines<< description
@@ -151,26 +151,38 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
   def each_invoice( month , year , &block )
 
-    hash_array = Person::Client.with_logged_hours( self , month , year)
-    hash_array.each{ |client_hash|
-      invoice = Invoice::SchoolDistrict.create_for( client_hash , month , year)
-      description = "Invoice for #{client_hash[:last_name]}_#{client_hash[:first_name]}__Client_#{client_hash[:client_id].to_i} in amount of #{invoice.total_amount} "
-      yield( client_hash , invoice , description )
+    client_array = Person::Client.with_logged_hours( self , month , year)
+    client_array.each{ |client|
+      invoice = Invoice::SchoolDistrict.create_for( client , month , year)
+      description = "Invoice for #{client[:last_name]}_#{client[:first_name]}__Client_#{client[:client_id].to_i} in amount of #{invoice.total_amount} "
+      yield( client , invoice , description )
     }
+  end
+
+  def write_html_then_pdf( html, dir_name , base_name )
+      Dir.mkdir(dir_name) if !File.exists?(dir_name)
+      html_filename = File.join(dir_name,"#{base_name}.html")
+      File.open( html_filename,'w+').write(html)
+
+      pdf_filename = File.join(dir_name,"#{base_name}.pdf")
+      cmd = "/Users/eric/wkhtmltopdf.bin #{html_filename} #{pdf_filename}"
+      #p cmd
+      r = %x[ #{cmd} ]
+      #p r
   end
 
   def store_invoices( month , year , dropbox_session = nil , &block )
     sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
-    self.each_invoice(month,year){ |client_hash,invoice, description|
-      client_name_field = "#{client_hash[:last_name]}_#{client_hash[:first_name]}"
-      client_id_field = "Client_#{client_hash[:client_id].to_i}"
+    self.each_invoice(month,year){ |client,invoice, description|
+      client_name_field = "#{client[:last_name]}_#{client[:first_name]}"
+      client_id_field = "Client_#{client[:client_id].to_i}"
       dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field(month,year)}")
-      Dir.mkdir(dir_name) if !File.exists?(dir_name)
-      filename = File.join(dir_name,"invoice.html")
       html = invoice.invoice_html
-      File.open( filename,'w+').write(html)
+
+      write_html_then_pdf( html , dir_name , 'invoice' )
+
       sd_total += invoice.total_amount
       yield(description)
     }
@@ -181,8 +193,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     lines << "As of #{Date.today} #{Time.now}"
     lines << "Clients in School District #{self.code_name} By School:"
     lines << " "
-    client_hash = Person::Client.by_school_hash( client_array )
-    Person::Client.by_school_report(client_hash,month,year) { |line|
+    client = Person::Client.by_school_hash( client_array )
+    Person::Client.by_school_report(client,month,year) { |line|
       lines << line if line
     }
     return lines
@@ -191,8 +203,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   def csv_clients_by_school(month,year,client_array,lines=[])
 #p client_array
     lines << Person::Client.csv_line_header
-    client_array.each{ |client_hash|
-      #h = Person::Client.invoice_hash(month,year,client_hash)
+    client_array.each{ |client|
+      #h = Person::Client.invoice_hash(month,year,client)
 #p h
 #      i = Invoice::SchoolDistrict.create(h)
 #p i
