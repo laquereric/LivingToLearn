@@ -1,34 +1,23 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
-<HEAD>
-	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
-	<TITLE></TITLE>
-	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.2  (Unix)">
-	<META NAME="AUTHOR" CONTENT="Eric Laquer">
-	<META NAME="CREATED" CONTENT="20101223;18584000">
-	<META NAME="CHANGEDBY" CONTENT="Eric Laquer">
-	<META NAME="CHANGED" CONTENT="20101227;16445800">
-	<META NAME="CHANGEDBY" CONTENT="Eric Laquer">
-	<STYLE TYPE="text/css">
-	<!--
-		@page { margin: 0.75in }
-		P { margin-bottom: 2in }
-		A:link { so-language: zxx }
-	-->
-	</STYLE>
-</HEAD>
+
+<HEAD></HEAD>
+
 <BODY LANG="en-US" DIR="LTR">
+
 <DIV ID="UpperLeftLogo" DIR="LTR" STYLE="position: absolute; top: 1in; left: 0.5in; width: 3in; height: 1.5in; border: none; padding: 0in; background: #ffffff">
 	<P><IMG SRC="/Users/eric/projects/degrees/public/images/tc_logo.jpg" NAME="tc_logo" ALIGN=LEFT WIDTH=245 HEIGHT=132 BORDER=0><BR CLEAR=LEFT><BR><BR>
 	</P>
 </DIV>
+
 <DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 3.5in; left: 0.49in; width: 7.05in; height: 1.125in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%=student_first_name%&gt;
-	&lt;%=student_last_name%&gt;</P>
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%=district_name%&gt;</P>
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%=district_city%&gt;,
-	&lt;%=district_state%&gt; &lt;%=district_zip%&gt;</P>
+	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%= student_first_name %&gt;
+	&lt;%= student_last_name %&gt;</P>
+	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%= district_name %&gt;</P>
+	<P ALIGN=CENTER STYLE="margin-bottom: 0in">&lt;%= district_city %&gt;,
+	&lt;%=district_state%&gt; &lt;%= district_zip %&gt;</P>
 </DIV>
+
 <DIV ID="UpperRightCorpInfo" DIR="LTR" STYLE="position: absolute; top: 1in; left: 4.5in; width: 3in; height: 1.5in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">TUTORING CLUB of
 	Washington Twp</P>
@@ -37,77 +26,98 @@
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in">(856)589-8867</P>
 	<P ALIGN=CENTER STYLE="margin-bottom: 0in"><BR>
 	</P>
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">c/o Director –
-	&lt;%=director_name%&gt;</P>
+
+	<P ALIGN=CENTER STYLE="margin-bottom: 0in">c/o Director – &lt;%= director_name %&gt;</P>
 </DIV>
+
 <DIV ID="BodyTitleLeft" DIR="LTR" STYLE="position: absolute; top: 3in; left: 0.5in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">INVOICE # : &lt;%=invoice_number%&gt;</P>
+	<P STYLE="margin-bottom: 0in">INVOICE # : &lt;%= invoice_number %&gt; </P>
 </DIV>
-<DIV ID="BodyLeft" DIR="LTR" STYLE="position: absolute; top: 5.9in; left: 2.01in; width: 1.36in; height: 3in; border: none; padding: 0in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">Testing Fee</P>
-	<P STYLE="margin-bottom: 0in">Registration Fee</P>
-	<P STYLE="margin-bottom: 0in"><BR>
-	</P>
-	&lt;%if second_invoice_line%&gt;
-	<P STYLE="margin-bottom: 0in">Contract Line</P>
-	&lt;%end%&gt; 
-	<P STYLE="margin-bottom: 0in">Hourly Rate</P>
-	<P STYLE="margin-bottom: 0in">Hours</P>
-	&lt;%if second_invoice_line%&gt;
-	<P STYLE="margin-bottom: 0in">Line Amount</P>
-	&lt;%end%&gt;
-		<P STYLE="margin-bottom: 0in"><BR>
-	</P>
-	&lt;%if second_invoice_line%&gt;
-	<P STYLE="margin-bottom: 0in">Contract Line</P>
-	<P STYLE="margin-bottom: 0in">Hourly Rate</P>
-	<P STYLE="margin-bottom: 0in">Hours</P>
-	<P STYLE="margin-bottom: 0in">Line Amount</P>
-		<P STYLE="margin-bottom: 0in"><BR>
-	&lt;%end%&gt;
-	</P>
-	<P STYLE="margin-bottom: 0in">Total Amount Due</P>
-</DIV>
+
 <DIV ID="BodyTitleRight" DIR="LTR" STYLE="position: absolute; top: 3in; left: 4.52in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">INVOICE DATE : &lt;%="#{invoice_date.strftime( '%b %d , %Y' ) }"%&gt;</P>
+	<P STYLE="margin-bottom: 0in">INVOICE DATE : &lt;%= "#{invoice_date.strftime( '%b %d , %Y' ) }" %&gt;</P>
 </DIV>
+
 <DIV ID="TopTitle" DIR="LTR" STYLE="position: absolute; top: 2.63in; left: 2.5in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
-	<P ALIGN=CENTER STYLE="margin-bottom: 0in">MONTHLY TUITION</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in">MONTHLY TUITION</P>
 </DIV>
+
 <DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 4.88in; left: 0.51in; width: 7in; height: 0.7in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">School : &lt;%=school%&gt;</P>
-	<P STYLE="margin-bottom: 0in">Per Pupil Amount : 
-	$&lt;%= sprintf( '%2.2f', per_pupil_amount) %&gt;</P>
+	<P STYLE="margin-bottom: 0in">School : &lt;%= school %&gt;</P>
+	<P STYLE="margin-bottom: 0in">Per Pupil Amount : &lt;%= sprintf( '%2.2f', per_pupil_amount) %&gt;</P>
 </DIV>
-<DIV ID="SignatureBlock" DIR="LTR" STYLE="position: absolute; top: 10.5in; left: 0.51in; width: 7in; height: 0.5in; border: 2.50pt solid #800000; padding: 0.02in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">SIGN/DATE &lt;%=director_name%&gt; </P>
+
+<TABLE ID="Body" DIR="LTR" STYLE="position: absolute; left: 2in; top: 5.9in;" >
+
+<TR height="20" >
+<TD align="right" valign="top">Testing Fee :</TD>
+<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', testing_fee) %&gt;</TD>
+</TR>
+
+<TR height="40">
+<TD align="right" valign="top">Registration Fee :</TD>
+<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', registration_fee) %&gt;</TD>
+</TR>
+
+&lt;%if second_invoice_line%&gt;
+<TR height="20">
+<TD align="right" valign="top">Contract Line :</TD>
+<TD align="left" valign="top">&lt;%= fc_name.titleize %&gt;</TD>
+</TR>
+&lt;%end%&gt;
+
+<TR height="20" >
+<TD align="right" valign="top">Hours :</TD>
+<TD align="left" valign="top">&lt;%=  sprintf( '%2.1f', fc_hours) %&gt;</TD>
+</TR>
+
+<TR height="20" >
+<TD align="right" valign="top">Hourly Rate :</TD>
+<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', fc_rate )%&gt;</TD>
+</TR>
+
+<TR height="40" >
+<TD align="right" valign="top">Line Amount :</TD>
+<TD  align="left" valign="top">$ &lt;%= sprintf( '%2.2f', fc_amount )%&gt;</TD>
+</TR>
+
+&lt;%if second_invoice_line%&gt;
+
+<TR height="20" >
+<TD align="right" valign="top">2nd Contract Line :</TD>
+<TD align="left" valign="top">&lt;%= sc_name.titleize %&gt;</TD>
+</TR>
+
+<TR height="20" >
+<TD align="right" valign="top">2nd Hours :</TD>
+<TD align="left" valign="top">&lt;%= sprintf( '%2.1f', sc_hours) %&gt;</TD>
+</TR>
+
+<TR height="20" >
+<TD align="right" valign="top">2nd Hourly Rate :</TD>
+<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', sc_rate) %&gt;</TD>
+</TR>
+
+<TR height="40" >
+<TD align="right" valign="top">2nd Line Amount :</TD>
+<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', sc_amount) %&gt;</TD>
+</TR>
+
+&lt;% end %&gt;
+<TR height="20" >
+<TD align="right" valign="top" ><b>Total Amount Due :</b></TD>
+<TD align="left" valign="top" ><b>$ &lt;%= sprintf( '%2.2f', total_amount) %&gt;</b></TD>
+</TR>
+
+</TABLE>
+
+<DIV ID="SignatureBlock" DIR="LTR" STYLE="position: absolute; top: 9.5in; left: 0.51in; width: 7in; height: 0.5in; border: 2.50pt solid #800000; padding: 0.02in; background: #ffffff">
+<P STYLE="margin-bottom: 0in">SIGN/DATE &lt;%= director_name %&gt; </P>
 </DIV>
-<DIV ID="BodyRight" DIR="LTR" STYLE="position: absolute; top: 5.9in; left: 3.43in; width: 3in; height: 3in; border: none; padding: 0in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', testing_fee)%&gt;</P>
-	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', registration_fee)%&gt;</P>
-	<P STYLE="margin-bottom: 0in"><BR>
-	</P>
-	&lt;%if second_invoice_line%&gt;
-	<P STYLE="margin-bottom: 0in">: &lt;%=fc_name%&gt;</P>
-	&lt;%end%&gt;
-	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', fc_rate )%&gt;</P>
-	<P STYLE="margin-bottom: 0in">: &lt;%=fc_hours%&gt;</P>
-	&lt;%if second_invoice_line%&gt;
-	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', fc_amount )%&gt;</P>
-	&lt;%end%&gt;
-	<P STYLE="margin-bottom: 0in"><BR>
-	</P>
-	&lt;%if second_invoice_line%&gt;
-	<P STYLE="margin-bottom: 0in">: &lt;%=sc_name%&gt;</P>
-	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', sc_rate)%&gt;</P>
-	<P STYLE="margin-bottom: 0in">: &lt;%=sc_hours%&gt;</P>
-	<P STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', sc_amount)%&gt;</P>
-	<P STYLE="margin-bottom: 0in"><BR>
-	&lt;%end%&gt;
-		</P>
-	<P ALIGN=LEFT STYLE="margin-bottom: 0in">: $&lt;%=sprintf( '%2.2f', total_amount)%&gt;</P>
-</DIV>
-<P STYLE="margin-bottom: 0in"><BR>
+
+<P STYLE="margin-bottom: 0in">
+<BR>
 </P>
+
 </BODY>
 </HTML>
