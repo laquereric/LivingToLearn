@@ -110,26 +110,25 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def invoice_for(month,year)
-    client_hash = self
-    r = {}
-    #r = Invoice::SchoolDistrict.new
+    client = self
+    r = Invoice::SchoolDistrict.new
 
     r[:director_name] = 'Eric Laquer'
 
     r[:testing_fee] = 0
     r[:registration_fee] = 0
-    r[:client_id] = client_hash[:client_id].to_i
-    r[:student_first_name] = client_hash[:first_name]
-    r[:student_last_name] = client_hash[:last_name]
+    r[:client_id] = client[:client_id].to_i
+    r[:student_first_name] = client[:first_name]
+    r[:student_last_name] = client[:last_name]
 
-    r[:school] = client_hash[:school]
-    sd = Government::SchoolDistrict.for_code_name( client_hash[:school_district] )
+    r[:school] = client[:school]
+    sd = Government::SchoolDistrict.for_code_name( client[:school_district] )
     Government::SchoolDistrict.nj_cache()
 
-    sd_id = Government::SchoolDistrict.id_from_code_name( client_hash[:school_district] )
+    sd_id = Government::SchoolDistrict.id_from_code_name( client[:school_district] )
     r[:district_code] = sd_id
     sd_rec = Government::SchoolDistrict.nj_cache[ sd_id ]
-p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
+p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
     r[:district_name] = sd.name.gsub('_',' ')
     r[:district_city] = sd_rec[:city]
     r[:district_state] = sd_rec[:state]
@@ -143,7 +142,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     r[:sc_name] = nil
 
     r[:per_pupil_amount] = fc[:per_pupil_amount]
-    r[:fc_hours] = fc_hours = client_hash.fc_hours_in_period(month,year)
+    r[:fc_hours] = fc_hours = client.fc_hours_in_period(month,year)
 
     r[:fc_rate] = fc_rate = fc[:rate]
     r[:fc_amount] = fc_amount = fc_hours * fc_rate
@@ -159,7 +158,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
    else
       sc = Contract::SchoolDistrict.sc_for_sd(sd)
       r[:sc_name] = sc[:name]
-      r[:sc_hours] = sc_hours = client_hash.sc_hours_in_period(month,year)
+      r[:sc_hours] = sc_hours = client.sc_hours_in_period(month,year)
       r[:sc_rate] = sc_rate = sc[:rate]
       r[:sc_amount] = sc_amount = sc_hours * sc_rate
     end

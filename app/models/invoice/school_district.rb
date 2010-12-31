@@ -23,10 +23,8 @@ class Invoice::SchoolDistrict < ActiveRecord::Base
     return template.result( binding )
   end
 
-  def self.create_for(client_hash,month,year)
-    h = client_hash.invoice_for(month,year)
-    i = self.create(h)
-    return i
+  def self.create_for(client,month,year)
+    return client.invoice_for(month,year)
   end
 
 end
