@@ -13,6 +13,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #################
   def self.districts_with_ses_contracts
     ['7520','5820','5860','3280','2990','1940','0390','1730']
+    #['0390']
   end
 
   def self.each_district_with_ses_contract(&block)
@@ -421,32 +422,29 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 # Reports
 #################
 
-  def self.status_report( month_type = :last_month )
-    invoice= Invoice.get_for_month_type(month_type)
+  def self.status_report_for( month , year )
     dropbox_session = Service::Dropbox.get_session
     self.each_district_with_ses_contract{ |d|
 p "SchoolDistrict #{d.code_name}"
-      d.store_clients_by_school(invoice[:period_month],invoice[:period_year],dropbox_session).each{ |l| p l }
+      d.store_clients_by_school( month , year , dropbox_session ).each{ |l| p l }
     }
   end
 
-  def self.invoice_csv( month_type = :last_month )
-    invoice = Invoice.get_for_month_type(month_type)
+  def self.invoice_csv_for( month , year )
     dropbox_session = Service::Dropbox.get_session
     Government::SchoolDistrict.each_district_with_ses_contract{ |d|
 p "SchoolDistrict #{d.code_name}"
-      d.store_invoice_csv(invoice[:period_month],invoice[:period_year],dropbox_session).each{ |l|
+      d.store_invoice_csv( month , year , dropbox_session ).each{ |l|
         p l
       }
     }
   end
 
-  def self.invoices( month_type = :last_month )
-    invoice = Invoice.get_for_month_type(month_type)
+  def self.invoices_for( month , year )
     dropbox_session = Service::Dropbox.get_session
     Government::SchoolDistrict.each_district_with_ses_contract{ |d|
 p "SchoolDistrict #{d.code_name}"
-     d.store_invoices(invoice[:period_month],invoice[:period_year],dropbox_session){ |l|
+      d.store_invoices( month , year , dropbox_session ){ |l|
 p l
       }
     }
