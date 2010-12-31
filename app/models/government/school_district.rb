@@ -132,7 +132,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 
     lines = []
     status_lines = []
-    filename= File.join(self.local_invoices_directory(month,year),"spreadsheet_as_of__#{self.class.timestamp}.csv")
+    filename = File.join(self.local_invoices_directory(month,year),"spreadsheet_as_of__#{self.class.timestamp}.csv")
     File.open( filename,'w+') do |file|
         file.puts(Invoice::SchoolDistrict.csv_headers)
         self.each_invoice(month,year){ |client_hash, invoice, description|
