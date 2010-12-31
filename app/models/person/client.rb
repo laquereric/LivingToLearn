@@ -38,10 +38,10 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def representative_total(indent,results)
-    client= self
-     t=0
-    i="";indent.times{ i<< ' ' };
-    l=""
+    client = self
+    t = 0
+    i = "";indent.times{ i<< ' ' };
+    l = ""
     [:revenue,:contract,:test_done,:testing,:test_only,:waiting_for_contract].each{ |rt|
       results.each_pair{ |sd_name,sd_hash|
         sd_hash.each_pair{ |sc_name,sc_hash|
@@ -57,8 +57,8 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def prep_line(indent=0)
-    client= self
-     return nil if !client.class.binder_types.include? client[:result]
+    client = self
+    return nil if !client.class.binder_types.include? client[:result]
     l = ""
     indent.times{ l<<' ' }
     l<< "prepped => [          ]"
@@ -66,8 +66,8 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def last_attended_line(indent=0)
-    client= self
-     l = ""
+    client = self
+    l = ""
     indent.times{ l<<' ' }
     l << if client[:last_attended_date]
       "last attended #{client[:last_attended_date]}"
@@ -79,7 +79,7 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def attendance_line(indent=0)
-     client= self
+    client = self
     #return nil if !self.binder_types.include? client[:result]
     l = ""
     indent.times{ l<<' ' }
@@ -92,7 +92,7 @@ class Person::Client  < ActiveRecord::Base
      #return nil if !self.binder_types.include? client[:result]
     l = ""
     indent.times{ l<<' ' }
-    l<< "updated => [          ]"
+    l << "updated => [          ]"
     return l
   end
 
@@ -110,17 +110,18 @@ class Person::Client  < ActiveRecord::Base
   end
 
   def self.invoice_hash(month,year,client_hash)
-    r={}
+    r = {}
+    #r = Invoice::SchoolDistrict.new
 
     r[:director_name] = 'Eric Laquer'
 
     r[:testing_fee] = 0
     r[:registration_fee] = 0
-    r[:client_id]= client_hash[:client_id].to_i
-    r[:student_first_name]= client_hash[:first_name]
-    r[:student_last_name]= client_hash[:last_name]
+    r[:client_id] = client_hash[:client_id].to_i
+    r[:student_first_name] = client_hash[:first_name]
+    r[:student_last_name] = client_hash[:last_name]
 
-    r[:school]=client_hash[:school]
+    r[:school] = client_hash[:school]
     sd = Government::SchoolDistrict.for_code_name( client_hash[:school_district] )
     Government::SchoolDistrict.nj_cache()
 
@@ -137,10 +138,10 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
 
     fc = Contract::SchoolDistrict.fc_for_sd(sd)
 
-    r[:fc_name]= fc[:name]
-    r[:sc_name]= nil
+    r[:fc_name] = fc[:name]
+    r[:sc_name] = nil
 
-    r[:per_pupil_amount]= fc[:per_pupil_amount]
+    r[:per_pupil_amount] = fc[:per_pupil_amount]
     r[:fc_hours] = fc_hours = client_hash.fc_hours_in_period(month,year)
 
     r[:fc_rate] = fc_rate = fc[:rate]
@@ -153,13 +154,13 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
 
     if not(Contract::SchoolDistrict.has_two_contracts?(sd) or
       Contract::SchoolDistrict.has_master_slave_contracts?(sd) )
-      r[:hours_in_program]= fc[:hours_in_program]
+      r[:hours_in_program] = fc[:hours_in_program]
    else
       sc = Contract::SchoolDistrict.sc_for_sd(sd)
-      r[:sc_name]= sc[:name]
+      r[:sc_name] = sc[:name]
       r[:sc_hours] = sc_hours = client_hash.sc_hours_in_period(month,year)
       r[:sc_rate] = sc_rate = sc[:rate]
-      r[:sc_amount]= sc_amount = sc_hours * sc_rate
+      r[:sc_amount] = sc_amount = sc_hours * sc_rate
     end
 
     if Contract::SchoolDistrict.has_two_contracts?(sd) and r[:sc_hours] > 0 then
@@ -182,19 +183,19 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
       p "record wo hours! #{r.inspect}"
     end
 
-    r[:total_amount]= fc_amount + sc_amount
+    r[:total_amount] = fc_amount + sc_amount
 
     r[:invoice_number] = "SD#{r[:district_code]}_C#{r[:client_id]}_P#{year}_#{month}"
 
     return r
   end
 
-  def total_hours_in_period(month,year)
+  def total_hours_in_period( month , year )
     client = self
     return client.fc_hours_in_period(month,year) + client.sc_hours_in_period(month,year)
   end
 
-  def self.clean_hours(raw)
+  def self.clean_hours( raw )
     c =  case raw.class.to_s
       when 'String' : raw.to_i
       when 'Float' : raw
@@ -203,23 +204,23 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return c
   end
 
-  def fc_hours_in_period(month,year)
+  def fc_hours_in_period( month , year )
     client = self
     fc_hrs_field_sym = "fc_hrs#{month}".to_sym
     raw = client[fc_hrs_field_sym]
-    fc_hours =  client.class.clean_hours(raw)
+    fc_hours = client.class.clean_hours(raw)
     return fc_hours
   end
 
-  def sc_hours_in_period(month,year)
+  def sc_hours_in_period( month , year )
     client = self
     sc_hrs_field_sym = "sc_hrs#{month}".to_sym
     raw = client[sc_hrs_field_sym]
-    sc_hours =  client.class.clean_hours(raw)
+    sc_hours = client.class.clean_hours(raw)
     return sc_hours
   end
 
-  def self.by_school_report(results,month,year,&block)
+  def self.by_school_report( results , month , year , &block )
         total_consumed_hours = 0
         results.each_key{ |sdn|
         "++++++++++++++++++++++++++++++++"
@@ -256,7 +257,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
                 yield client.origin_line(8)
                 yield client.invoice_hrs_line(month,year,8)
                 yield client.representative_line(8)
-                if ( ch= client.contract_hours_line(8) )
+                if ( ch = client.contract_hours_line(8) )
                   yield ch
                 end
                 if ( cial = client.invoice_audit_line(8) )
@@ -271,7 +272,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
       yield ""
   end
 
-  def self.by_school_array (&block)
+  def self.by_school_array ( &block )
     rs=[]
     Person::Client.each_client{ |client|
       next if block_given? and !yield(client)
@@ -280,7 +281,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return rs
   end
 
-  def self.by_school_hash (client_array)
+  def self.by_school_hash ( client_array )
       results= {}
       client_array.each{ |client|
         sd = Person::Client.school_district_sym(client)
@@ -321,7 +322,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
      }
   end
 
-  def invoice_hrs_line(month,year,indent=0)
+  def invoice_hrs_line( month , year , indent = 0 )
     client=self
     l = ""
     indent.times{ l<<' ' }
@@ -331,32 +332,32 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return l
   end
 
-  def representative_line(indent=0)
-    client= self
+  def representative_line( indent = 0 )
+    client = self
     l = ""
-    indent.times{ l<<' ' }
-    l<< "representative => #{ client[:representatives] }"
+    indent.times{ l << ' ' }
+    l << "representative => #{ client[:representatives] }"
     return l
   end
 
-  def client_line(indent=0)
-    client= self
+  def client_line( indent = 0 )
+    client = self
     l = ""
-    indent.times{ l<<' ' }
+    indent.times{ l << ' ' }
     l<< "#{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]}"
     return l
   end
 
-  def result_line(indent=0)
+  def result_line( indent = 0 )
     client= self
     l = ""
-    indent.times{ l<<' ' }
+    indent.times{ l << ' ' }
     l<< "result => #{ client[:result] }"
     return l
   end
 
   def total_fc_sc_hrs
-    client= self
+    client = self
     total_hrs = 0
     ['fc','sc'].each{ |c|
       [9,10,11,12,1,2,3,4,5,6,7,8].each{ |m|
@@ -368,22 +369,22 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return total_hrs
   end
 
-  def invoice_audit_line(indent=0)
-    client=self
+  def invoice_audit_line( indent = 0 )
+    client = self
     l = ""
-    indent.times{ l<<' ' }
+    indent.times{ l << ' ' }
     l<< "Total fc plus sc hrs => #{ client.total_fc_sc_hrs }"
     return l
   end
 
-  def contract_hours_line(indent=0)
-    client=self
-    l= nil
-    result= client.result.to_sym if client.result
-    result= :other if !client.class.result_types.include? result
+  def contract_hours_line( indent = 0 )
+    client = self
+    l = nil
+    result = client.result.to_sym if client.result
+    result = :other if !client.class.result_types.include? result
     if [:revenue,:contract,:contract_dead].include? result
       l = ""
-      indent.times{ l<<' ' }
+      indent.times{ l << ' ' }
       l<< "Contracted Hours => #{ client.contracted_hours }"
       l<< " , "
       l<< "Last Consumed Hour => #{ client.last_consumed_hour }"
@@ -392,27 +393,27 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
     return l
   end
 
-  def grade_line(indent=0)
-    client=self
-    l= ""
-    indent.times{ l<< ' ' }
+  def grade_line( indent = 0 )
+    client = self
+    l = ""
+    indent.times{ l << ' ' }
     l<< "grade => #{ client[:grade].to_i }"
     return l
   end
 
   def origin_line(indent=0)
-    client=self
-    l= ""
-    indent.times{ l<< ' ' }
-    l<< "origin => #{ client[:origin] }"
+    client = self
+    l = ""
+    indent.times{ l << ' ' }
+    l << "origin => #{ client[:origin] }"
     return l
   end
 
   def phone_line(indent=0)
-    client=self
-    l= ""
-    indent.times{ l<< ' ' }
-    l<< "phone_1 => #{ client[:phone1] } phone_2 => #{ client[:phone2] }"
+    client = self
+    l = ""
+    indent.times{ l << ' ' }
+    l << "phone_1 => #{ client[:phone1] } phone_2 => #{ client[:phone2] }"
     return l
   end
 
@@ -442,7 +443,7 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
       right_sd = sd.same_sd?( client[:school_district] )
       hrs_in_period = client.total_hours_in_period( month, year )
       zero_hrs_in_period = ( hrs_in_period == 0 )
-      use= ( !zero_hrs_in_period and right_sd )
+      use = ( !zero_hrs_in_period and right_sd )
       use
     }
     return client_array
@@ -450,8 +451,8 @@ p "bad sd_id #{sd_id} from #{ client_hash[:school_district] } " if sd_rec.nil?
 
   def self.hash_array_to_object_array( hash_array )
     return hash_array.map{ |h|
-      r= self.create( h )
-       r
+      r = self.create( h )
+      r
     }
   end
 

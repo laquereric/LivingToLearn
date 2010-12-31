@@ -13,7 +13,6 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #################
   def self.districts_with_ses_contracts
     ['7520','5820','5860','3280','2990','1940','0390','1730']
-    #['0390']
   end
 
   def self.each_district_with_ses_contract(&block)
@@ -126,7 +125,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 =end
   end
 
-  def store_invoice_csv(month,year,dropbox_session=nil)
+  def store_invoice_csv( month , year , dropbox_session = nil )
     sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
@@ -142,25 +141,25 @@ class Government::SchoolDistrict < Government::GovernmentDetail
           status_lines<< description
         }
     end
-    status_lines<< "sd_total= #{sd_total}"
+    status_lines << "sd_total= #{sd_total}"
     return status_lines
   end
 
-  def invoice_date_field(month,year)
+  def invoice_date_field( month , year )
     "#{month}_#{year}"
   end
 
-  def each_invoice(month,year,&block)
+  def each_invoice( month , year , &block )
 
-    hash_array = Person::Client.with_logged_hours(self, month, year)
+    hash_array = Person::Client.with_logged_hours( self , month , year)
     hash_array.each{ |client_hash|
-      invoice = Invoice::SchoolDistrict.create_for( client_hash, month, year)
+      invoice = Invoice::SchoolDistrict.create_for( client_hash , month , year)
       description = "Invoice for #{client_hash[:last_name]}_#{client_hash[:first_name]}__Client_#{client_hash[:client_id].to_i} in amount of #{invoice.total_amount} "
-      yield( client_hash, invoice, description )
+      yield( client_hash , invoice , description )
     }
   end
 
-  def store_invoices(month,year,dropbox_session=nil,&block)
+  def store_invoices( month , year , dropbox_session = nil , &block )
     sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
@@ -169,7 +168,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
       client_id_field = "Client_#{client_hash[:client_id].to_i}"
       dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field(month,year)}")
       Dir.mkdir(dir_name) if !File.exists?(dir_name)
-      filename= File.join(dir_name,"invoice.html")
+      filename = File.join(dir_name,"invoice.html")
       html = invoice.invoice_html
       File.open( filename,'w+').write(html)
       sd_total += invoice.total_amount
@@ -178,20 +177,20 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     yield "sd_total= #{sd_total}"
   end
 
-  def client_report_by_school(month,year,client_array,lines=[])
-    lines<< "As of #{Date.today} #{Time.now}"
-    lines<< "Clients in School District #{self.code_name} By School:"
-    lines<< " "
-    client_hash= Person::Client.by_school_hash( client_array )
+  def client_report_by_school( month, year , client_array , lines = [] )
+    lines << "As of #{Date.today} #{Time.now}"
+    lines << "Clients in School District #{self.code_name} By School:"
+    lines << " "
+    client_hash = Person::Client.by_school_hash( client_array )
     Person::Client.by_school_report(client_hash,month,year) { |line|
-      lines<< line if line
+      lines << line if line
     }
     return lines
   end
 
   def csv_clients_by_school(month,year,client_array,lines=[])
 #p client_array
-    lines<< Person::Client.csv_line_header
+    lines << Person::Client.csv_line_header
     client_array.each{ |client_hash|
       #h = Person::Client.invoice_hash(month,year,client_hash)
 #p h
@@ -204,11 +203,11 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     return lines
   end
 
-  def self.full_name_pretty(entity)
+  def self.full_name_pretty( entity )
     "#{self.code_name} School District"
   end
 
-  def self.name_pretty(entity)
+  def self.name_pretty( entity )
     entity.name.split('_').map{ |n| n.capitalize}.join(' ')
   end
 
@@ -259,14 +258,14 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 ###########################################
 
 
-  def self.parse_nj_address( line, address)
+  def self.parse_nj_address( line , address )
     if line.match(%r/\A\d/) or line.match(%r/\ PLACE/)  or line.match(%r/\APO /)  or line.match(%r/\AP.O./) or line.match(%r/ Lane/) or line.match(%r/ LANE/)  or line.match(%r/Blvd./) or line.match(%r/DR/)  or line.match(%r/RD/) or line.match(%r/ Drive/) or line.match(%r/ Parkway/) or line.match(%r/ Way/) or line.match(%r/ Road /) or line.match(%r/BLVD/)  or line.match(%r/Ave./) or line.match(%r/AVE/) or line.match(%r/Boulevard/) or line.match(%r/ST/)  or line.match(%r/Street/) or line.match(%r/Avenue/) or line.match(%r/ and /)
       address = line.strip
     end
     return address
   end
 
-  def self.parse_nj_cityzip( line, city, zip)
+  def self.parse_nj_cityzip( line , city , zip )
     m = line.match(%r/(.*),(.*)/)
           if m
             city_state = m[1].strip
@@ -281,7 +280,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     return city , zip
   end
 
-  def self.parse_nj_person( line, person_salutation , person_title )
+  def self.parse_nj_person( line , person_salutation , person_title )
     m = line.match(%r/(['Mr.'|'Dr.'|'Mrs.'|'Ms.']) (.*), (.*)/)
     if m
       person_salutation= line.split(' ')[0]
@@ -293,12 +292,12 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     return  person_salutation , person_title
   end
 
-  def self.parse_nj_tel( line, tel )
+  def self.parse_nj_tel( line , tel )
     tel= line if line.match(/\(\d\d\d\)\d\d\d-\d\d\d\d/)
     return tel
   end
 
-  def self.parse_nj_sd( line, sd_name , sd_id )
+  def self.parse_nj_sd( line , sd_name , sd_id )
     m = line.match(%r|(.*)\((\d\d\d\d)\)|)
     sd_name = m[1].strip.gsub(' ','_')
     sd_id = m[2].strip
