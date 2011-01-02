@@ -8,24 +8,27 @@ class Spreadsheet::CurrentClients < Spreadsheet::Spreadsheet
     Person::Client
   end
 
+  def self.each_object(&block)
+    self.connected_object.all.each{ |o|
+      yield( o )
+    }
+  end
+
 ############
 #
 ############
 
-   def self.cache_name
-     'current_clients'
-   end
+  def self.cache_name
+    'current_clients'
+  end
 
 ####################
 #
 ####################
 
-def self.each_client
-    ss= self.new
-    client_array= ss.class.record_hash_array
-    client_array.each{ |client_h|
-      yield( Person::Client.create(client_h) )
-      #yield(client)
+  def self.each_client(&block)
+    self.each_object{ |o|
+      yield(o)
     }
   end
 

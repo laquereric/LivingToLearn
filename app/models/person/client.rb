@@ -374,7 +374,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
     total_hrs = 0
     ['fc','sc'].each{ |c|
       [9,10,11,12,1,2,3,4,5,6,7,8].each{ |m|
-        field_sym = "#{c}_hrs#{m}".to_sym
+        field_sym = "#{c}_hrs_#{m}".to_sym
         hrs=  client.class.clean_hours( client.send(field_sym) )
         total_hrs += hrs
       }
