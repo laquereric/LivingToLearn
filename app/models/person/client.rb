@@ -2,53 +2,6 @@ class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
 
-  def self.headers
-    [
-      'Client Id',
-      'Select',
-      'To Do',
-      'Program S',
-      'Prefix','First Name','Middle Name','Last Name','Suffix',
-      'Email',
-      'Last Attended Date','Last Consumed Hour','Last Paid Hour',
-      'Give Invoice','Contract Hrs Per Week','Prev Contract End Hour',
-      'Contracted Hours','Last Contract Hour', 'Closed End',
-      'Direct','Prepaid','Active',
-      'AddressLine1','AddressLine2','City','State','Zip','Phone1','Phone2','Phone3',
-      'DOB','Grade',
-      'ParentXxPrefix','ParentXxFirstName','ParentXxMiddleName','ParentXxLastName','ParentXxSuffix',
-      'ParentXyPrefix','ParentXyFirstName','ParentXyMiddleName','ParentXyLastName','ParentXySuffix',
-      'School District', 'School',
-      'Origin', 'Representatives','Result','Status','Location',
-      'First Contract',
-      'FC Hrs 9',
-      'FC Hrs 10',
-      'FC Hrs 11',
-      'FC Hrs 12',
-      'FC Hrs 1',
-      'FC Hrs 2',
-      'FC Hrs 3',
-      'FC Hrs 4',
-      'FC Hrs 5',
-      'FC Hrs 6',
-      'FC Hrs 7',
-      'FC Hrs 8',
-      'Second Contract',
-      'SC Hrs 9',
-      'SC Hrs 10',
-      'SC Hrs 11',
-      'SC Hrs 12',
-      'SC Hrs 1',
-      'SC Hrs 2',
-      'SC Hrs 3',
-      'SC Hrs 4',
-      'SC Hrs 5',
-      'SC Hrs 6',
-      'SC Hrs 7',
-      'SC Hrs 8'
-      ]
-  end
-
   def self.csv_line(client,indent=0)
     l = ""
     l<< "#{ client[:result] }"
@@ -258,7 +211,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
 
   def fc_hours_in_period( month , year )
     client = self
-    fc_hrs_field_sym = "fc_hrs#{month}".to_sym
+    fc_hrs_field_sym = "fc_hrs_#{month}".to_sym
     raw = client[fc_hrs_field_sym]
     fc_hours = client.class.clean_hours(raw)
     return fc_hours
@@ -266,7 +219,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
 
   def sc_hours_in_period( month , year )
     client = self
-    sc_hrs_field_sym = "sc_hrs#{month}".to_sym
+    sc_hrs_field_sym = "sc_hrs_#{month}".to_sym
     raw = client[sc_hrs_field_sym]
     sc_hours = client.class.clean_hours(raw)
     return sc_hours
