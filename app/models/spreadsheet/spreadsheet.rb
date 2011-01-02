@@ -86,26 +86,32 @@ class Spreadsheet::Spreadsheet
 # Validate
 #############
 
-  def self.header_match(actual,expected)
+  def self.header_match(actual)
     return false if actual.nil?
     n_actual= actual.strip.gsub('_','').gsub(' ','')
-    n_expected= expected.strip.gsub('_','').gsub(' ','')
-    return n_actual == n_expected
+    n_actual= actual.strip.gsub('_','').gsub(' ','')
+    m = headers.include?(n_actual)
+    p "Mismatch of Header #{n_actual}" if !m
+    return m
   end
 
   def self.validate_using_headers
     ok = true
     headers.each_index{ |index|
       actual = self.spreadsheet.cell(1,index+1)
+      next if actual.nil?
       expected = headers[index]
-      if !header_match(actual,expected)
-        p "expected: #{expected} actual: #{actual}"
+      if !header_match(actual)
+        p "Not accepted: #{actual}"
         ok = false
       end
     }
     return ok
   end
 
+  def self.headers_from_columns( connected_object )
+    return connected_object.columns.map{ |col| col.name.camelcase}
+  end
 
   def self.check_headers
     ok = true
@@ -114,7 +120,9 @@ class Spreadsheet::Spreadsheet
       p "All Spreadsheets must have connected Objects"
       return nil
     end
-    self.headers= self.connected_object.headers if !self.connected_object.headers.nil?
+
+    self.headers = headers_from_columns( self.connected_object ) if self.connected_object.respond_to?(:columns)
+    self.headers = self.connected_object.headers if !self.headers and !self.connected_object.headers.nil?
     if  self.headers then
       ok = self.validate_using_headers
     end
@@ -143,7 +151,7 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.key_for_header(header)
-    header.gsub(' ','').underscore.to_sym 
+    header.gsub(' ','').underscore.to_sym
   end
 
   def self.load_records(&block)
