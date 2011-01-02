@@ -8,6 +8,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
   has_many :person_school_district_administrator_details,
     :class_name => "Person::SchoolDistrictAdministrator",
     :foreign_key => :government_school_district_detail_id
+
 #################
 #
 #################
@@ -24,6 +25,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 #############
 # Directory
 #############
+
   def local_directory
     File.join(ENV['ARCHIVED_COMMUNICATIONS_DIR'],"#{self.code_name}")
   end

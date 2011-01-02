@@ -13,8 +13,18 @@ class Spreadsheet::Spreadsheet
   cattr_accessor :record_hash_array
 
 #############
+###################
+# Cache Used when SQL not
+###################
+
+  def self.cache_name
+    self.to_s.split('::').last.underscore
+  end
+
+#############
 # Directory
 #############
+
   def ss_backup_directory
     File.join(ENV['ARCHIVED_COMMUNICATIONS_DIR'],'spreadsheet_backup')
   end
@@ -29,14 +39,6 @@ class Spreadsheet::Spreadsheet
 
   def self.timestamp
     Time.now.to_s.gsub('-','').gsub(':','_').gsub(' ','__')
-  end
-
-###################
-#
-###################
-
-  def self.cache_name
-    self.to_s.split('::').last.underscore
   end
 
 ###################
@@ -63,6 +65,7 @@ class Spreadsheet::Spreadsheet
      filename= File.join(self.cache_directory,"as_of__#{self.class.timestamp}.xml")
      File.open( filename,'w+').write(record_hash_array.to_xml)
    end
+
 #############
 #
 #############
@@ -95,6 +98,10 @@ class Spreadsheet::Spreadsheet
     return ok
   end
 
+
+##################
+#
+###################
   def self.clean_row_hash(row_hash)
     row_hash
   end
