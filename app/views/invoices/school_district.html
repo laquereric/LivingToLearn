@@ -1,13 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-
-<HEAD></HEAD>
-
+<HTML><HEAD></HEAD>
 <BODY LANG="en-US" DIR="LTR">
-
 <DIV ID="UpperLeftLogo" DIR="LTR" STYLE="position: absolute; top: 1in; left: 0.5in; width: 3in; height: 1.5in; border: none; padding: 0in; background: #ffffff">
-	<P><IMG SRC="/Users/eric/projects/degrees/public/images/tc_logo.jpg" NAME="tc_logo" ALIGN=LEFT WIDTH=245 HEIGHT=132 BORDER=0><BR CLEAR=LEFT><BR><BR>
-	</P>
+<P><IMG SRC="/Users/eric/projects/degrees/public/images/tc_logo.jpg" NAME="tc_logo" ALIGN=LEFT WIDTH=245 HEIGHT=132 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
 </DIV>
 
 <DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 3.5in; left: 0.49in; width: 7.05in; height: 1.125in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
@@ -33,91 +29,64 @@
 <DIV ID="BodyTitleLeft" DIR="LTR" STYLE="position: absolute; top: 3in; left: 0.5in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
 	<P STYLE="margin-bottom: 0in">INVOICE # : &lt;%= invoice_number %&gt; </P>
 </DIV>
-
 <DIV ID="BodyTitleRight" DIR="LTR" STYLE="position: absolute; top: 3in; left: 4.52in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
 	<P STYLE="margin-bottom: 0in">INVOICE DATE : &lt;%= "#{invoice_date.strftime( '%b %d , %Y' ) }" %&gt;</P>
 </DIV>
-
 <DIV ID="TopTitle" DIR="LTR" STYLE="position: absolute; top: 2.63in; left: 2.5in; width: 3in; height: 0.25in; border: none; padding: 0in; background: #ffffff">
 <P ALIGN=CENTER STYLE="margin-bottom: 0in">MONTHLY TUITION</P>
 </DIV>
-
-<DIV ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 4.88in; left: 0.51in; width: 7in; height: 0.7in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff">
-	<P STYLE="margin-bottom: 0in">School : &lt;%= school %&gt;</P>
-	<P STYLE="margin-bottom: 0in">Per Pupil Amount : &lt;%= sprintf( '%2.2f', per_pupil_amount) %&gt;</P>
-</DIV>
-
-<TABLE ID="Body" DIR="LTR" STYLE="position: absolute; left: 2in; top: 5.9in;" >
-
+<TABLE ID="BodyTop" DIR="LTR" STYLE="position: absolute; top: 4.88in; left: 0.51in; width: 7in; height: 0.7in; border: 2.50pt solid #800000; padding: 0.06in; background: #ffffff"> 
 <TR height="20" >
-<TD align="right" valign="top">Testing Fee :</TD>
-<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', testing_fee) %&gt;</TD>
+<TD >School : &lt;%= school %&gt;</TD>
+<TD >Per Pupil Amount : $ &lt;%= sprintf( '%2.2f', per_pupil_amount) %&gt;</TD>
 </TR>
-
+<TR height="20" >
+<TD >Period Start :  &lt;%= period_start.strftime( '%b %d , %Y' ) %&gt; </TD><TD >Period End :  &lt;%= period_end.strftime( '%b %d , %Y' ) %&gt; </TD>
+</TR>
+</TABLE>
+<TABLE ID="Body" DIR="LTR" STYLE="position: absolute; left: 2in; top: 5.9in;" >
+<TR height="20" >
+<TD align="right" valign="top">Testing Fee :</TD><TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', testing_fee) %&gt;</TD>
+</TR>
 <TR height="40">
-<TD align="right" valign="top">Registration Fee :</TD>
-<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', registration_fee) %&gt;</TD>
+<TD align="right" valign="top">Registration Fee :</TD><TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', registration_fee) %&gt;</TD>
 </TR>
-
 &lt;%if second_invoice_line%&gt;
 <TR height="20">
-<TD align="right" valign="top">Contract Line :</TD>
-<TD align="left" valign="top">&lt;%= fc_name.titleize %&gt;</TD>
-</TR>
+<TD align="right" valign="top">Contract Line :</TD><TD align="left" valign="top">&lt;%= fc_name.titleize %&gt;</TD></TR>
 &lt;%end%&gt;
-
 <TR height="20" >
-<TD align="right" valign="top">Hours :</TD>
-<TD align="left" valign="top">&lt;%=  sprintf( '%2.1f', fc_hours) %&gt;</TD>
+<TD align="right" valign="top">Hours :</TD><TD align="left" valign="top">&lt;%=  sprintf( '%2.1f', fc_hours) %&gt;</TD>
 </TR>
-
 <TR height="20" >
-<TD align="right" valign="top">Hourly Rate :</TD>
-<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', fc_rate )%&gt;</TD>
+<TD align="right" valign="top">Hourly Rate :</TD><TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', fc_rate )%&gt;</TD>
 </TR>
-
 <TR height="40" >
-<TD align="right" valign="top">Line Amount :</TD>
-<TD  align="left" valign="top">$ &lt;%= sprintf( '%2.2f', fc_amount )%&gt;</TD>
+<TD align="right" valign="top">Line Amount :</TD><TD  align="left" valign="top">$ &lt;%= sprintf( '%2.2f', fc_amount )%&gt;</TD>
 </TR>
-
 &lt;%if second_invoice_line%&gt;
-
 <TR height="20" >
-<TD align="right" valign="top">2nd Contract Line :</TD>
-<TD align="left" valign="top">&lt;%= sc_name.titleize %&gt;</TD>
+<TD align="right" valign="top">2nd Contract Line :</TD><TD align="left" valign="top">&lt;%= sc_name.titleize %&gt;</TD>
 </TR>
-
 <TR height="20" >
-<TD align="right" valign="top">2nd Hours :</TD>
-<TD align="left" valign="top">&lt;%= sprintf( '%2.1f', sc_hours) %&gt;</TD>
+<TD align="right" valign="top">2nd Hours :</TD><TD align="left" valign="top">&lt;%= sprintf( '%2.1f', sc_hours) %&gt;</TD>
 </TR>
-
 <TR height="20" >
-<TD align="right" valign="top">2nd Hourly Rate :</TD>
-<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', sc_rate) %&gt;</TD>
+<TD align="right" valign="top">2nd Hourly Rate :</TD><TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', sc_rate) %&gt;</TD>
 </TR>
-
 <TR height="40" >
-<TD align="right" valign="top">2nd Line Amount :</TD>
-<TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', sc_amount) %&gt;</TD>
+<TD align="right" valign="top">2nd Line Amount :</TD><TD align="left" valign="top">$ &lt;%= sprintf( '%2.2f', sc_amount) %&gt;</TD>
 </TR>
-
 &lt;% end %&gt;
 <TR height="20" >
-<TD align="right" valign="top" ><b>Total Amount Due :</b></TD>
-<TD align="left" valign="top" ><b>$ &lt;%= sprintf( '%2.2f', total_amount) %&gt;</b></TD>
+<TD align="right" valign="top" ><b>Total Amount Due :</b></TD><TD align="left" valign="top" ><b>$ &lt;%= sprintf( '%2.2f', total_amount) %&gt;</b></TD>
 </TR>
-
 </TABLE>
-
 <DIV ID="SignatureBlock" DIR="LTR" STYLE="position: absolute; top: 9.5in; left: 0.51in; width: 7in; height: 0.5in; border: 2.50pt solid #800000; padding: 0.02in; background: #ffffff">
 <P STYLE="margin-bottom: 0in">SIGN/DATE &lt;%= director_name %&gt; </P>
 </DIV>
-
 <P STYLE="margin-bottom: 0in">
 <BR>
 </P>
-
 </BODY>
 </HTML>
