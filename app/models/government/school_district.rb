@@ -159,18 +159,6 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     }
   end
 
-  def write_html_then_pdf( html, dir_name , base_name )
-      Dir.mkdir(dir_name) if !File.exists?(dir_name)
-      html_filename = File.join(dir_name,"#{base_name}.html")
-      File.open( html_filename,'w+').write(html)
-
-      pdf_filename = File.join(dir_name,"#{base_name}.pdf")
-      cmd = "/Users/eric/wkhtmltopdf.bin #{html_filename} #{pdf_filename}"
-      #p cmd
-      r = %x[ #{cmd} ]
-      #p r
-  end
-
   def store_invoices( month , year , dropbox_session = nil , &block )
     sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
@@ -179,9 +167,10 @@ class Government::SchoolDistrict < Government::GovernmentDetail
       client_name_field = "#{client[:last_name]}_#{client[:first_name]}"
       client_id_field = "Client_#{client[:client_id].to_i}"
       dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field(month,year)}")
-      html = invoice.invoice_html
-
-      write_html_then_pdf( html , dir_name , 'invoice' )
+      Dir.mkdir(dir_name) if !File.exists?(dir_name)
+      base_name= 'invoice'
+      pdf_filename = File.join(dir_name,"#{base_name}.pdf")
+      Document::Invoices::SchoolDistrict.create_from_to( invoice , pdf_filename )
 
       sd_total += invoice.total_amount
       yield(description)
