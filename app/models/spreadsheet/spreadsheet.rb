@@ -83,7 +83,7 @@ class Spreadsheet::Spreadsheet
   end
 
 #############
-# Use HeaderList to Validate
+# Validate
 #############
 
   def self.header_match(actual,expected)
@@ -92,10 +92,6 @@ class Spreadsheet::Spreadsheet
     n_expected= expected.strip.gsub('_','').gsub(' ','')
     return n_actual == n_expected
   end
-
-#############
-# Use Object to Validate
-#############
 
   def self.validate_using_headers
     ok = true
@@ -110,9 +106,6 @@ class Spreadsheet::Spreadsheet
     return ok
   end
 
-#############
-# Validate
-#############
 
   def self.check_headers
     ok = true
