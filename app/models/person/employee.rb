@@ -1,29 +1,5 @@
-class Person::Employee
+class Person::Employee < ActiveRecord::Base
 
-  def self.headers
-
-    [
-'Select',
-'To Do',
-'PayrollNumber',
-'ParentPayrollNumber',
-'Prefix',
-'FirstName',
-'Nickname',
-'MiddleName',
-'LastName',
-'Suffix',
-'Extension',
-'Title',
-'Home Email',
-'Email',
-'Phone1',
-'Phone2',
-'Phone3',
-'W4',
-'NjTax',
-'NjCriminal'
-]
-  end
+  set_table_name ('person_employees')
 
 end
