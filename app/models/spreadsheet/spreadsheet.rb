@@ -3,6 +3,7 @@ require "roo"
 class Spreadsheet::Spreadsheet
 
   cattr_accessor :headers
+  cattr_accessor :column_header_hash
 
   cattr_accessor :filename
   cattr_accessor :spreadsheet
@@ -55,7 +56,7 @@ class Spreadsheet::Spreadsheet
 ###################
 
    def self.cache_dump
-      Rails.cache.read(self.cache_name)
+     Rails.cache.read(self.cache_name)
    end
 
    def self.cache_load
@@ -85,18 +86,27 @@ class Spreadsheet::Spreadsheet
 #############
 # Validate
 #############
+  def self.n_actual_to_sym(n_actual)
+    n_actual.underscore.sub(/[\d]/){|s| "_#{s}"}.to_sym
+  end
+
+  def self.get_n_actual(actual)
+    actual.strip.gsub('_','').gsub(' ','')
+  end
 
   def self.header_match(actual)
     return false if actual.nil?
-    n_actual= actual.strip.gsub('_','').gsub(' ','')
-    n_actual= actual.strip.gsub('_','').gsub(' ','')
+    n_actual= self.get_n_actual(actual)
     m = headers.include?(n_actual)
-    p "Mismatch of Header #{n_actual}" if !m
+    if !m
+      p "Mismatch of Header #{n_actual}"
+    end
     return m
   end
 
   def self.validate_using_headers
     ok = true
+    self.column_header_hash = {}
     headers.each_index{ |index|
       actual = self.spreadsheet.cell(1,index+1)
       next if actual.nil?
@@ -104,6 +114,11 @@ class Spreadsheet::Spreadsheet
       if !header_match(actual)
         p "Not accepted: #{actual}"
         ok = false
+      else
+        n_actual = self.get_n_actual(actual)
+        sym = self.n_actual_to_sym(n_actual)
+        #self.column_header_hash[index]= self.get_n_actual(actual).underscore.to_sym
+        self.column_header_hash[index]= sym
       end
     }
     return ok
@@ -142,16 +157,18 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.load_record_hash_array
-     self.record_hash_array= []
+    self.connected_object.prepare_table_for_stores
+    self.record_hash_array = []
     self.load_records{ |rh|
-      clean_row= self.clean_row_hash(rh)
-      record_hash_array<< clean_row if use_row?(clean_row)
+      clean_row = self.clean_row_hash(rh)
+      self.connected_object.store_row_hash( clean_row )
+      record_hash_array<< clean_row if use_row?( clean_row )
     }
     self.record_hash_array
   end
 
-  def self.key_for_header(header)
-    header.gsub(' ','').underscore.to_sym
+  def self.key_for_header(index)
+    column_header_hash[index]
   end
 
   def self.load_records(&block)
@@ -160,15 +177,16 @@ class Spreadsheet::Spreadsheet
     }
     return if !block_given?
     self.each_row { |spreadsheet,row|
-      row_hash= {}
+      row_hash = {}
       headers.each_index{ |i|
-        val= spreadsheet.cell(row,i+1)
+        val= spreadsheet.cell( row , i+1 )
         val.strip! if !val.nil? and val.is_a? String
-        row_hash[ key_for_header(self.headers[i]) ]= val
+        k = key_for_header( i )
+        row_hash[ k ]= val if k
       }
       putc('.')
-      end_of_list= (row_hash.values.compact.length == 0)
-      yield(row_hash) if !end_of_list
+      end_of_list= ( row_hash.values.compact.length == 0 )
+      yield( row_hash ) if !end_of_list
       end_of_list
     }
   end
@@ -278,6 +296,7 @@ class Spreadsheet::Spreadsheet
   end
 
   def self.clean_row_hash(row_hash)
+    return row_hash if row_hash[:zip].nil?
     raw= row_hash[:zip]
     row_hash[:zip]= if raw.is_a? Integer then
       "_%.5i" % raw

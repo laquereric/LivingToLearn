@@ -1,5 +1,17 @@
 class FixClientHrs < ActiveRecord::Migration
   def self.up
+    rename_column "person_clients", "phone1","phone_1"
+    rename_column "person_clients", "phone2","phone_2"
+    rename_column "person_clients", "phone3","phone_3"
+
+=begin
+    rename_column "person_employees", "phone1","phone_1"
+    rename_column "person_employees", "phone2","phone_2"
+    rename_column "person_employees", "phone3","phone_3"
+    rename_column "person_employees", "w4","w_4"
+    rename_column "person_clients", "address_line1", "address_line_1"
+    rename_column "person_clients", "address_line2", "address_line_2"
+
     rename_column "person_clients", "fc_hrs9", "fc_hrs_9"
     rename_column "person_clients", "fc_hrs10", "fc_hrs_10"
     rename_column "person_clients", "fc_hrs11", "fc_hrs_11"
@@ -25,6 +37,7 @@ class FixClientHrs < ActiveRecord::Migration
     rename_column "person_clients", "sc_hrs6", "sc_hrs_6"
     rename_column "person_clients", "sc_hrs7", "sc_hrs_7"
     rename_column "person_clients", "sc_hrs8", "sc_hrs_8"
+=end
   end
 
   def self.down

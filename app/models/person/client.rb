@@ -2,6 +2,14 @@ class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
 
+  def self.store_row_hash(row_hash)
+    self.create(row_hash)
+  end
+
+  def self.prepare_table_for_stores()
+    self.delete_all
+  end
+
   def self.csv_line(client,indent=0)
     l = ""
     l<< "#{ client[:result] }"
