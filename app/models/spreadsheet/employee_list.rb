@@ -1,5 +1,13 @@
 class Spreadsheet::EmployeeList < Spreadsheet::Spreadsheet
 
+#############
+# Reflection of Spreadsheet in Object
+#############
+
+  def self.connected_object
+    Person::Employee
+  end
+
 ############
 #
 ############
@@ -23,7 +31,7 @@ class Spreadsheet::EmployeeList < Spreadsheet::Spreadsheet
   def self.employee_hash
     r= {}
     self.each_employee{ |employee|
-      r[ employee[:payroll_number].to_i]= employee
+      r[ employee[:payroll_number].to_i ]= employee
     }
     return r
   end
@@ -34,33 +42,6 @@ class Spreadsheet::EmployeeList < Spreadsheet::Spreadsheet
 
   def google_path
     File.join( 'TutoringClub', 'Data', 'Clients', self.google_filename )
-  end
-
-
-  def self.headers
-
-    [
-'Select',
-'To Do',
-'PayrollNumber',
-'ParentPayrollNumber',
-'Prefix',
-'FirstName',
-'Nickname',
-'MiddleName',
-'LastName',
-'Suffix',
-'Extension',
-'Title',
-'Home Email',
-'Email',
-'Phone1',
-'Phone2',
-'Phone3',
-'W4',
-'NjTax',
-'NjCriminal'
-]
   end
 
 end
