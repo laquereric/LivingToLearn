@@ -13,6 +13,13 @@ class Spreadsheet::Spreadsheet
   cattr_accessor :record_hash_array
 
 #############
+# Reflection of Spreadsheet in Object
+#############
+
+  def self.connected_object
+    nil
+  end
+
 ###################
 # Cache Used when SQL not
 ###################
@@ -73,9 +80,9 @@ class Spreadsheet::Spreadsheet
   def self.purge
   end
 
-  def self.headers
-    nil
-  end
+#############
+# Use HeaderList to Validate
+#############
 
   def self.header_match(actual,expected)
     return false if actual.nil?
@@ -84,9 +91,12 @@ class Spreadsheet::Spreadsheet
     return n_actual == n_expected
   end
 
-  def self.check_headers
+#############
+# Use Object to Validate
+#############
+
+  def self.validate_using_headers
     ok = true
-    return ok if self.headers.nil?
     self.headers.each_index{ |index|
       actual = self.spreadsheet.cell(1,index+1)
       expected = self.headers[index]
@@ -98,6 +108,22 @@ class Spreadsheet::Spreadsheet
     return ok
   end
 
+#############
+# Validate
+#############
+
+  def self.check_headers
+    ok = true
+
+    if !self.connected_object
+      p "All Spreadsheets must have connected Objects"
+      return nil
+    end
+
+    return validate_using_headers if !self.connected_object.headers.nil?
+
+    return ok
+  end
 
 ##################
 #
