@@ -2,6 +2,8 @@ require "roo"
 
 class Spreadsheet::Spreadsheet
 
+  cattr_accessor :headers
+
   cattr_accessor :filename
   cattr_accessor :spreadsheet
 
@@ -97,9 +99,9 @@ class Spreadsheet::Spreadsheet
 
   def self.validate_using_headers
     ok = true
-    self.headers.each_index{ |index|
+    headers.each_index{ |index|
       actual = self.spreadsheet.cell(1,index+1)
-      expected = self.headers[index]
+      expected = headers[index]
       if !header_match(actual,expected)
         p "expected: #{expected} actual: #{actual}"
         ok = false
@@ -119,8 +121,10 @@ class Spreadsheet::Spreadsheet
       p "All Spreadsheets must have connected Objects"
       return nil
     end
-
-    return validate_using_headers if !self.connected_object.headers.nil?
+    self.headers= self.connected_object.headers if !self.connected_object.headers.nil?
+    if  self.headers then
+      ok = self.validate_using_headers
+    end
 
     return ok
   end
@@ -156,7 +160,7 @@ class Spreadsheet::Spreadsheet
     return if !block_given?
     self.each_row { |spreadsheet,row|
       row_hash= {}
-      self.headers.each_index{ |i|
+      headers.each_index{ |i|
         val= spreadsheet.cell(row,i+1)
         val.strip! if !val.nil? and val.is_a? String
         row_hash[ key_for_header(self.headers[i]) ]= val
