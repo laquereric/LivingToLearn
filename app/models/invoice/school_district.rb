@@ -24,7 +24,9 @@ class Invoice::SchoolDistrict < ActiveRecord::Base
   end
 
   def self.create_for(client,month,year)
-    return client.invoice_for(month,year)
+    o = client.invoice_for(month,year)
+    o.save
+    return o
   end
 
 end
