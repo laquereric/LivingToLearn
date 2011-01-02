@@ -28,6 +28,28 @@ namespace :school_district do
 =end
     end
     
+    namespace :last_last_month do
+      desc "Status Report"
+      task :status_report => :environment do
+        invoice = Invoice.get_for_month_type(:last_month)
+        Government::SchoolDistrict.status_report_for( invoice[:period_month],invoice[:period_year] )
+      end
+
+      desc "Invoice spreadsheets Files"
+      task :invoice_speadsheets => :environment do
+        invoice = Invoice.get_for_month_type(:last_month)
+        Government::SchoolDistrict.invoice_csv_for( invoice[:period_month] , invoice[:period_year] )
+      end
+
+      desc "Invoices"
+      task :invoices => :environment do
+        invoice = Invoice.get_for_month_type(:last_month)
+p invoice.inspect
+        Government::SchoolDistrict.invoices_for( invoice[:period_month] , invoice[:period_year] )
+      end
+
+    end
+
     namespace :last_month do
       desc "Status Report"
       task :status_report => :environment do
@@ -44,6 +66,7 @@ namespace :school_district do
       desc "Invoices"
       task :invoices => :environment do
         invoice = Invoice.get_for_month_type(:last_month)
+p invoice.inspect
         Government::SchoolDistrict.invoices_for( invoice[:period_month] , invoice[:period_year] )
       end
 

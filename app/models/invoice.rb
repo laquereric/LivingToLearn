@@ -1,8 +1,16 @@
 class Invoice
 
+  def self.get_last_last_month
+    return {
+      :period_month => ( Date.today-(2.month) ).month,
+      :period_year => ( Date.today-(2.month) ).year,
+      :invoice_date => Date.today
+    }
+  end
+
   def self.get_last_month
     return {
-      :period_month => Date.today.month-1,
+      :period_month => ( Date.today-(1.month) ).month,
       :period_year => ( Date.today-(1.month) ).year,
       :invoice_date => Date.today
     }
@@ -17,7 +25,11 @@ class Invoice
   end
 
   def self.get_for_month_type(month_type)
-       invoice= if month_type ==:last_month then Invoice.get_last_month else Invoice.get_this_month end
+       invoice = case month_type
+         when :last_last_month : get_last_last_month
+         when :last_month : get_last_month
+         when :this_month : get_this_month
+       end
        return invoice
   end
 
