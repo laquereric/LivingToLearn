@@ -3,6 +3,18 @@ require "prawn/measurement_extensions"
 
 class Document::Reports::BySchool
 
+  def self.print_by_school_report_pdf( code_name, local_directory , filename , client_array , month , year )
+    client_hash = Person::Client.by_school_hash( client_array )
+    Prawn::Document.generate(filename) do
+      stroke do
+        line(bounds.bottom_left, bounds.bottom_right)
+        line(bounds.bottom_right, bounds.top_right)
+        line(bounds.top_right, bounds.top_left)
+        line(bounds.top_left, bounds.bottom_left)
+      end
+    end
+  end
+
   def self.print_by_school_report( code_name, local_directory , filename , client_array , month , year )
     lines = []
     status_lines = []
