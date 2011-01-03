@@ -100,22 +100,14 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_status_directory) if !File.exists?(self.local_status_directory)
     filename= File.join( self.local_status_directory, "as_of__#{self.class.timestamp}" )
-    #filename= File.join(self.local_directory,"#{self.base('clients_by_school')}.txt")
-    status= "Stored Report to #{self.local_directory}"
-    lines << status
-    status_lines << status
 
-    lines<< " "
     client_array= Person::Client.by_school_array{ |client|
       same_sd?( client[:school_district] )
       #(client[:school_district] == self.code_name)
     }
-    lines= self.client_report_by_school(month,year,client_array,lines)
-    File.open(filename,'w+') do |file|
-      lines.flatten.each{ |line|
-        file.puts line
-       }
-    end
+
+    Document::Reports::BySchool.print_by_school_report( self.code_name, self.local_directory , filename , client_array , month , year )
+
 =begin
     if dropbox_session
       dropbox_session.upload self.local_report_file, self.dropbox_directory, {:mode=>:dropbox}
@@ -125,6 +117,7 @@ class Government::SchoolDistrict < Government::GovernmentDetail
       lines<< " "
     end
 =end
+
   end
 
   def store_invoice_csv( month , year , dropbox_session = nil )

@@ -233,58 +233,6 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
     return sc_hours
   end
 
-  def self.by_school_report( results , month , year , &block )
-        total_consumed_hours = 0
-        results.each_key{ |sdn|
-        "++++++++++++++++++++++++++++++++"
-        yield "School District - #{sdn.to_s}"
-        yield "++++++++++++++++++++++++++++++++"
-        yield ""
-        results[sdn].each_key{ |scn|
-          yield "  ------------------------------"
-          yield "  School - #{scn.to_s}"
-          yield "  -------------------------------"
-          #yield client.representative_total(4,results)
-          #yield client.binder_total(4,results)
-          Person::Client.result_types.each{ |rt|
-              next if !results[sdn][scn][rt] or results[sdn][scn][rt].length == 0
-              yield ""
-              l="";4.times{ l<< ' ' };
-              l<< "result => #{rt} - #{results[sdn][scn][rt].length}"
-              yield l
-              l="";4.times{ l<< ' ' };
-              l<< Person::Client.result_type_key[rt]
-              yield l if rt != :other
-              results[sdn][scn][rt].each{ |client|
-                if  client[:last_consumed_hour] and client[:last_consumed_hour].is_a? Fixnum
-                  total_consumed_hours += client[:last_consumed_hour]
-                end
-                yield client.client_line(6)
-                yield client.prep_line(6)
-                yield client.last_attended_line(8)
-                yield client.attendance_line(8)
-                yield client.updated_line(8)
-                yield client.phone_line(8)
-                yield client.result_line(8) if rt == :other
-                yield client.grade_line(8)
-                yield client.origin_line(8)
-                yield client.invoice_hrs_line(month,year,8)
-                yield client.representative_line(8)
-                if ( ch = client.contract_hours_line(8) )
-                  yield ch
-                end
-                if ( cial = client.invoice_audit_line(8) )
-                  yield cial
-                end
-                yield ""
-              }
-          }
-        }
-      }
-      yield "Total Consumed Hours: #{total_consumed_hours}"
-      yield ""
-  end
-
   def self.by_school_array ( &block )
     rs=[]
     Person::Client.each_client{ |client|
