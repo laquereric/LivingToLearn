@@ -78,7 +78,7 @@ class Document::Reports::BySchool
                 yield client.result_line(8) if rt == :other
                 yield client.grade_line(8)
                 yield client.origin_line(8)
-                yield client.invoice_hrs_line(month,year,8)
+                #yield client.invoice_hrs_line(month,year,8)
                 yield client.representative_line(8)
                 if ( ch = client.contract_hours_line(8) )
                   yield ch

@@ -2,6 +2,10 @@ class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
 
+  def self.all_for(school_district)
+    self.all.select{ |client| school_district.same_sd?( client.school_district ) }
+  end
+
   def self.store_row_hash(row_hash)
     self.create(row_hash)
   end
@@ -26,84 +30,23 @@ class Person::Client < ActiveRecord::Base
     [:revenue,:contract]
   end
 
-  def binder_total(indent,results)
-    client= self
-     t=0
-    i="";indent.times{ i<< ' ' };
-    l=""
-    self.binder_types.each{ |rt|
-      results.each_pair{ |sd_name,sd_hash|
-        sd_hash.each_pair{ |sc_name,sc_hash|
-          ar= sc_hash[rt]
-          #ar= results[sdn][scn][rt]
-          next if !ar
-          l << "#{rt} #{ar.length} " if ar
-          t += ar.length
-        }
-      }
-    }
-    return "#{i}binder total #{t} [ #{l} ]"
+##########################################
+# View Helpers
+##########################################
+
+  def indent_string(indent=0)
+    i = ""
+    indent.times{ i<< ' ' }
+    return i
   end
 
-  def representative_total(indent,results)
-    client = self
-    t = 0
-    i = "";indent.times{ i<< ' ' };
-    l = ""
-    [:revenue,:contract,:test_done,:testing,:test_only,:waiting_for_contract].each{ |rt|
-      results.each_pair{ |sd_name,sd_hash|
-        sd_hash.each_pair{ |sc_name,sc_hash|
-          ar= sc_hash[rt]
-          #ar= results[sdn][scn][rt]
-          next if !ar
-          l << "#{rt.to_s.dup} #{ar.length} ".dup if ar
-          t += ar.length
-        }
-      }
-    }
-    return "#{i}representative total #{t} [ #{l} ]"
+  def comlete_string( indent = 0 , hash = {} )
+    hash[:indent_string] = indent_string( indent )
+    return "#{hash[:indent_string]} #{hash[:prompt_string]} #{hash[:value_string]}"
   end
 
-  def prep_line(indent=0)
-    client = self
-    return nil if !client.class.binder_types.include? client[:result]
-    l = ""
-    indent.times{ l<<' ' }
-    l<< "prepped => [          ]"
-    return l
-  end
 
-  def last_attended_line(indent=0)
-    client = self
-    l = ""
-    indent.times{ l<<' ' }
-    l << if client[:last_attended_date]
-      "last attended #{client[:last_attended_date]}"
-    else
-      "has not previously attended"
-    end
-    l <<  "        last attended hour [     ]"
-    return l
-  end
-
-  def attendance_line(indent=0)
-    client = self
-    #return nil if !self.binder_types.include? client[:result]
-    l = ""
-    indent.times{ l<<' ' }
-    l<< "attended => [          ]"
-    return l
-  end
-
-  def updated_line(indent=0)
-    client = self
-     #return nil if !self.binder_types.include? client[:result]
-    l = ""
-    indent.times{ l<<' ' }
-    l << "updated => [          ]"
-    return l
-  end
-
+#################################################################################
   def self.csv_keys
     [:student_first_name,:student_last_name,:district_name,:government_district_code,:client_code,:period_month,:period_year,:invoice_date,:school,:district_city,:district_state,:district_zip,:fc_rate,:sc_rate,:fc_hours,:sc_hours,:fc_amount,:sc_amount,:amount,:per_pupil_amount,:hours_in_program]
   end
@@ -283,101 +226,6 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
      }
   end
 
-  def invoice_hrs_line( month , year , indent = 0 )
-    client=self
-    l = ""
-    indent.times{ l<<' ' }
-    fc_hours = client.fc_hours_in_period(month,year)
-    sc_hours = client.sc_hours_in_period(month,year)
-    l<< "month => #{ month } fc_hrs => #{ fc_hours } sc_hrs => #{ sc_hours }"
-    return l
-  end
-
-  def representative_line( indent = 0 )
-    client = self
-    l = ""
-    indent.times{ l << ' ' }
-    l << "representative => #{ client[:representatives] }"
-    return l
-  end
-
-  def client_line( indent = 0 )
-    client = self
-    l = ""
-    indent.times{ l << ' ' }
-    l<< "#{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]}"
-    return l
-  end
-
-  def result_line( indent = 0 )
-    client= self
-    l = ""
-    indent.times{ l << ' ' }
-    l<< "result => #{ client[:result] }"
-    return l
-  end
-
-  def total_fc_sc_hrs
-    client = self
-    total_hrs = 0
-    ['fc','sc'].each{ |c|
-      [9,10,11,12,1,2,3,4,5,6,7,8].each{ |m|
-        field_sym = "#{c}_hrs_#{m}".to_sym
-        hrs=  client.class.clean_hours( client.send(field_sym) )
-        total_hrs += hrs
-      }
-    }
-    return total_hrs
-  end
-
-  def invoice_audit_line( indent = 0 )
-    client = self
-    l = ""
-    indent.times{ l << ' ' }
-    l<< "Total fc plus sc hrs => #{ client.total_fc_sc_hrs }"
-    return l
-  end
-
-  def contract_hours_line( indent = 0 )
-    client = self
-    l = nil
-    result = client.result.to_sym if client.result
-    result = :other if !client.class.result_types.include? result
-    if [:revenue,:contract,:contract_dead].include? result
-      l = ""
-      indent.times{ l << ' ' }
-      l<< "Contracted Hours => #{ client.contracted_hours }"
-      l<< " , "
-      l<< "Last Consumed Hour => #{ client.last_consumed_hour }"
-
-    end
-    return l
-  end
-
-  def grade_line( indent = 0 )
-    client = self
-    l = ""
-    indent.times{ l << ' ' }
-    l<< "grade => #{ client[:grade].to_i }"
-    return l
-  end
-
-  def origin_line(indent=0)
-    client = self
-    l = ""
-    indent.times{ l << ' ' }
-    l << "origin => #{ client[:origin] }"
-    return l
-  end
-
-  def phone_line(indent=0)
-    client = self
-    l = ""
-    indent.times{ l << ' ' }
-    l << "phone_1 => #{ client[:phone1] } phone_2 => #{ client[:phone2] }"
-    return l
-  end
-
   def self.clean_result(client)
     result = client[:result].to_sym if client[:result]
     result = :other if !result_types.include? result
@@ -417,4 +265,263 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
     }
   end
 
+# total_fc_sc_hrs
+  def total_fc_sc_hrs
+    client = self
+    total_hrs = 0
+    ['fc','sc'].each{ |c|
+      [9,10,11,12,1,2,3,4,5,6,7,8].each{ |m|
+        field_sym = "#{c}_hrs_#{m}".to_sym
+        hrs=  client.class.clean_hours( client.send(field_sym) )
+        total_hrs += hrs
+      }
+    }
+    return total_hrs
+  end
+
+##########################################
+# Class View Methods
+##########################################
+
+# representative_total
+  def self.representative_total_hash(results)
+    client = self
+    t = 0
+    [:revenue,:contract,:test_done,:testing,:test_only,:waiting_for_contract].each{ |rt|
+      results.each_pair{ |sd_name,sd_hash|
+        sd_hash.each_pair{ |sc_name,sc_hash|
+          ar= sc_hash[rt]
+          #ar= results[sdn][scn][rt]
+          next if !ar
+          l << "#{rt.to_s.dup} #{ar.length} ".dup if ar
+          t += ar.length
+        }
+      }
+    }
+    return { :prompt_string => "representative total", :value_string => " #{t} [ #{l} ]" }
+  end
+
+  def self.representative_total_line( indent , results )
+    return comlete_string( indent, representative_total_hash(results) )
+  end
+
+# binder_total
+  def binder_total_hash(results)
+    t = 0
+    self.binder_types.each{ |rt|
+      results.each_pair{ |sd_name,sd_hash|
+        sd_hash.each_pair{ |sc_name,sc_hash|
+          ar= sc_hash[rt]
+          next if !ar
+          l << "#{rt} #{ar.length} " if ar
+          t += ar.length
+        }
+      }
+    }
+    return { :prompt_string => "binder total", :value_string => " #{t} [ #{l} ]" }
+  end
+
+  def binder_total_line( indent , results )
+    return comlete_string( indent, binder_total_hash(results) )
+  end
+
+##########################################
+# Object View Methods
+##########################################
+
+# representative
+  def representative_line_hash
+    client = self
+    return { :prompt_string => "representative", :value_string =>  client[:representatives] }
+  end
+
+  def representative_line( indent=0 )
+    return comlete_string( indent, representative_line_hash )
+  end
+
+# prep_line
+  def prep_line_hash()
+    return { :prompt_string => "prepped", :value_string => "[  ]" }
+  end
+
+  def prep_line( indent=0 )
+    return comlete_string( indent, prep_line_hash() )
+  end
+
+# last_attended_line
+  def last_attended_line_hash()
+    client = self
+    l = ""
+    l << if client[:last_attended_date]
+      "last attended #{client[:last_attended_date]}"
+    else
+      "has not previously attended"
+    end
+    return { :prompt_string => "last attended", :value_string => l }
+  end
+
+  def last_attended_line( indent=0)
+    return comlete_string( indent, last_attended_line_hash )
+  end
+
+# attendance_line
+  def attendance_line_hash()
+    return { :prompt_string => "attended", :value_string => "[  ]" }
+  end
+
+  def attendance_line( indent=0 )
+    return comlete_string( indent, last_attended_line_hash )
+  end
+
+# updated_line
+  def updated_line_hash
+    client = self
+     #return nil if !self.binder_types.include? client[:result]
+    return { :prompt_string => "updated", :value_string => "[  ]" }
+  end
+
+  def updated_line( indent=0 )
+    return comlete_string( indent, updated_line_hash )
+  end
+
+# invoice_hrs
+   def invoice_hrs_line_hash( month , year )
+    client = self
+    l = ""
+    fc_hours = client.fc_hours_in_period(month,year)
+    sc_hours = client.sc_hours_in_period(month,year)
+    return { 
+      :prompt_string =>  "month / fc_hrs / sc_hrs",
+      :value_string =>  "#{ month } / #{ fc_hours } / #{ sc_hours }"
+    }
+  end
+
+  def invoice_hrs_line( month , year , indent=0 )
+    return comlete_string( indent, invoice_hrs_line_hash )
+  end
+
+# client_line
+   def client_line_hash()
+    client = self
+    l = ""
+    l<< "#{ client[:client_id].to_i } #{ client[:last_name] } , #{ client[:first_name]}"
+    return { :prompt_string => "", :value_string =>  l }
+  end
+
+  def client_line( indent=0 )
+    return comlete_string( indent, client_line_hash )
+  end
+
+# result_line
+  def result_line_hash()
+    client= self
+    return { :prompt_string => "result", :value_string =>  "#{ client[:result] }" }
+  end
+
+  def result_line( indent=0 )
+    return comlete_string( indent, result_line_hash )
+  end
+
+# invoice_audit
+  def invoice_audit_line_hash()
+    client = self
+    return { :prompt_string => "Total fc plus sc hrs", :value_string =>  client.total_fc_sc_hrs }
+  end
+
+  def invoice_audit_line( indent=0 )
+    return comlete_string( indent, invoice_audit_line_hash )
+  end
+
+# contract_hours
+  def contract_hours_line_hash()
+    client = self
+    l = nil
+    result = client.result.to_sym if client.result
+    result = :other if !client.class.result_types.include? result
+    if [:revenue,:contract,:contract_dead].include? result
+      return {
+        :prompt_string => "Last Consumed Hour/Contracted Hours", 
+        :value_string =>  "#{ client.last_consumed_hour} / #{ client.contracted_hours }"
+      }
+    else
+      return  {
+        :prompt_string => "Result not in [:revenue,:contract,:contract_dead] ", 
+        :value_string =>  ""
+      }
+    end
+  end
+
+  def contract_hours_line( indent=0 )
+    return comlete_string( indent, contract_hours_line_hash )
+  end
+
+# grade
+  def grade_line_hash()
+    client = self
+    return { :prompt_string => "grade", :value_string =>  client[:grade].to_i }
+  end
+
+  def grade_line( indent=0 )
+    return comlete_string( indent, grade_line_hash )
+  end
+
+# origin
+  def origin_line_hash()
+    client = self
+    return { :prompt_string => "origin", :value_string =>  client[:origin] }
+  end
+
+  def origin_line( indent=0 )
+    return comlete_string( indent, origin_line_hash )
+  end
+
+# phone
+  def phone_line_hash()
+    client = self
+    return { 
+      :prompt_string => "phone 1/2/3 ",
+      :value_string =>  "#{client[:phone1]} #{ client[:phone2] } #{ client[:phone3] }"
+    }
+  end
+
+  def phone_line( indent=0 )
+    return comlete_string( indent, phone_line_hash )
+  end
+
+###################
+#
+###################
+  def class_field_list
+    [
+      :representative_total,
+      :binder_total
+    ]
+  end
+
+  def instance_field_list
+    [
+      :last_attended,
+      :prep,
+      #:invoice_hrs,
+      :updated,
+      :attendance,
+      :representative,
+      :client,
+      :result,
+      :invoice_audit,
+      :contract_hours,
+      :phone,
+      :origin,
+      :grade
+    ]
+  end
+
+  def inspect_pretty
+    lines = []
+    instance_field_list.map{ |f|
+p f
+      lines << self.send( "#{f.to_s}_line".to_sym)
+    }
+    return lines
+  end
 end
