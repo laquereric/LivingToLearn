@@ -445,4 +445,36 @@ p l
     }
   end
 
+###################
+# Education Report
+###################
+
+  def self.education_report()
+    self.each_district_with_ses_contract{ |d|
+p "SchoolDistrict #{d.code_name}"
+      d.education_reports
+    }
+  end
+
+  def education_reports()
+
+    Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
+    Dir.mkdir(self.local_status_directory) if !File.exists?(self.local_status_directory)
+
+    Person::Client.all_for(self).each{ |client|
+      filename= File.join(
+        self.local_status_directory, "client_#{client.id}___education_as_of__#{self.class.timestamp}"
+      )
+      education_event_array = EducationEvent.all_for(client)
+p filename
+      if education_event_array.length > 0
+        Document::Reports::Education.print_education_report_pdf(
+          filename, self, client, education_event_array
+        )
+      end
+    }
+
+  end
+
+
 end
