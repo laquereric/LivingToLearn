@@ -93,32 +93,6 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 ################
 #
 ################
-  def store_clients_by_school(month,year,dropbox_session=nil)
-
-    lines = []
-    status_lines = []
-    Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
-    Dir.mkdir(self.local_status_directory) if !File.exists?(self.local_status_directory)
-    filename= File.join( self.local_status_directory, "as_of__#{self.class.timestamp}" )
-
-    client_array= Person::Client.by_school_array{ |client|
-      same_sd?( client[:school_district] )
-      #(client[:school_district] == self.code_name)
-    }
-
-    Document::Reports::BySchool.print_by_school_report( self.code_name, self.local_directory , filename , client_array , month , year )
-
-=begin
-    if dropbox_session
-      dropbox_session.upload self.local_report_file, self.dropbox_directory, {:mode=>:dropbox}
-      db_status= "Stored Report to DropBox #{self.dropbox_directory}"
-      status_lines << db_status
-      lines << db_status
-      lines<< " "
-    end
-=end
-
-  end
 
   def store_invoice_csv( month , year , dropbox_session = nil )
     sd_total = 0.0
@@ -417,14 +391,6 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 # Reports
 #################
 
-  def self.status_report_for( month , year )
-    dropbox_session = Service::Dropbox.get_session
-    self.each_district_with_ses_contract{ |d|
-p "SchoolDistrict #{d.code_name}"
-      d.store_clients_by_school( month , year , dropbox_session ).each{ |l| p l }
-    }
-  end
-
   def self.invoice_csv_for( month , year )
     dropbox_session = Service::Dropbox.get_session
     Government::SchoolDistrict.each_district_with_ses_contract{ |d|
@@ -444,6 +410,46 @@ p l
       }
     }
   end
+
+###################
+# Status Report
+###################
+  def self.status_report_for( month , year )
+    dropbox_session = Service::Dropbox.get_session
+    self.each_district_with_ses_contract{ |d|
+p "SchoolDistrict #{d.code_name}"
+      d.store_clients_by_school( month , year , dropbox_session ).each{ |l| p l }
+    }
+  end
+
+  def store_clients_by_school(month,year,dropbox_session=nil)
+
+    lines = []
+    status_lines = []
+    Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
+    Dir.mkdir(self.local_status_directory) if !File.exists?(self.local_status_directory)
+    filename= File.join( self.local_status_directory, "as_of__#{self.class.timestamp}" )
+
+    client_array= Person::Client.by_school_array{ |client|
+      same_sd?( client[:school_district] )
+      #(client[:school_district] == self.code_name)
+    }
+
+    Document::Reports::BySchool.print_by_school_report( self.code_name, self.local_directory , filename , client_array , month , year )
+
+=begin
+    if dropbox_session
+      dropbox_session.upload self.local_report_file, self.dropbox_directory, {:mode=>:dropbox}
+      db_status= "Stored Report to DropBox #{self.dropbox_directory}"
+      status_lines << db_status
+      lines << db_status
+      lines<< " "
+    end
+=end
+
+  end
+
+
 
 ###################
 # Education Report
