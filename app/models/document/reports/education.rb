@@ -17,7 +17,7 @@ class Document::Reports::Education
         line(bounds.top_left, bounds.bottom_left)
 
         text "#{client.client_id.to_i.to_s} #{client.first_name} #{client.last_name}"
-        education_event_array.map{ |ee| 
+        education_event_array.map{ |ee|
           ee[:order] ||= 0
           ee
         }.sort{ |x,y|
