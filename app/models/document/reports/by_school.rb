@@ -3,33 +3,27 @@ require "prawn/measurement_extensions"
 
 class Document::Reports::BySchool
 
-  def self.print_by_school_report_pdf( code_name, local_directory , filename , client_array , month , year )
+  def self.print_by_school_report( code_name, local_directory , filename , client_array , month , year )
     client_hash = Person::Client.by_school_hash( client_array )
-    Prawn::Document.generate(filename) do
+    text_lines = []
+    status_lines = []
+    status= "Stored Report to #{local_directory}"
+    text_lines << status
+    status_lines << status
+    Prawn::Document.generate("#{filename}.pdf") do
       stroke do
         line(bounds.bottom_left, bounds.bottom_right)
         line(bounds.bottom_right, bounds.top_right)
         line(bounds.top_right, bounds.top_left)
         line(bounds.top_left, bounds.bottom_left)
+        text 'by_school_report_pdf'
+        Document::Reports::BySchool.client_report_by_school( code_name, month, year , client_array , text_lines )
+        text_lines.each{ |text_line|
+          text text_line
+        }
       end
     end
-  end
-
-  def self.print_by_school_report( code_name, local_directory , filename , client_array , month , year )
-    lines = []
-    status_lines = []
-    status= "Stored Report to #{local_directory}"
-    lines << status
-    status_lines << status
-
-    lines<< " "
-    client_report_by_school( code_name, month, year , client_array , lines = [] )
-
-    File.open(filename,'w+') do |file|
-      lines.flatten.each{ |line|
-        file.puts line
-       }
-    end
+    return text_lines
   end
 
   def self.client_report_by_school( code_name , month, year , client_array , lines = [] )
