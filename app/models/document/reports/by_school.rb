@@ -10,84 +10,55 @@ class Document::Reports::BySchool
   cattr_accessor :header_lines
   cattr_accessor :columns
 
-  def self.print_page(doc)
-    doc.start_new_page if self.last_page > 0
-    self.header_lines.each_index{ |index|
-      line = header_lines[index]
-      doc.text line
+#################################
+# Layout
+#################################
+
+  def self.table()
+    return {
+      :rows => 4,
+      :columns => 4
     }
-    self.columns.each_index{ |index|
-      column_lines = columns[index]
-      #doc.bounding_box [0,0], :width => 100 do #|box|
-        column_lines.each_index{ |line_index|
-          line = column_lines[line_index]
-          #box.
-          #doc.move_to( 100*index, 0 )
-          #doc.text line #, :at => [100*index,line_index*2]
-          doc.draw_text line , :at => [200*index,650-(line_index*8)]
-        }
-      #end
+  end
+
+  def self.header_bounding_box(doc,&block)
+    doc.font_size = 10
+    doc.bounding_box([doc.bounds.left,doc.bounds.top+0.25.in], :width => 7.5.in, :height => 1.in) {
+      doc.stroke_bounds
+      doc.indent(10) {
+        yield doc
+      }
     }
-    self.last_page += 1
   end
 
-  def self.print_line( doc, page_number , column_number , line_number , text_line, mode= :do )
-    if mode == :dump
-      doc.text "page_number #{page_number} column_number #{column_number} line_number #{line_number} text: #{text_line}"
-    else
-      self.columns ||= []
-      self.columns[column_number] ||= []
+  def self.cell_bounding_box_for(doc,row,column,&block)
+    doc.font_size = 6
+    width = 1.75.in
+    height = 2.in
+    x_offset = doc.bounds.left + (column*(width+0.125.in) )
+    y_offset = doc.bounds.top - 1.in - ( row * ( height + 0.125.in ) )
+    doc.bounding_box([x_offset,y_offset], :width => width, :height => height) do
+      doc.stroke_bounds
+      doc.indent(5) {
+        yield doc
+      }
     end
-#doc.text text_line
-    self.columns[column_number]<< text_line
   end
 
-  def self.print_header( doc, page_number, header_0, header_1, school_district, school, result, mode= :do )
+#################################
+# Data
+#################################
 
-    if mode == :dump
-      self.print_line( doc, page_number , -1 , 0 , header_0 )
-      self.print_line( doc, page_number , -1 , 1 , header_1 )
-
-      self.print_line( doc, page_number , -1 , 2 , school_district )
-      self.print_line( doc, page_number , -1 , 3 , school )
-      self.print_line( doc, page_number , -1 , 4 , result )
-    else
-      if self.columns
-        self.print_page(doc)
-        self.columns = nil
-      end
-      self.header_lines = [ header_0, header_1, school_district, school, result]
-    end
-
+  def self.get_current_page_data
+    { :header_lines => self.header_lines, :columns => self.columns }
   end
 
-  def self.print_by_school_report( code_name, local_directory , filename , client_array , month , year, mode= :do )
-    client_hash = Person::Client.by_school_hash( client_array )
-    line_arrays = []
-    status_lines = []
-    status= "Stored Report to #{local_directory}"
-    #line_arrays << status
-    status_lines << status
+  def self.reset_current_page_data
+    self.header_lines = []
+    self.columns = []
+  end
 
-    self.last_page = 0
-    self.last_column = 0
-    self.last_line = 0
-
-    page_number = 0
-    column_number = 0
-    line_number = 0
-
-    result= nil
-    Prawn::Document.generate("#{filename}.pdf") do
-    #Prawn::Document.generate("filename.pdf") do
-      self.font_size = 6
-      stroke do
-        #line(bounds.bottom_left, bounds.bottom_right)
-        #line(bounds.bottom_right, bounds.top_right)
-        #line(bounds.top_right, bounds.top_left)
-        #line(bounds.top_left, bounds.bottom_left)
-#p filename
-#text 'by_school_report_pdf'
+  def self.get_page_data(code_name, local_directory , filename , client_array , month , year, &block)
 
         school_district = nil
         school = nil
@@ -95,8 +66,17 @@ class Document::Reports::BySchool
         header_0 = nil
         header_1 = nil
 
+        page_number = 0
+        column_number = 0
+        row_number = 0
+
+        self.reset_current_page_data
+
+        line_arrays= []
         Document::Reports::BySchool.client_report_by_school( code_name, month, year , client_array , line_arrays )
         line_arrays.each{ |type,text_line|
+          next if type == :client_data
+
           ignore = false
           ignore = true if type == :block or type == :whitespace
           if type == :school_district
@@ -121,9 +101,11 @@ class Document::Reports::BySchool
             ignore = true
             result_nil = result.nil?
             if !result_nil
+              yield self.get_current_page_data if page_number != 0
+              self.reset_current_page_data
               page_number += 1
               column_number = 0
-              line_number = 0
+              row_number = 0
             end
           end
 
@@ -131,11 +113,11 @@ class Document::Reports::BySchool
             Document::Reports::BySchool.print_header( self, page_number, header_0, header_1, school_district, school, result )
           end
 
-          if !ignore
-            Document::Reports::BySchool.print_line( self, page_number , column_number , line_number , text_line )
+          if type == :client_object
+            Document::Reports::BySchool.save_cell( column_number , row_number , text_line )
           end
- #text "page_number #{page_number} column_number #{column_number} line_number #{line_number} text: #{text_line}"
-          if line_number > 80
+
+          if row_number >= Document::Reports::BySchool.table[:rows]
             if column_number < 3
               column_number += 1
             else
@@ -143,15 +125,111 @@ class Document::Reports::BySchool
               column_number = 0
               Document::Reports::BySchool.print_header( self, page_number, header_0, header_1, school_district, school, result )
             end
-            line_number = 0
+            row_number = 0
           else
-            line_number += 1
+            row_number += 1
           end
         }
-        #Document::Reports::BySchool.print_page(self)
-      end
+        yield self.get_current_page_data
+
+  end
+
+#####################################
+# Send Client Data to Cell
+######################################
+  def self.client_data(client,&block)
+              if  client[:last_consumed_hour] and client[:last_consumed_hour].is_a? Fixnum
+                  total_consumed_hours += client[:last_consumed_hour]
+                end
+                yield :client_data, client.client_line(6)
+                yield :client_data, client.prep_line(6)
+                yield :client_data, client.last_attended_line(8)
+                yield :client_data, client.attendance_line(8)
+                yield :client_data, client.updated_line(8)
+                yield :client_data, client.phone_line(8)
+                #yield :client_data, client.result_line(8) if rt == :other
+                yield :client_data, client.grade_line(8)
+                yield :client_data, client.origin_line(8)
+                #yield client.invoice_hrs_line(month,year,8)
+                yield :client_data, client.representative_line(8)
+                if ( ch = client.contract_hours_line(8) )
+                  yield :client_data, ch
+                end
+                if ( cial = client.invoice_audit_line(8) )
+                  yield :client_data, cial
+                end
+
+  end
+
+  def self.print_cell(pdf,client)
+    client_data(client){ |line|
+      pdf.text line[1]
+    }
+  end
+
+#####################################
+# Send Data to Page
+######################################
+
+  def self.print_page(pdf,page_data,new_page=true)
+    pdf.start_new_page if new_page
+    pdf.stroke do
+        Document::Reports::BySchool.header_bounding_box(pdf){
+          page_data[:header_lines].each{ |header_line|
+            pdf.text header_line
+          }
+        }
+        (0..Document::Reports::BySchool.table[:columns]-1).each{ |column|
+          next if page_data[:columns].nil?
+          column_data = page_data[:columns][column] if page_data
+          (0..Document::Reports::BySchool.table[:rows]-1).each{ |row|
+            row_data = column_data[row] if column_data
+            Document::Reports::BySchool.cell_bounding_box_for(pdf,row,column){
+              Document::Reports::BySchool.print_cell(pdf,row_data)  if row_data
+            }
+          }
+        }
     end
-    return [] #text_lines
+  end
+
+  def self.save_cell( column_number , row_number , hash )
+    self.columns ||= []
+    self.columns[column_number] ||= []
+    self.columns[column_number]<< hash
+  end
+
+  def self.print_header( doc, page_number, header_0, header_1, school_district, school, result, mode= :do )
+
+    if mode == :dump
+      self.print_line( doc, page_number , -1 , 0 , header_0 )
+      self.print_line( doc, page_number , -1 , 1 , header_1 )
+
+      self.print_line( doc, page_number , -1 , 2 , school_district )
+      self.print_line( doc, page_number , -1 , 3 , school )
+      self.print_line( doc, page_number , -1 , 4 , result )
+    else
+      if self.columns
+        #self.print_page(doc)
+        self.columns = nil
+      end
+      self.header_lines = [ header_0, header_1, school_district, school, result]
+    end
+
+  end
+##########################
+#
+###########################
+  def self.print_by_school_report( code_name, local_directory , filename , client_array , month , year, mode= :do )
+
+    result= nil
+    Prawn::Document.generate("#{filename}.pdf") do |pdf|
+      first_page = true
+      get_page_data(code_name, local_directory , filename , client_array , month , year) { |page_data|
+        Document::Reports::BySchool.print_page(pdf,page_data,!first_page)
+        first_page = false
+      }
+    end
+    return []
   end
 
   def self.client_report_by_school( code_name , month, year , client_array , lines = [] )
@@ -162,7 +240,7 @@ class Document::Reports::BySchool
     self.by_school_report( client_hash, month, year ) { |line|
       lines << line if line
     }
-    return [] #lines
+    return []
   end
 
   def self.by_school_report( results , month , year , &block )
@@ -188,27 +266,7 @@ class Document::Reports::BySchool
               l<< Person::Client.result_type_key[rt]
               yield  :whitespace, l if rt != :other
               results[sdn][scn][rt].each{ |client|
-                if  client[:last_consumed_hour] and client[:last_consumed_hour].is_a? Fixnum
-                  total_consumed_hours += client[:last_consumed_hour]
-                end
-                yield :client_data, client.client_line(6)
-                yield :client_data, client.prep_line(6)
-                yield :client_data, client.last_attended_line(8)
-                yield :client_data, client.attendance_line(8)
-                yield :client_data, client.updated_line(8)
-                yield :client_data, client.phone_line(8)
-                yield :client_data, client.result_line(8) if rt == :other
-                yield :client_data, client.grade_line(8)
-                yield :client_data, client.origin_line(8)
-                #yield client.invoice_hrs_line(month,year,8)
-                yield :client_data, client.representative_line(8)
-                if ( ch = client.contract_hours_line(8) )
-                  yield :client_data, ch
-                end
-                if ( cial = client.invoice_audit_line(8) )
-                  yield :client_data, cial
-                end
-                yield :whitespace, ""
+                yield :client_object,client
               }
           }
         }
