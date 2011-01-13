@@ -1,5 +1,85 @@
-class Document::Reports::BySchool < Document::Reports::TableTemplate
+require 'prawn'
+require "prawn/measurement_extensions"
 
+class Document::Reports::TableTemplate
+
+  cattr_accessor :last_page
+  cattr_accessor :last_column
+  cattr_accessor :last_line
+
+  cattr_accessor :header_lines
+  cattr_accessor :columns
+
+#################################
+# Layout
+#################################
+
+  def self.table()
+    return {
+      :rows => 4,
+      :columns => 4
+    }
+  end
+
+  def self.header_bounding_box(doc,&block)
+    doc.font_size = 10
+    doc.bounding_box([doc.bounds.left,doc.bounds.top+0.25.in], :width => 7.5.in, :height => 1.in) {
+      doc.stroke_bounds
+      doc.indent(10) {
+         doc.text " "
+         yield doc
+      }
+    }
+  end
+
+  def self.footer_bounding_box(doc,&block)
+#p 'footer!'
+    doc.font_size = 10
+    doc.bounding_box([doc.bounds.left,doc.bounds.top+5.in], :width => 7.5.in, :height => 0.25.in) {
+      doc.stroke_bounds
+      #doc.indent(10) {
+#doc.text 'footer'
+#        yield doc
+#      }
+    }
+  end
+
+  def self.cell_bounding_box_for(doc,row,column,&block)
+
+    doc.font_size = 6
+    width = 1.75.in
+    height = 2.in
+    x_offset = doc.bounds.left + (column*(width+0.125.in) )
+    y_offset = doc.bounds.top - 1.in - ( row * ( height + 0.125.in ) )
+    doc.bounding_box([x_offset,y_offset], :width => width, :height => height) do
+      doc.stroke_bounds
+      doc.indent(5) {
+         doc.text " "
+         yield doc
+      }
+    end
+  end
+
+#################################
+# Data
+#################################
+
+  def self.current_page_has_content?
+    r = (!self.header_lines.nil? and !self.columns.nil?)
+    return r
+  end
+
+  def self.get_current_page_data
+     #0/0 if !self.current_page_has_content?
+    r= { :header_lines => self.header_lines.dup, :columns => self.columns.dup }
+    self.reset_current_page_data
+    return r
+  end
+
+  def self.reset_current_page_data
+    self.header_lines = nil
+    self.columns = nil
+  end
 
   def self.get_page_data(code_name, client_array , month , year, &block)
 
@@ -179,7 +259,23 @@ p "to pdf #{client.client_id.to_i}"
 
     end
   end
+
 #########################
+# Saving Data for later Printing
+#########################
+
+  def self.save_cell( column_number , row_number , hash )
+    self.columns ||= []
+    self.columns[column_number] ||= []
+    self.columns[column_number]<< hash
+  end
+
+  def self.save_header( doc, page_number, header_0, header_1, school_district, school, result, mode= :do )
+
+    self.header_lines = [ header_0, header_1, school_district, school, result]
+
+  end
+##########################
 #
 ###########################
   def self.print_by_school_report( code_name, local_directory , filename , client_array , month , year, mode= :do )
