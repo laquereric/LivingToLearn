@@ -476,11 +476,15 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
 # phone
+  def fix_phone_num(pn)
+    r= if pn then pn.strip.split(' ').join('-').strip else '' end
+  end
+
   def phone_line_hash()
     client = self
     return { 
-      :prompt_string => "phone 1/2/3 ",
-      :value_string =>  "#{client[:phone1]} #{ client[:phone2] } #{ client[:phone3] }"
+      :prompt_string => "phone 1/2/3",
+      :value_string =>  "#{fix_phone_num(client[:phone_1])} #{ fix_phone_num(client[:phone_2]) } #{ fix_phone_num(client[:phone_3]) }".strip
     }
   end
 
