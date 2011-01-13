@@ -121,6 +121,15 @@ p "last page"
                 yield :client_data, pns[1] if pns[1]
                 yield :client_data, pns[2] if pns[2]
 
+                yield :client_data, client.address_line_1 if client.address_line_1
+                yield :client_data, client.address_line_2 if client.address_line_2
+                yield :client_data, client.city if client.city
+                yield :client_data, client.state if client.state
+                yield :client_data, client.zip if client.zip
+
+                yield :client_data, client.sched_a if client.sched_a
+                yield :client_data, client.sched_b if client.sched_b
+
                 yield :client_data, client.grade_line(8)
                 yield :client_data, client.origin_line(8)
                 #yield client.invoice_hrs_line(month,year,8)

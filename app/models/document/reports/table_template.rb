@@ -16,7 +16,7 @@ class Document::Reports::TableTemplate
 
   def self.table()
     return {
-      :rows => 4,
+      :rows => 3,
       :columns => 4
     }
   end
@@ -48,7 +48,7 @@ class Document::Reports::TableTemplate
 
     doc.font_size = 6
     width = 1.75.in
-    height = 2.in
+    height = 2.7.in
     x_offset = doc.bounds.left + (column*(width+0.125.in) )
     y_offset = doc.bounds.top - 1.in - ( row * ( height + 0.125.in ) )
     doc.bounding_box([x_offset,y_offset], :width => width, :height => height) do
