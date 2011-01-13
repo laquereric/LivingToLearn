@@ -20,6 +20,41 @@ class Person::Client < ActiveRecord::Base
     return l
   end
 
+  def has_scheds?
+    return ( self.scheds.length > 0 )
+  end
+
+  def raw_scheds
+    sa= ['a','b','c','d','e','f','g'].map{ |c|
+      cn = "sched_#{c}" #.to_sym
+      r = self.send(cn.to_sym)
+      r
+    }.compact
+    sa
+  end
+
+  def self.each_client_schedule_for(day)      
+     unsorted = []
+     c = GoogleApi::Calendar
+     Person::Client.each_client { |client|
+       next if !client.has_scheds?
+       unsorted << { :client => client, :scheds => c.sched_for_day( client.scheds , day ) } if c.sched_on_day( client.scheds , day )
+     }
+     sorted = unsorted.sort{ |x,y|
+       c.sched_to_minutes( x[:scheds][0] ) <=>  c.sched_to_minutes( y[:scheds][0] ) 
+     }
+     sorted.each{ |h|
+       yield( h[:client] , h[:scheds] )
+     }
+  end
+
+  def scheds
+    psa = raw_scheds.map{ |sc|
+      GoogleApi::Calendar.parse_sched(sc)
+    }
+    return psa
+  end
+
   def self.each_client (&block)
     Spreadsheet::CurrentClients.each_client{ |client_o|
       yield( client_o )
