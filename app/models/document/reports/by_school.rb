@@ -1,5 +1,9 @@
 class Document::Reports::BySchool < Document::Reports::TableTemplate
 
+  def self.header_left(pdf)
+      logo = File.join(RAILS_ROOT,'public','images','tc_logo.jpg')
+      image logo, :at => [0.5.in,pdf.bounds.top-0.1.in], :width=> 3.in, :height => 1.3.in
+  end
 
   def self.get_page_data(code_name, client_array , month , year, &block)
 
