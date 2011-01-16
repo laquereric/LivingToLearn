@@ -7,99 +7,99 @@ class Document::Reports::BySchool < Document::Reports::TableTemplate
 
   def self.get_page_data(code_name, client_array , month , year, &block)
 
-        school_district = nil
-        school = nil
-        result = nil
-        header_0 = nil
-        header_1 = nil
+    school_district = nil
+    school = nil
+    result = nil
+    header_0 = nil
+    header_1 = nil
 
-        page_number = 0
-        column_number = 0
-        row_number = 0
+    page_number = 0
+    column_number = 0
+    row_number = 0
 
-         next_push_page = false
-         self.reset_current_page_data
+    next_push_page = false
+    self.reset_current_page_data
 
-        line_arrays= []
-        Document::Reports::BySchool.client_report_by_school( code_name, month, year , client_array , line_arrays )
-        line_arrays.each{ |type,text_line|
+    line_arrays= []
+    Document::Reports::BySchool.client_report_by_school( code_name, month, year , client_array , line_arrays )
+    line_arrays.each{ |type,text_line|
 p "#{type} #{text_line}"
 
-         if next_push_page
-            push_page = true
-            next_push_page = false
-          else
-            push_page = false
-          end
+      if next_push_page
+        push_page = true
+        next_push_page = false
+      else
+        push_page = false
+      end
 
-          next if type == :client_data
+      next if type == :client_data
 
-          ignore = false
-          ignore = true if type == :block or type == :whitespace
-          if type == :school_district
-            ignore = true
-            school_district = text_line
-          end
+      ignore = false
+      ignore = true if type == :block or type == :whitespace
+      if type == :school_district
+        ignore = true
+        school_district = text_line
+      end
 
-          if type == :header_0
-            header_0 = text_line; ignore = true
-          end
-          if type == :header_1
-            header_1 = text_line; ignore = true
-          end
+      if type == :header_0
+        header_0 = text_line; ignore = true
+      end
+      if type == :header_1
+        header_1 = text_line; ignore = true
+      end
 
-          new_school = if type == :school then text_line else nil end
+      new_school = if type == :school then text_line else nil end
 
-          new_result = if type == :result then text_line else nil end
+      new_result = if type == :result then text_line else nil end
 
-          if new_result or new_school
-            result_nil = result.nil?
-            if !result_nil
+      if new_result or new_school
+        result_nil = result.nil?
+        if !result_nil
 p "first result" if page_number == 0
 p "new result #{new_result}"
-              push_page = true if new_result
-            end
-          end
+          push_page = true if new_result
+        end
+      end
 
-          if type == :result
-            Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
-          end
-
-          if type == :client_object
-            if row_number >= Document::Reports::BySchool.table[:rows]-1
-              if column_number >= Document::Reports::BySchool.table[:columns]-1
-p "next object will be will last on this page!"
-                next_push_page = true
-              end
-            end
-          end
-
-          if push_page
-             Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
-p 'pushing page'
-             yield Document::Reports::BySchool.get_current_page_data
-             page_number += 1
-             column_number = 0
-             row_number = 0
-          end
-
-          school = new_school if new_school
-          result = new_result if new_result
-
-          if type == :client_object
-p  "save cell p #{page_number} c #{column_number} r #{row_number} #{text_line.client_id.to_i}"
-            Document::Reports::BySchool.save_cell( column_number , row_number , text_line )
-            if row_number >= Document::Reports::BySchool.table[:rows]-1
-              row_number = 0
-              column_number += 1
-            else
-              row_number += 1
-            end
-          end
-        }
-p "last page"
+      if type == :result
         Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
-        yield Document::Reports::BySchool.get_current_page_data if Document::Reports::BySchool.current_page_has_content?
+      end
+
+      if type == :client_object
+        if row_number >= Document::Reports::BySchool.table[:rows]-1
+          if column_number >= Document::Reports::BySchool.table[:columns]-1
+p "next object will be will last on this page!"
+            next_push_page = true
+          end
+        end
+      end
+
+      if push_page
+        Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
+p 'pushing page'
+        yield Document::Reports::BySchool.get_current_page_data
+        page_number += 1
+        column_number = 0
+        row_number = 0
+      end
+
+      school = new_school if new_school
+      result = new_result if new_result
+
+      if type == :client_object
+p  "save cell p #{page_number} c #{column_number} r #{row_number} #{text_line.client_id.to_i}"
+        Document::Reports::BySchool.save_cell( column_number , row_number , text_line )
+        if row_number >= Document::Reports::BySchool.table[:rows]-1
+          row_number = 0
+          column_number += 1
+        else
+          row_number += 1
+        end
+      end
+    }
+p "last page"
+    Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
+    yield Document::Reports::BySchool.get_current_page_data if Document::Reports::BySchool.current_page_has_content?
 
   end
 
@@ -144,7 +144,6 @@ p "last page"
                 if ( cial = client.invoice_audit_line(8) )
                   yield :client_data, cial
                 end
-
   end
 
   def self.print_cell(pdf,client)
@@ -159,39 +158,6 @@ p "to pdf #{client.client_id.to_i}"
     }
   end
 
-#####################################
-# Send Data to Page
-######################################
-
-  def self.move_saved_to_page(pdf,page_data,new_page=true)
-    pdf.start_new_page if new_page
-    pdf.stroke do
-
-        Document::Reports::BySchool.header_bounding_box(pdf){
-          page_data[:header_lines].each{ |header_line|
-            pdf.text header_line
-          }
-        }
-
-        (0..Document::Reports::BySchool.table[:columns]-1).each{ |column|
-          next if page_data.nil?
-          next if page_data[:columns].nil?
-          next if page_data[:columns][column].nil?
-          column_data = page_data[:columns][column]
-          (0..Document::Reports::BySchool.table[:rows]-1).each{ |row|
-            row_data = column_data[row] if column_data
-            Document::Reports::BySchool.cell_bounding_box_for(pdf,row,column){
-              Document::Reports::BySchool.print_cell(pdf,row_data)  if row_data
-            }
-          }
-        }
-
-        #Document::Reports::BySchool.footer_bounding_box(pdf){
-        #  pdf.text 'footer_line'
-        #}
-
-    end
-  end
 #########################
 #
 ###########################
