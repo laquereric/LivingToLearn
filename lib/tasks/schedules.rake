@@ -3,41 +3,37 @@ namespace :schedule do
 
     desc "Week"
     task :week => :environment do
-      sum = 0
-      ["SUN","MON","TU","WED","THUR","FRI","SAT"].each{ |week_day|
-        sum += Document::Reports::DailyCalendar.quick_for(week_day)
-      }
-      p "Total of #{sum}"
+      Document::Reports::DailyCalendar.weekly
     end
 
     desc "SUN"
     task :sun => :environment do
-       Document::Reports::DailyCalendar.quick_for('SUN')
+       Document::Reports::DailyCalendar.quick_for('SUN'){|l| p l }
     end
 
     desc "MON"
     task :mon => :environment do
-       Document::Reports::DailyCalendar.quick_for('MON')
+       Document::Reports::DailyCalendar.quick_for('MON'){|l| p l }
     end
 
     desc "TU"
     task :tu => :environment do
-       Document::Reports::DailyCalendar.quick_for('TU')
+       Document::Reports::DailyCalendar.quick_for('TU'){|l| p l }
     end
 
     desc "WED"
     task :wed => :environment do
-       Document::Reports::DailyCalendar.quick_for('WED')
+       Document::Reports::DailyCalendar.quick_for('WED'){|l| p l }
     end
 
     desc "THUR"
     task :thur => :environment do
-       Document::Reports::DailyCalendar.quick_for('THUR')
+       Document::Reports::DailyCalendar.quick_for('THUR'){|l| p l }
     end
 
     desc "FRI"
     task :fri => :environment do
-       Document::Reports::DailyCalendar.quick_for('FRI')
+       Document::Reports::DailyCalendar.quick_for('FRI'){|l| p l }
     end
 
     desc "SAT"
