@@ -20,7 +20,7 @@ class Person::Client < ActiveRecord::Base
     return l
   end
 
-  def has_scheds?
+  def has_appointments?
     return ( self.scheds.length > 0 )
   end
 
@@ -28,31 +28,28 @@ class Person::Client < ActiveRecord::Base
     sa= ['a','b','c','d','e','f','g'].map{ |c|
       cn = "sched_#{c}" #.to_sym
       r = self.send(cn.to_sym)
+      r = nil if r and r.length == 0
       r
     }.compact
     sa
   end
 
-  def self.each_client_schedule_for(day)      
-     unsorted = []
-     c = GoogleApi::Calendar
-     Person::Client.each_client { |client|
-       next if !client.has_scheds?
-       unsorted << { :client => client, :scheds => c.sched_for_day( client.scheds , day ) } if c.sched_on_day( client.scheds , day )
-     }
-     sorted = unsorted.sort{ |x,y|
-       c.sched_to_minutes( x[:scheds][0] ) <=>  c.sched_to_minutes( y[:scheds][0] ) 
-     }
-     sorted.each{ |h|
-       yield( h[:client] , h[:scheds] )
-     }
+  def this_appointment
+    Appointment.this_appointment_for(self)
   end
 
-  def scheds
-    psa = raw_scheds.map{ |sc|
-      GoogleApi::Calendar.parse_sched(sc)
+  def next_appointment
+    Appointment.next_appointment_for(self)
+  end
+
+  def appointments
+    psa = self.raw_scheds.map{ |raw_sched|
+      Appointment.create_from_raw_sched(self,raw_sched)
     }
-    return psa
+  end
+
+  def appointments_on(day_of_week)
+    appointments.select{ |appointment| appointment.day_of_week == day_of_week }
   end
 
   def self.each_client (&block)

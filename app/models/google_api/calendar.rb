@@ -3,40 +3,6 @@ require 'tzinfo'
 
 class GoogleApi::Calendar < GoogleApi::Client
 
-  def self.sched_to_minutes(r)
-    am_pm_min = if r[:am_pm]='PM' then 60*12 else 0 end
-    ra = r[:hour].split(':')
-    hour_min = ra[0].to_i * 60
-    min_min = if ra.length>1 then ra[1].to_i else 0 end
-    return am_pm_min + hour_min + min_min
-  end
-
-  def self.sched_for_day(sa,day)
-    sa.select{ |sched| sched[:day] == day }
-  end
-
-  def self.sched_on_day(sa,day)
-    return ( sched_for_day(sa,day).length > 0 )
-  end
-
-  def self.sched_at_loc(loc)
-    rs= sa.select{ |sched| r[:loc] == loc }
-    return ( rs.length > 0 )
-  end
-
-  def self.parse_sched(sched)
-
-    sa = sched.split('_')
-    r = {}
-    r[:loc] = sa[0]
-    r[:day] = sa[1]
-    r[:hour] = sa[2]
-    r[:am_pm] = sa[3]
-    r[:tentative] = if sa.length == 5 and sa[4] == 'Q' then true else false end
-    return r
-
-  end
-
   def self.missing_ids
      lines=[]
      list= self.cache_dump.keys.select{ |k| /_x/.match(k) }

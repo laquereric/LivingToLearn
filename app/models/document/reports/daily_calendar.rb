@@ -1,13 +1,13 @@
 class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
 
-  def self.quick_for(day,&block)
+  def self.quick_for( day_of_week , &block )
 
     index = 1
-    yield( :title , "Day : #{day}" )
-    Person::Client.each_client_schedule_for(day){ |client,day_scheds|
-      r = "  #{index} #{client.client_id.to_i} #{client.last_name}, #{client.first_name}"
-      r << "#{day_scheds[0][:loc]} #{day_scheds[0][:hour]} #{day_scheds[0][:am_pm]}"
-      yield( :client_appintment , r )
+    yield( :title , "Day : #{day_of_week}" )
+    Appointment.all_on_weekday(day_of_week).each{ |appointment|
+      r = "  #{index} #{appointment.client.client_id.to_i} #{appointment.client.last_name}, #{appointment.client.first_name}"
+      r << "#{appointment[:loc]} #{appointment[:hour]} #{appointment[:am_pm]}"
+      yield( :client_appointment , r )
       index += 1
     }
     yield( :day_total , index )
@@ -55,7 +55,7 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
 
     title = day_array.select { |la| la[0] == :title}[0][1]
     day_total = day_array.select { |la| la[0] == :day_total}[0][1]
-    client_appintments = []; client_appintments << day_array.select { |la| la[0] == :client_appintment }.map{ |l| l[1]}
+    client_appintments = []; client_appintments << day_array.select { |la| la[0] == :client_appointment }.map{ |l| l[1]}
 
     pdf.font_size = 12
     pdf.text title.inspect
