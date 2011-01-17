@@ -2,6 +2,10 @@ class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
 
+  def school_district_object
+    Government::SchoolDistrict.for_code_name(self.school_district)
+  end
+
   def self.all_for(school_district)
     self.all.select{ |client| school_district.same_sd?( client.school_district ) }
   end
@@ -22,6 +26,15 @@ class Person::Client < ActiveRecord::Base
 
   def has_appointments?
     return ( self.scheds.length > 0 )
+  end
+
+  def next_appointment_dates( reference_time = DateTime.now )
+    appointment_array = self.appointments
+    mapped_appointment_dates = Appointment.specifically_map( appointment_array , reference_time )
+    r = {}
+    r[:next] = mapped_appointment_dates[0]
+    r[:following] = mapped_appointment_dates[1]
+    return r
   end
 
   def raw_scheds
@@ -277,6 +290,16 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
       :unknown
     end
     return r
+  end
+
+  def self.all_under_contract_with_sd( sd )
+    client_array = Person::Client.by_school_array{ |client|
+      right_sd = sd.same_sd?( client[:school_district] )
+      under_contract = ( client[:result] == 'contract' or client[:result] == 'revenue' )
+      use = ( under_contract and right_sd )
+      use
+    }
+    return client_array
   end
 
   def self.with_logged_hours( sd, month, year )

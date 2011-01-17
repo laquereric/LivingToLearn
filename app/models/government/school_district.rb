@@ -95,7 +95,8 @@ class Government::SchoolDistrict < Government::GovernmentDetail
 ################
 
   def store_invoice_csv( month , year , dropbox_session = nil )
-    sd_total = 0.0
+
+   sd_total = 0.0
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
 

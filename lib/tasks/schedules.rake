@@ -1,4 +1,19 @@
 namespace :schedule do
+
+    desc "ex"
+    task :ex => :environment do
+      client = Person::Client.find_by_client_id(193.0)
+      appointment_array = client.appointments
+      p Appointment.specifically_map( appointment_array )
+    end
+
+    desc "ex2"
+    task :ex2 => :environment do
+      client = Person::Client.find_by_client_id(193.0)
+      appointment_array = client.appointments
+      p Appointment.specifically_map( appointment_array ,  DateTime.now+2.days)
+    end
+
   namespace :for_day do
 
     desc "Week"
