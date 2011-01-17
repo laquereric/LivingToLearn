@@ -30,7 +30,7 @@ class Person::Client < ActiveRecord::Base
 
   def next_appointment_dates( reference_time = DateTime.now )
     appointment_array = self.appointments
-    mapped_appointment_dates = Appointment.specifically_map( appointment_array , reference_time )
+    mapped_appointment_dates = Appointment::Recurring.specifically_map( appointment_array , reference_time )
     r = {}
     r[:next] = mapped_appointment_dates[0]
     r[:following] = mapped_appointment_dates[1]
@@ -47,17 +47,9 @@ class Person::Client < ActiveRecord::Base
     sa
   end
 
-  def this_appointment
-    Appointment.this_appointment_for(self)
-  end
-
-  def next_appointment
-    Appointment.next_appointment_for(self)
-  end
-
   def appointments
     psa = self.raw_scheds.map{ |raw_sched|
-      Appointment.create_from_raw_sched(self,raw_sched)
+      Appointment::Recurring.create_from_raw_sched(self,raw_sched)
     }
   end
 
