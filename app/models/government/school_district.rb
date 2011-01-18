@@ -90,6 +90,10 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     return self.find_by_government_district_code( self.id_from_code_name(cn) )
   end
 
+  def pretty_name
+    self.name.gsub('_',' ').capitalize
+  end
+
 ################
 #
 ################

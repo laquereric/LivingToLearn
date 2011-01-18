@@ -1,15 +1,18 @@
 class Appointment::Recurring < ActiveRecord::Base
+
   set_table_name :appointments
 
   def self.specifically_map( appointment_array , reference_time = DateTime.now , sequence_length = 3 )
 #p "appointment_array : #{appointment_array.inspect}"
     results = []
-    return results if appointment_array.length==0
+    return results if appointment_array.length == 0
 
     offset_array = self.offset_to_reference( appointment_array , reference_time )
 #p "offset_array : #{offset_array.inspect}"
     modulus = offset_array.length
     cursor_time = reference_time
+
+    relative_order = 0
 
     (0..(sequence_length-1)).each{ |appointment_number|
 
@@ -36,40 +39,66 @@ class Appointment::Recurring < ActiveRecord::Base
 
       next_date_time += next_appointment.minute.minutes
 
-      results << next_date_time
-      cursor_time = next_date_time
-    }
+      sr_app = Appointment::SpecificRecurring.new
+      sr_app.datetime = next_date_time
+      sr_app.client_id = next_appointment.client_id
+      sr_app.location_code = next_appointment.loc
 
+      sr_app.relative_tag = case relative_order
+        when 0 then :next
+        when 1 then :following
+        else relative_order
+      end
+
+      results << sr_app
+
+      cursor_time = next_date_time
+      relative_order += 1
+
+    }
     return results
 
   end
 
   def self.offset_to_reference( appointment_array, reference_time = DateTime.now )
+
     modulus = appointment_array.length
+#p appointment_array.inspect
+    return appointment_array if modulus < 2
 
     reference_week_minutes = self.reference_week_minutes(reference_time)
 #p "reference_week_minutes #{reference_week_minutes}"
-    sorted_array = appointment_array.sort{ |x,y|
-       x.week_minutes <=>  y.week_minutes
+
+    sorted_array = appointment_array.sort{ | x , y |
+      x.week_minutes <=> y.week_minutes
     }
+#p "sorted_array #{sorted_array.inspect}"
+
+
     next_appointment_index = nil
     sorted_array.each_index{ |index|
+
       this_week_minutes = sorted_array[index].week_minutes
 #p "this_week_minutes #{this_week_minutes}"
-       if  next_appointment_index.nil? and this_week_minutes > reference_week_minutes
+
+      if next_appointment_index.nil? and this_week_minutes > reference_week_minutes
         next_appointment_index = index
         break
       end
     }
 #p "next_appointment_index #{next_appointment_index}"
 #p "modulus #{modulus}"
+
     offset_array = []
     sorted_array.each_index{ |i|
       index = (next_appointment_index+i) % modulus
 #p "i: #{i} index: #{index}"
+
       offset_array << sorted_array[index]
     }
+
     return offset_array
+
   end
 
   def self.reference_week_minutes(ref)
@@ -85,7 +114,7 @@ class Appointment::Recurring < ActiveRecord::Base
   end
 
   def self.day_abbreviations
-    ["SUN" , "MON" , "TU", "WED" , "THUR" , "FRI", "SAT"]
+    ["SN" , "MN" , "TU", "WD" , "TH" , "FR", "ST"]
   end
 
   def self.all_on_weekday(day_of_week)

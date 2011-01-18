@@ -27,9 +27,9 @@ class Document::Letter::TwoWindowTemplate
 
   def self.header_bounding_box( doc , &block )
 
-    header_top_left = [ doc.bounds.left + 4.25.in , doc.bounds.top ]
-    header_width = 3.25.in
-    header_height = 3.in
+    header_top_left = [ doc.bounds.left + 4.25.in , doc.bounds.top-0.5.in ]
+    header_width = 2.75.in
+    header_height = 2.5.in
 
     doc.bounding_box( header_top_left, :width => header_width, :height => header_height ) {
       doc.stroke_color "cc1133"
@@ -42,27 +42,12 @@ class Document::Letter::TwoWindowTemplate
   
   end
 
-  def self.greeting_bounding_box( doc , &block )
-
-    greeting_top_left = [ doc.bounds.left, doc.bounds.top - 3.25.in ]
-    greeting_width =  doc.bounds.width
-    greeting_height = 0.5.in
-
-    doc.bounding_box( greeting_top_left, :width => greeting_width, :height => greeting_height ) {
-      #doc.stroke_bounds
-      doc.move_down(0.125.in)
-      doc.indent(0.125.in){
-        yield(doc)
-      }
-   }
-  
-  end
 
   def self.body_bounding_box( doc , &block )
 
-    body_top_left = [ doc.bounds.left , doc.bounds.top - 3.75.in ]
-    body_width = doc.bounds.width
-    body_height = 6.25.in
+    body_top_left = [ doc.bounds.left+0.5.in , doc.bounds.top - 3.25.in ]
+    body_width = doc.bounds.width-1.0.in
+    body_height = 6.75.in
 
     doc.bounding_box( body_top_left, :width => body_width, :height => body_height ) {
       #doc.stroke_bounds

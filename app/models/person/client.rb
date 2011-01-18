@@ -28,13 +28,12 @@ class Person::Client < ActiveRecord::Base
     return ( self.scheds.length > 0 )
   end
 
-  def next_appointment_dates( reference_time = DateTime.now )
+  def next_appointment_dates( reference_time = DateTime.now , sequence_length = 3  )
     appointment_array = self.appointments
-    mapped_appointment_dates = Appointment::Recurring.specifically_map( appointment_array , reference_time )
-    r = {}
-    r[:next] = mapped_appointment_dates[0]
-    r[:following] = mapped_appointment_dates[1]
-    return r
+    mapped_appointment_dates = Appointment::Recurring.specifically_map(
+      appointment_array , reference_time, sequence_length
+    )
+    return mapped_appointment_dates
   end
 
   def raw_scheds
