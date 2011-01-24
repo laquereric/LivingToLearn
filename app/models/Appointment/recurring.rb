@@ -3,12 +3,10 @@ class Appointment::Recurring < ActiveRecord::Base
   set_table_name :appointments
 
   def self.specifically_map( appointment_array , reference_time = DateTime.now , sequence_length = 3 )
-#p "appointment_array : #{appointment_array.inspect}"
     results = []
     return results if appointment_array.length == 0
 
     offset_array = self.offset_to_reference( appointment_array , reference_time )
-#p "offset_array : #{offset_array.inspect}"
     modulus = offset_array.length
     cursor_time = reference_time
 
@@ -63,39 +61,29 @@ class Appointment::Recurring < ActiveRecord::Base
   def self.offset_to_reference( appointment_array, reference_time = DateTime.now )
 
     modulus = appointment_array.length
-#p appointment_array.inspect
     return appointment_array if modulus < 2
 
     reference_week_minutes = self.reference_week_minutes(reference_time)
-#p "reference_week_minutes #{reference_week_minutes}"
 
     sorted_array = appointment_array.sort{ | x , y |
       x.week_minutes <=> y.week_minutes
     }
-#p "sorted_array #{sorted_array.inspect}"
-
 
     next_appointment_index = nil
     sorted_array.each_index{ |index|
 
       this_week_minutes = sorted_array[index].week_minutes
-#p "this_week_minutes #{this_week_minutes}"
 
       if next_appointment_index.nil? and this_week_minutes > reference_week_minutes
         next_appointment_index = index
         break
       end
     }
-#p "next_appointment_index #{next_appointment_index}"
-#p "modulus #{modulus}"
     next_appointment_index = 0 if !next_appointment_index
 
     offset_array = []
     sorted_array.each_index{ |i|
       index = (next_appointment_index+i) % modulus
-#p "i: #{i} index: #{index}"
-
-      offset_array << sorted_array[index]
     }
 
     return offset_array
