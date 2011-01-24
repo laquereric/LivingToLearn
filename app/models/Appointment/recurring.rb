@@ -88,6 +88,7 @@ class Appointment::Recurring < ActiveRecord::Base
     }
 #p "next_appointment_index #{next_appointment_index}"
 #p "modulus #{modulus}"
+    next_appointment_index = 0 if !next_appointment_index
 
     offset_array = []
     sorted_array.each_index{ |i|
@@ -106,7 +107,7 @@ class Appointment::Recurring < ActiveRecord::Base
   end
 
   def week_minutes()
-    return self.day_index*24*60 + self.to_minutes
+    return (self.day_index*24*60) + self.to_minutes
   end
 
   def day_index()
@@ -117,6 +118,20 @@ class Appointment::Recurring < ActiveRecord::Base
     ["SN" , "MN" , "TU", "WD" , "TH" , "FR", "ST"]
   end
 
+  def sort_hash_by_time_location_client_id()
+    x = self
+
+    t = Integer ( 1_000_000_000_000_000_000_000_000_000)
+    minutes_scale =       1_000_000_000_000_000_000_000
+    location_scale =                      1_000_000_000
+
+    t += x.week_minutes * minutes_scale
+    t += x.loc.hash * location_scale
+    t += x.client_id.to_i
+
+    return t
+  end
+
   def self.all_on_weekday(day_of_week)
      unsorted = Person::Client.all.map { |client|
        appointments = client.appointments_on( day_of_week )
@@ -124,9 +139,9 @@ class Appointment::Recurring < ActiveRecord::Base
        appointments
      }.flatten.compact
      sorted = unsorted.sort{ |x,y|
-       x.to_minutes <=>  y.to_minutes
+       x.sort_hash_by_time_location_client_id <=> y.sort_hash_by_time_location_client_id
      }
-     return unsorted
+     return sorted
   end
 
   def client
@@ -150,8 +165,8 @@ class Appointment::Recurring < ActiveRecord::Base
   def to_minutes()
     r = self
 
-    am_pm_min = if r[:am_pm]='PM' then 60*12 else 0 end
-    hour_min = r[:hour]*12
+    am_pm_min = if r[:am_pm]='PM' then (60*12) else 0 end
+    hour_min = r[:hour]*60
     return am_pm_min + hour_min + r[:minute]
   end
 
