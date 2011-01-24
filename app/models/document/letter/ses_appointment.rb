@@ -22,7 +22,7 @@ class Document::Letter::SesAppointment <  Document::Letter::TwoWindowTemplate
 
     letter = self
     template = self
-    dates = client.next_appointment_dates
+    dates = client.next_appointment_dates(reference)
     school_district = client.school_district_object
 #p school_district
 #p "dates: #{dates.inspect}"
@@ -38,6 +38,7 @@ class Document::Letter::SesAppointment <  Document::Letter::TwoWindowTemplate
 
     end
     next_date = dates.select{ |d| d.relative_tag == :next }[0]
+p "next_date #{next_date.inspect}"
     following_date = dates.select{ |d| d.relative_tag == :following }[0]
 
     return ok if !ok

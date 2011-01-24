@@ -59,6 +59,7 @@ class Document::Reports::TableTemplate
     doc.font_size = 10
     doc.bounding_box( header_content_top_left , :width => self.page[:content_width] - logo_width - name_width , :height => self.page[:header_height] ) {
       doc.stroke_bounds
+      doc.font_size = 6
       doc.indent(10) {
          doc.text " "
          yield doc
@@ -113,7 +114,11 @@ class Document::Reports::TableTemplate
   end
 
   def self.get_current_page_data
-    r= { :header_lines => self.header_lines.dup, :columns => self.columns.dup }
+    r= {} 
+
+    r[:header_lines] = self.header_lines.dup if self.header_lines
+    r[:columns] = self.columns.dup if self.columns
+
     self.reset_current_page_data
     return r
   end
