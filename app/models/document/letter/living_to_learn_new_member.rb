@@ -13,7 +13,7 @@ class Document::Letter::LivingToLearnNewMember <  Document::Letter::TwoWindowTem
   def self.filename_for(member)
 
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
-    fn = "#{member.business_name}.pdf"
+    fn = "#{member.organization_name}.pdf"
     File.join( self.local_directory, fn )
 
   end
@@ -23,6 +23,8 @@ class Document::Letter::LivingToLearnNewMember <  Document::Letter::TwoWindowTem
     letter = self
     template = self
     filename = self.filename_for(member)
+
+p "Creating PDF letter #{filename} for #{member}"
 
     Prawn::Document.generate( filename ) do |pdf|
 
@@ -69,7 +71,7 @@ Thank you for the opportunity to present the the advantages of membership in “
 
 It is our sincere hope that you will be completely satisfied with the services that “Living to Learn” will provide for you, your employees and their family members.
 
-We are always interested in suggestions that would allow us to improve our business and we encourage you to submit any thoughts or questions you might have.
+We are always interested in suggestions that would allow us to improve our organization and we encourage you to submit any thoughts or questions you might have.
 
 Thank you again,
 

@@ -1,8 +1,8 @@
 class L2lBizMembers < ActiveRecord::Migration
   def self.up
 
-create_table "spreadsheet__living_to_learn__business_members", :force => true do |t|
-t.string   :business_name
+create_table "spreadsheet__living_to_learn__organization_members", :force => true do |t|
+t.string   :organization_name
 t.string   :address_line_1
 t.string   :address_line_2
 t.string   :city
