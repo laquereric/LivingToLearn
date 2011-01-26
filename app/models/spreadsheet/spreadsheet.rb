@@ -15,12 +15,14 @@ class Spreadsheet::Spreadsheet
 
   cattr_accessor :record_hash_array
 
+  cattr_accessor :connected_object_attr
+
 #############
 # Reflection of Spreadsheet in Object
 #############
 
   def self.connected_object
-    nil
+    return self.connected_object_attr
   end
 
 ###################
@@ -228,7 +230,7 @@ class Spreadsheet::Spreadsheet
         end
       end
     end
-    ok= self.check_headers
+    ok = self.check_headers
     if !ok
       p "Spreadsheet Header mismatch in #{self.filename}"
     end
@@ -352,6 +354,80 @@ class Spreadsheet::Spreadsheet
 
   def self.test_google_ss
     return self.new
+  end
+
+###################
+#
+####################
+
+  def self.get_spreadsheet_from_google(name_array)
+    self.filename = "#{File.join(name_array)}.gxls"
+    spreadsheet = self.open
+  end
+
+  def self.get_symbolized_headers_from_google_spreadsheet(name_array)
+    spreadsheet = self.get_spreadsheet_from_google(name_array)
+    index = 0
+    ok = true
+    raw_headers = []
+    while ok do
+      h = spreadsheet.cell(1,index+1)
+      ok = (h and h.length > 0)
+      raw_headers << h if ok
+      index += 1
+    end
+    normalized_headers = raw_headers.map{ |h| Spreadsheet::Spreadsheet.normalize_header(h) }
+    symbolized_headers = normalized_headers.map{ |h| Spreadsheet::Spreadsheet.n_actual_to_sym(h) }
+    return symbolized_headers
+  end
+
+  def self.get_table_name_from_google_spreadsheet(name_array)
+    r = ['spreadsheet']
+    r<< name_array.map{ |n| n.underscore }
+    r.flatten!
+    return r.join('__')
+  end
+
+  def self.get_migration_from_google_spreadsheet(name_array)
+    table_name = self.get_table_name_from_google_spreadsheet(name_array)
+    migration = []
+    migration<<(top_line =
+      "create_table \"#{table_name}\", :force => true do |t|" )
+    self.get_symbolized_headers_from_google_spreadsheet(name_array).each{ |symbolized_header|
+       migration<< "t.string   :#{symbolized_header}"
+    }
+    migration << (bottom__line = "end")
+    return migration
+  end
+
+  def self.get_class_name_from_google_spreadsheet(name_array)
+    rs = ["Spreadsheet"]
+    rs << name_array[0..-2]
+    rs << name_array[-1].singularize
+    rs.flatten!
+    result=rs.join("::")
+    return [result]
+  end
+
+  def self.get_class_def_from_google_spreadsheet(name_array)
+    class_def = []
+    class_def <<
+      "class #{get_class_name_from_google_spreadsheet(name_array)} < Spreadsheet::SpreadsheetTable"
+    class_def <<
+      "set_table_name (#{self.get_table_name_from_google_spreadsheet(name_array)})"
+    class_def <<
+      "end"
+    return class_def
+  end
+
+  def self.get_records_from_google_spreadsheet(spreadsheet_table_class)
+    self.connected_object_attr = spreadsheet_table_class
+    self.spreadsheet = self.get_spreadsheet_from_google(spreadsheet_table_class.name_array)
+    spreadsheet_table_class.delete_all
+    self.load_records{ |rh|
+      spreadsheet_table_class.create( rh )
+    }
+    return spreadsheet_table_class.all
   end
 
 end
