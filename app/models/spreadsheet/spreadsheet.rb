@@ -99,9 +99,9 @@ class Spreadsheet::Spreadsheet
   def self.header_match(actual)
     return false if actual.nil?
     n_actual= self.get_n_actual(actual)
-    m = headers.include?(n_actual)
+    m = self.headers.include?(n_actual)
     if !m
-      p "Mismatch of Header #{n_actual}"
+      p "Mismatch of Header #{n_actual} in headers #{self.headers.inspect}"
     end
     return m
   end
@@ -114,7 +114,7 @@ class Spreadsheet::Spreadsheet
       next if actual.nil?
       expected = headers[index]
       if !header_match(actual)
-        p "Not accepted: #{actual}"
+        p "Not accepted: #{actual} because expected #{expected}"
         ok = false
       else
         n_actual = self.get_n_actual(actual)
