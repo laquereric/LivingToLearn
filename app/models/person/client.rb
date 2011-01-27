@@ -1,6 +1,15 @@
 class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
+  include Appointable
+
+  def appointable_id
+    self.client_id
+  end
+
+  def self.find_by_appointable_id(id)
+    self.find_by_client_id(id)
+  end
 
   def school_district_object
     Government::SchoolDistrict.for_code_name(self.school_district)
@@ -22,38 +31,6 @@ class Person::Client < ActiveRecord::Base
     l = ""
     l<< "#{ client[:result] }"
     return l
-  end
-
-  def has_appointments?
-    return ( self.scheds.length > 0 )
-  end
-
-  def next_appointment_dates( reference_time = DateTime.now , sequence_length = 3  )
-    appointment_array = self.appointments
-    mapped_appointment_dates = Appointment::Recurring.specifically_map(
-      appointment_array , reference_time, sequence_length
-    )
-    return mapped_appointment_dates
-  end
-
-  def raw_scheds
-    sa= ['a','b','c','d','e','f','g'].map{ |c|
-      cn = "sched_#{c}" #.to_sym
-      r = self.send(cn.to_sym)
-      r = nil if r and r.length == 0
-      r
-    }.compact
-    sa
-  end
-
-  def appointments
-    psa = self.raw_scheds.map{ |raw_sched|
-      Appointment::Recurring.create_from_raw_sched(self,raw_sched)
-    }
-  end
-
-  def appointments_on(day_of_week)
-    appointments.select{ |appointment| appointment.day_of_week == day_of_week }
   end
 
   def self.each_client (&block)

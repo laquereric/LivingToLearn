@@ -39,7 +39,7 @@ class Appointment::Recurring < ActiveRecord::Base
 
       sr_app = Appointment::SpecificRecurring.new
       sr_app.datetime = next_date_time
-      sr_app.client_id = next_appointment.client_id
+      sr_app.appointable_id = next_appointment.appointable_id
       sr_app.location_code = next_appointment.loc
 
       sr_app.relative_tag = case relative_order
@@ -106,43 +106,58 @@ class Appointment::Recurring < ActiveRecord::Base
     ["SN" , "MN" , "TU", "WD" , "TH" , "FR", "ST"]
   end
 
-  def sort_hash_by_time_location_client_id()
+  def sort_hash_by_time_location_abbrev_appointable_id()
     x = self
 
     t = Integer ( 1_000_000_000_000_000_000_000_000_000)
     minutes_scale =       1_000_000_000_000_000_000_000
     location_scale =                      1_000_000_000
+    abrev_scale =                           100_000_000
 
     t += x.week_minutes * minutes_scale
     t += x.loc.hash * location_scale
-    t += x.client_id.to_i
+    abbrev_num = if x.appointable.abbrev == 'e' then 0 else 1 end
+    t += abbrev_num * abrev_scale
+    t += x.appointable_id.to_i
 
     return t
   end
 
   def self.all_on_weekday(day_of_week)
-     unsorted = Person::Client.all.map { |client|
+
+     unsorted_client_appts = Person::Client.all.map { |client|
        appointments = client.appointments_on( day_of_week )
        appointments = nil if appointments.length == 0
        appointments
-     }.flatten.compact
+     }
+
+     unsorted_employee_appts = Person::Employee.all.map { |employee|
+       appointments = employee.appointments_on( day_of_week )
+       appointments = nil if appointments.length == 0
+       appointments
+     }
+
+     unsorted = [unsorted_client_appts,unsorted_employee_appts].flatten.compact
+
      sorted = unsorted.sort{ |x,y|
-       x.sort_hash_by_time_location_client_id <=> y.sort_hash_by_time_location_client_id
+       x.sort_hash_by_time_location_abbrev_appointable_id <=> y.sort_hash_by_time_location_abbrev_appointable_id
      }
      return sorted
   end
 
-  def client
-    Person::Client.find_by_client_id(self.client_id.to_f)
+  def appointable
+    (self.appointable_type.constantize).find_by_appointable_id(self.appointable_id.to_f)
   end
 
   def next_time
     "Wednesday January 19 at 2:45 PM"
   end
 
-  def self.create_from_raw_sched(client,raw_sched)
-    h = self.parse_sched( raw_sched )
-    h[:client_id] = client.client_id
+  def self.create_from_raw_sched_dur(appointable,raw_sched_dur)
+    h = self.parse_sched( raw_sched_dur[0] )
+    h[:appointable_id] = appointable.appointable_id
+    h[:appointable_type] = appointable.class.to_s
+    h[:duration] = raw_sched_dur[1]
     return create_from_sched( h )
   end
 

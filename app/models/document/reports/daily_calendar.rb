@@ -13,12 +13,15 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
 
     index = 1
     yield( :title , "Day : #{day_of_week}" )
+
     last_location = nil
     last_hour = nil
     last_ampm = nil
     last_minute = nil
     location_time_total = 0
+
     Appointment::Recurring.all_on_weekday(day_of_week).each{ |appointment|
+
       minute = sprintf( "%02d", appointment[:minute] )
       time = "#{appointment[:hour]}:#{minute} #{appointment[:am_pm]}"
       if last_location != appointment[:loc] or
@@ -38,7 +41,9 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
 
       end
       location_time_total += 1
-      ca = "#{appointment.client.client_id.to_i} #{appointment.client.last_name}, #{appointment.client.first_name}"
+      ca = appointment.appointable.abbrev
+      ca << "#{appointment.appointable.appointable_id.to_i} #{appointment.appointable.last_name}, #{appointment.appointable.first_name}"
+      ca << ", d:#{appointment.duration}" if appointment.duration
       yield( :client_appointment , ca )
       index += 1
     }
@@ -96,6 +101,7 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
           pdf.text la[1]
         when  :appointment_location
           pdf.font_size = 6
+          pdf.move_down(0.06.in)
           pdf.text "#{la[1]}"
         when  :location_time_total
           if la[1].to_i > 1
@@ -111,6 +117,7 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
           }
         when :day_total
           if la[1].to_i > 1
+            pdf.move_down(0.12.in)
             pdf.font_size = 8
             pdf.text "Day Total : #{la[1].to_s}", :style => :bold
           end
