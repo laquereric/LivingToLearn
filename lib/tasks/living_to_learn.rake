@@ -32,5 +32,55 @@ namespace :living_to_learn do
 
   end
 
+  namespace :organization_types do
+
+    desc "Get Migration"
+    task :get_migration => :environment do
+      p "Get Migration"
+      mls = Spreadsheet::Spreadsheet.get_migration_from_google_spreadsheet(["LivingToLearn","OrganizationTypes"])
+      mls.each{ |l|  p l}
+    end
+
+    desc "Get Class Def"
+    task :get_class_def => :environment do
+      p "Get Class Def"
+      mls = Spreadsheet::Spreadsheet.get_class_def_from_google_spreadsheet(["LivingToLearn","OrganizationTypes"])
+      mls.each{ |l|  p l}
+    end
+
+    desc "Load Records"
+    task :load_records => :environment do
+      p "Loading Records"
+      mls = Spreadsheet::LivingToLearn::OrganizationType.get_records_from_google_spreadsheet
+      mls.each{ |l|  p l}
+    end
+
+  end
+
+  namespace :objectives_benefits_features do
+
+    desc "Get Migration"
+    task :get_migration => :environment do
+      p "Get Migration"
+      mls = Spreadsheet::Spreadsheet.get_migration_from_google_spreadsheet(["LivingToLearn","ObjectivesBenefitsFeatures"])
+      mls.each{ |l|  p l}
+    end
+
+    desc "Get Class Def"
+    task :get_class_def => :environment do
+      p "Get Class Def"
+      mls = Spreadsheet::Spreadsheet.get_class_def_from_google_spreadsheet(["LivingToLearn","ObjectivesBenefitsFeatures"])
+      mls.each{ |l|  p l}
+    end
+
+    desc "Load Records"
+    task :load_records => :environment do
+      p "Loading Records"
+      mls = Spreadsheet::LivingToLearn::ObjectivesBenefitsFeature.get_records_from_google_spreadsheet
+      mls.each{ |l|  p l}
+    end
+
+  end
+
 end
 

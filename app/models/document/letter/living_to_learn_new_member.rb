@@ -62,6 +62,37 @@ def self.header_for(doc,member)
 
 end
 
+def self.obf(doc,obf)
+
+  doc.move_down(0.125.in)
+  doc.indent(0.125.in){
+    doc.move_down(0.125.in)
+    doc.text 'Objective',:style=>:bold
+    doc.text obf.objective
+  }
+
+  doc.indent(0.125.in){
+    doc.move_down(0.125.in)
+    doc.text 'Benefit',:style=>:bold
+    doc.text obf.benefit
+  }
+
+  doc.indent(0.125.in){
+    doc.move_down(0.125.in)
+    doc.text 'Feature',:style=>:bold
+    doc.text obf.feature
+  }
+
+end
+
+def self.obfs_for(doc,member)
+  obfs = member.get_objectives_benefits_features
+  return if obfs.nil?
+  obfs.each{ |obf|
+    self.obf(doc,obf)
+  }
+end
+
 def self.body_for(doc,member)
   doc.font_size = 12
   doc.text <<-eos
@@ -70,6 +101,11 @@ Dear  #{member.contact_first_name} #{member.contact_last_name}
 Thank you for the opportunity to present the the advantages of membership in “Living to Learn” to you. We would like “Living to Learn” to become an important part in the growth and health of our communities and are encouraged by your support.
 
 It is our sincere hope that you will be completely satisfied with the services that “Living to Learn” will provide for you, your employees and their family members.
+eos
+ self.obfs_for(doc,member)
+
+ #{member.contact_first_name} 
+ doc.text <<-eos
 
 We are always interested in suggestions that would allow us to improve our organization and we encourage you to submit any thoughts or questions you might have.
 
