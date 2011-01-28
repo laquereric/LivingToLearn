@@ -44,7 +44,8 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
       ca = appointment.appointable.abbrev
       ca << "#{appointment.appointable.appointable_id.to_i} #{appointment.appointable.last_name}, #{appointment.appointable.first_name}"
       ca << ", d:#{appointment.duration}" if appointment.duration
-      yield( :client_appointment , ca )
+      fill_color = appointment.appointable.color
+      yield( :client_appointment , ca , fill_color )
       index += 1
     }
     yield( :location_time_total, location_time_total )
@@ -95,6 +96,7 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
   def self.print_cell(pdf,day_array)
 
     day_array.each{ |la|
+      pdf.fill_color "000000"
       case la[0]
         when :title
           pdf.font_size = 12
@@ -113,6 +115,7 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
         when :client_appointment
           pdf.indent(0.06.in) {
             pdf.font_size = 4
+            pdf.fill_color = la[2]
             pdf.text la[1]
           }
         when :day_total

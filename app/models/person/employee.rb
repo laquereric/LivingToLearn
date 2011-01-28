@@ -19,4 +19,8 @@ class Person::Employee < ActiveRecord::Base
     self.delete_all
   end
 
+  def color
+    "FF0000"
+  end
+
 end

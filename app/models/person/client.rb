@@ -551,4 +551,8 @@ p f
     }
     return lines
   end
+
+  def color
+    r = if self.result == 'revenue' then "000099" else "660066" end
+  end
 end
