@@ -10,6 +10,8 @@ class Document::Reports::TableTemplate
   cattr_accessor :header_lines
   cattr_accessor :columns
 
+  cattr_accessor :pages
+
 #################################
 # Layout
 #################################
@@ -113,13 +115,16 @@ class Document::Reports::TableTemplate
     return r
   end
 
-  def self.get_current_page_data
+  def self.get_current_page_data(page_index = nil)
     r= {} 
-
-    r[:header_lines] = self.header_lines.dup if self.header_lines
-    r[:columns] = self.columns.dup if self.columns
-
-    self.reset_current_page_data
+    if page_index.nil? then
+      r[:header_lines] = self.header_lines.dup if self.header_lines
+      r[:columns] = self.columns.dup if self.columns
+      self.reset_current_page_data
+    else
+      r[:header_lines] = self.header_lines.dup if self.header_lines
+      r[:columns] = self.pages[page_index]
+    end
     return r
   end
 
@@ -147,6 +152,25 @@ p "to pdf #{client.client_id.to_i}"
 
     self.columns ||= []
     self.columns[column_number] ||= []
+    self.columns[column_number]<< hash
+
+  end
+
+  def self.save_page_cell( page_number , column_number , row_number , hash )
+
+    if self.pages.nil?
+      self.pages = []
+    end
+
+    if page_number+1 > self.pages.length
+      self.pages[page_number] = []
+      self.columns = self.pages[page_number]
+    end
+
+    if  self.columns[column_number].nil?
+      self.columns[column_number] = []
+    end
+
     self.columns[column_number]<< hash
 
   end

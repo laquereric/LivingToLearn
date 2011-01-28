@@ -54,29 +54,53 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
 
   end
 
+  def self.next_col( row , col , page , day_array )
+    self.save_page_cell(  page , col , row , day_array )
+    row = 0
+    if col >= 6 then
+      col = 0
+      page += 1
+    else
+      col += 1
+    end
+    return row , col , page , []
+  end
+
+  def self.next_row( row , col , page , day_array )
+    rows_per_column = 80
+    row += 1
+    if row < rows_per_column
+      return row , col , page , day_array
+    else
+      return self.next_col( row , col , page , day_array )
+    end
+  end
+
   def self.get_page_data(&block)
     da = Appointment::Recurring.day_abbreviations
     sum = 0
-    [
-       {:day =>  da[0], :row => 1, :col => 0},
-       {:day =>  da[1], :row => 1, :col => 1},
-       {:day =>  da[2], :row => 1, :col => 2},
-       {:day =>  da[3], :row => 1 , :col => 3 },
-       {:day =>  da[4], :row => 1 , :col => 4 },
-       {:day =>  da[5], :row => 1 , :col => 5 },
-       {:day =>  da[6], :row => 1 , :col=> 6 }
-    ].each{ |h|
+
+    row = 1
+    col = 0
+    page = 0
+
+    (0..6).each{ |day_num|
+       day =  da[day_num]
        day_array = []
-       self.quick_for( h[:day] ){ |ar|
+       self.quick_for( day ){ |ar|
          type = ar[0]
          text = ar[1]
          sum += text.to_i if type == :day_total
          day_array<< ar
+         row , col , page , day_array = self.next_row( row , col , page, day_array )
        }
-       self.save_cell(  h[:col] , h[:row] , day_array )
+       row , col , page = self.next_col( row , col , page , day_array )
     }
-    self.header_lines=["Weekly"]
-    yield self.get_current_page_data
+
+    self.pages.each_index{ |page_index|
+      self.header_lines = ["Weekly #{page_index+1}"]
+      yield self.get_current_page_data(page_index)
+    }
 
   end
 
