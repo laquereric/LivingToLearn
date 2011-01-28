@@ -546,7 +546,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   def inspect_pretty
     lines = []
     instance_field_list.map{ |f|
-p f
+#p f
       lines << self.send( "#{f.to_s}_line".to_sym)
     }
     return lines
@@ -555,4 +555,5 @@ p f
   def color
     r = if self.result == 'revenue' then "000099" else "660066" end
   end
+
 end

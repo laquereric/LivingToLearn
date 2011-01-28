@@ -94,7 +94,6 @@ class Document::Reports::DailyCalendar < Document::Reports::TableTemplate
   end
 
   def self.print_cell(pdf,day_array)
-
     day_array.each{ |la|
       pdf.fill_color "000000"
       case la[0]

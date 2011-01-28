@@ -128,8 +128,6 @@ class Document::Reports::TableTemplate
     self.columns = nil
   end
 
-
-
   def self.print_cell(pdf,client)
 p "to pdf #{client.client_id.to_i}"
     pdf.font_size = 10
