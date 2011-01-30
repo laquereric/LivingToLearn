@@ -144,6 +144,9 @@ p "last page"
                 if ( cial = client.invoice_audit_line(8) )
                   yield :client_data, cial
                 end
+                if ( ctl = client.tutor_line(8) )
+                  yield :client_data, ctl
+                end
   end
 
   def self.print_cell(pdf,client)

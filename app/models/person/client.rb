@@ -515,6 +515,23 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
     return comlete_string( indent, phone_line_hash )
   end
 
+  def tutor_hash()
+    client = self
+
+    return nil if client.primary_tutor.nil? or client.primary_tutor.length == 0 then
+    tutor = Person::Employee.find_by_mnemonic( client.primary_tutor)
+    return {
+      :prompt_string => "tutor",
+      :value_string =>  tutor.mnemonic
+    }
+  end
+
+  def tutor_line( indent=0 )
+    th = tutor_hash
+    return nil if th.nil?
+    return comlete_string( indent , th )
+  end
+
 ###################
 #
 ###################
