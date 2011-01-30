@@ -23,7 +23,7 @@ class Document::Reports::BySchool < Document::Reports::TableTemplate
     line_arrays= []
     Document::Reports::BySchool.client_report_by_school( code_name, month, year , client_array , line_arrays )
     line_arrays.each{ |type,text_line|
-p "#{type} #{text_line}"
+#p "#{type} #{text_line}"
 
       if next_push_page
         push_page = true
@@ -55,8 +55,8 @@ p "#{type} #{text_line}"
       if new_result or new_school
         result_nil = result.nil?
         if !result_nil
-p "first result" if page_number == 0
-p "new result #{new_result}"
+#p "first result" if page_number == 0
+#p "new result #{new_result}"
           push_page = true if new_result
         end
       end
@@ -68,7 +68,7 @@ p "new result #{new_result}"
       if type == :client_object
         if row_number >= Document::Reports::BySchool.table[:rows]-1
           if column_number >= Document::Reports::BySchool.table[:columns]-1
-p "next object will be will last on this page!"
+#p "next object will be will last on this page!"
             next_push_page = true
           end
         end
@@ -76,7 +76,7 @@ p "next object will be will last on this page!"
 
       if push_page
         Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
-p 'pushing page'
+#p 'pushing page'
         yield Document::Reports::BySchool.get_current_page_data
         page_number += 1
         column_number = 0
@@ -87,7 +87,7 @@ p 'pushing page'
       result = new_result if new_result
 
       if type == :client_object
-p  "save cell p #{page_number} c #{column_number} r #{row_number} #{text_line.client_id.to_i}"
+#p  "save cell p #{page_number} c #{column_number} r #{row_number} #{text_line.client_id.to_i}"
         Document::Reports::BySchool.save_cell( column_number , row_number , text_line )
         if row_number >= Document::Reports::BySchool.table[:rows]-1
           row_number = 0
@@ -97,7 +97,7 @@ p  "save cell p #{page_number} c #{column_number} r #{row_number} #{text_line.cl
         end
       end
     }
-p "last page"
+#p "last page"
     Document::Reports::BySchool.save_header( self, page_number, header_0, header_1, school_district, school, result )
     yield Document::Reports::BySchool.get_current_page_data if Document::Reports::BySchool.current_page_has_content?
 
@@ -107,7 +107,7 @@ p "last page"
 # Send Client Data to Cell
 ######################################
   def self.client_data(client,&block)
-              if  client[:last_consumed_hour] and client[:last_consumed_hour].is_a? Fixnum
+                if  client[:last_consumed_hour] and client[:last_consumed_hour].is_a? Fixnum
                   total_consumed_hours += client[:last_consumed_hour]
                 end
                 yield :client_data, client.prep_line(6)
