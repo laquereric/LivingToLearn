@@ -19,11 +19,15 @@ namespace :employees do
     desc "names"
     task :names  => :environment do
       p "Names:"
-      Spreadsheet::EmployeeList.each_employee{ |employee|
-        p "id: #{ employee[:payroll_number].to_i }"
-        p "parent_id: #{ employee[:parent_payroll_number].to_i }"
-        p "first_name: #{ employee[:first_name] }"
-        p "last_name: #{ employee[:last_name] }"
+      p "id first_name last_name mnemonic"
+      #Spreadsheet::EmployeeList.each_employee{ |employee|
+      Person::Employee.all.each{ |employee|
+        r = []
+        r<< "#{ employee[:payroll_number].to_i } "
+        r<< "#{ employee[:first_name] } "
+        r<< "#{ employee[:last_name] } "
+        r<< "#{ employee.mnemonic }"
+        p r.join(" ")
       }
     end
 

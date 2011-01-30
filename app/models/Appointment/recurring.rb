@@ -1,6 +1,7 @@
 class Appointment::Recurring < ActiveRecord::Base
 
   set_table_name :appointments
+  include AppointmentBase
 
   def self.specifically_map( appointment_array , reference_time = DateTime.now , sequence_length = 3 )
     results = []
@@ -110,15 +111,39 @@ class Appointment::Recurring < ActiveRecord::Base
     x = self
 
     t = Integer ( 1_000_000_000_000_000_000_000_000_000)
+
     minutes_scale =       1_000_000_000_000_000_000_000
-    location_scale =                      1_000_000_000
-    abrev_scale =                           100_000_000
+    location_scale =                  1_000_000_000_000
+    tutor_scale =                           100_000_000
+    client_scale =                              100_000
 
     t += x.week_minutes * minutes_scale
     t += x.loc.hash * location_scale
-    abbrev_num = if x.appointable.abbrev == 'e' then 0 else 1 end
-    t += abbrev_num * abrev_scale
-    t += x.appointable_id.to_i
+
+    a = x.appointable
+
+    tutor_value = if a.is_a? Person::Employee
+      tutor = a
+      tutor.appointable_id.to_i
+    elsif  a.is_a? Person::Client
+      client = a
+      tv = if client.primary_tutor.nil? or client.primary_tutor.length == 0 then
+        0
+      else
+        tutor = Person::Employee.find_by_mnemonic( client.primary_tutor)
+        tutor.appointable_id.to_i
+      end
+    end
+    t += tutor_value*tutor_scale
+
+    client_value = if a.is_a? Person::Employee
+      tutor = a
+      0
+    elsif  a.is_a? Person::Client
+      client = a
+      client.appointable_id.to_i
+    end
+    t += client_value*client_scale
 
     return t
   end
@@ -143,10 +168,6 @@ class Appointment::Recurring < ActiveRecord::Base
        x.sort_hash_by_time_location_abbrev_appointable_id <=> y.sort_hash_by_time_location_abbrev_appointable_id
      }
      return sorted
-  end
-
-  def appointable
-    (self.appointable_type.constantize).find_by_appointable_id(self.appointable_id.to_f)
   end
 
   def next_time
