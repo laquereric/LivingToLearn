@@ -53,7 +53,7 @@ class Person::Client < ActiveRecord::Base
     return i
   end
 
-  def comlete_string( indent = 0 , hash = {} )
+  def complete_string( indent = 0 , hash = {} )
     hash[:indent_string] = indent_string( indent )
     return "#{hash[:indent_string]} #{hash[:prompt_string]} #{hash[:value_string]}"
   end
@@ -325,7 +325,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def self.representative_total_line( indent , results )
-    return comlete_string( indent, representative_total_hash(results) )
+    return complete_string( indent, representative_total_hash(results) )
   end
 
 # binder_total
@@ -345,7 +345,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def binder_total_line( indent , results )
-    return comlete_string( indent, binder_total_hash(results) )
+    return complete_string( indent, binder_total_hash(results) )
   end
 
 ##########################################
@@ -359,7 +359,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def representative_line( indent=0 )
-    return comlete_string( indent, representative_line_hash )
+    return complete_string( indent, representative_line_hash )
   end
 
 # prep_line
@@ -368,7 +368,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def prep_line( indent=0 )
-    return comlete_string( indent, prep_line_hash() )
+    return complete_string( indent, prep_line_hash() )
   end
 
 # last_attended_line
@@ -384,7 +384,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def last_attended_line( indent=0)
-    return comlete_string( indent, last_attended_line_hash )
+    return complete_string( indent, last_attended_line_hash )
   end
 
 # attendance_line
@@ -393,7 +393,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def attendance_line( indent=0 )
-    return comlete_string( indent, last_attended_line_hash )
+    return complete_string( indent, last_attended_line_hash )
   end
 
 # updated_line
@@ -404,7 +404,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def updated_line( indent=0 )
-    return comlete_string( indent, updated_line_hash )
+    return complete_string( indent, updated_line_hash )
   end
 
 # invoice_hrs
@@ -420,7 +420,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def invoice_hrs_line( month , year , indent=0 )
-    return comlete_string( indent, invoice_hrs_line_hash )
+    return complete_string( indent, invoice_hrs_line_hash )
   end
 
 # client_line
@@ -432,7 +432,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def client_line( indent=0 )
-    return comlete_string( indent, client_line_hash )
+    return complete_string( indent, client_line_hash )
   end
 
 # result_line
@@ -442,7 +442,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def result_line( indent=0 )
-    return comlete_string( indent, result_line_hash )
+    return complete_string( indent, result_line_hash )
   end
 
 # invoice_audit
@@ -452,7 +452,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def invoice_audit_line( indent=0 )
-    return comlete_string( indent, invoice_audit_line_hash )
+    return complete_string( indent, invoice_audit_line_hash )
   end
 
 # contract_hours
@@ -475,7 +475,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def contract_hours_line( indent=0 )
-    return comlete_string( indent, contract_hours_line_hash )
+    return complete_string( indent, contract_hours_line_hash )
   end
 
 # grade
@@ -485,7 +485,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def grade_line( indent=0 )
-    return comlete_string( indent, grade_line_hash )
+    return complete_string( indent, grade_line_hash )
   end
 
 # origin
@@ -495,7 +495,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def origin_line( indent=0 )
-    return comlete_string( indent, origin_line_hash )
+    return complete_string( indent, origin_line_hash )
   end
 
 # phone
@@ -512,7 +512,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   end
 
   def phone_line( indent=0 )
-    return comlete_string( indent, phone_line_hash )
+    return complete_string( indent, phone_line_hash )
   end
 
   def tutor_hash()
@@ -530,7 +530,7 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   def tutor_line( indent=0 )
     th = tutor_hash
     return nil if th.nil?
-    return comlete_string( indent , th )
+    return complete_string( indent , th )
   end
 
 ###################
