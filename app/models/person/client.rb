@@ -518,7 +518,8 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   def tutor_hash()
     client = self
 
-    return nil if client.primary_tutor.nil? or client.primary_tutor.length == 0 then
+    return nil if client.primary_tutor.nil? or client.primary_tutor.length == 0
+
     tutor = Person::Employee.find_by_mnemonic( client.primary_tutor)
     return {
       :prompt_string => "tutor",
