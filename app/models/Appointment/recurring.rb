@@ -3,6 +3,25 @@ class Appointment::Recurring < ActiveRecord::Base
   set_table_name :appointments
   include AppointmentBase
 
+  def service_location
+    Spreadsheet::TutoringClub::ServiceLocation.find_by_location_id(self.loc)
+  end
+
+  def self.all_at_service_location(target_service_location)
+
+    rs = []
+
+    Person::Client.all.each{ |client|
+      client.appointments.each{ |appointment|
+        rs<< appointment if appointment.service_location.equals(target_service_location)
+      }
+    }
+
+    return rs.sort{ |x,y|
+      x.sort_hash_by_time_location_abbrev_appointable_id <=> y.sort_hash_by_time_location_abbrev_appointable_id
+    }
+  end
+
   def self.specifically_map( appointment_array , reference_time = DateTime.now , sequence_length = 3 )
     results = []
     return results if appointment_array.length == 0
@@ -110,7 +129,7 @@ class Appointment::Recurring < ActiveRecord::Base
   def sort_hash_by_time_location_abbrev_appointable_id()
     x = self
 
-    t = Integer ( 1_000_000_000_000_000_000_000_000_000)
+    t = Integer( 1_000_000_000_000_000_000_000_000_000)
 
     minutes_scale =       1_000_000_000_000_000_000_000
     location_scale =                  1_000_000_000_000
