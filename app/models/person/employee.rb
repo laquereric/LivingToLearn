@@ -35,4 +35,12 @@ class Person::Employee < ActiveRecord::Base
     "FF0000"
   end
 
+  def records_only?
+    return (!self.records_only.nil? and (self.records_only.downcase == 'y') )
+  end
+
+  def lump_sum?
+    return (!self.lump_sum.nil? and (self.lump_sum.downcase == 'y') )
+  end
+
 end
