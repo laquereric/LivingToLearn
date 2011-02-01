@@ -88,7 +88,17 @@ p "Creating PDF letter #{filename} for #{tutor}"
   end
 
 def self.header_for(doc,tutor)
-
+    doc.fill_color "0055DD"
+    doc.font_size = 10
+  doc.indent(0.125.in){
+    doc.text "Please complete your application"
+    doc.move_down( 0.125.in )
+    doc.text "Please complete your W4"
+    doc.move_down( 0.125.in )
+    doc.text "Please complete ALL the paperwork"
+    doc.move_down( 0.125.in )
+    doc.text "At the completion of the program, your check will come from Tutoring Club of Washington TWP"
+  }
 end
 
 def self.body_for(doc,tutor)
@@ -97,7 +107,13 @@ def self.body_for(doc,tutor)
   doc.text <<-eos
 Dear  #{tutor.first_name} #{tutor.last_name}
 
-Thank you for becoming a lump-sum tutor.
+Thank you for being a part of the Mantua Public Schools Supplemental Education program. As you have already been informed in the orientation program held in our facility, Tutoring Club of Washington TWP is administering this effort of behalf of the parents, the students and the school administration.
+
+As this program was being organized and as the number of parents and students interested in participating grew, it became clear that the program would require two different sources of funding. Some of the tutors involved will be paid as Mantua Public School Employees, under their existing agreements etc. and some will be hired as Tutoring Club of Washington TWP employees. All efforts have been made to made this as easy as possible for all involved. All procedures, pay rates and policies will be the same regardless of which type of contract you are working under. Under both scenarios, taxes will be deducted from your gross pay and appropriate W2's will be issued in January 2012.
+
+Please complete the attached Tutoring Club Application and the W4 in either case. Also, it is very important that EVERY tutoring session be documented by a check on the attendance checklist in your binder, by a signature on the SES sign in sheet in the students binder AND by initially on the attendance log for the student.
+
+According to our records, you (#{tutor.first_name} #{tutor.last_name}) will be receiving your check at the end of the program from Tutoring Club of Washington TWP.
 
 Thank you again,
 
@@ -107,7 +123,7 @@ Living To Learn
 Sewell, NJ 08080-3156
 
 LaquerEric@gmail.com
-856 270 6810
+856 589 8867
 eos
 
 end
