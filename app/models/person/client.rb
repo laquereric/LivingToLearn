@@ -533,6 +533,25 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
     return complete_string( indent , th )
   end
 
+################
+#
+################
+  def materials_only_hash()
+    client = self
+
+    return nil if !client.materials_only?
+    return {
+      :prompt_string => "materials_only",
+      :value_string =>  ''
+    }
+  end
+
+  def materials_only_line( indent=0 )
+    mo = materials_only_hash
+    return nil if mo.nil?
+    return complete_string( indent , mo )
+  end
+
 ###################
 #
 ###################
@@ -573,5 +592,10 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   def color
     r = if self.result == 'revenue' then "000099" else "660066" end
   end
+
+  def materials_only?
+    return (!self.materials_only.nil? and (self.materials_only.downcase == 'y') )
+  end
+
 
 end

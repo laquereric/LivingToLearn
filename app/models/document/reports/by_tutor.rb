@@ -66,6 +66,9 @@ class Document::Reports::ByTutor < Document::Reports::TableTemplate
                 if ( ctl = client.tutor_line(8) )
                   yield :client_data, ctl
                 end
+                if ( mol = client.materials_only_line(8) )
+                  yield :client_data, mol
+                end
   end
 
   def self.get_page_data( target_service_location, &block)
@@ -103,14 +106,24 @@ class Document::Reports::ByTutor < Document::Reports::TableTemplate
         if type_obj[0] == :tutor
            tutor = type_obj[1]
            appointment = type_obj[2]
+           if !first_page
+             self.move_saved_to_page( pdf, self.get_current_page_data, !first_page ){ |tag,data,pdf|
+               if tag == :header_lines
+                 pdf.font_size = 12
+                 data.each{ |header_line|
+                   pdf.text header_line , :style => :bold
+                 }
+               end
+             }
+           else
+             first_page = false
+           end
+           col = 0
+           row = 0
            self.header_lines= []
            self.header_lines<< "#{tutor.last_name}, #{tutor.first_name}"
            self.header_lines<< " location #{appointment.loc}"
            self.header_lines<< " day_of_week: #{appointment.day_of_week}"
-           self.move_saved_to_page( pdf, self.get_current_page_data, !first_page ) if !first_page
-           col = 0
-           row = 0
-          first_page = false
         end
         if type_obj[0] == :appointment
           appointment = type_obj[1]

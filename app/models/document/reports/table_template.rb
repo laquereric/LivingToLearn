@@ -185,17 +185,21 @@ p "to pdf #{client.client_id.to_i}"
 # Send Data to Page
 ######################################
 
-  def self.move_saved_to_page(pdf,page_data,new_page=true)
+  def self.move_saved_to_page(pdf,page_data,new_page=true,&block)
 
     pdf.start_new_page if new_page
     pdf.stroke do
-
-        self.header_bounding_box(pdf){
-          page_data[:header_lines].each{ |header_line|
-            pdf.text header_line
-          } if page_data[:header_lines]
-        }
-
+        if page_data[:header_lines]
+          self.header_bounding_box(pdf){
+            if block_given?
+              yield([:header_lines , page_data[:header_lines] , pdf])
+            else
+              page_data[:header_lines].each{ |header_line|
+                pdf.text header_line
+              }
+            end
+          }
+        end
         Document::Reports::BySchool.footer_bounding_box(pdf){
           page_data[:header_lines].each{ |header_line|
             pdf.text header_line
