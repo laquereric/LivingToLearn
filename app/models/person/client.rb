@@ -509,6 +509,9 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   def fix_phone_num(pn)
     r= if pn then pn.strip.split(' ').join('-').strip else '' end
   end
+################
+#
+################
 
   def phone_line_hash()
     client = self
@@ -521,6 +524,9 @@ p "bad sd_id #{sd_id} from #{ client[:school_district] } " if sd_rec.nil?
   def phone_line( indent=0 )
     return complete_string( indent, phone_line_hash )
   end
+################
+#
+################
 
   def tutor_hash()
     client = self
