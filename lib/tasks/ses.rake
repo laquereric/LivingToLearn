@@ -13,6 +13,13 @@ namespace :ses do
     }
   end
 
+  desc "Records Only"
+  task :records_only_tutor_letters => :environment do
+    Person::Employee.all.select{ |e| e.lump_sum? }.each{ |tutor|
+      Document::Letter::RecordsOnkyTutor.print_for(tutor)
+    }
+  end
+
   namespace :postcard do
     desc "Schedule Hours"
     task :schedule_hours => :environment do
