@@ -1,11 +1,5 @@
 module Appointable
 
-  def abbrev
-    r = 'e' if self.is_a? Person::Employee
-    r = 'c' if self.is_a? Person::Client
-    return r
-  end
-
   def has_appointments?
     return ( self.scheds.length > 0 )
   end

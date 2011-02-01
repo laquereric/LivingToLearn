@@ -3,6 +3,13 @@ class Person::Employee < ActiveRecord::Base
   set_table_name ('person_employees')
   include Appointable
 
+  def abbrev
+    r = 'e'
+    r << '_ls' if self.lump_sum?
+    r << '_ro' if self.records_only?
+    return r
+  end
+
   def mnemonic
     "#{self.last_name}_#{self.first_name}__Tutor_#{self.payroll_number.to_i}"
   end
