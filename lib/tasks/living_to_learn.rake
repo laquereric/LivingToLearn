@@ -1,4 +1,28 @@
 namespace :living_to_learn do
+  namespace :potential_kvn_sponsors do
+
+    desc "Get Migration"
+    task :get_migration => :environment do
+      p "Get Migration"
+      mls = Spreadsheet::Spreadsheet.get_migration_from_google_spreadsheet(["LivingToLearn","PotentialKvnSponsors"])
+      mls.each{ |l|  p l}
+    end
+
+    desc "get class def"
+    task :get_class_def => :environment do
+      p "get class def"
+      mls = spreadsheet::spreadsheet.get_class_def_from_google_spreadsheet(["livingtolearn","PotentialKvnSponsors"])
+      mls.each{ |l|  p l}
+    end
+
+    desc "Load Records"
+    task :load_records => :environment do
+      p "Loading Records"
+      mls = Spreadsheet::LivingToLearn::PotentialKvnSponsor.get_records_from_google_spreadsheet
+      mls.each{ |l|  p l}
+    end
+
+  end
 
   namespace :municipalities do
 
