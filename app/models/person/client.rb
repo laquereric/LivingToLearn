@@ -2,11 +2,12 @@ class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
   include Appointable
+
   def abbrev
     r = 'c'
-    r << '_mo' if self.materials_only?
-    r << '_rev' if self.result = 'revenue'
-    r << '_con' if self.result = 'contract'
+    #r << '_mo' if self.materials_only?
+    #r << '_rev' if self.result == 'revenue'
+    #r << '_con' if self.result == 'contract'
     return r
   end
 
