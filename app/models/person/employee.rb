@@ -15,7 +15,21 @@ class Person::Employee < ActiveRecord::Base
   end
 
   def self.id_from_mnemonic(mnemonic)
-    mnemonic.split('__')[1].split('_')[1].to_f
+    if mnemonic.nil?
+      p "nil mnemonic"
+      return nil
+    end
+    a_name_aid = mnemonic.split('__')
+    if a_name_aid.length == 0
+      p "bad mnemonic #{mnemonic}"
+      return nil
+    end
+    a_tutor_eid = a_name_aid[1].split('_')
+    if a_tutor_eid.length == 0
+      p "bad mnemonic #{mnemonic}"
+      return nil
+    end
+    a_tutor_eid[1].to_f
   end
 
   def appointable_id
