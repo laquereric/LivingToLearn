@@ -487,5 +487,20 @@ p filename
 
   end
 
+  def self.all_appointment_letters(reference_time = DateTime.now)
+      possible_appointments = 0
+      have_appointments = 0
+      Government::SchoolDistrict.each_district_with_ses_contract{ |school_district|
+        clients = Person::Client.all_under_contract_with_sd( school_district )
+        p "Ses contracts from #{ school_district.code_name }  - #{clients.length}"
+        possible_appointments += clients.length
+        clients.each{ |client|
+          filename = Document::Letter::SesAppointment.filename_for( client )
+          ok = Document::Letter::SesAppointment.print_for(client,filename,reference_time)
+          have_appointments += 1 if ok
+        }
+      }
+      p "Of #{possible_appointments} possible appointments, #{have_appointments} have been set."
+  end
 
 end
