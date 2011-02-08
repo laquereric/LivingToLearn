@@ -76,11 +76,13 @@ class Document::Reports::ByTutor < Document::Reports::TableTemplate
     last_primary_tutor_id = nil
 
     Appointment::Recurring.all_at_service_location( target_service_location ).each{ |appointment|
-
       primary_tutor = Person::Employee.find_by_mnemonic( appointment.appointable.primary_tutor )
-      #next if primary_tutor.nil?
-      primary_tutor_id = primary_tutor.appointable_id
-
+      primary_tutor_id = if primary_tutor.nil?
+        p "No Primary Tutor assigned for #{appointment.appointable_type} #{appointment.appointable_id}"
+        nil
+      else
+        primary_tutor.appointable_id
+      end
       yield( :tutor, primary_tutor,appointment ) if last_primary_tutor_id.nil? or primary_tutor_id != last_primary_tutor_id
       yield( :appointment,appointment)
 
@@ -121,7 +123,7 @@ class Document::Reports::ByTutor < Document::Reports::TableTemplate
            col = 0
            row = 0
            self.header_lines= []
-           self.header_lines<< "#{tutor.last_name}, #{tutor.first_name}"
+           self.header_lines<< "#{tutor.last_name}, #{tutor.first_name}" if tutor
            self.header_lines<< " location #{appointment.loc}"
            self.header_lines<< " day_of_week: #{appointment.day_of_week}"
         end
