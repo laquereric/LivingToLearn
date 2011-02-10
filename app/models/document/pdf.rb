@@ -39,6 +39,7 @@ class Document::Pdf #< Document
     base_path= local_path.split('.')[0]
     sys_path=  fn.split('/')[0..-2].join('/')
     self.init_tmp_dir()
+    tmp_dir = Tmp.dir("")
     %x(cd #{self.tmp_dir}; cp #{fn} . )
     %x(cd #{self.tmp_dir}; pdftk ./#{local_path} burst )
     pages= Dir.glob( File.join(self.tmp_dir, "pg*.pdf") )

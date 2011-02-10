@@ -1,4 +1,3 @@
-#require 'zip'
 require 'zip/zipfilesystem'
 class Inbox
 
@@ -6,11 +5,6 @@ class Inbox
     Dir.glob(File.join(RAILS_ROOT,'inbox','*')).each{ |filename|
       yield filename
     }
-  end
-
-  def self.make_tmpname(basename)
-    random_number = (Kernel.rand*10_000_000_000_000).to_i
-    sprintf('%s%s-%d-%d',  Dir::tmpdir,basename, $$ , random_number)
   end
 
   def self.zip_length(filename)
@@ -29,22 +23,12 @@ class Inbox
     self.each_filename{ |filename|
       cfilename = File.split(filename)[-1].gsub('.','_')
       if filename.split('.')[1] == 'zip'
-
-p "zip file with #{self.zip_length(filename)} entries"
         Zip::ZipFile.open(filename){ |zipfile|
-#p zipfile.dir.methods.sort
           zipfile.entries.each{ |entry|
-p entry.name
-p 'is_directory' if entry.is_directory
-            entry_name_split = entry.name.split('.')
-            entry_name_exts = entry_name_split[1..-1]
-            entry_name_base = entry_name_split[0]
-            dest_file_path_base = self.make_tmpname("#{cfilename}_#{entry_name_base.gsub('/','_')}")
-            dest_file_path = [dest_file_path_base,entry_name_exts].flatten.join('.')
-p dest_file_path
-#debugger
+            dest_file_path_base = Tmp.name("#{cfilename}_#{Tmp.basename(entry.name)}")
+            dest_file_path = [dest_file_path_base,Tmp.exts(entry.name)].flatten.join('.')
             entry.extract(dest_file_path){
-p 'exists'
+#p 'exists'
             }
             delete_it = yield dest_file_path
             zipfile.remove(entry.name) if delete_it and File.exists?(entry.name)
@@ -60,9 +44,31 @@ p 'exists'
     }
   end
 
-  def self.files
-    self.each_filename_flat{ |fn|
-      p fn
+  def self.each_pdf_filename_flat(&block)
+    self.each_filename_flat{ |filename|
+      r = if filename.split('.')[-1] == 'pdf' then
+        yield(filename)
+      else
+        false
+      end
+    }
+  end
+
+  def self.each_pdf_page_filename_flat(&block)
+    self.each_pdf_filename_flat{ |filename|
+      if ( l = Document::Pdf.length( filename ) ) == 1
+        yield( filename )
+      else
+        burst_dir = Tmp.dir(Tmp.basename(filename))
+        %x(cd #{burst_dir}; pdftk #{filename} burst )
+        Dir.glob( File.join(burst_dir, "pg*.pdf") ).each{ |pg| yield pg }
+      end
+    }
+  end
+
+  def self.push_pdf_pages
+    self.each_pdf_page_filename_flat{ |fn|
+      Outbox.push(fn)
       false
     }
   end
