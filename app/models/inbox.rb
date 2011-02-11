@@ -68,7 +68,7 @@ class Inbox
 
   def self.push_pdf_pages
     self.each_pdf_page_filename_flat{ |fn|
-      Outbox.push(fn)
+      DocBase.push(fn)
       false
     }
   end
