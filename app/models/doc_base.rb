@@ -1,5 +1,50 @@
 class DocBase < ActiveRecord::Base
 
+  def rotate_180
+    %x{ pdftk A=#{self.filename} cat A1D output #{'tmp_filename'}}
+    %x{ mv #{'tmp_filename'} #{self.filename} }
+    #%x{ rm #{'tmp_filename'} }
+  end
+
+  def merge_meta
+    return false if !is_pdf?
+    #tmp_filename = "#{Tmp.name('with_merged_meta')}.pdf"
+    %x{ pdftk #{self.filename} update_info #{self.meta_filename} output #{'tmp_filename'} }
+    %x{ mv #{'tmp_filename'} #{self.filename} }
+    #%x{ rm #{self.meta_filename} }
+    return true
+  end
+
+  def remove
+    %x{rm #{self.meta_filename} }
+    %x{rm #{self.filename} }
+  end
+
+  def self.find_for_client(client)
+    self.all.select{ |f|
+      mnemonic = f.meta_hash['OwnedByMnemonic']
+      r = if mnemonic
+        client_id = Person::Client.mnemonic_to_id(mnemonic)
+        (client_id == client.client_id.to_i)
+      else
+        false
+      end
+    }
+  end
+
+  def add_owned_by_client_meta(client_id)
+    client = Person::Client.find_by_client_id(client_id.to_f)
+    return false if !client
+    client_mnemonic = client.mnemonic
+#p client_mnemonic
+    self.add_meta( 'OwnedByMnemonic',client_mnemonic )
+    return true
+  end
+
+  def preview
+    %x{open -a Preview #{self.filename} }
+  end
+
   def self.push(fn)
   end
 
@@ -40,31 +85,27 @@ class DocBase < ActiveRecord::Base
     File.open(self.meta_filename,'w'){ |f|
       f.write(self.meta)
     }
+    self.merge_meta
   end
 
   def meta_hash
     r = {}
     line_array = self.meta.split("\n")
-p line_array
 
     index = 0
     while index < line_array.length do
       key_line_array = line_array[index].split(':')
       index += 1
 
-p key_line_array
       key_line_array_0 = key_line_array[0]
       is_number_of_pages = key_line_array_0.strip.match(/NumberOfPages/)
       is_info_key = key_line_array_0.strip.match(/InfoKey/)
       is_pdf_id = key_line_array_0.strip.match(/PdfID(.*)/)
       if is_info_key
-#p key_line_array
         key = key_line_array[1].strip
-#p key
         value_line_array = line_array[index].split(':')
         index += 1
 
-p value_line_array
         value_line_array_0 = value_line_array[0]
         is_info_value = value_line_array_0.strip.match(/InfoValue/)
         1/0 if !is_info_value
@@ -110,13 +151,11 @@ p value_line_array
 
     (doc_base = self.new).filename = fn
 
-#    if !File.exists?(meta_filename) and File.split(fn).split('.')[-1] == pdf then
     if File.exists?( doc_base.meta_filename ) then
       File.open(doc_base.meta_filename,"r"){ |meta_file|
         doc_base.meta = meta_file.read
       }
     elsif doc_base.is_pdf?
-p 'is_pdf'
       doc_base.get_meta_from_pdf
       doc_base.save_meta_to_file
     end
@@ -128,17 +167,9 @@ p 'is_pdf'
   def self.all
     rs = []
     self.each_doc_filename{ |fn|
-p fn
       rs << self.new_for_filename(fn)
     }
     return rs
-  end
-
-  def self.print_doc_filenames
-    self.each_doc_filename{ |fn|
-p fn
-    }
-    return nil
   end
 
 end
