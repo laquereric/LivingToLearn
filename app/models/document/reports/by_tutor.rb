@@ -76,7 +76,9 @@ class Document::Reports::ByTutor < Document::Reports::TableTemplate
     last_primary_tutor_id = nil
 
     Appointment::Recurring.all_at_service_location( target_service_location ).each{ |appointment|
-      primary_tutor = Person::Employee.find_by_mnemonic( appointment.appointable.primary_tutor )
+      client = appointment.appointable
+      next if client.result == 'dropped'
+      primary_tutor = Person::Employee.find_by_mnemonic( client.primary_tutor )
       primary_tutor_id = if primary_tutor.nil?
         p "No Primary Tutor assigned for #{appointment.appointable_type} #{appointment.appointable_id}"
         nil
