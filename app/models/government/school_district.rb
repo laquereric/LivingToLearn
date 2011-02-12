@@ -138,14 +138,23 @@ class Government::SchoolDistrict < Government::GovernmentDetail
     Dir.mkdir(self.local_directory) if !File.exists?(self.local_directory)
     Dir.mkdir(self.local_invoices_directory(month,year)) if !File.exists?(self.local_invoices_directory(month,year))
     self.each_invoice(month,year){ |client,invoice, description|
+
+      invoice_docs = client.get_invoice_docs(month,year)
+
       client_name_field = "#{client[:last_name]}_#{client[:first_name]}"
       client_id_field = "Client_#{client[:client_id].to_i}"
       dir_name = File.join(self.local_invoices_directory(month,year),"invoice__#{client_name_field}__#{client_id_field}__#{self.invoice_date_field(month,year)}")
       Dir.mkdir(dir_name) if !File.exists?(dir_name)
       base_name= 'invoice'
       pdf_filename = File.join(dir_name,"#{base_name}.pdf")
-      Document::Invoices::SchoolDistrict.create_from_to( invoice , pdf_filename )
-
+      Document::Invoices::SchoolDistrict.create_from_to( invoice , 'tmp_filename' )
+      if invoice_docs.length == 0 or invoice_docs.length > 2
+        %x{ mv 'tmp_filename' #{pdf_filename} }
+      elsif invoice_docs.length == 1
+         %x{ pdftk A=tmp_filename B=#{ invoice_docs[0].filename } cat A B output #{pdf_filename}}
+      elsif invoice_docs.length == 2
+         %x{ pdftk A=tmp_filename B=#{ invoice_docs[0].filename } C=#{ invoice_docs[1].filename } cat A B C output #{pdf_filename}}
+      end
       sd_total += invoice.total_amount
       yield(description)
     }

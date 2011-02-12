@@ -14,6 +14,12 @@ class Person::Client < ActiveRecord::Base
     id = client__id_split[1].to_i
   end
 
+  def get_invoice_docs(month,year)
+    docs = DocBase.find_for_client(self)
+    p "Docs for #{self.mnemonic} problem! #{docs.length} fetched" if docs.length != 2
+    return docs
+  end
+
   def abbrev
     r = 'c'
     #r << '_mo' if self.materials_only?
