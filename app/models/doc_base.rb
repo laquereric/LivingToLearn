@@ -31,9 +31,6 @@ class DocBase < ActiveRecord::Base
   end
 
   def self.push(fn)
-  end
-
-  def self.push(fn)
     file_split = File.split(fn)
     burst_page = !file_split[-1].match(/^pg_/).nil?
     new_fn_base = if burst_page
