@@ -147,14 +147,13 @@ class Government::SchoolDistrict < Government::GovernmentDetail
       Dir.mkdir(dir_name) if !File.exists?(dir_name)
       base_name= 'invoice'
       pdf_filename = File.join(dir_name,"#{base_name}.pdf")
+
       Document::Invoices::SchoolDistrict.create_from_to( invoice , 'tmp_filename' )
-      if invoice_docs.length == 0 or invoice_docs.length > 2
-        %x{ mv 'tmp_filename' #{pdf_filename} }
-      elsif invoice_docs.length == 1
-         %x{ pdftk A=tmp_filename B=#{ invoice_docs[0].filename } cat A B output #{pdf_filename}}
-      elsif invoice_docs.length == 2
-         %x{ pdftk A=tmp_filename B=#{ invoice_docs[0].filename } C=#{ invoice_docs[1].filename } cat A B C output #{pdf_filename}}
-      end
+
+      file_name_array = ['tmp_filename']
+      file_name_array << invoice_docs.map{ |doc| doc.filename}
+      Document::Pdf.cat( file_name_array.flatten, pdf_filename )
+
       sd_total += invoice.total_amount
       yield(description)
     }

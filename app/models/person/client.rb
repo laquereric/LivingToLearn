@@ -3,8 +3,50 @@ class Person::Client < ActiveRecord::Base
   set_table_name ('person_clients')
   include Appointable
 
+  def self.get_doc_client(doc)
+    return nil if !doc.is_owned?
+    mnemonic = doc.meta_hash['OwnedByMnemonic']
+    return nil if !self.is_client_mnemonic?(mnemonic)
+    client_id = self.mnemonic_to_id(mnemonic)
+    return self.find_by_client_id(client_id.to_f)
+  end
+
+  def self.each_client_doc
+    DocBase.all.each{ |doc|
+       next if ( client = self.get_doc_client(doc) ).nil?
+       yield( client,doc )
+    }
+  end
+  def preview_docs
+    find_docs.each{ |doc| doc.preview}
+  end
+
+  def find_docs
+    DocBase.all.select{ |f|
+      mnemonic = f.meta_hash['OwnedByMnemonic']
+      r = if mnemonic
+        client_id = Person::Client.mnemonic_to_id(mnemonic)
+        (client_id == self.client_id.to_i)
+      else
+        false
+      end
+    }
+  end
+
+  def add_doc(doc)
+    doc.add_meta( 'OwnedByMnemonic',self.mnemonic )
+    return true
+  end
+
   def mnemonic
     "#{self.last_name}_#{self.first_name}__Client_#{self.client_id.to_i}"
+  end
+
+  def self.is_client_mnemonic?(mnemonic)
+    mnemonic_split = mnemonic.split('__')
+    client__id = mnemonic_split[1]
+    client__id_split = client__id.split('_')
+    return ( client__id_split[0] == 'Client' )
   end
 
   def self.mnemonic_to_id(mnemonic)
