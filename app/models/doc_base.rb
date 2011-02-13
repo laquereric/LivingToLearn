@@ -60,10 +60,26 @@ class DocBase < ActiveRecord::Base
     }
   end
 
+
+  def meta_lines(key,value)
+    r = ""
+    r<<  ["InfoKey: #{key}","InfoValue:  #{value}"].join("\n")
+    r<< "\n"
+    return r
+  end
+
+  def meta_text(meta_hash)
+    r = ""
+    meta_hash.each_pair{ |key,value|
+      r<< meta_lines(key,value)
+    }
+    return r
+  end
+
   def add_meta(key,value)
-    lines = ["InfoKey: #{key}","InfoValue:  #{value}"]
-    self.meta<< lines.join("\n")
-    self.meta<< "\n"
+    revised_meta_hash = self.meta_hash
+    revised_meta_hash[key] = value
+    self.meta = meta_text(revised_meta_hash)
     File.open(self.meta_filename,'w'){ |f|
       f.write(self.meta)
     }
