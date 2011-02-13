@@ -1,3 +1,4 @@
+require 'appointable'
 class Person::Client < ActiveRecord::Base
 
   set_table_name ('person_clients')
