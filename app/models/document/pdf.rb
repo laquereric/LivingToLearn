@@ -55,4 +55,27 @@ class Document::Pdf #< Document
     %x(rm #{fn})
   end
 
+  def self.cat( file_name_array, output_filename )
+    cmd = "pdftk "
+    i = 0
+
+    ('A'..'Z').step{ |l|
+      break if i >= file_name_array.length
+      cmd << "#{l}=#{file_name_array[i]} "
+      i += 1
+    }
+
+    cmd << "cat "
+
+    ('A'..'Z').step{ |l|
+      break if i >= file_name_array.length
+      cmd << "#{l} "
+      i += 1
+    }
+
+    cmd << " output #{output_filename}"
+
+p cmd
+    %x{ #{cmd} }
+  end
 end
