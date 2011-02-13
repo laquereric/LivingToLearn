@@ -3,6 +3,42 @@ class Person::Employee < ActiveRecord::Base
   set_table_name ('person_employees')
   include Appointable
 
+
+  def self.get_doc_client(doc)
+    return nil if !doc.is_owned?
+    mnemonic = doc.meta_hash['OwnedByMnemonic']
+    return nil if !self.is_client_mnemonic?(mnemonic)
+    client_id = self.mnemonic_to_id(mnemonic)
+    return self.find_by_client_id(client_id.to_f)
+  end
+
+  def self.each_client_doc
+    DocBase.all.each{ |doc|
+       next if ( client = self.get_doc_client(doc) ).nil?
+       yield( client,doc )
+    }
+  end
+  def preview_docs
+    find_docs.each{ |doc| doc.preview}
+  end
+
+  def find_docs
+    DocBase.all.select{ |f|
+      mnemonic = f.meta_hash['OwnedByMnemonic']
+      r = if mnemonic
+        payroll_number = self.class.mnemonic_to_id(mnemonic)
+        (payroll_number == self.payroll_number.to_i)
+      else
+        false
+      end
+    }
+  end
+
+  def add_doc(doc)
+    doc.add_meta( 'OwnedByMnemonic',self.mnemonic )
+    return true
+  end
+
   def abbrev
     r = 'e'
     r << '_ls' if self.lump_sum?
@@ -12,6 +48,10 @@ class Person::Employee < ActiveRecord::Base
 
   def mnemonic
     "#{self.last_name}_#{self.first_name}__Tutor_#{self.payroll_number.to_i}"
+  end
+
+  def self.mnemonic_to_id(mnemonic)
+    self.id_from_mnemonic(mnemonic)
   end
 
   def self.id_from_mnemonic(mnemonic)
