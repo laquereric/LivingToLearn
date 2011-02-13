@@ -1,3 +1,6 @@
+doc_base/*
+*.pdf
+inbox/*
 *.swp
 .DS_Store
 log/*.log
