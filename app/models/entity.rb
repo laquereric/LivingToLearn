@@ -3,8 +3,8 @@ class Entity < ActiveRecord::Base
   has_many :locations
   has_many :entity_details
   #has_many :details, :through => :entity_details
-  named_scope :named, lambda { |name| {:conditions => ["name = ?", name ] } }
-  named_scope :with_id, lambda { |name| {:conditions => ["id = ?", object_id ] } }
+  scope :named, lambda { |name| {:conditions => ["name = ?", name ] } }
+  scope :with_id, lambda { |name| {:conditions => ["id = ?", object_id ] } }
 
   def self.find_by_type(t)
     EntityDetail.with_detail_type(t).map{ |ed| ed.entity }

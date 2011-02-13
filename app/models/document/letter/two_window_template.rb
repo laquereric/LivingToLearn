@@ -71,7 +71,7 @@ class Document::Letter::TwoWindowTemplate
     return_address_width = 3.5.in-logo_width
     return_address_height = 1.25.in
 
-    logo = File.join( RAILS_ROOT, 'public' , 'images' , 'tc_logo.jpg' ) 
+    logo = File.join( Rails.root, 'public' , 'images' , 'tc_logo.jpg' )
     doc.image logo, :at => logo_top_left , :width => logo_width * 0.9, :height => logo_height * 0.9
 
     doc.bounding_box( return_address_top_left , :width => return_address_width , :height => return_address_height ) {

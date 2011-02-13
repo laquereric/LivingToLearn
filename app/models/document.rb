@@ -22,7 +22,7 @@ class Document < ActiveRecord::Base
     self.entity_class.add_entity_detail( self, attrs )
   end
 
-  named_scope :from_source, lambda { |source| 
+  scope :from_source, lambda { |source|
     {:conditions => ["source = ?", source ] } 
   }
  
