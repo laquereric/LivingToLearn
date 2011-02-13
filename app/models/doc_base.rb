@@ -1,5 +1,11 @@
 class DocBase < ActiveRecord::Base
 
+  def is_owned?
+    return false if self.meta_hash.nil?
+    return false if (mnemonic = self.meta_hash['OwnedByMnemonic']).nil?
+    return true
+  end
+
   def rotate_180
     %x{ pdftk A=#{self.filename} cat A1D output #{'tmp_filename'}}
     %x{ mv #{'tmp_filename'} #{self.filename} }
@@ -149,6 +155,12 @@ class DocBase < ActiveRecord::Base
       rs << self.new_for_filename(fn)
     }
     return rs
+  end
+
+  def self.all_wo_owner
+    self.all.select{ |doc|
+      !doc.is_owned?
+    }
   end
 
 end
