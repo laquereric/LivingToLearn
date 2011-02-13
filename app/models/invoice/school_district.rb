@@ -11,7 +11,7 @@ class Invoice::SchoolDistrict < ActiveRecord::Base
   end
 
   def self.erb_template_filename
-    File.join(RAILS_ROOT,'app','views','invoices','school_district.html')
+    File.join(Rails.root,'app','views','invoices','school_district.html')
   end
 
   def invoice_html

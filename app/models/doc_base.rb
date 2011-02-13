@@ -50,7 +50,7 @@ class DocBase < ActiveRecord::Base
   end
 
   def self.dir
-    return File.join(RAILS_ROOT,'doc_base')
+    return File.join(Rails.root,'doc_base')
   end
 
   def self.each_doc_filename(&block)

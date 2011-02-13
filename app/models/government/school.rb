@@ -81,8 +81,8 @@ class Government::School < Government::GovernmentDetail
   end
 
   def self.parse_nj_file( filename  )
-    file = File.open(File.join(RAILS_ROOT,'db/parse',filename))
-    #file = File.open(File.join(RAILS_ROOT,'db/parse/NjElementarySchools'))
+    file = File.open(File.join(Rails.root,'db/parse',filename))
+    #file = File.open(File.join(Rails.root,'db/parse/NjElementarySchools'))
     schools = []
     state = 'NJ'
     line_type = nil

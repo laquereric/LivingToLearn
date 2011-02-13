@@ -10,7 +10,7 @@ class Browser
       %x( kill #{firefox_process} )
     end
     sleep 4
-    system "sh #{RAILS_ROOT}/lib/start_firefox_jssh.exe"
+    system "sh #{Rails.root}/lib/start_firefox_jssh.exe"
     sleep 4
     browser = FireWatir::Firefox.new
     return browser

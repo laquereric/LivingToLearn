@@ -8,7 +8,7 @@ class Communication::Communication
   end
 
   def tmp_dir
-    return File.join(RAILS_ROOT,'tmp','communication')
+    return File.join(Rails.root,'tmp','communication')
   end
 
   def init_tmp_dir()
@@ -46,7 +46,7 @@ class Communication::Communication
 
   def send_file( dir, target_path )
     %x[mkdir #{ dir }]
-    %x[cd #{ tmp_dir } && tar -zcvf #{ target_path }.gzip ./* && cd #{RAILS_ROOT}]
+    %x[cd #{ tmp_dir } && tar -zcvf #{ target_path }.gzip ./* && cd #{Rails.root}]
   end
 
   def send_file_to_shared()

@@ -46,7 +46,7 @@ class Spreadsheet::SesProviders < Spreadsheet::Spreadsheet
   end
 
   def self.load_data_records()
-    self.load_recordfile( File.join( RAILS_ROOT, "data" , "US_NJ_SES_PROVIDERS.ods") )
+    self.load_recordfile( File.join( Rails.root, "data" , "US_NJ_SES_PROVIDERS.ods") )
   end
 
 end

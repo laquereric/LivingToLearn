@@ -12,7 +12,7 @@ class Document::Invoices::SchoolDistrict
         line(bounds.top_left, bounds.bottom_left)
       end
 
-      logo = File.join(RAILS_ROOT,'public','images','tc_logo.jpg') 
+      logo = File.join(Rails.root,'public','images','tc_logo.jpg')
       image logo, :at => [0.5.in,bounds.top-0.1.in], :width=> 3.in, :height => 1.3.in
 
       bounding_box([bounds.left+3.75.in,bounds.top-0.in], :width => 3.75.in, :height => 1.5.in) do

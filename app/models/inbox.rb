@@ -2,7 +2,7 @@ require 'zip/zipfilesystem'
 class Inbox
 
   def self.each_filename(&block)
-    Dir.glob(File.join(RAILS_ROOT,'inbox','*')).each{ |filename|
+    Dir.glob(File.join(Rails.root,'inbox','*')).each{ |filename|
       yield filename
     }
   end

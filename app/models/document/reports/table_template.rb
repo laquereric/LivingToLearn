@@ -49,7 +49,7 @@ class Document::Reports::TableTemplate
     header_top_right = [ doc.bounds.right-name_width , doc.bounds.top ]
     header_content_top_left = [ doc.bounds.left + 2.in , doc.bounds.top ]
 
-    logo = File.join(RAILS_ROOT,'public','images','tc_logo.jpg')
+    logo = File.join(Rails.root,'public','images','tc_logo.jpg')
     doc.image logo, :at => [ header_top_left[0] + 0.1.in , header_top_left[1] - 0.1.in ], :width => logo_width * 0.9, :height => logo_height * 0.9
 
     doc.bounding_box( header_top_right , :width => name_width, :height => self.page[:header_height] ) {

@@ -9,7 +9,7 @@ class Document::Pdf #< Document
   attr_accessor :doc
 
   def self.tmp_dir
-    return File.join(RAILS_ROOT,'tmp','pdf_manipulate')
+    return File.join(Rails.root,'tmp','pdf_manipulate')
   end
 
   def self.init_tmp_dir()

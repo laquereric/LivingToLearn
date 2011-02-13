@@ -36,7 +36,7 @@ class Spreadsheet::Administrators < Spreadsheet::Spreadsheet
   end
 
   def self.load_data_records()
-    self.load_recordfile( File.join( RAILS_ROOT, "data" , "ADMINISTRATORS.ods") )
+    self.load_recordfile( File.join( Rails.root, "data" , "ADMINISTRATORS.ods") )
   end
 
 end

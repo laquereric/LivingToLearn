@@ -79,7 +79,7 @@ class Spreadsheet::SesFunding < Spreadsheet::Spreadsheet
 
   def self.load_data_records()
     self.spreadsheet = nil
-    self.load_recordfile( File.join( RAILS_ROOT, "data" , "US_NJ_SES_FUNDING.ods") )
+    self.load_recordfile( File.join( Rails.root, "data" , "US_NJ_SES_FUNDING.ods") )
   end
 
   def self.initialize

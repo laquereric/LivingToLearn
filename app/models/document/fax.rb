@@ -53,7 +53,7 @@ class Document::Fax
   end
 
   def self.tmp_dir
-    return File.join(RAILS_ROOT,'tmp','fax_extract')
+    return File.join(Rails.root,'tmp','fax_extract')
   end
 
   def self.init_tmp_dir()
