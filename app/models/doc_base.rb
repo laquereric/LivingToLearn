@@ -20,27 +20,6 @@ class DocBase < ActiveRecord::Base
     %x{rm #{self.filename} }
   end
 
-  def self.find_for_client(client)
-    self.all.select{ |f|
-      mnemonic = f.meta_hash['OwnedByMnemonic']
-      r = if mnemonic
-        client_id = Person::Client.mnemonic_to_id(mnemonic)
-        (client_id == client.client_id.to_i)
-      else
-        false
-      end
-    }
-  end
-
-  def add_owned_by_client_meta(client_id)
-    client = Person::Client.find_by_client_id(client_id.to_f)
-    return false if !client
-    client_mnemonic = client.mnemonic
-#p client_mnemonic
-    self.add_meta( 'OwnedByMnemonic',client_mnemonic )
-    return true
-  end
-
   def preview
     %x{open -a Preview #{self.filename} }
   end
