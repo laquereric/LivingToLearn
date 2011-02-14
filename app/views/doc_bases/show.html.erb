@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Owned By:</b>
+  <%= @doc_basis.meta_hash['OwnedByMnemonic'] %>
+  <a href="/doc_base/<%=@doc_basis.base_filename%>">pdf</a>
+</p>
+
+<%= link_to 'Edit', edit_doc_basis_path(@doc_basis) %> |
+<%= link_to 'Back', doc_bases_path %>

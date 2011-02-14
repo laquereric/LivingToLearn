@@ -1,0 +1,23 @@
+<h1>Listing doc_bases</h1>
+
+<table>
+  <tr>
+    <th>OwnedBy</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @doc_bases.each do |doc_base| %>
+  <tr>
+    <td><%= doc_base.meta_hash['OwnedByMnemonic'] %></td>
+
+    <td><%= link_to 'Show', doc_base %></td>
+    <td><%= link_to 'Destroy', doc_base, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Doc base', new_doc_basis_path %>

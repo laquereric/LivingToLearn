@@ -12,6 +12,10 @@ class DocBase < ActiveRecord::Base
     #%x{ rm #{'tmp_filename'} }
   end
 
+  def base_filename
+    File.split(self.filename)[1]
+  end
+
   def merge_meta
     return false if !is_pdf?
     #tmp_filename = "#{Tmp.name('with_merged_meta')}.pdf"

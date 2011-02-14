@@ -1,0 +1,2 @@
+module DocBasesHelper
+end
