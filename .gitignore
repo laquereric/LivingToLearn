@@ -7,3 +7,5 @@ inbox/*
 db/*.sqlite3
 log/*.log
 tmp/
+inbox/*
+inbox_other/*
