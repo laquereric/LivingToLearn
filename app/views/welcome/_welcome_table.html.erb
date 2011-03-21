@@ -64,14 +64,18 @@
 <TD  class='transparent-class' ><%= link_to_function("If You Organize a Government","$('target').innerHTML = $('government').innerHTML")%></TD>
 <TD class='transparent-class' ><%= link_to_function("If You are a Personality","$('target').innerHTML = $('personality').innerHTML")%></TD>
 </TR>
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You live in NJ","$('target').innerHTML = $('locations_nj').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You live in PA","$('target').innerHTML = $('locations_pa').innerHTML")%></TD>
+</TR>
 
 </TABLE>
 
 <% end %>
 
 <% content_for :hidden_region do %>
-<div style="display:none" id='testing'><div class="topic-detail">
-<%=render "testing"%></div></div>
+
+<div style="display:none" id='testing'><div class="topic-detail"><%=render "testing"%></div></div>
 <div style="display:none" id='tutoring'><div class="topic-detail"><%=render "tutoring"%></div></div></tr>
 <div style="display:none" id='marketing'><div class="topic-detail"><%=render "marketing"%></div></div></tr>
 <div style="display:none" id='publishing'><div class="topic-detail"><%=render "publishing"%></div></div></tr>
@@ -84,5 +88,7 @@
 <div style="display:none" id='government'><div class="topic-detail"><%=render "government"%></div></div></tr>
 <div style="display:none" id='personality'><div class="topic-detail"><%=render "personality"%></div></div></tr>
 
-<% end %>
+<div style="display:none" id='locations_nj'><div class="topic-detail"><%=render "locations_nj"%></div></div></tr>
+<div style="display:none" id='locations_pa'><div class="topic-detail"><%=render "locations_pa"%></div></div></tr>
 
+<% end %>
