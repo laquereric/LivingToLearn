@@ -1,167 +1,110 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 Transitional//EN">
 <!-- saved from url=(0036)http://www.mydoublem.net/living.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%= javascript_include_tag :defaults %>
+<style type="text/css" media=screen>
+   body {
 
-<meta name="generator" content="Web Page Maker">
-<link href=="stylesheets/styles.css" title="Std" type="text/css">
-<script language="javascript" type="text/javascript" src="scripts/jsPlay.js" />
-<!--
-<script language="javascript" type="text/javascript" src="scripts/MM_image.js" />
-//-->
+   }
 
-</head><body background="images/kids_hand_prints.jpg">
-<script language="javascript" type="text/javascript" src="scripts/clock.js" />
+   #body_table td {
+     width:200px;
+   }
 
-<script language="JavaScript">
+   #body_table tr {
+     height:200px;
+   }
 
-fCol='444444'; //face colour.
-sCol='FF0000'; //seconds colour.
-mCol='444444'; //minutes colour.
-hCol='444444'; //hours colour.
+   #body-table table{
+     color: #ff9900;
+     border: 1px solid black;
+     table-layout:fixed;
+     border-collapse:collapse;
+     width: 600px;
+   }
 
-YCbase=30; //Clock height.
-XCbase=30; //Clock width.
+   .topic_detail {
+     filter:alpha(opacity=90);
+     -moz-opacity:0.9;
+     -khtml-opacity: 0.9;
+     opacity: 0.9;
+     background: #996633;
+     color: #003300;
+     border: 1px solid black;
+     width: 825px;
+     height: 400px;
+     padding: 12px;
+   }
 
-
-H='...';
-H=H.split('');
-M='....';
-M=M.split('');
-S='.....';
-S=S.split('');
-NS4=(document.layers);
-NS6=(document.getElementById&&!document.all);
-IE4=(document.all);
-Ypos=0;
-Xpos=0;
-cdots=12;
-Split=360/cdots;
-if (NS6){
-for (i=1; i < cdots+1; i++){
-document.write('<div id="n6Digits'+i+'" style="position:absolute;top:0px;left:0px;width:30px;height:30px;font-family:Arial;font-size:10px;color:#'+fCol+';text-align:center;padding-top:10px">'+i+'</div>');
-}
-for (i=0; i < M.length; i++){
-document.write('<div id="Ny'+i+'" style="position:absolute;top:0px;left:0px;width:2px;height:2px;font-size:2px;background:#'+mCol+'"></div>');
-}
-for (i=0; i < H.length; i++){
-document.write('<div id="Nz'+i+'" style="position:absolute;top:0px;left:0px;width:2px;height:2px;font-size:2px;background:#'+hCol+'"></div>');
-}
-for (i=0; i < S.length; i++){
-document.write('<div id="Nx'+i+'" style="position:absolute;top:0px;left:0px;width:2px;height:2px;font-size:2px;background:#'+sCol+'"></div>');
-}
-}
-if (NS4){
-dgts='1 2 3 4 5 6 7 8 9 10 11 12';
-dgts=dgts.split(' ')
-for (i=0; i < cdots; i++){
-document.write('<layer name=nsDigits'+i+' top=0 left=0 height=30 width=30><center><font face=Arial size=1 color='+fCol+'>'+dgts[i]+'</font></center></layer>');
-}
-for (i=0; i < M.length; i++){
-document.write('<layer name=ny'+i+' top=0 left=0 bgcolor='+mCol+' clip="0,0,2,2"></layer>');
-}
-for (i=0; i < H.length; i++){
-document.write('<layer name=nz'+i+' top=0 left=0 bgcolor='+hCol+' clip="0,0,2,2"></layer>');
-}
-for (i=0; i < S.length; i++){
-document.write('<layer name=nx'+i+' top=0 left=0 bgcolor='+sCol+' clip="0,0,2,2"></layer>');
-}
-}
-if (IE4){
-document.write('<div style="position:absolute;top:0px;left:0px"><div style="position:relative">');
-for (i=1; i < cdots+1; i++){
-document.write('<div id="ieDigits" style="position:absolute;top:0px;left:0px;width:30px;height:30px;font-family:Arial;font-size:10px;color:'+fCol+';text-align:center;padding-top:10px">'+i+'</div>');
-}
-document.write('</div></div>')
-document.write('<div style="position:absolute;top:0px;left:0px"><div style="position:relative">');
-for (i=0; i < M.length; i++){
-document.write('<div id=y style="position:absolute;width:2px;height:2px;font-size:2px;background:'+mCol+'"></div>');
-}
-document.write('</div></div>')
-document.write('<div style="position:absolute;top:0px;left:0px"><div style="position:relative">');
-for (i=0; i < H.length; i++){
-document.write('<div id=z style="position:absolute;width:2px;height:2px;font-size:2px;background:'+hCol+'"></div>');
-}
-document.write('</div></div>')
-document.write('<div style="position:absolute;top:0px;left:0px"><div style="position:relative">');
-for (i=0; i < S.length; i++){
-document.write('<div id=x style="position:absolute;width:2px;height:2px;font-size:2px;background:'+sCol+'"></div>');
-}
-document.write('</div></div>')
-}
-setTimeout('clock()',100);
+   .transparent-class {
+        filter:alpha(opacity=90);
+        -moz-opacity:0.9;
+        -khtml-opacity: 0.9;
+        opacity: 0.9;
 }
 
-clock();
-//-->
-</script>
+   #text-block {
+     width:270px;
+     color: #663300;
+     background: #0066FF;
+     padding: 12px;
+   }
 
-<div id="n6Digits1" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 472.183px; left: 932.28px; ">1</div>
-<div id="n6Digits2" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 483.281px; left: 943.141px; ">2</div>
-<div id="n6Digits3" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 498.324px; left: 946.998px; ">3</div>
-<div id="n6Digits4" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 513.28px; left: 942.817px; ">4</div>
-<div id="n6Digits5" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 524.141px; left: 931.719px; ">5</div>
-<div id="n6Digits6" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 527.998px; left: 916.676px; ">6</div>
-<div id="n6Digits7" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 523.817px; left: 901.72px; ">7</div>
-<div id="n6Digits8" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 512.719px; left: 890.859px; ">8</div>
-<div id="n6Digits9" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 497.676px; left: 887.002px; ">9</div>
-<div id="n6Digits10" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 482.72px; left: 891.183px; ">10</div>
-<div id="n6Digits11" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 471.859px; left: 902.281px; ">11</div>
-<div id="n6Digits12" style="position: absolute; width: 30px; height: 30px; font-family: Arial; font-size: 10px; color: rgb(68, 68, 68); text-align: center; padding-top: 10px; top: 468.002px; left: 917.324px; ">12</div>
-<div id="Ny0" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 513px; left: 932px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Ny1" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 518.916px; left: 927.694px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Ny2" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 524.832px; left: 923.389px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Ny3" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 530.749px; left: 919.083px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nz0" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 513px; left: 932px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nz1" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 505.842px; left: 930.484px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nz2" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(68, 68, 68); top: 498.683px; left: 928.969px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nx0" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 0, 0); top: 513px; left: 932px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nx1" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 0, 0); top: 519.687px; left: 934.971px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nx2" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 0, 0); top: 526.374px; left: 937.942px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nx3" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 0, 0); top: 533.061px; left: 940.912px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="Nx4" style="position: absolute; width: 2px; height: 2px; font-size: 2px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 0, 0); top: 539.747px; left: 943.883px; background-position: initial initial; background-repeat: initial initial; "></div>
-<div id="container">
-<div id="image2" style="position:absolute; overflow:hidden; left:120px; top:20px; width:525px; height:394px; z-index:0">
-<img src="images/livingtolearn3.png" alt="" border="0" width="525" height="394">
-</div>
+   #welcome-table td{
+     background: none repeat scroll 0 0 #E8EDFF;
+     border-left: 5px solid #AABCFE;
+     border-right: 5px solid #AABCFE;
+     color: #666699;
+     padding: 8px;
+     width: 400px;
+  }
 
-<div id="image7" style="position:absolute; overflow:hidden; left:40px; top:360px; width:677px; height:282px; z-index:1">
-<img src="images/middle_line.jpg" alt="" border="0" width="677" height="282">
-</div>
+  #welcome-table table{
+    border-collapse: collapse;
+    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
+    font-size: 12px;
+    text-align: center;
+  }
 
-<div id="image6" style="position:absolute; overflow:hidden; left:39px; top:642px; width:677px; height:60px; z-index:2">
-<img src="images/bottom102.jpg" alt="" border="0" width="677" height="60">
-</div>
+   hr {color: #ff9900; height: 1px }
+   a:hover {color: #ff0000; text-decoration: none}
+</style>
 
-<div id="hr2" style="position:absolute; overflow:hidden; left:55px; top:375px; width:180px; height:17px; z-index:3">
-<hr size="2" width="180" color="#C0C0C0">
-</div>
+</head>
 
-<div id="hr3" style="position:absolute; overflow:hidden; left:263px; top:375px; width:237px; height:17px; z-index:4">
-<hr size="2" width="237" color="#C0C0C0">
-</div>
+<body background="images/kids_hand_prints.jpg"><table id="body-table">
 
-<div id="hr4" style="position:absolute; overflow:hidden; left:517px; top:375px; width:187px; height:17px; z-index:5">
-<hr size="2" width="187" color="#C0C0C0">
-</div>
+<tr>
+<td id="text-block" class='transparent-class'>
+Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues.
+</td>
+<td><div id="image2">
+<img src="images/LivingToLearnLogo.png" alt="" border="0" width="262" height="198">
+</div></td>
+<td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
+<div style="position:relative; left:10px"
+<%= yield :top_table_region -%>
+<div>
+</td>
 
-<div id="text3" style="position:absolute; overflow:hidden; left:393px; top:651px; width:306px; height:48px; z-index:8"><div class="wpmd">
-<div><font class="ws8" face="Tahoma">Copyright 2011 LivingToLearn&nbsp; Inc. All Rights Reserved.</font></div>
-</div></div>
+</tr>
 
-<div id="g_nav10d" style="position:absolute; left:135px; top:18px; z-index:13"><a onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(&#39;g_nav10&#39;,&#39;&#39;,&#39;images/nav543269880a.gif&#39;,1)" href="images/site.html">
-<img name="g_nav10" onload="MM_preloadImages(&#39;images/nav543269880a.gif&#39;)" alt="" border="0" src="images/nav543269880i.gif"></a>
-</div>
+<tr></tr>
 
-<div id="marquee1" style="position:absolute; overflow:hidden; left:41px; top:321px; width:678px; height:38px; z-index:18">
-<marquee width="678" height="38">
-<div class="wpmd">
-<div><font class="ws14" color="#000000">CALL TODAY FOR TUTORING SPECIALS!</font></div>
-</div></marquee>
-</div>
+<tr><marquee width="678" height="38"><div class="wpmd">
+<div><font class="ws14" color="#000000">CALL 856 270 6810 FOR IMMEDIATE ASSISTANCE!</font></div>
+</div></marquee></tr>
 
-<%= yield -%>
+<tr><%= yield :main_table_region -%></tr>
+<tr class='topic'> <div style="height:400px" id='choose'><div id='target'>Choose a topic!</div></div></tr>
 
-</div>
+<tr><div><font class="ws8" face="Tahoma">Copyright 2011 LivingToLearn&nbsp; Inc. All Rights Reserved.</font></div></tr>
+</table>
 
-</body></html>
+<%= yield :hidden_region -%>
+
+</body>
+</html>
 
