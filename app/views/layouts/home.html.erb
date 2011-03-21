@@ -2,7 +2,10 @@
 <!-- saved from url=(0036)http://www.mydoublem.net/living.html -->
 <html>
 <head>
+<title>LivingToLearn - Your Family's Education Matters</title>
+<%= yield head -%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <%= javascript_include_tag :defaults %>
 <style type="text/css" media=screen>
    body {
@@ -26,8 +29,8 @@
 
    #topic-prompt {
      position: relative;
-     left: 200px;
-     top: 100px;
+     left: 260px;
+     top: 40px;
      font-size: 30pt
    }
 
@@ -49,11 +52,11 @@
    }
 
    .transparent-class {
-        filter:alpha(opacity=90);
-        -moz-opacity:0.9;
-        -khtml-opacity: 0.9;
-        opacity: 0.9;
-}
+     filter:alpha(opacity=90);
+     -moz-opacity:0.9;
+     -khtml-opacity: 0.9;
+     opacity: 0.9;
+   }
 
    #text-block {
      width:270px;
@@ -63,6 +66,7 @@
    }
 
    #welcome-table td{
+     text-align: center;
      background: none repeat scroll 0 0 #E8EDFF;
      border-left: 5px solid #AABCFE;
      border-right: 5px solid #AABCFE;

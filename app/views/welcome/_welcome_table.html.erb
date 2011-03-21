@@ -1,3 +1,42 @@
+
+<% content_for :head do %>
+  <meta name="Testing" content="Reading"/>
+  <meta name="Testing" content="Writing"/>
+  <meta name="Testing" content="Math"/>
+
+  <meta name="Tutoring" content="Reading"/>
+  <meta name="Tutoring" content="Writing"/>
+  <meta name="Tutoring" content="Math"/>
+
+  <meta name="Tutoring" content="Small Group"/>
+  <meta name="Tutoring" content="Individual"/>
+  <meta name="Tutoring" content="In Home"/>
+
+  <meta name="Marketing" content="Sponsoring Kidsville News"/>
+  <meta name="Marketing" content="Distributing Kidsville News"/>
+
+  <meta name="Publishing" content="Kidsville News"/>
+
+  <meta name="Student" content="Testing">
+  <meta name="Student" content="Tutoring">
+
+  <meta name="Parent" content="Student Testing">
+  <meta name="Parent" content="Student Tutoringing">
+
+  <meta name="NonProfit" content="Marketing">
+  <meta name="NonProfit" content="Sponsoring Kidsville News">
+  <meta name="NonProfit" content="Fundraising">
+
+  <meta name="Business" content="Marketing">
+  <meta name="Business" content="Distributing Kidsville News"/>
+  <meta name="Business" content="Sponsoring Kidsville News"/>
+
+  <meta name="Government" content="Sponsoring Kidsville News"/>
+
+  <meta name="Personality" content="Public Relations">
+
+<% end %>
+
 <% content_for :top_table_region do %>
 
 <p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
