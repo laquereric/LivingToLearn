@@ -1,32 +1,39 @@
 <% content_for :top_table_region do %>
 
+<<<<<<< HEAD
 <p><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
 <p><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
 <p><%= link_to_function("Eductional Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
 <p><%= link_to_function("Marketing and Public Relations","$('target').innerHTML = $('marketing').innerHTML")%></p>
+=======
+<p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Eductional Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
+>>>>>>> 6dccb6569baf2c4c5239ebe823135e699e4d3636
 
 <% end %>
 
 <% content_for :main_table_region do %>
 
-<table id="welcome-table">
+<TABLE id="welcome-table">
 
-<tr>
-<td class='transparent-class' ><%= link_to_function("If You Are A Student","$('target').innerHTML = $('student').innerHTML")%></td>
-<td class='transparent-class' ><%= link_to_function("If You Are A Parent","$('target').innerHTML = $('parent').innerHTML")%></td>
-</tr>
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You Are A Student","$('target').innerHTML = $('student').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You Are A Parent","$('target').innerHTML = $('parent').innerHTML")%></TD>
+</TR>
 
-<tr>
-<td class='transparent-class' ><%= link_to_function("If You Organize a Non-Profit","$('target').innerHTML = $('non_profit').innerHTML")%></td>
-<td  class='transparent-class'><%= link_to_function("If You Organize a Business","$('target').innerHTML = $('business').innerHTML")%></td>
-</tr>
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You Organize a Non-Profit","$('target').innerHTML = $('non_profit').innerHTML")%></TD>
+<TD  class='transparent-class'><%= link_to_function("If You Organize a Business","$('target').innerHTML = $('business').innerHTML")%></TD>
+</TR>
 
-<tr>
-<td  class='transparent-class' ><%= link_to_function("If You Organize a Government","$('target').innerHTML = $('government').innerHTML")%></td>
-<td class='transparent-class' ><%= link_to_function("If You are a Personality","$('target').innerHTML = $('personality').innerHTML")%></td>
-</tr>
+<TR>
+<TD  class='transparent-class' ><%= link_to_function("If You Organize a Government","$('target').innerHTML = $('government').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You are a Personality","$('target').innerHTML = $('personality').innerHTML")%></TD>
+</TR>
 
-</table>
+</TABLE>
 
 <% end %>
 

@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%= javascript_include_tag :defaults %>
 <style type="text/css" media=screen>
+<<<<<<< HEAD
 
   body {
   }
@@ -52,12 +53,53 @@
    }
 
    .transparent-class {
+=======
+   body {
+
+   }
+
+   #body_table td {
+     width:200px;
+   }
+
+   #body_table tr {
+     height:200px;
+   }
+
+   #body-table table{
+     color: #ff9900;
+     border: 1px solid black;
+     table-layout:fixed;
+     border-collapse:collapse;
+     width: 600px;
+   }
+
+   .topic_detail {
+>>>>>>> 6dccb6569baf2c4c5239ebe823135e699e4d3636
      filter:alpha(opacity=90);
      -moz-opacity:0.9;
      -khtml-opacity: 0.9;
      opacity: 0.9;
+<<<<<<< HEAD
    }
 
+=======
+     background: #996633;
+     color: #003300;
+     border: 1px solid black;
+     width: 825px;
+     height: 400px;
+     padding: 12px;
+   }
+
+   .transparent-class {
+        filter:alpha(opacity=90);
+        -moz-opacity:0.9;
+        -khtml-opacity: 0.9;
+        opacity: 0.9;
+}
+
+>>>>>>> 6dccb6569baf2c4c5239ebe823135e699e4d3636
    #text-block {
      width:270px;
      color: #663300;
@@ -67,13 +109,17 @@
 
    #welcome-table td{
      background: none repeat scroll 0 0 #E8EDFF;
+<<<<<<< HEAD
      border-style: hidden;
      border-spacing: 5px;
+=======
+>>>>>>> 6dccb6569baf2c4c5239ebe823135e699e4d3636
      border-left: 5px solid #AABCFE;
      border-right: 5px solid #AABCFE;
      color: #666699;
      padding: 8px;
      width: 400px;
+<<<<<<< HEAD
    }
 
    #welcome-table table{
@@ -88,6 +134,19 @@
 
    a:hover {color: #ff0000; text-decoration: none}
 
+=======
+  }
+
+  #welcome-table table{
+    border-collapse: collapse;
+    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
+    font-size: 12px;
+    text-align: center;
+  }
+
+   hr {color: #ff9900; height: 1px }
+   a:hover {color: #ff0000; text-decoration: none}
+>>>>>>> 6dccb6569baf2c4c5239ebe823135e699e4d3636
 </style>
 
 </head>
@@ -115,6 +174,7 @@ Living to Learn helps you and every member of your family achieve higher levels 
 <div><font class="ws14" color="#000000">CALL 856 270 6810 FOR IMMEDIATE ASSISTANCE!</font></div>
 </div></marquee></tr>
 
+<<<<<<< HEAD
 <tr style="height:10px"></tr>
 
 <tr><%= yield :main_table_region -%></tr>
@@ -123,6 +183,10 @@ Living to Learn helps you and every member of your family achieve higher levels 
 
 <tr class='topic'> <div style="height:400px" id='target'><div id="topic-prompt">Please choose a topic!</div></div>
 </div></tr>
+=======
+<tr><%= yield :main_table_region -%></tr>
+<tr class='topic'> <div style="height:400px" id='choose'><div id='target'>Choose a topic!</div></div></tr>
+>>>>>>> 6dccb6569baf2c4c5239ebe823135e699e4d3636
 
 <tr><div><font class="ws8" face="Tahoma">Copyright 2011 LivingToLearn&nbsp; Inc. All Rights Reserved.</font></div></tr>
 </table>
