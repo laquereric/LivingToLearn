@@ -1,7 +1,7 @@
 # app/mailers/user_mailer.rb
 class ReadingMailer < ActionMailer::Base
-  default :from => "LaquerEric@gmail.com"
-  
+  default :from => "eric@mail.LivingToLearn.com"
+
   def test
     #@user = user
     #attachments["rails.png"] = File.read("#{Rails.root}/public/images/rails.png")
