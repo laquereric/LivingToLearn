@@ -23,8 +23,15 @@ gem 'sqlite3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
   gem 'zip'
-  #gem 'roo'
 
+  gem 'roo'
+  gem 'prawn'
+  gem 'pdf-reader'
+  gem 'gcal4ruby'
+  gem 'gdocs4ruby'
+  gem 'dropbox'
+  gem 'spreadsheet'
+  gem 'google-spreadsheet-ruby'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
