@@ -1,4 +1,4 @@
-Degrees::Application.routes.draw do
+LivingToLearn::Application.routes.draw do
   resources :doc_bases
 
   get "welcome/index"
