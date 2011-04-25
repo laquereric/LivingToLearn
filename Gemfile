@@ -33,6 +33,8 @@ gem 'sqlite3'
   gem 'spreadsheet'
   gem 'google-spreadsheet-ruby'
 
+  gem 'devise'
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
