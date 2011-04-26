@@ -1,0 +1,2 @@
+module MarketingContextTypesHelper
+end

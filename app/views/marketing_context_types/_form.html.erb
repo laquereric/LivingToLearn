@@ -1,0 +1,19 @@
+<%= form_for(@marketing_context_type) do |f| %>
+  <% if @marketing_context_type.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@marketing_context_type.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <ul>
+    <% @marketing_context_type.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

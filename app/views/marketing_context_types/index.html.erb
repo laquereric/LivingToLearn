@@ -1,0 +1,21 @@
+<h1>MarketingContextTypes#index</h1>
+ 
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+ 
+<% @marketing_context_types.each do |marketing_context_type| %>
+  <tr>
+    <td><%= marketing_context_type.name %></td>
+    <td><%= link_to 'Show', marketing_context_type %></td>
+    <td><%= link_to 'Edit', edit_marketing_context_type_path(marketing_context_type) %></td>
+    <td><%= link_to 'Destroy', marketing_context_type, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+ 
+<br />
+ 
+<%= link_to 'New marketing_context_type', new_marketing_context_type_path %>
+

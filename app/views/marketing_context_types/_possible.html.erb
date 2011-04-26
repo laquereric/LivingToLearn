@@ -1,0 +1,9 @@
+Add A Topic<br/>
+<form> 
+
+<%= collection_select("Add Topic", "client_id" , @possible_marketing_context_types, "id", "name",
+{:prompt => true},
+{:onchange => "add_user_marketing_context(this.form,#{current_user.id},this.options[this.selectedIndex].value)"} )
+%>
+</form> 
+

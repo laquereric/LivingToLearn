@@ -1,0 +1,10 @@
+Existing Topics:</br>
+<table>
+<tr>
+<% @existing_marketing_context_types.each{ |marketing_context_type|%>
+  <td>
+  <%= marketing_context_type.name %>
+  </td>
+<% }%>
+</tr>
+</table>
