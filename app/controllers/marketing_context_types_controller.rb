@@ -1,5 +1,6 @@
 class MarketingContextTypesController < ApplicationController
-  
+  before_filter :authenticate_user!
+
   def new
     @marketing_context_type = MarketingContextType.new
     respond_to do |format|
