@@ -91,11 +91,10 @@
 <body background="images/kids_hand_prints.jpg">
 
 <script type="text/javascript"> 
-function add_user_marketing_context(form,user_id,marketing_context_id) {
-   alert('user :' + user_id + ' => ' +  'marketing_context_id :' + marketing_context_id)
-   form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
-   form.submit()
-} 
+  function add_user_marketing_context(form,user_id,marketing_context_id) {
+    form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
+    form.submit()
+  }
 </script>
 
 <table id="top-table">

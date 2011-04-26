@@ -18,8 +18,16 @@ class User < ActiveRecord::Base
 
   def add_marketing_context(id)
     marketing_context_type = MarketingContextType.find(id)
-    #marketing_context_type = MarketingContextType.find_by_name(name)
     self.marketing_context_types << marketing_context_type if marketing_context_type
     r = if marketing_context_type then marketing_context_type else nil end
   end
+
+  def marketing_contexts_of_type(id)
+    self.marketing_contexts.select{ |marketing_context| marketing_context.marketing_context_type_id == id }
+  end
+
+  def delete_marketing_contexts_of_type(id)
+    marketing_contexts_of_type(id).each{ |marketing_context| marketing_context.delete }
+  end
+
 end

@@ -1,10 +1,10 @@
 Existing Topics:</br>
 <table>
-<tr>
 <% @existing_marketing_context_types.each{ |marketing_context_type|%>
-  <td>
-  <%= marketing_context_type.name %>
-  </td>
+  <tr>
+  <td><%= marketing_context_type.name %></td>
+  <td><%= link_to 'delete' , delete_user_marketing_context_url(current_user.id,marketing_context_type.id)%></td>
+  </tr>
 <% }%>
-</tr>
+
 </table>

@@ -1,9 +1,14 @@
 <h1>Users#index</h1>
 <h1>Users</h1>
 <table>
+  <tr>
+    <td>Email</td>
+    <td>Goto</td>
+  </tr>
 <% @users.each do |user| %>
   <tr>
-    <td><%= link_to user.name, user %></td>
+    <td><%= user.email %></td>
+    <td><%= link_to user.id, user %></td>
   </tr>
 <% end %>
 </table>
