@@ -102,7 +102,7 @@
 
 </head>
 
-<body background="images/kids_hand_prints.jpg">
+<body background="images/kids_hand_prints.jpg" onload="onLoad()">
 
 <script type="text/javascript"> 
   function add_user_marketing_context(form,user_id,marketing_context_id) {
@@ -112,6 +112,9 @@
   function select_user_marketing_context(form,user_id,marketing_context_id) {
     form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
     form.submit()
+  }
+  function onLoad(){
+    <%= yield :onload_script -%>
   }
 </script>
 
