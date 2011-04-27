@@ -119,63 +119,65 @@
 </script>
 
 <table id="top-table" class='transparent-class'>
-<tr>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-</tr>
-<tr>
-  <td><%= render 'devise/menu/registration_items' %></td>
-  <td><%= render 'devise/menu/login_items' %></td>
-  <% if user_signed_in? %>
-    <td><%= render 'marketing_context_types/possible' %></td>
-    <% if current_user.marketing_context_types.length > 0 %>
-      <% if current_user.marketing_context_types.length > 1 %>
-        <td><%= render 'marketing_context_types/existing' %></td>
+  <tr>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  </tr>
+  <tr>
+    <td><%= render 'devise/menu/registration_items' %></td>
+    <td><%= render 'devise/menu/login_items' %></td>
+    <% if user_signed_in? %>
+      <td><%= render 'marketing_context_types/possible' %></td>
+      <% if current_user.marketing_context_types.length > 0 %>
+        <% if current_user.marketing_context_types.length > 1 %>
+          <td><%= render 'marketing_context_types/existing' %></td>
+        <% end %>
+        <td><%= link_to "Delete #{current_user.current_marketing_context} Topic",
+          delete_user_marketing_context_url(current_user.id,current_user.current_marketing_context_type) %></td>
       <% end %>
-      <td><%= link_to "Delete #{current_user.current_marketing_context} Topic",
-         delete_user_marketing_context_url(current_user.id,current_user.current_marketing_context_type) %></td>
     <% end %>
-  <% end %>
-</tr>
-
-<tr>
+  </tr>
 </table>
 
 <table id="body-table">
 
-<tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :title_region -%></td></tr>
+  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :title_region -%></td></tr>
 
-<tr>
-<td id="text-block" class='transparent-class'>
-<%= yield :message_region -%>
-</td>
+  <tr>
+    <td id="text-block" class='transparent-class'>
+    <%= yield :message_region -%>
+    </td>
 
-<td><div id="image2">
-<img src="images/LivingToLearnLogo.png" alt="" border="0" width="262" height="198">
-</div></td>
+    <td><div id="image2">
+    <img src="images/LivingToLearnLogo.png" alt="" border="0" width="262" height="198">
+    </div></td>
 
-<td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
-<div style="position:relative; left:10px"
-<%= yield :top_table_region -%>
-<div>
-</td>
+    <td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
+    <div style="position:relative; left:10px">
+      <%= yield :top_table_region -%>
+     </div>
+    </td>
+  </tr>
 
-</tr>
+  <tr></tr>
 
-<tr></tr>
-
-<tr><marquee width="678" height="38"><div class="wpmd">
-<div><font class="ws14" color="#000000">CALL 856 270 6810 FOR IMMEDIATE ASSISTANCE!</font></div>
-</div></marquee></tr>
-
-<tr><%= yield :main_table_region -%></tr>
-<tr class='topic'> <div style="height:450px" id='target'><div id='topic-prompt'>Please choose a topic!</div></div></tr>
-
-<tr><div><font class="ws8" face="Tahoma">Copyright 2011 LivingToLearn&nbsp; Inc. All Rights Reserved.</font></div></tr>
+  <tr>
+    <marquee width="678" height="38">
+      <div class="wpmd">
+        <div><font class="ws14" color="#000000">CALL 856 270 6810 FOR IMMEDIATE ASSISTANCE!</font></div>
+      </div>
+    </marquee>
+  </tr>
 </table>
 
+<div id='target'><div id='topic-prompt'>Please choose a topic!</div></div>
+<div>
+  <%= yield :main_table_region -%>
+</div>
+<div>
+  Copyright 2011 LivingToLearn&nbsp; LLC. All Rights Reserved.
+</div>
 <%= yield :hidden_region -%>
-
 </body>
 </html>
 
