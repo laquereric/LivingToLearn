@@ -14,19 +14,19 @@
 
 <% end %>
 <% content_for :title_region do %>
-  Living to Learn helps Students
+  Living to Learn helps Curriculum Directors
 <% end %>
 
 <% content_for :message_region do %>
 
-Living to Learn helps you find out where you really are academically and helps you get to where you want to be!
+Living to Learn supports the deployment of mandated curricula without incurring hard costs to the district.
 <% end %>
 
 <% content_for :top_table_region do %>
 
-<p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
-
+<p id="tutoring_link"><%= link_to_function("Extra Academic Support","$('target').innerHTML = $('extra_academic').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Basic Academic Support","$('target').innerHTML = $('basic_academic').innerHTML")%></p>
 <% end %>
 
 <% content_for :main_table_region do %>
@@ -34,8 +34,8 @@ Living to Learn helps you find out where you really are academically and helps y
 <TABLE id="welcome-table">
 
 <TR>
-<TD class='transparent-class' ><%= link_to_function("If Want to Know Where You Are Academically","$('target').innerHTML = $('student').innerHTML")%></TD>
-<TD class='transparent-class' ><%= link_to_function("If You Want Academic Help","$('target').innerHTML = $('parent').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You live in NJ","$('target').innerHTML = $('locations_nj').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You live in PA","$('target').innerHTML = $('locations_pa').innerHTML")%></TD>
 </TR>
 
 </TABLE>
