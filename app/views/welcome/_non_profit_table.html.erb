@@ -25,7 +25,7 @@ Living to Learn helps families reach higher levels of academic achievement while
 <% end %>
 
 <% content_for :top_table_region do %>
-
+<p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
 
@@ -34,15 +34,6 @@ Living to Learn helps families reach higher levels of academic achievement while
 <% content_for :main_table_region do %>
 
 <TABLE id="welcome-table">
-
-<TR>
-<TD class='transparent-class' ><%= link_to_function("If You Organize a Non-Profit","$('target').innerHTML = $('non_profit').innerHTML")%></TD>
-</TR>
-
-<TR>
-<TD class='transparent-class' ><%= link_to_function("If You live in NJ","$('target').innerHTML = $('locations_nj').innerHTML")%></TD>
-<TD class='transparent-class' ><%= link_to_function("If You live in PA","$('target').innerHTML = $('locations_pa').innerHTML")%></TD>
-</TR>
 
 </TABLE>
 
