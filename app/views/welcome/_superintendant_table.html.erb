@@ -1,0 +1,52 @@
+
+<% content_for :head do %>
+  <meta name="Testing" content="Reading"/>
+  <meta name="Testing" content="Writing"/>
+  <meta name="Testing" content="Math"/>
+
+  <meta name="Tutoring" content="Reading"/>
+  <meta name="Tutoring" content="Writing"/>
+  <meta name="Tutoring" content="Math"/>
+
+  <meta name="Tutoring" content="Small Group"/>
+  <meta name="Tutoring" content="Individual"/>
+  <meta name="Tutoring" content="In Home"/>
+
+<% end %>
+<% content_for :title_region do %>
+  Living to Learn helps Students
+<% end %>
+
+<% content_for :message_region do %>
+
+Living to Learn helps you find out where you really are academically and helps you get to where you want to be!
+<% end %>
+
+<% content_for :top_table_region do %>
+
+<p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
+
+<% end %>
+
+<% content_for :main_table_region do %>
+
+<TABLE id="welcome-table">
+
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If Want to Know Where You Are Academically","$('target').innerHTML = $('student').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You Want Academic Help","$('target').innerHTML = $('parent').innerHTML")%></TD>
+</TR>
+
+</TABLE>
+
+<% end %>
+
+<% content_for :hidden_region do %>
+  <% render 'hidden_region_content' %>
+<% end %>
+
+<% content_for :onload_script do-%>
+  $('target').innerHTML = $('superintendant').innerHTML
+<% end %>
+
