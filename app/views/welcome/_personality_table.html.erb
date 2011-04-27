@@ -33,3 +33,8 @@ Living to Learn helps families achieve higher levels of academic achievement whi
 <% content_for :hidden_region do %>
 <% render 'hidden_region_content' %>
 <% end %>
+
+<% content_for :onload_script do-%>
+  $('target').innerHTML = $('personality').innerHTML
+<% end %>
+

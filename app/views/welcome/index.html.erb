@@ -1,6 +1,14 @@
 <% if user_signed_in? and current_user.marketing_contexts.length>0%>
   <% case current_user.current_marketing_context_type.name %>
-        <% when "Student" %>
+         <% when "PTO Officer" %>
+           <%= render 'pto_officer_table'%>
+         <% when "Superintendant" %>
+           <%= render 'superintendant_table'%>
+         <% when "Principal" %>
+           <%= render 'principal_table'%>
+         <% when "Curriculum Director" %>
+           <%= render 'curriculum_director_table'%>
+         <% when "Student" %>
            <%= render 'student_table'%>
         <% when "Parent" %>
            <%= render 'parent_table'%>

@@ -45,3 +45,9 @@ Living to Learn helps you find out where you really are academically and helps y
 <% content_for :hidden_region do %>
   <% render 'hidden_region_content' %>
 <% end %>
+
+<% content_for :onload_script do-%>
+  $('target').innerHTML = $('student').innerHTML
+<% end %>
+
+

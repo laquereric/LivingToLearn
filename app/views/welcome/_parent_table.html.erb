@@ -51,3 +51,9 @@ Living to Learn helps you and every member of your family achieve higher levels 
 <% content_for :hidden_region do %>
   <% render 'hidden_region_content' %>
 <% end %>
+
+<% content_for :onload_script do-%>
+  $('target').innerHTML = $('parent').innerHTML
+<% end %>
+
+
