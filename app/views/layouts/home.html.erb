@@ -65,6 +65,13 @@
      padding: 12px;
    }
 
+   #top-table td{
+     text-align: center;
+     background: none repeat scroll 0 0 #E8EDFF;
+     color: #666699;
+     padding: 8px;
+  }
+
    #welcome-table td{
      text-align: center;
      background: none repeat scroll 0 0 #E8EDFF;
@@ -73,6 +80,13 @@
      color: #666699;
      padding: 8px;
      width: 400px;
+  }
+
+  #top-table table{
+    border-collapse: collapse;
+    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
+    font-size: 12px;
+    text-align: center;
   }
 
   #welcome-table table{
@@ -95,9 +109,13 @@
     form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
     form.submit()
   }
+  function select_user_marketing_context(form,user_id,marketing_context_id) {
+    form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
+    form.submit()
+  }
 </script>
 
-<table id="top-table">
+<table id="top-table" class='transparent-class'>
 <tr>
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
@@ -105,11 +123,15 @@
 <tr>
   <td><%= render 'devise/menu/registration_items' %></td>
   <td><%= render 'devise/menu/login_items' %></td>
-</tr>
-<tr>
   <% if user_signed_in? %>
-    <td><%= render 'marketing_context_types/existing' %></td>
     <td><%= render 'marketing_context_types/possible' %></td>
+    <% if current_user.marketing_context_types.length > 0 %>
+      <% if current_user.marketing_context_types.length > 1 %>
+        <td><%= render 'marketing_context_types/existing' %></td>
+      <% end %>
+      <td><%= link_to "Delete #{current_user.current_marketing_context} Topic",
+         delete_user_marketing_context_url(current_user.id,current_user.current_marketing_context_type) %></td>
+    <% end %>
   <% end %>
 </tr>
 
@@ -117,12 +139,18 @@
 </table>
 
 <table id="body-table">
+
+<tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :title_region -%></td></tr>
+
+<tr>
 <td id="text-block" class='transparent-class'>
-Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues.
+<%= yield :message_region -%>
 </td>
+
 <td><div id="image2">
 <img src="images/LivingToLearnLogo.png" alt="" border="0" width="262" height="198">
 </div></td>
+
 <td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
 <div style="position:relative; left:10px"
 <%= yield :top_table_region -%>

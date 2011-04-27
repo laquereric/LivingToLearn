@@ -1,0 +1,35 @@
+
+<% content_for :head do %>
+  <meta name="Personality" content="Sponsoring Kidsville News"/>
+  <meta name="Personality" content="Public Relations">
+<% end %>
+
+<% content_for :message_region do %>
+Living to Learn helps families achieve higher levels of academic achievement while providing personalities unmatched opportunities to advance their wholesome messages to children and to their parents.
+<% end %>
+
+<% content_for :top_table_region do %>
+
+<p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
+
+<% end %>
+
+<% content_for :main_table_region do %>
+
+<TABLE id="welcome-table">
+
+<TD class='transparent-class' ><%= link_to_function("If You are a Personality","$('target').innerHTML = $('personality').innerHTML")%></TD>
+</TR>
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You live in NJ","$('target').innerHTML = $('locations_nj').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You live in PA","$('target').innerHTML = $('locations_pa').innerHTML")%></TD>
+</TR>
+
+</TABLE>
+
+<% end %>
+
+<% content_for :hidden_region do %>
+<% render 'hidden_region_content' %>
+<% end %>

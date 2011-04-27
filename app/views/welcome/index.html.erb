@@ -1,1 +1,18 @@
-<%= render 'welcome_table'%>
+<% if user_signed_in? and current_user.marketing_contexts.length>0%>
+  <% case current_user.current_marketing_context_type.name %>
+        <% when "Student" %>
+           <%= render 'student_table'%>
+        <% when "Parent" %>
+           <%= render 'parent_table'%>
+        <% when "Business" %>
+           <%= render 'business_table'%>
+        <% when "Non Profit" %>
+           <%= render 'non_profit_table'%>
+        <% when "Government" %>
+           <%= render 'government_table'%>
+        <% when "Personality" %>
+           <%= render 'personality_table'%>
+  <% end %>
+<% else %>
+  <%= render 'welcome_table'%>
+<% end %>

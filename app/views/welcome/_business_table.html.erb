@@ -1,0 +1,46 @@
+
+<% content_for :head do %>
+
+  <meta name="Marketing" content="Sponsoring Kidsville News"/>
+  <meta name="Marketing" content="Distributing Kidsville News"/>
+
+  <meta name="Publishing" content="Kidsville News"/>
+
+  <meta name="Business" content="Marketing">
+  <meta name="Business" content="Distributing Kidsville News"/>
+  <meta name="Business" content="Sponsoring Kidsville News"/>
+
+<% end %>
+
+<% content_for :title_region do %>
+  Living to Learn Helps Businesses!
+<% end %>
+
+<% content_for :message_region do %>
+
+Living to Learn helps families reach higher levels of academic achievement while providing business people unmatched opportunities to advance their wholesome messages to children and to their parents.
+<% end %>
+
+<% content_for :top_table_region do %>
+
+<p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
+
+<% end %>
+
+<% content_for :main_table_region do %>
+
+<TABLE id="welcome-table">
+
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You live in NJ","$('target').innerHTML = $('locations_nj').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You live in PA","$('target').innerHTML = $('locations_pa').innerHTML")%></TD>
+</TR>
+
+</TABLE>
+
+<% end %>
+
+<% content_for :hidden_region do %>
+  <% render 'hidden_region_content' %>
+<% end %>

@@ -1,10 +1,8 @@
-Existing Topics:</br>
-<table>
-<% @existing_marketing_context_types.each{ |marketing_context_type|%>
-  <tr>
-  <td><%= marketing_context_type.name %></td>
-  <td><%= link_to 'delete' , delete_user_marketing_context_url(current_user.id,marketing_context_type.id)%></td>
-  </tr>
-<% }%>
+Select An Existing Topic<br/>
+<form>
 
-</table>
+<%= collection_select("current_user", "current_marketing_context_type_id" , @existing_marketing_context_types, "id", "name",
+{:prompt => true},
+{:onchange => "select_user_marketing_context(this.form,#{current_user.id},this.options[this.selectedIndex].value)"} )
+%>
+</form>
