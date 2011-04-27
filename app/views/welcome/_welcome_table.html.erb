@@ -1,4 +1,3 @@
-
 <% content_for :head do %>
   <meta name="Testing" content="Reading"/>
   <meta name="Testing" content="Writing"/>
@@ -35,6 +34,28 @@
 
   <meta name="Personality" content="Public Relations">
 
+  <meta name="Academic" content="Income and Career">
+  <meta name="Academic" content="Money Management">
+  <meta name="Academic" content="Credit and Debt Management">
+  <meta name="Academic" content="Planning Saving and Investing">
+  <meta name="Academic" content="Becoming a Critical Consumer">
+  <meta name="Academic" content="Civic Financial Responsibility">
+  <meta name="Academic" content= "Risk Management and Insurance">
+
+  <meta name="Academic" content= "Math">
+  <meta name="Academic" content= "Vocabulary">
+
+  <meta name="Academic" content= "Career Awareness">
+  <meta name="Academic" content= "Career Exploration">
+  <meta name="Academic" content= "Career Preparation">
+
+  <meta name="Academic" content= "Critical Thinking and Problem Solving">
+  <meta name="Academic" content= "Creativity and Innovation">
+  <meta name="Academic" content= "Collaboration, Teamwork, and Leadership">
+  <meta name="Academic" content= "Cross-Cultural Understanding and Interpersonal Communication">
+  <meta name="Academic" content= "Communication and Media Fluency">
+  <meta name="Academic" content= "Accountability, Productivity, and Ethics>
+
 <% end %>
 
 <% content_for :title_region do %>
@@ -48,17 +69,26 @@ Living to Learn helps you and every member of your family achieve higher levels 
 <% end %>
 
 <% content_for :top_table_region do %>
-
 <p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
-
+<p id="tutoring_link"><%= link_to_function("Extra Academic Support","$('target').innerHTML = $('extra_academic').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
 <% end %>
 
 <% content_for :main_table_region do %>
 
 <TABLE id="welcome-table">
+
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You Are A Curriculum Director","$('target').innerHTML = $('curriculum_director').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You Are A Superintendant","$('target').innerHTML = $('superintendant').innerHTML")%></TD>
+</TR>
+
+<TR>
+<TD class='transparent-class' ><%= link_to_function("If You Are A Principal","$('target').innerHTML = $('principal').innerHTML")%></TD>
+<TD class='transparent-class' ><%= link_to_function("If You Are A PTO Officer","$('target').innerHTML = $('pto_officer').innerHTML")%></TD>
+</TR>
 
 <TR>
 <TD class='transparent-class' ><%= link_to_function("If You Are A Student","$('target').innerHTML = $('student').innerHTML")%></TD>
@@ -84,21 +114,17 @@ Living to Learn helps you and every member of your family achieve higher levels 
 <% end %>
 
 <% content_for :hidden_region do %>
-
-<div style="display:none" id='testing'><div class="topic-detail"><%=render "testing"%></div></div>
-<div style="display:none" id='tutoring'><div class="topic-detail"><%=render "tutoring"%></div></div></tr>
-<div style="display:none" id='marketing'><div class="topic-detail"><%=render "marketing"%></div></div></tr>
-<div style="display:none" id='publishing'><div class="topic-detail"><%=render "publishing"%></div></div></tr>
-
-
-<div style="display:none" id='student'><div class="topic-detail"><%=render "student"%></div></div>
-<div style="display:none" id='parent'><div class="topic-detail"><%=render "parent"%></div></div></tr>
-<div style="display:none" id='non_profit'><div class="topic-detail"><%=render "non_profit"%></div></div></tr>
-<div style="display:none" id='business'><div class="topic-detail"><%=render "business"%></div></div></tr>
-<div style="display:none" id='government'><div class="topic-detail"><%=render "government"%></div></div></tr>
-<div style="display:none" id='personality'><div class="topic-detail"><%=render "personality"%></div></div></tr>
-
-<div style="display:none" id='locations_nj'><div class="topic-detail"><%=render "locations_nj"%></div></div></tr>
-<div style="display:none" id='locations_pa'><div class="topic-detail"><%=render "locations_pa"%></div></div></tr>
-
+  <% render 'hidden_region_content' %>
 <% end %>
+
+<% if !user_signed_in? %>
+  <% content_for :onload_script do-%>
+     $('target').innerHTML = $('any').innerHTML
+  <% end %>
+<% else %>
+  <% content_for :onload_script do-%>
+    $('target').innerHTML = $('no_topics').innerHTML
+  <% end %>
+<% end %>
+
+
