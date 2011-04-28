@@ -64,22 +64,18 @@ Living to Learn helps the Whole Community!
 
 <% content_for :message_region do %>
 
-Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues.
+Living to Learn helps pricipals establish a positive school culture that embraces learning both in and out of school and advances  the development of strong character traits as well.<ul>
 
 <% end %>
 
 <% content_for :top_table_region do %>
-<p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Extra Academic Support","$('target').innerHTML = $('extra_academic').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Kidsville News!","$('target').innerHTML = $('kidsville_news').innerHTML")%></p>
 <% end %>
 
 <% content_for :main_table_region do %>
 
 <TABLE id="welcome-table">
-
 </TABLE>
 
 <% end %>
@@ -91,5 +87,4 @@ Living to Learn helps you and every member of your family achieve higher levels 
   <% content_for :onload_script do-%>
      $('target').innerHTML = $('principal').innerHTML
   <% end %>
-
 
