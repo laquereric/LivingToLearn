@@ -1,24 +1,28 @@
+<% context = @goto_topic_symbol %>
 <% if user_signed_in? and current_user.marketing_contexts.length>0%>
-  <% case current_user.current_marketing_context_type.name %>
-         <% when "PTO Officer" %>
+<%   context ||= current_user.current_marketing_context_type.name %>
+<% end%>
+<% if context%>
+  <% case context.downcase.gsub(' ','_') %>
+         <% when "pto_officer"%>
            <%= render 'pto_officer_table'%>
-         <% when "Superintendent" %>
+         <% when "superintendent" %>
            <%= render 'superintendent_table'%>
-         <% when "Principal" %>
+         <% when "principal" %>
            <%= render 'principal_table'%>
-         <% when "Curriculum Director" %>
+         <% when "curriculum_director" %>
            <%= render 'curriculum_director_table'%>
-         <% when "Student" %>
+         <% when "student" %>
            <%= render 'student_table'%>
-        <% when "Parent" %>
+        <% when "parent" %>
            <%= render 'parent_table'%>
-        <% when "Business" %>
+        <% when "business" %>
            <%= render 'business_table'%>
-        <% when "Non Profit" %>
+        <% when "non_profit" %>
            <%= render 'non_profit_table'%>
-        <% when "Government" %>
+        <% when "government" %>
            <%= render 'government_table'%>
-        <% when "Personality" %>
+        <% when "personality" %>
            <%= render 'personality_table'%>
   <% end %>
 <% else %>
