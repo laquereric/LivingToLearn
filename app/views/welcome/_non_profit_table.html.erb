@@ -25,10 +25,11 @@ Living to Learn helps families reach higher levels of academic achievement while
 <% end %>
 
 <% content_for :top_table_region do %>
+<p id="tutoring_link"><%= link_to_function("Kidsville News! Sponsorship","$('target').innerHTML = $('kidsville_news_sponsorship').innerHTML")%></p>
+<p id="tutoring_link"><%= link_to_function("Kidsville News! Content Lead","$('target').innerHTML = $('kidsville_news_content_lead').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
 <p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
-
 <% end %>
 
 <% content_for :main_table_region do %>
