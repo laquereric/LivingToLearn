@@ -10,7 +10,43 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110426184155) do
+ActiveRecord::Schema.define(:version => 20110502133321) do
+
+  create_table "curriculum_content_areas", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "curriculum_cumulative_progress_indicators", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.text     "description"
+    t.string   "by_end_of_grade"
+    t.integer  "curriculum_strand_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "curriculum_standards", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "curriculum_content_area_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "curriculum_strands", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "curriculum_standard_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "entities", :force => true do |t|
     t.string   "type"
