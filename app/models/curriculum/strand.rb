@@ -7,7 +7,8 @@ class Curriculum::Strand < ActiveRecord::Base
     :foreign_key => "curriculum_standard_id"
 
   has_many :cumulative_progress_indicators,
-    :class_name => 'Curriculum::Strand',
-    :foreign_key => "curriculum_strand_id"
+    :class_name => 'CumulativeProgressIndicator',
+    :foreign_key => "curriculum_strand_id",
+    :dependent => :destroy
 
 end

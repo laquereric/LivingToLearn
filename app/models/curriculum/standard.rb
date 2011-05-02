@@ -8,6 +8,7 @@ class Curriculum::Standard < ActiveRecord::Base
 
   has_many :curriculum_strands, 
     :class_name => 'Curriculum::Strand',
-    :foreign_key => "curriculum_strand_id"
+    :foreign_key => "curriculum_standard_id",
+    :dependent => :destroy
 
 end
