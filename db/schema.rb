@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110502133321) do
+ActiveRecord::Schema.define(:version => 20110502184349) do
 
   create_table "curriculum_content_areas", :force => true do |t|
     t.string   "code"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20110502133321) do
     t.integer  "curriculum_standard_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "split",                  :default => 0.0
   end
 
   create_table "entities", :force => true do |t|
