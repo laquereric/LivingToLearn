@@ -27,11 +27,17 @@ class Curriculum::ParseCsv
     1/0
   end
 
+  def self.clean_row(row)
+    [0..10].each{ |col_num|
+      row[col_num] = nil if !row[col_num].nil? and row[col_num].to_s.gsub(' ','').length == 0
+    }
+    return row
+  end
+
   def self.each_csv_row
     line_number = 0
     CSV::Reader.parse(File.open(self.filename, 'rb')) do |row|
-#p row
-      yield(line_number,row)
+      yield(line_number,self.clean_row(row) )
       line_number +=1
     end
   end
@@ -60,13 +66,18 @@ class Curriculum::ParseCsv
 
   def self.clean(raw_cell)
     #return nil if raw.nil?
-
 #p raw_cell.class
     raw = raw_cell.to_s
     raw.gsub!("\""," ")
     raw.gsub!("#{[160].pack('U')}"," ")
     raw.strip!
     return raw
+  end
+
+  def self.show_csv_data
+    self.each_csv_row{ |line_number,row|
+p row
+    }
   end
 
   def self.get_csv_data
@@ -77,7 +88,7 @@ class Curriculum::ParseCsv
     self.strands = {}
 
     self.each_csv_row{ |line_number,row|
-p row
+#p row
       if line_number != 0
         r = self.new
 
@@ -158,12 +169,19 @@ p row
     records.each{ |record|
       content_area = Curriculum::ContentArea.find_by_code(record.content_area)
       standard = Curriculum::Standard.find_by_code(record.standard)
-      strand = Curriculum::Strand.find_by_code(record.strand)
-      strand ||= Curriculum::Strand.create({
+      matching_strands = Curriculum::Strand.under_standard(standard).with_code(record.strand)
+      strand = if matching_strands.length == 0
+        Curriculum::Strand.create({
           :code => record.strand,
-          :description => record.content_statement,
+          :name => self.strands[content_area.code][standard.code][record.strand],
+          #:description => record.content_statement,
           :curriculum_standard_id => standard.id
-      })
+        })
+      elsif matching_strands.length == 1
+        matching_strands[0]
+      else
+        nil
+      end
       Curriculum::CumulativeProgressIndicator.create({
         :by_end_of_grade => record.by_end_of_grade,
         :code => record.cpi_num,
