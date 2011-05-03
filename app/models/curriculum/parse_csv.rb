@@ -169,12 +169,12 @@ p row
     records.each{ |record|
       content_area = Curriculum::ContentArea.find_by_code(record.content_area)
       standard = Curriculum::Standard.find_by_code(record.standard)
+
       matching_strands = Curriculum::Strand.under_standard(standard).with_code(record.strand)
       strand = if matching_strands.length == 0
         Curriculum::Strand.create({
           :code => record.strand,
           :name => self.strands[content_area.code][standard.code][record.strand],
-          #:description => record.content_statement,
           :curriculum_standard_id => standard.id
         })
       elsif matching_strands.length == 1
@@ -182,11 +182,25 @@ p row
       else
         nil
       end
+
+      matching_content_statements = Curriculum::ContentStatement.with_description(record.content_statement).by_end_of_grade_equals(record.by_end_of_grade)
+      content_statement = if matching_content_statements.length == 0
+        Curriculum::ContentStatement.create({
+           :curriculum_strand_id => strand.id,
+           :by_end_of_grade => record.by_end_of_grade,
+           :description => record.content_statement
+        })
+      elsif matching_content_statements.length == 1
+        matching_content_statements[0]
+      else
+        nil
+      end
+
       Curriculum::CumulativeProgressIndicator.create({
         :by_end_of_grade => record.by_end_of_grade,
         :code => record.cpi_num,
         :description => record.cumulative_progress_indicator,
-        :curriculum_strand_id => strand.id
+        :curriculum_content_statement_id => content_statement.id
       })
     }
     return
@@ -211,6 +225,7 @@ p row
     Curriculum::ContentArea.delete_all
     Curriculum::Standard.delete_all
     Curriculum::Strand.delete_all
+    Curriculum::ContentStatement.delete_all
     Curriculum::CumulativeProgressIndicator.delete_all
   end
 
@@ -219,6 +234,7 @@ p row
     sum += Curriculum::ContentArea.count
     sum += Curriculum::Standard.count
     sum += Curriculum::Strand.count
+    sum += Curriculum::ContentStatement.count
     sum += Curriculum::CumulativeProgressIndicator.count
     return sum
   end

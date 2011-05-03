@@ -2,9 +2,9 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
 
   set_table_name :curriculum_cumulative_progress_indicators
 
-  belongs_to :curriculum_strand, 
-    :class_name => 'Curriculum::Strand',
-    :foreign_key => "curriculum_strand_id",
+  belongs_to :curriculum_content_statement,
+    :class_name => 'Curriculum::ContentStatement',
+    :foreign_key => "curriculum_content_statement_id",
     :dependent => :destroy
 
   def full_code

@@ -13,17 +13,34 @@ We have a growing list of programs we support drawn from:
 <%= link_to "2009 New Jersey Core Curriculum Content Standards", "https://www13.state.nj.us/NJCCCS/ContentAreaTableView_21st.aspx" %> and  <%= link_to "Partnership for 21rst Century Skills", "http://www.p21.org" %>
 
 We also support more fundemental skills as well. See 'Basic Academic Programs'
+<% last_by_end_of_grade = nil%>
 
+<ul>
 <% Curriculum::ContentArea.all.each{ |content_area|%>
-  <%= content_area.code %> <%= content_area.name %> <br/>
+  <li><%= content_area.code %> <%= content_area.name %>  </li>
+    <ul>
     <% content_area.curriculum_standards.each{ |curriculum_standard|%>
-      <%= curriculum_standard.code %> <%= curriculum_standard.name %> <br/>
+      <li><%= curriculum_standard.code %> <%= curriculum_standard.name %> </li>
+        <ul>
         <% curriculum_standard.curriculum_strands.each{ |strand|%>
-          <%= strand.code %> <%= strand.name %> <br/>
-            <% strand.cumulative_progress_indicators.each{ |indicator|%>
-              <%  next if indicator.code == '0' %>
-                <%= indicator.code %> By End Of Grade <%= indicator.by_end_of_grade %> <%= indicator.description %> <br/>
+          <li><%= strand.code %>. <%= strand.name %></li>
+            <% strand.curriculum_content_statements.each{ |statement|%>
+              <% next if statement.description == 'Skip'%>
+              &nbsp;&nbsp;<%= statement.description %> <br/>
+              <ul>
+              <% statement.cumulative_progress_indicators.each{ |indicator|%>
+                <%  next if indicator.code == '0' %>
+                <% if last_by_end_of_grade != indicator.by_end_of_grade%>
+                   &nbsp;&nbsp;&nbsp;&nbsp;By End Of Grade <%= indicator.by_end_of_grade %> <br/>
+                <% end %>
+                <% last_by_end_of_grade = indicator.by_end_of_grade %>
+                <li><%= indicator.code %> <%= indicator.description %> </li>
+              <% } %>
+              </ul>
             <% } %>
-       <% } %>
-   <% } %>
+        <% } %>
+        </ul>
+  <% } %>
+  </ul>
 <% } %>
+</ul>
