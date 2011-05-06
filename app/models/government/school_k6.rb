@@ -125,7 +125,7 @@ class Government::SchoolK6 < ActiveRecord::Base
       self.government_district_id = district.id
       self.save
     else
-        p "District not found for  #{school.name} district_code: #{school.district_code}"
+        p "District not found for  #{self.name} district_code: #{self.district_code}"
     end
   end
 
@@ -133,6 +133,7 @@ class Government::SchoolK6 < ActiveRecord::Base
     self.csv_data.each{ |h|
       h.delete(nil)
       school = self.create(h)
+      school.connect_district
     }
   end
 

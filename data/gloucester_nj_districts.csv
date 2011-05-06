@@ -1,5 +1,5 @@
 "Code","Name","Nickname","Chief School Administrator","Phone Numbers","Chief Administrator Email","Web","Address 1","Address 2","City","State","Zip","Chief Secretary","Chief Secretary Phone"
-"_0860","Clayton School District","clayton","Mr. Cleve W. Bryan","856-881-8700","cbryan@clayton.k12.nj.us","http://www.clayton.k12.nj.us/clayton/site/default.asp","300 W. Chestnut Street",,"Clayton","NJ","_08312","Mrs. Cyndi Fiebig","848-2610, ext. 303"
+"_8060","Clayton School District","clayton","Mr. Cleve W. Bryan","856-881-8700","cbryan@clayton.k12.nj.us","http://www.clayton.k12.nj.us/clayton/site/default.asp","300 W. Chestnut Street",,"Clayton","NJ","_08312","Mrs. Cyndi Fiebig","848-2610, ext. 303"
 "_0870","Clearview Regional High School District","clearview","Mr. John Horchak III","856-223-2765?",,"http://www.clearviewregional.edu/","420 Cedar Rd. ??",,"Mullica Hill","NJ","_08062","Mrs. Cindy Bradley","881-8700, ext. 3050"
 "_4940","Delsea Regional School District","delsea","Mr. Frank D. Borelli","856-694-0100, ext.216","fborelli@delsearegional.us","http://www.delsea.k12.nj.us/cgi-bin/main.pl","242 Fries Mill Rd",,"Franklinville","NJ","_08322","Mrs. Kathy Coblentz","223-2765"
 "_1100","Deptford Township Schools","deptford","Mr. Ralph Ross, Interim","856-232-2700, ext.3014?",,"http://www.deptford.k12.nj.us/","2022 Good Intent Rd",,"Deptford","NJ","_08096","Mrs. Nancy Draggoo","694-0100, ext. 216"
@@ -7,7 +7,7 @@
 "_1330","Elk Township School District","elk","Mr. Frank Borelli","856-881-4551 ext. 1001?",,"https://sites.google.com/a/elk.k12.nj.us/elk/home","100 Unionville Road",,"Elk Township","NJ","_08028","Ms. Kathy Nichols","423-0412, ext. 1030"
 "_1590","Franklin Township Schools","franklin","Dr. Michael G. Kozak","856-629-9500, ext.201 ?",,"http://www.franklintwpschools.org/newsite/","3228 Coles Mill Road",,"Franklinville","NJ","_08322","Mrs. Sissy Vannini","881-4551, ext. 1001"
 "_1715","Gateway Regional School District","gateway","Dr. Shannon M. Whalen","856-848-8172?",,"http://www.gatewayhs.com/","775 Tanyard Rd",,"Woodbury Hts","NJ","_08096","Mrs. Nancy Escheman","629-9500, ext. 201"
-"_1730","Glassboro Public Schools","gkassboro","Dr. Mark J. Silverstein","856-652-2700, ext. 76115?",,"http://www.glassboro.k12.nj.us/glassborops/site/default.asp","560 Joseph Bowe Memorial Blvd.",,"Glassboro","NJ","_08028","Ms. Rose Lupo-Schopfer","848-8172"
+"_1730","Glassboro Public Schools","glassboro","Dr. Mark J. Silverstein","856-652-2700, ext. 76115?",,"http://www.glassboro.k12.nj.us/glassborops/site/default.asp","560 Joseph Bowe Memorial Blvd.",,"Glassboro","NJ","_08028","Ms. Rose Lupo-Schopfer","848-8172"
 "_1830","Greenwich Township School District","greenwich","Mr. Vincent Tarantino, Interim","856-224-4920, ext.132",,"http://www.greenwich.k12.nj.us/","415 Swedesboro Road",,"Gibbstown","NJ","_08027","Mrs. Kitty Reilly","652-2700, ext. 76110"
 "_2070","Harrison Township School District","harrison","Dr. Magaret ""Missy"" Peretti","856-478-2016, ext.123",,"http://www.harrisontwp.k12.nj.us/","120 N. Main Street",,"Mullica Hill","NJ","_08062","Mrs. Kitty Reilly","468-1445, ext. 2702"
 "_2440","Kingsway Regional School District","kingsway","Dr. James Lavender","856-467-4600 ext. 4205",,"http://www.kingsway.k12.nj.us/","213 Kings Highway",,"Woolwich Township","NJ","_08085","Mrs. Angela Addeo","468-1445, ext. 2702"
@@ -29,33 +29,3 @@
 "_5870","Woodbury Heights Elementary School","woodbury_heights","Mr. Stephen Derkoski, Interim","856-848-2610 ext. 301",,"http://www.woodburyhtselem.com/","100 Academy Ave ",,"Woodbury Heights","NJ","_08096","Mrs. Donna Galdo","848-4300, ext. 3211"
 "_1775","Gloucester County Vocational- Technical School","gloucester_vocational","Mrs. Ellen Herdegen","856-468-1445, ext.2702",,"http://www.gcit.org/","1360 Tanyard Rd.",,"Sewell","NJ","_08080","Mrs. Lauren Orfe","456-0235, ext. 110"
 "_1774","Gloucester County Special Services","gloucester_special","Mrs. Ellen Herdegen","856-468-1445, ext.2702",,"http://www.gcsssd.org/","1340 Tanyard Rd",,"Sewell","NJ","_08080","Mrs. Stacy Hoffman","853-0123, ext. 214"
-,"Clayton",,"Mrs. Renee Lavelle",,,,,,,,,,
-,,,,,,,,,,,,,
-,"Clearview Regional",,,,,,,,,,,,
-,"Delsea Regional",,,,,,,,,,,,
-,"Deptford",,,,,,,,,,,,
-,"East Greenwich",,,,,,,,,,,,
-,"Elk",,,,,,,,,,,,
-,"Franklin",,,,,,,,,,,,
-,"Gateway Regional",,,,,,,,,,,,
-,"Glassboro",,,,,,,,,,,,
-,"Glo. Co. Sp. Svcs.",,,,,,,,,,,,
-,"Glo. Co. Voc. Tech.",,,,,,,,,,,,
-,"Greenwich",,,,,,,,,,,,
-,"Harrison",,,,,,,,,,,,
-,"Kingsway Regional",,,,,,,,,,,,
-,"Logan",,,,,,,,,,,,
-,"Mantua",,,,,,,,,,,,
-,"Monroe",,,,,,,,,,,,
-,"National Park",,,,,,,,,,,,
-,"Paulsboro",,,,,,,,,,,,
-,"Pitman",,,,,,,,,,,,
-,"South Harrison",,,,,,,,,,,,
-,"Swedesboro-Woolwich",,,,,,,,,,,,
-,"Washington Twp.",,,,,,,,,,,,
-,"Wenonah",,,,,,,,,,,,
-,"West Deptford",,,,,,,,,,,,
-,"Westville",,,,,,,,,,,,
-,"Woodbury City",,,,,,,,,,,,
-,"Woodbury Heights",,,,,,,,,,,,
-,"CHIEF SCHOOL ADMINISTRATOR SECRETARY",,"Mrs. Cyndi Fiebig","848-2610, ext. 303",,,,,,,,,

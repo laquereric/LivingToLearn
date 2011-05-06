@@ -101,6 +101,7 @@ class Government::SchoolDistrictKvn < ActiveRecord::Base
 ###########
   def self.to_records
     self.csv_data.each{ |h|
+      next if h[:nickname].nil?
       h.delete(nil)
       n = self.create(h)
     }
