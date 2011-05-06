@@ -1,0 +1,20 @@
+<h1>District#site</h1>
+<h1><%=@district.name%></h1>
+
+
+<br/>
+Schools With K-6 Students:<br/>
+
+<table>
+  <tr>
+    <td>School Site</td>
+  </tr>
+<% @district.schools.each do |school| %>
+  <tr>
+    <td><%= link_to school.nickname, school_site_url( @district.nickname, school.nickname) %></td>
+  </tr>
+<% end %>
+
+</table>
+
+
