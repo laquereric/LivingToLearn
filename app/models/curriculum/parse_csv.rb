@@ -76,7 +76,7 @@ class Curriculum::ParseCsv
 
   def self.show_csv_data
     self.each_csv_row{ |line_number,row|
-p row
+      p row
     }
   end
 
@@ -86,13 +86,18 @@ p row
     self.content_areas = {}
     self.standards = {}
     self.strands = {}
+    new_r = false
 
-    self.each_csv_row{ |line_number,row|
-#p row
+    self.each_csv_row{ |line_number,raw_row|
+
+      row = self.clean_row(raw_row)
+
       if line_number != 0
         r = self.new
 
         r.content_area = to_key( row[0] )
+        if last_r and r.content_area != last_r.content_area
+        end
         r.content_area ||= last_r.content_area  if last_r
 
         content_area_key , value = to_key_pair( row[0] )
@@ -103,6 +108,9 @@ p row
         end
 
         r.standard = to_key( row[1] )
+        if last_r and r.standard != last_r.standard
+          new_r = true
+        end
         r.standard ||= last_r.standard if last_r
 
         standard_key , value = to_key_pair( row[1] )
@@ -111,15 +119,15 @@ p row
           self.standards[content_area_key][standard_key]  = value
           self.strands[content_area_key][standard_key] = {} if strands[content_area_key][standard_key].nil?
         end
-
         r.strand = to_key( row[2] )
         r.strand ||= last_r.strand if last_r
-
+        if last_r and r.strand != last_r.strand
+          new_r = true
+        end
         strand_key , value = to_key_pair( row[2] )
         if strand_key
           content_area_key = r.content_area
           standard_key = r.standard
-          self.standards[content_area_key][standard_key]  = value
           self.strands[content_area_key][standard_key][strand_key] = value
         end
 
@@ -128,17 +136,28 @@ p row
 
         r.by_end_of_grade = row[4]
         r.by_end_of_grade ||= last_r.by_end_of_grade if last_r
+        if last_r and r.by_end_of_grade != last_r.by_end_of_grade
+          new_r = true
+        end
 
         r.content_statement = row[5]
         r.content_statement.strip! if r.content_statement
         r.content_statement ||= last_r.content_statement if last_r
+        if last_r and r.content_statement != last_r.content_statement
+          new_r = true
+        end
 
         r.cpi_num = row[6]
-        r.cumulative_progress_indicator = clean(row[7])
+        r.cumulative_progress_indicator = row[7]
+        if last_r and r.cpi_num != last_r.cpi_num
+          new_r = true
+        end
 
-        records << r if r.cpi_num
+        records << r if new_r
 
         last_r = r
+        new_r = false
+
       end
     }
     return
