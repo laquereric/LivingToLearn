@@ -7,5 +7,9 @@ class Curriculum::CharacterJi < Curriculum::ParseCsv
     File.join(Rails.root,'data','character_ji.csv')
   end
 
+  def self.content_area_key
+    'CharacterJi'
+  end
+
 end
 

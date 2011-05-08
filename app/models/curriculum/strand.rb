@@ -12,7 +12,7 @@ class Curriculum::Strand < ActiveRecord::Base
     :dependent => :destroy
 
   scope :under_standard, lambda { |standard|
-    where("curriculum_strands.curriculum_standard_id = ?", standard.id)
+    where("curriculum_strands.curriculum_standard_id = ?", standard.object_id)
   }
 
   scope :with_code, lambda { |code|

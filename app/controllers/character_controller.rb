@@ -23,13 +23,17 @@ class CharacterController < ApplicationController
     }.first
   end
 
+####################
+#
+####################
+
   def lookup_curriculum_content_areas
-    @curriculum_content_areas = [ Curriculum::ContentArea.find_by_code("Character_JI") ]
+    @curriculum_content_areas = [Curriculum::CharacterJi.get_content_area]
   end
 
   def lookup_standards
     @standards = @curriculum_content_areas.map{ |content_area|
-      content_area.get_curriculum_standards({})
+      content_area.get_sorted_curriculum_standards
     }.flatten
   end
 

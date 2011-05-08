@@ -183,19 +183,22 @@ class Curriculum::ParseCsv
     return
   end
 
+  def self.get_content_area
+    Curriculum::ContentArea.find_by_code(self.content_area_key)
+  end
+
   def self.process_records( records )
     rs = []
     records.each{ |record|
       content_area = Curriculum::ContentArea.find_by_code(record.content_area)
-      standard = Curriculum::Standard.find_by_code(record.standard)
-
+      standard = content_area.find_standards_by_code(record.standard)[0]
       matching_strands = Curriculum::Strand.under_standard(standard).with_code(record.strand)
-      strand = if matching_strands.length == 0
-        Curriculum::Strand.create({
-          :code => record.strand,
-          :name => self.strands[content_area.code][standard.code][record.strand],
-          :curriculum_standard_id => standard.id
-        })
+        strand = if matching_strands.length == 0
+          Curriculum::Strand.create({
+            :code => record.strand,
+            :name => self.strands[content_area.code][standard.code][record.strand],
+            :curriculum_standard_id => standard.id
+          })
       elsif matching_strands.length == 1
         matching_strands[0]
       else
@@ -227,7 +230,6 @@ class Curriculum::ParseCsv
 
   def self.get_csv_hash
     self.get_csv_data
-
     return {
       :content_areas => self.content_areas,
       :standards => self.standards,
@@ -259,8 +261,8 @@ class Curriculum::ParseCsv
   end
 
   def self.destroy_records(keys)
-    keys.each{ |standard_key|
-      content_area = Curriculum::ContentArea.find_by_code(standard_key)
+    keys.each{ |content_area_key|
+      content_area = Curriculum::ContentArea.find_by_code(content_area_key)
       content_area.destroy if content_area
     }
   end
@@ -270,7 +272,7 @@ class Curriculum::ParseCsv
     raw_hash = self.get_csv_hash
 
     p "Before destroy : #{self.total_record_count()}"
-    self.destroy_records(raw_hash[:standards].keys)
+    self.destroy_records(self.content_area_key)
     p "After destroy : #{self.total_record_count()}"
 
     process_standards( raw_hash[:standards] )
