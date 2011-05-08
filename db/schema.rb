@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110502184349) do
+ActiveRecord::Schema.define(:version => 20110506122307) do
 
   create_table "curriculum_content_areas", :force => true do |t|
     t.string   "code"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20110502184349) do
     t.datetime "updated_at"
   end
 
-  create_table "curriculum_cumulative_progress_indicators", :force => true do |t|
+  create_table "curriculum_content_statements", :force => true do |t|
     t.string   "code"
     t.string   "name"
     t.text     "description"
@@ -28,6 +28,17 @@ ActiveRecord::Schema.define(:version => 20110502184349) do
     t.integer  "curriculum_strand_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "curriculum_cumulative_progress_indicators", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.text     "description"
+    t.string   "by_end_of_grade"
+    t.integer  "curriculum_content_statement_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "full_code"
   end
 
   create_table "curriculum_standards", :force => true do |t|
@@ -91,6 +102,26 @@ ActiveRecord::Schema.define(:version => 20110502184349) do
     t.integer "entity_id"
   end
 
+  create_table "government_school_district_kvns", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "code"
+    t.string   "name"
+    t.string   "nickname"
+    t.string   "chief_school_administrator"
+    t.string   "phone_numbers"
+    t.string   "chief_administrator_email"
+    t.string   "web"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "chief_secretary"
+    t.string   "chief_secretary_phone"
+    t.text     "notes"
+  end
+
   create_table "government_school_districts", :force => true do |t|
     t.integer "government_county_id"
     t.integer "entity_id"
@@ -106,6 +137,47 @@ ActiveRecord::Schema.define(:version => 20110502184349) do
     t.integer "arra_allocation_fy2010"
     t.string  "status"
     t.string  "government_district_code"
+  end
+
+  create_table "government_school_k6s", :force => true do |t|
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "government_district_id"
+    t.text     "district_code"
+    t.text     "school_code"
+    t.text     "grades"
+    t.text     "name"
+    t.text     "nickname"
+    t.text     "school_address"
+    t.text     "school_city"
+    t.text     "school_state"
+    t.text     "school_zip"
+    t.text     "township"
+    t.text     "school_web_site"
+    t.text     "principal_prefix"
+    t.text     "principal_first_name"
+    t.text     "principal_last_name"
+    t.text     "principal_phone_number"
+    t.text     "principal_email"
+    t.text     "principal_notes"
+    t.text     "pto_contact_a_prefix"
+    t.text     "pto_contact_a_first_name"
+    t.text     "pto_contact_a_last_name"
+    t.text     "pto_contact_a_phone_number"
+    t.text     "pto_contact_a_email"
+    t.text     "pto_contact_a_notes"
+    t.text     "pto_contact_b_prefix"
+    t.text     "pto_contact_b_first_name"
+    t.text     "pto_contact_b_last_name"
+    t.text     "pto_contact_b_phone_number"
+    t.text     "pto_contact_b_email"
+    t.text     "pto_contact_b_notes"
+    t.text     "pto_notes"
+    t.text     "pto_web_site"
+    t.text     "num_of_papers_distributed_per_school"
+    t.text     "total_num_of_papers_distributed_per_township"
+    t.text     "where_papers_were_delivered"
   end
 
   create_table "government_schools", :force => true do |t|

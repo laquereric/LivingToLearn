@@ -1,0 +1,5 @@
+<h1>District CharacterBook Pages</h1>
+
+<% @districts.each{ |district|%>
+  <%= link_to "CharacterBook Pages for #{district.name}",district_character_page_url(district.nickname) %><br/>
+<% } %>
