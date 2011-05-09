@@ -1,0 +1,9 @@
+<h1>CharacterBook Pages for</h1>
+<h2><%=@district.name%></h1>
+<br/>
+Based on <%= link_to 'Josephson Institute', "http://josephsoninstitute.org" %><br/>
+
+<% @district.schools.each{ |school|%>
+  <%= link_to "CharacterBook Page for #{school.name}",school_character_page_url(@district.nickname,school.nickname) %><br/>
+<% } %>
+

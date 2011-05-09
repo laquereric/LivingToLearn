@@ -5,11 +5,13 @@
   <tr>
     <td>YourBooks</td>
     <td>CharacterBook</td>
+    <td>CareerBook</td>
   </tr>
 <% @district.schools.each do |school| %>
   <tr>
     <td><%= link_to school.name, school_site_url( @district.nickname, school.nickname) %></td>
     <td><%= link_to 'link', school_character_book_url( @district.nickname, school.nickname) %></td>
+    <td><%= link_to 'link', school_career_book_url( @district.nickname, school.nickname) %></td>
   </tr>
 <% end %>
 

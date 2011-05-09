@@ -1,0 +1,18 @@
+<h1>CareerBook</h1>
+<h2><%=@district.name%></h1>
+<h2><%=@school.name%></h1><br/>
+<br/>
+<ul>
+<% @standards.each{ |standard|%>
+    <li><%= link_to standard.name , school_career_book_standard_url(
+      @district.nickname,
+      @school.nickname,
+      standard.curriculum_content_area.code,
+      standard.code
+    ) %></li>
+<% } %>
+</ul>
+<br/>
+<%= link_to "School Site for #{@school.name}" , school_site_url( @district.nickname , @school.nickname ) %><br/>
+<%= link_to "District Site for #{@district.name}" , district_site_url( @district.nickname ) %><br/>
+

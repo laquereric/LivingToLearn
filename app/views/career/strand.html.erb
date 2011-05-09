@@ -1,0 +1,12 @@
+<h1> CareerBook</h1>
+<h2><%= @district.name%> </h1>
+<h2><%= @school.name%> </h1><br/>
+<h2>Standard : <%= @standard.name%> </h1><br/>
+<h2>Strand : <%= @strand.name%> </h1><br/>
+
+<br/>
+<%= link_to "CareerBook StandardPage for #{@school.name}" , school_career_book_standard_url( @district.nickname , @school.nickname , @standard.code ) %><br/>
+<%= link_to "CareerBook for #{@school.name}" , school_career_book_url( @district.nickname , @school.nickname ) %><br/>
+<%= link_to "School Site for #{@school.name}" , school_site_url( @district.nickname , @school.nickname ) %><br/>
+<%= link_to "District Site for #{@district.name}" , district_site_url( @district.nickname ) %><br/>
+

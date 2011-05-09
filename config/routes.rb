@@ -28,9 +28,22 @@ LivingToLearn::Application.routes.draw do
 
   match '/nj/gc/district_:district_nickname/school_:school_nickname/character_book/content_area_:content_area_code/standard_:standard_code/strand_:strand_code', :to => 'character#strand', :as => 'school_character_book_strand'
 
-#################
-
   match '/nj/gc/district_character_book_pages', :to => 'district#character_book_pages', :as => 'district_character_book_pages'
+
+################
+
+  match '/nj/gc/district_:district_nickname/career_book', :to => 'career#district', :as => 'district_career_page'
+
+  match '/nj/gc/district_:district_nickname/school_:school_nickname/career_book', :to => 'career#school', :as => 'school_career_book'
+
+  match '/nj/gc/district_:district_nickname/school_:school_nickname/career_book/content_area_:content_area_code/standard_code_:standard_code', :to => 'career#standard', :as => 'school_career_book_standard'
+
+  match '/nj/gc/district_:district_nickname/school_:school_nickname/career_book/content_area_:content_area_code/standard_:standard_code/strand_:strand_code', :to => 'career#strand', :as => 'school_career_book_strand'
+
+  match '/nj/gc/district_career_book_pages', :to => 'district#career_book_pages', :as => 'district_career_book_pages'
+
+
+#################
 
 
 #  match '/nj/gc/district_:district_nickname/school_:school_nickname/character_standard/:curriculum_standard_code', :to => 'curriculum#school_character_standard', :as => 'school_character_standard'
