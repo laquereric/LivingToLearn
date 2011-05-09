@@ -9,4 +9,5 @@ log/*.log
 tmp/
 inbox/*
 inbox_other/*
-public/KidsvilleNewsOfGloucesterCountyNj/*
+public/KidsvilleNewsOfGloucesterCountyNj/
+data/.~lock.*
