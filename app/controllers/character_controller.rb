@@ -1,4 +1,5 @@
 class CharacterController < CurriculumControllerBase
+  layout "kvn_page"
 
 #############
 #

@@ -1,5 +1,5 @@
 class SchoolController < ApplicationController
-
+  layout "kvn_page"
   def site
     @district = Government::SchoolDistrictKvn.find_by_nickname(params[:district_nickname])
     @school =  @district.schools.select{ |school| 

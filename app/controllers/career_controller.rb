@@ -1,4 +1,5 @@
 class CareerController < CurriculumControllerBase
+  layout "kvn_page"
 
 #############
 #
