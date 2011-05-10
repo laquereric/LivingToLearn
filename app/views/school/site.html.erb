@@ -2,6 +2,6 @@
 <h2><%=@district.name%></h1>
 <h2><%=@school.name%></h1><br/>
 <br/>
-<%= link_to 'CharacterBook' , school_character_book_url( @district.nickname , @school.nickname ) %><br/>
-<%= link_to 'CareerBook' , school_career_book_url( @district.nickname , @school.nickname ) %><br/>
+<%= link_to 'CharacterBook' , school_character_book_path( @district.nickname , @school.nickname ) %><br/>
+<%= link_to 'CareerBook' , school_career_book_path( @district.nickname , @school.nickname ) %><br/>
 

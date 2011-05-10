@@ -5,7 +5,7 @@
 
 <br/>
 <% @standard.curriculum_strands.each{ |strand|%>
-  <%= link_to strand.name , school_character_book_strand_url(
+  <%= link_to strand.name , school_character_book_strand_path(
 @district.nickname,
 @school.nickname,
 @curriculum_content_areas[0].code,
@@ -14,7 +14,7 @@ strand.code
 ) %><br/>
 <% } %>
 <br/>
-<%= link_to "CharacterBook for #{@school.name}" , school_character_book_url( @district.nickname , @school.nickname ) %><br/>
-<%= link_to "School Site for #{@school.name}" , school_site_url( @district.nickname , @school.nickname ) %><br/>
-<%= link_to "District Site for #{@district.name}" , district_site_url( @district.nickname ) %><br/>
+<%= link_to "CharacterBook for #{@school.name}" , school_character_book_path( @district.nickname , @school.nickname ) %><br/>
+<%= link_to "School Site for #{@school.name}" , school_site_path( @district.nickname , @school.nickname ) %><br/>
+<%= link_to "District Site for #{@district.name}" , district_site_path( @district.nickname ) %><br/>
 
