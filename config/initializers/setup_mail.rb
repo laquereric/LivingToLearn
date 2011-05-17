@@ -16,6 +16,6 @@
     config.sendmail_settings = {
       :arguments      => '-i -t'
     }
-    config.action_mailer.perform_deliveries = false
+    #config.action_mailer.perform_deliveries = false
   end
 
