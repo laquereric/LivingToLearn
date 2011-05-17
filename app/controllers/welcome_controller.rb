@@ -13,10 +13,12 @@ class WelcomeController < ApplicationController
 
   def goto
     @goto_topic_symbol = params[:topic_symbol]
+    session[:goto_topic_symbol]= @goto_topic_symbol
     render "index"
   end
 
   def index
+    session.delete(:goto_topic_symbol)
   end
 
 end

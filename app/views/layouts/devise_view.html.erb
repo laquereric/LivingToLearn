@@ -116,42 +116,7 @@
 
 </head>
 
-<body background="/images/kids_hand_prints.jpg" onload="onLoad()">
-
-<script type="text/javascript"> 
-  function add_user_marketing_context(form,user_id,marketing_context_id) {
-    form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
-    form.submit()
-  }
-  function select_user_marketing_context(form,user_id,marketing_context_id) {
-    form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
-    form.submit()
-  }
-  function onLoad(){
-    <%= yield :onload_script -%>
-  }
-</script>
-
-<table id="top-table" class='transparent-class'>
-  <tr>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  </tr>
-  <tr>
-    <td><%= render 'devise/menu/registration_items' %></td>
-    <td><%= render 'devise/menu/login_items' %></td>
-    <% if user_signed_in? %>
-      <td><%= render 'marketing_context_types/possible' %></td>
-      <% if current_user.marketing_context_types.length > 0 %>
-        <% if current_user.marketing_context_types.length > 1 %>
-          <td><%= render 'marketing_context_types/existing' %></td>
-        <% end %>
-        <td><%= link_to "Delete #{current_user.current_marketing_context} Topic",
-          delete_user_marketing_context_url(current_user.id,current_user.current_marketing_context_type) %></td>
-      <% end %>
-    <% end %>
-  </tr>
-</table>
+<body background="/images/kids_hand_prints.jpg">
 
 <table id="body-table">
 
@@ -159,7 +124,7 @@
 
   <tr>
     <td id="text-block" class='transparent-class'>
-    <%= yield :message_region -%>
+       <%= yield :message_region -%>
     </td>
 
     <td><div id="image2">
@@ -168,7 +133,6 @@
 
     <td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
     <div style="position:relative; left:10px">
-      <%= yield :top_table_region -%>
      </div>
     </td>
   </tr>
@@ -185,17 +149,13 @@
 
 </table>
 
-<div id='target'><div id='topic-prompt'>Please choose a topic!</div></div>
-
-<div>
-  <%= yield :main_table_region -%>
+<div style=" width: 678; background: #66EECC; color: #003300;"  class='transparent-class'>
+  <%= yield :main -%>
 </div>
 
 <div id="copyright">
   Copyright 2011 LivingToLearn&nbsp; LLC. All Rights Reserved.
 </div>
-
-<%= yield :hidden_region -%>
 
 </body>
 </html>
