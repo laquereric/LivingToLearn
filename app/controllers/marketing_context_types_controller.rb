@@ -1,10 +1,11 @@
 class MarketingContextTypesController < ApplicationController
+  layout "devise_view"
   before_filter :authenticate_user!
 
   def new
     @marketing_context_type = MarketingContextType.new
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => false } # new.html.erb
     end
   end
 
@@ -12,7 +13,7 @@ class MarketingContextTypesController < ApplicationController
     @marketing_context_type = MarketingContextType.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html  { render :layout => false } # show.html.erb
     end
   end
 
@@ -29,7 +30,7 @@ class MarketingContextTypesController < ApplicationController
  
     respond_to do |format|
       if @marketing_context_type.update_attributes(params[:marketing_context_type])
-        format.html { redirect_to(@marketing_context_type,
+        format.html { render :layout => false ; redirect_to(@marketing_context_type,
                     :notice => 'MarketingContextType was successfully updated.') }
       else
         format.html { render :action => "edit" }
@@ -42,7 +43,7 @@ class MarketingContextTypesController < ApplicationController
 
     respond_to do |format|
       if @marketing_context_type.save
-        format.html { redirect_to(@marketing_context_type,
+        format.html {  render :layout => false ; redirect_to(@marketing_context_type,
                     :notice => 'MarketingContextType was successfully created.') }
       else
         format.html { render :action => "new" }

@@ -1,7 +1,7 @@
 <h2>Sign up</h2>
 
-<% if  session[:goto_topic_symbol] %>
-  <% content_for :message_region do %>
+<% content_for :message_region do %>
+  <% if  session[:goto_topic_symbol] %>
     Hello <%= session[:goto_topic_symbol].titleize  %> !
   <% end %>
 <% end %>

@@ -1,7 +1,12 @@
-<h1>MarketingContextTypes#edit</h1>
+<% content_for :message_region do %>
+  MarketingContextTypes<br/>
+  Edit
+<% end %>
+<% content_for :main do %>
 
 <%= render 'form' %>
  
 <%= link_to 'Show', @marketing_context_type %> |
 <%= link_to 'Back', marketing_context_type_path %>
 
+<% end %>

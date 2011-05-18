@@ -85,7 +85,7 @@ Living to Learn helps you and every member of your family achieve higher levels 
      <TR>
 <%   (0..4).each do %>
 <%     if entry < ar.length %>
-         <TD class='transparent-class' ><%= link_to(ar[entry].best_prompt,goto_topic_path(ar[entry].name))%></TD>
+         <TD class='transparent-class' ><%= link_to(ar[entry].best_prompt,goto_topic_path(ar[entry].name.gsub(' ','_')))%></TD>
 <%       entry += 1 %>
 <%     end %>
 <%   end %>
