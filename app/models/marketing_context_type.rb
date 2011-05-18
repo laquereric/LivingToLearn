@@ -1,9 +1,11 @@
 require 'csv'
 
 class MarketingContextType < ActiveRecord::Base
+
   def self.all_except(list)
     self.all.select{ |mct| !list.include?(mct) }
   end
+
 ##########
 #
 ###########
@@ -12,8 +14,14 @@ class MarketingContextType < ActiveRecord::Base
     File.join(Rails.root,'data','marketing_context_types.csv')
   end
 
+  def to_csv
+    [ self.order, self.name, self.prompt, self.service_type_list ].join(',')
+  end
+
   def self.all_to_csv
-    MarketingContextType.all.map{ |r| r.name }
+    MarketingContextType.all.map{ |r|
+      r.to_csv
+    }
   end
 
   def self.all_to_data_file
@@ -40,14 +48,26 @@ class MarketingContextType < ActiveRecord::Base
     return rs
   end
 
-  def self.load_from_data
+  def self.load_from_data_file
     raw_csv_data.each{ |l|
-      name = l[0]
+      name = l[1]
       r = self.find_by_name(name)
       next if r
-      self.create({:name=>name})
+      self.create({
+        :order => l[0],
+        :name => name,
+        :prompt => l[2],
+        :service_type_list => l[3]
+      })
       p "Added #{name}"
     }
+  end
+
+###################
+
+  def best_prompt
+    r = if !self.prompt.nil? and self.prompt.length > 0 then self.prompt else "If you are a #{self.name}" end
+    return r
   end
 
 end

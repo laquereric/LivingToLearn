@@ -80,37 +80,18 @@ Living to Learn helps you and every member of your family achieve higher levels 
 <% content_for :main_table_region do %>
 
 <TABLE id="welcome-table">
-
-<TR>
-<TD class='transparent-class' ><%= link_to("If You Are A Curriculum Director",goto_topic_path('curriculum_director'))%></TD>
-<TD class='transparent-class' ><%= link_to("If You Are A Superintendent",goto_topic_path('superintendent'))%></TD>
-</TR>
-
-<TR>
-<TD class='transparent-class' ><%= link_to("If You Are A Principal",goto_topic_path('principal'))%></TD>
-<TD class='transparent-class' ><%= link_to("If You Are A PTO Officer",goto_topic_path('pto_officer'))%></TD>
-</TR>
-
-<TR>
-<TD class='transparent-class' ><%= link_to("If You Are A Student",goto_topic_path('student'))%></TD>
-<TD class='transparent-class' ><%= link_to("If You Are A Parent",goto_topic_path('parent'))%></TD>
-</TR>
-
-<TR>
-<TD class='transparent-class' ><%= link_to("If You Organize a Non-Profit",goto_topic_path('non_profit'))%></TD>
-<TD  class='transparent-class'><%= link_to("If You Organize a Business",goto_topic_path('business'))%></TD>
-</TR>
-
-<TR>
-<TD  class='transparent-class' ><%= link_to("If You Organize a Government",goto_topic_path('government'))%></TD>
-<TD class='transparent-class' ><%= link_to("If You are a Personality",goto_topic_path('personality'))%></TD>
-</TR>
-
-<TR>
-<TD  class='transparent-class' ><%= link_to("If You Operate a Bank",goto_topic_path('banker'))%></TD>
-
-</TR>
-
+<% ar = MarketingContextType.all%>
+<%   entry = 0 ; row = 0; while(true) do %>
+     <TR>
+<%   (0..4).each do %>
+<%     if entry < ar.length %>
+         <TD class='transparent-class' ><%= link_to(ar[entry].best_prompt,goto_topic_path(ar[entry].name))%></TD>
+<%       entry += 1 %>
+<%     end %>
+<%   end %>
+     </TR>
+<%   break if entry > ar.length-1 %>
+<% end %>
 </TABLE>
 
 <% end %>
