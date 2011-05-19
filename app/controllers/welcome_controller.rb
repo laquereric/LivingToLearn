@@ -1,6 +1,11 @@
 class WelcomeController < ApplicationController
   layout 'home'
+  before_filter :no_users
   before_filter :get_marketing_contexts
+
+  def no_users
+    @disable_logins = true
+  end
 
   def get_marketing_contexts
     if user_signed_in?
@@ -18,7 +23,7 @@ class WelcomeController < ApplicationController
   end
 
   def index
-    session.delete(:goto_topic_symbol)
+     session.delete(:goto_topic_symbol)
   end
 
 end

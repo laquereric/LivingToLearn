@@ -133,6 +133,7 @@
 </script>
 
 <table id="top-table" class='transparent-class'>
+<% if @disable_logins.nil? %>
   <tr>
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
@@ -151,6 +152,8 @@
       <% end %>
     <% end %>
   </tr>
+<% end %>
+
 </table>
 
 <table id="body-table">
