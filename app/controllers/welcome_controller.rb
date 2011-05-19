@@ -3,6 +3,9 @@ class WelcomeController < ApplicationController
   before_filter :no_users
   before_filter :get_marketing_contexts
 
+  before_filter :get_topic
+  before_filter :get_service
+
   def no_users
     @disable_logins = true
   end
@@ -16,14 +19,38 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def goto
-    @goto_topic_symbol = params[:topic_symbol]
-    session[:goto_topic_symbol]= @goto_topic_symbol
+  def get_topic
+    @goto_topic_symbol = session[:goto_topic_symbol] = if  params[:topic_symbol]
+      params[:topic_symbol]
+    elsif user_signed_in? and current_user.marketing_contexts.length > 0
+      current_user.current_marketing_context_type.name
+    else
+      'welcome'
+    end
+  end
+
+  def get_service
+    @goto_service_symbol = session[:goto_service_symbol] = if params[:service_symbol]
+      params[:service_symbol]
+    else
+      'any'
+    end
+  end
+
+################
+
+  def goto_topic
+    render "index"
+  end
+
+  def goto_topic_service
+    session.delete(:goto_topic_symbol)
     render "index"
   end
 
   def index
-     session.delete(:goto_topic_symbol)
+    session.delete(:goto_topic_symbol)
+    session.delete(:goto_service_symbol)
   end
 
 end
