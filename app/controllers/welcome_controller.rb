@@ -27,6 +27,7 @@ class WelcomeController < ApplicationController
     else
       'welcome'
     end
+    @marketing_context_type = MarketingContextType.find_by_name(@goto_topic_symbol)
   end
 
   def get_service
@@ -44,13 +45,15 @@ class WelcomeController < ApplicationController
   end
 
   def goto_topic
-    session.delete(:goto_service_symbol)
+    #session.delete(:goto_service_symbol)
     render "index"
   end
 
   def index
-    session.delete(:goto_topic_symbol)
-    session.delete(:goto_service_symbol)
+    #render :text =>  @goto_topic_symbol
+    #render :text =>  @marketing_context_type.name
+    #session.delete(:goto_topic_symbol)
+    #session.delete(:goto_service_symbol)
   end
 
 end

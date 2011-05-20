@@ -1,6 +1,7 @@
 require 'csv'
 
 class MarketingContextType < ActiveRecord::Base
+  serialize :service_type_list
 
   def self.all_except(list)
     self.all.select{ |mct| !list.include?(mct) }
@@ -15,7 +16,7 @@ class MarketingContextType < ActiveRecord::Base
   end
 
   def to_csv
-    [ self.order, self.name, self.prompt, self.service_type_list ].join(',')
+    [ self.order, self.name, self.prompt, self.title, "\"#{self.service_type_list.inspect.gsub("\"","\'")}\"", self.message ].join(',')
   end
 
   def self.all_to_csv
@@ -49,15 +50,20 @@ class MarketingContextType < ActiveRecord::Base
   end
 
   def self.load_from_data_file
-    raw_csv_data.each{ |l|
+    raw_csv_data.each_index{ |i|
+      next if i == 0
+      l = raw_csv_data[i]
       name = l[1]
       r = self.find_by_name(name)
       next if r
+      service_type_list = eval(l[4]) if l[4]
       self.create({
         :order => l[0],
-        :name => name,
+        :name => name.downcase,
         :prompt => l[2],
-        :service_type_list => l[3]
+        :title => l[3],
+        :service_type_list => service_type_list,
+        :message => l[5]
       })
       p "Added #{name}"
     }

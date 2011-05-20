@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110519232320) do
+ActiveRecord::Schema.define(:version => 20110520121616) do
 
   create_table "curriculum_content_areas", :force => true do |t|
     t.string   "code"
@@ -201,6 +201,8 @@ ActiveRecord::Schema.define(:version => 20110519232320) do
     t.string  "prompt"
     t.text    "service_type_list"
     t.integer "order"
+    t.text    "message"
+    t.string  "title"
   end
 
   create_table "marketing_contexts", :force => true do |t|

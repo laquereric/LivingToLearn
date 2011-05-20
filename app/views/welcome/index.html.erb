@@ -1,1 +1,44 @@
-<%= render "#{@goto_topic_symbol}_table" %>
+<% content_for :head do %>
+<% end %>
+
+<% content_for :title_region do %>
+
+  <% if @marketing_context_type.title  %>
+    <%= @marketing_context_type.title %>
+  <% else %>
+    No Title in marketing_context_type record or in view
+  <% end %>
+
+<% end %>
+
+<% content_for :message_region do %>
+
+  <% if @marketing_context_type.message  %>
+    <%= @marketing_context_type.message %>
+  <% else %>
+    No Message in marketing_context_type record or in view
+  <% end %>
+
+<% end %>
+
+<% content_for :top_table_region do %>
+
+  <% if @marketing_context_type.service_type_list  %>
+    <% @marketing_context_type.service_type_list.each do |code|
+      service = Service.find_by_code(code) %>
+      <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+    <% end %>
+  <% else %>
+    No Service Type List in marketing_context_type record or in view
+  <% end %>
+
+<% end %>
+
+<% content_for :target do-%>
+  <%= render @goto_service_symbol %>
+<% end %>
+
+<% if File.exists?(File.join(RAILS_ROOT,'app','views','welcome',"_#{@goto_topic_symbol}_table.html.erb")) %>
+  <%= render "#{@goto_topic_symbol}_table" %>
+<% end %>
+
