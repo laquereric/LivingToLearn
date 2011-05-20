@@ -54,4 +54,17 @@ class User < ActiveRecord::Base
     r = if type then type.id else nil end
   end
 
+#######################
+#
+#######################
+
+  def locked_in_subdomain?
+    #current_user.get_locked_subdomain
+    false
+  end
+
+  def locked_subdomain
+    #locked_subdomain_path
+    Subdomain::Base.first
+  end
 end

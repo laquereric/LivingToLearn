@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110520121616) do
+ActiveRecord::Schema.define(:version => 20110520174846) do
 
   create_table "curriculum_content_areas", :force => true do |t|
     t.string   "code"
@@ -350,6 +350,21 @@ ActiveRecord::Schema.define(:version => 20110520121616) do
     t.string "yp_spend"
     t.string "metro_area"
     t.string "infousa_id"
+  end
+
+  create_table "subdomain_base", :force => true do |t|
+    t.string   "country"
+    t.string   "state"
+    t.string   "county"
+    t.string   "city"
+    t.string   "type"
+    t.string   "organization_name"
+    t.string   "theme"
+    t.string   "give_away"
+    t.string   "prize"
+    t.string   "manager_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

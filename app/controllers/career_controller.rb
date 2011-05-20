@@ -1,5 +1,7 @@
 class CareerController < CurriculumControllerBase
   layout "kvn_page"
+  before_filter :never_for_subdomain
+  before_filter :authenticate_user!
 
 #############
 #

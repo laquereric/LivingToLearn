@@ -1,5 +1,6 @@
 class WelcomeController < ApplicationController
   layout 'home'
+
   before_filter :no_users
   before_filter :get_marketing_contexts
 
@@ -48,7 +49,17 @@ class WelcomeController < ApplicationController
     render "index"
   end
 
+  def subdomain
+    #This is a placeholder
+    render :text => "subdomain"
+  end
+
   def index
+    if @subdomain then
+      render :action => :subdomain , :layout => false
+    else
+      render
+    end
   end
 
 end
