@@ -1,8 +1,0 @@
-<% Service.all.each do |service| %>
-  <div style="display:none" id='<%= service.code %>' ><div class="topic-detail"><%=render service.code%></div></div>
-<% end %>
-
-<% MarketingContextType.all.each do |marketing_context_type| %>
-  <div style="display:none" id='<%= marketing_context_type.name.downcase.gsub(' ','_')  %>' ><div class="topic-detail"><%=render marketing_context_type.name.downcase.gsub(' ','_') %></div></div>
-<% end %>
-

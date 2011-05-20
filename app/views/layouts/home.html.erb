@@ -188,7 +188,9 @@
 
 </table>
 
-<div id='target'><div id='topic-prompt'>Please choose a topic!</div></div>
+<div id='target'>
+<%= yield :target -%>
+</div>
 
 <div>
   <%= yield :main_table_region -%>
@@ -197,8 +199,6 @@
 <div id="copyright">
   Copyright 2011 LivingToLearn&nbsp; LLC. All Rights Reserved.
 </div>
-
-<%= yield :hidden_region -%>
 
 </body>
 </html>
