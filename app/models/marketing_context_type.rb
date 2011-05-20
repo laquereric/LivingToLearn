@@ -69,6 +69,12 @@ class MarketingContextType < ActiveRecord::Base
     }
   end
 
+  def self.replace_with_data_file
+    self.delete_all
+    self.load_from_data_file
+  end
+
+
 ###################
 
   def best_prompt

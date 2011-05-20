@@ -1,13 +1,14 @@
-,student,,,"nil",
-,parent,,,"nil",
-,non profit leader,,,"nil",
-,business leader,,,"nil",
-,government leader, ,,"nil",
-,personality,,,"nil",
-,pto officer,,,"nil",
-,curriculum director,,,"nil",
-,superintendent,,,"nil",
-,principal,,,"nil",
-,banker,,,"nil",
-,college student,,,"nil",
-,welcome,,Living to Learn helps the Whole Community!,"['testing', 'tutoring', 'marketing', 'extra_academic', 'character_education', 'private_label_financial_literacy']",Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues.
+"Order","Name","Prompt","Title","Service Type List","Message"
+,"Student",,"Living To Learn helps Elementary School Students",,
+,"Parent",,"Living To Learn helps Parents",,
+,"Non Profit Leader",,"Living To Learn helps Non-Profit Leaders",,
+,"Business Leader",,"Living To Learn helps Business Leaders"," ['marketing','kidsville_news_sponsorship','kidsville_news_advertising','kidsville_news_business_distribution']","Living to Learn provides business people unmatched opportunities to advance their wholesome messages to children and to their parents."
+,"Government Leader",,"Living To Learn helps Government Leaders",,
+,"Personality",,"Living To Learn helps Personalities",,
+,"PTO Officer",,"Living To Learn helps School District Elementary School PTO Officers",,
+,"Curriculum Director",,"Living To Learn helps School District Elementary Level Curriculum Directors",,
+,"Superintendent",,"Living To Learn helps School District Superintendents",,
+,"Principal",,"Living To Learn helps Elementary School Principals",,
+,"Banker",,"Living To Learn helps Bankers"," ['private_label_financial_literacy']","Living To Learn helps Bankers establish profitable, long-term relationships with their clients by making themselves a central part of developing the financial literacy of entire families."
+,"College Student",,"Living To Learn helps College Students",,
+,"Welcome",,"Living to Learn helps the Whole Community!","['testing','tutoring','marketing','extra_academic','character_education','private_label_financial_literacy']","Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues."

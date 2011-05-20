@@ -1,33 +1,6 @@
-
 <% content_for :head do %>
   <meta name="Marketing" content="Sponsoring Kidsville News"/>
   <meta name="Marketing" content="Distributing Kidsville News"/>
   <meta name="Government" content="Sponsoring Kidsville News"/>
-
-<% end %>
-
-<% content_for :message_region do %>
-
-Living To Learn helps Bankers establish profitable, long-term relationships with their clients by making themselves a central part of developing the financial literacy of entire families.
-
-<% end %>
-
-<% content_for :top_table_region do %>
-   <% ['private_label_financial_literacy'].each do |code|
-     service = Service.find_by_code(code) %>
-     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
-   <% end %>
-<% end %>
-
-<% content_for :main_table_region do %>
-
-<TABLE id="welcome-table">
-
-</TABLE>
-
-<% end %>
-
-<% content_for :target do-%>
-  <%= render @goto_service_symbol %>
 <% end %>
 
