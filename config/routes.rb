@@ -41,7 +41,8 @@ LivingToLearn::Application.routes.draw do
 
 #################
 
-  match '/for_:topic_symbol', :to => 'welcome#goto', :as => 'goto_topic'
+  match '/for_:topic_symbol/service_:service_symbol', :to => 'welcome#goto_topic_service', :as => 'goto_topic_service'
+  match '/for_:topic_symbol', :to => 'welcome#goto_topic', :as => 'goto_topic'
 
 #################
 

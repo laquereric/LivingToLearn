@@ -69,12 +69,10 @@ Living to Learn helps you and every member of your family achieve higher levels 
 <% end %>
 
 <% content_for :top_table_region do %>
-<p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Extra Academic Support","$('target').innerHTML = $('extra_academic').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Private Label Financial Literacy Programs","$('target').innerHTML = $('private_label_financial_literacy').innerHTML")%></p>
+   <% ['testing','tutoring','marketing','extra_academic','character_education','private_label_financial_literacy'].each do |code| 
+     service = Service.find_by_code(code) %>
+     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
@@ -100,14 +98,7 @@ Living to Learn helps you and every member of your family achieve higher levels 
   <% render 'hidden_region_content' %>
 <% end %>
 
-<% if !user_signed_in? %>
-  <% content_for :onload_script do-%>
-     $('target').innerHTML = $('any').innerHTML
-  <% end %>
-<% else %>
-  <% content_for :onload_script do-%>
-    $('target').innerHTML = $('no_topics').innerHTML
-  <% end %>
+<% content_for :onload_script do-%>
+     $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
-
 

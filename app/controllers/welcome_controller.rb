@@ -33,18 +33,18 @@ class WelcomeController < ApplicationController
     @goto_service_symbol = session[:goto_service_symbol] = if params[:service_symbol]
       params[:service_symbol]
     else
-      'any'
+      @goto_topic_symbol
     end
   end
 
 ################
 
-  def goto_topic
-    render "index"
+  def goto_topic_service
+   render "index"
   end
 
-  def goto_topic_service
-    session.delete(:goto_topic_symbol)
+  def goto_topic
+    session.delete(:goto_service_symbol)
     render "index"
   end
 

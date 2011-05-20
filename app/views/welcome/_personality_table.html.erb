@@ -9,18 +9,15 @@ Living to Learn helps families achieve higher levels of academic achievement whi
 <% end %>
 
 <% content_for :top_table_region do %>
-
-<p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
-
+   <% ['marketing'].each do |code| 
+     service = Service.find_by_code(code) %>
+     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
-
 <TABLE id="welcome-table">
-
 </TABLE>
-
 <% end %>
 
 <% content_for :hidden_region do %>
@@ -28,6 +25,6 @@ Living to Learn helps families achieve higher levels of academic achievement whi
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('personality').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
 

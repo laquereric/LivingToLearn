@@ -19,25 +19,19 @@
 <% end %>
 
 <% content_for :message_region do %>
-
 Living to Learn helps families reach higher levels of academic achievement while offering non-profit organizations unmatched ways of advancing their wholesome messages to children and to their parents.
-
 <% end %>
 
 <% content_for :top_table_region do %>
-<p id="tutoring_link"><%= link_to_function("Kidsville News! Sponsorship","$('target').innerHTML = $('kidsville_news_sponsorship').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Kidsville News! Content Lead","$('target').innerHTML = $('kidsville_news_content_lead').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Educational Publishing","$('target').innerHTML = $('publishing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Marketing and PR","$('target').innerHTML = $('marketing').innerHTML")%></p>
+   <% ['kidsville_news_sponsorship','kidsville_news_content_lead','character_education','marketing'].each do |code| 
+     service = Service.find_by_code(code) %>
+     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
-
 <TABLE id="welcome-table">
-
 </TABLE>
-
 <% end %>
 
 <% content_for :hidden_region do %>
@@ -45,6 +39,6 @@ Living to Learn helps families reach higher levels of academic achievement while
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('non_profit_leader').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
 

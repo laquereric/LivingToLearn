@@ -13,31 +13,25 @@
   <meta name="Tutoring" content="In Home"/>
 
 <% end %>
+
 <% content_for :title_region do %>
   Living to Learn helps Superintendants
 <% end %>
 
 <% content_for :message_region do %>
-
 Living to Learn supports the distribution of mandated materials without incurring hard costs to the district.
-
 <% end %>
 
 <% content_for :top_table_region do %>
-
-<p id="tutoring_link"><%= link_to_function("Extra Academic Support","$('target').innerHTML = $('extra_academic').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Character Education Support","$('target').innerHTML = $('character_education').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Basic Academic Support","$('target').innerHTML = $('basic_academic').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Kidsville News! School Distribution","$('target').innerHTML = $('kidsville_news_school_distribution').innerHTML")%></p>
-
+   <% ['extra_academic','character_education','basic_academic','kidsville_news_school_distribution'].each do |code| 
+     service = Service.find_by_code(code) %>
+     <p id="#{code}_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
-
 <TABLE id="welcome-table">
-
 </TABLE>
-
 <% end %>
 
 <% content_for :hidden_region do %>
@@ -45,6 +39,6 @@ Living to Learn supports the distribution of mandated materials without incurrin
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('superintendent').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
 

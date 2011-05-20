@@ -18,26 +18,22 @@
 <% end %>
 
 <% content_for :message_region do %>
-
 Living to Learn helps you find out where you really are academically and helps you get to where you want to be!
 <% end %>
 
 <% content_for :top_table_region do %>
-
-<p id="testing_link"><%= link_to_function("Student Testing","$('target').innerHTML = $('testing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Small Group and Individual Tutoring","$('target').innerHTML = $('tutoring').innerHTML")%></p>
-
+   <% ['testing','tutoring'].each do |code| 
+     service = Service.find_by_code(code) %>
+     <p id="#{code}_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
-
 <TABLE id="welcome-table">
-
 <TR>
 <TD class='transparent-class' ><%= link_to_function("If Want to Know Where You Are Academically","$('target').innerHTML = $('testing').innerHTML")%></TD>
 <TD class='transparent-class' ><%= link_to_function("If You Want Academic Help","$('target').innerHTML = $('tutoring').innerHTML")%></TD>
 </TR>
-
 </TABLE>
 
 <% end %>
@@ -47,7 +43,6 @@ Living to Learn helps you find out where you really are academically and helps y
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('student').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
-
 

@@ -3,31 +3,22 @@
   <meta name="Marketing" content="Sponsoring Kidsville News"/>
   <meta name="Marketing" content="Distributing Kidsville News"/>
   <meta name="Government" content="Sponsoring Kidsville News"/>
-
 <% end %>
 
 <% content_for :message_region do %>
-
 Living To Learn helps College Students earn money and get valuable experience in a teaching, marketing and sales.
-
 <% end %>
 
 <% content_for :top_table_region do %>
-
-<p id="tutoring_link"><%= link_to_function("Character Book Marketing","$('target').innerHTML = $('character_book').innerHTML")%></p>
-
-<p id="tutoring_link"><%= link_to_function("Referral Fee Income","$('target').innerHTML = $('referral_fees').innerHTML")%></p>
-
-<p id="tutoring_link"><%= link_to_function("Tutoring Income","$('target').innerHTML = $('tutoring_employment').innerHTML")%></p>
-
+   <% ['character_book','referral_fees','tutoring_employment'].each do |code|
+     service = Service.find_by_code(code) %>
+     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
-
 <TABLE id="welcome-table">
-
 </TABLE>
-
 <% end %>
 
 <% content_for :hidden_region do %>
@@ -35,6 +26,6 @@ Living To Learn helps College Students earn money and get valuable experience in
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('college_student').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
 

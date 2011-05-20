@@ -13,8 +13,10 @@ Living To Learn helps Bankers establish profitable, long-term relationships with
 <% end %>
 
 <% content_for :top_table_region do %>
-
-<p id="tutoring_link"><%= link_to_function("Private Label Financial Literacy Programs","$('target').innerHTML = $('private_label_financial_literacy').innerHTML")%></p>
+   <% ['private_label_financial_literacy'].each do |code|
+     service = Service.find_by_code(code) %>
+     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
 <% content_for :main_table_region do %>
@@ -30,6 +32,6 @@ Living To Learn helps Bankers establish profitable, long-term relationships with
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('banker').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
 

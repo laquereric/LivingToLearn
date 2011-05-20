@@ -1,42 +1,8 @@
+<% Service.all.each do |service| %>
+  <div style="display:none" id='<%= service.code %>' ><div class="topic-detail"><%=render service.code%></div></div>
+<% end %>
 
-<div style="display:none" id='testing'><div class="topic-detail"><%=render "testing"%></div></div>
-<div style="display:none" id='tutoring'><div class="topic-detail"><%=render "tutoring"%></div></div>
-<div style="display:none" id='marketing'><div class="topic-detail"><%=render "marketing"%></div></div>
-<div style="display:none" id='publishing'><div class="topic-detail"><%=render "publishing"%></div></div>
+<% MarketingContextType.all.each do |marketing_context_type| %>
+  <div style="display:none" id='<%= marketing_context_type.name.downcase.gsub(' ','_')  %>' ><div class="topic-detail"><%=render marketing_context_type.name.downcase.gsub(' ','_') %></div></div>
+<% end %>
 
-<div style="display:none" id='any'><div class="topic-detail"><%=render "any"%></div></div>
-<div style="display:none" id='no_topics'><div class="topic-detail"><%=render "no_topics"%></div></div>
-
-<div style="display:none" id='student'><div class="topic-detail"><%=render "student"%></div></div>
-<div style="display:none" id='parent'><div class="topic-detail"><%=render "parent"%></div></div>
-<div style="display:none" id='non_profit_leader'><div class="topic-detail"><%=render "non_profit_leader"%></div></div>
-<div style="display:none" id='business_leader'><div class="topic-detail"><%=render "business_leader"%></div></div>
-<div style="display:none" id='government_leader'><div class="topic-detail"><%=render "government_leader"%></div></div>
-<div style="display:none" id='personality'><div class="topic-detail"><%=render "personality"%></div></div>
-
-<div style="display:none" id='curriculum_director'><div class="topic-detail"><%=render "curriculum_director"%></div></div>
-<div style="display:none" id='superintendent'><div class="topic-detail"><%=render "superintendent"%></div></div>
-<div style="display:none" id='principal'><div class="topic-detail"><%=render "principal"%></div></div>
-<div style="display:none" id='pto_officer'><div class="topic-detail"><%=render "pto_officer"%></div></div>
-<div style="display:none" id='banker'><div class="topic-detail"><%=render "banker"%></div></div>
-<div style="display:none" id='college_student'><div class="topic-detail"><%=render "college_student"%></div></div>
-
-<div style="display:none" id='basic_academic'><div class="topic-detail"><%=render "basic_academic"%></div></div>
-<div style="display:none" id='extra_academic'><div class="topic-detail"><%=render "extra_academic"%><div></div>
-<div style="display:none" id='character_education'><div class="topic-detail"><%=render "character_education"%><div></div>
-
-<div style="display:none" id='character_book'><div class="topic-detail"><%=render "character_book"%><div></div>
-
-<div style="display:none" id='referral_fees'><div class="topic-detail"><%=render "referral_fees"%><div></div>
-
-<div style="display:none" id='tutoring_employment'><div class="topic-detail"><%=render "tutoring_employment"%><div></div>
-
-<div style="display:none" id='locations_nj'><div class="topic-detail"><%=render "locations_nj"%></div></div>
-<div style="display:none" id='locations_pa'><div class="topic-detail"><%=render "locations_pa"%></div></div>
-
-<div style="display:none" id='kidsville_news_content_lead'><div class="topic-detail"><%=render "kidsville_news_content_lead"%></div></div>
-<div style="display:none" id='kidsville_news_sponsorship'><div class="topic-detail"><%=render "kidsville_news_sponsorship"%></div></div>
-<div style="display:none" id='kidsville_news_school_distribution'><div class="topic-detail"><%=render "kidsville_news_school_distribution"%></div></div>
-<div style="display:none" id='kidsville_news_business_distribution'><div class="topic-detail"><%=render "kidsville_news_business_distribution"%></div></div>
-<div style="display:none" id='kidsville_news_advertising'><div class="topic-detail"><%=render "kidsville_news_advertising"%></div></div>
-<div style="display:none" id='private_label_financial_literacy'><div class="topic-detail"><%=render "private_label_financial_literacy"%></div></div>

@@ -22,16 +22,15 @@ Living to Learn provides business people unmatched opportunities to advance thei
 <% end %>
 
 <% content_for :top_table_region do %>
-
-<p id="tutoring_link"><%= link_to_function("Marketing and Public Relations","$('target').innerHTML = $('marketing').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Kidsville News! Sponsorship","$('target').innerHTML = $('kidsville_news_sponsorship').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Kidsville News! Advertising","$('target').innerHTML = $('kidsville_news_advertising').innerHTML")%></p>
-<p id="tutoring_link"><%= link_to_function("Kidsville News! Business Distribution","$('target').innerHTML = $('kidsville_news_business_distribution').innerHTML")%></p>
-
+   <% ['marketing','kidsville_news_sponsorship','kidsville_news_advertising','kidsville_news_business_distribution'].each do |code| 
+     service = Service.find_by_code(code) %>
+     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+   <% end %>
 <% end %>
 
-<% content_for :main_table_region do %>
 
+<% content_for :main_table_region do %>
+<%= @goto_service_symbol %>
 <TABLE id="welcome-table">
 </TABLE>
 
@@ -42,6 +41,6 @@ Living to Learn provides business people unmatched opportunities to advance thei
 <% end %>
 
 <% content_for :onload_script do-%>
-  $('target').innerHTML = $('business_leader').innerHTML
+  $('target').innerHTML = $(<%= @goto_service_symbol %>).innerHTML
 <% end %>
 
