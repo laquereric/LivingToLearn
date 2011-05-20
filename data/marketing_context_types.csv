@@ -1,14 +1,14 @@
 "Order","Name","Prompt","Title","Service Type List","Message"
 ,"Student",,"Living To Learn helps Elementary School Students",,
-,"Parent",,"Living To Learn helps Parents",,
-,"Non Profit Leader",,"Living To Learn helps Non-Profit Leaders",,
-,"Business Leader",,"Living To Learn helps Business Leaders"," ['marketing','kidsville_news_sponsorship','kidsville_news_advertising','kidsville_news_business_distribution']","Living to Learn provides business people unmatched opportunities to advance their wholesome messages to children and to their parents."
-,"Government Leader",,"Living To Learn helps Government Leaders",,
+,"Parent",,"Living To Learn helps Parents","['tutoring','testing']","Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues."
+,"Non Profit Leader",,"Living To Learn helps Non-Profit Leaders","['kidsville_news_sponsorship','kidsville_news_content_lead','character_education','marketing']","Living to Learn helps families reach higher levels of academic achievement while offering non-profit organizations unmatched ways of advancing their wholesome messages to children and to their parents."
+,"Business Leader",,"Living To Learn helps Business Leaders","['marketing','kidsville_news_sponsorship','kidsville_news_advertising','kidsville_news_business_distribution']","Living to Learn provides business people unmatched opportunities to advance their wholesome messages to children and to their parents."
+,"Government Leader",,"Living To Learn helps Government Leaders","['marketing']","Living to Learn helps families achieve higher levels of academic achievement while providing government entities an unmatched opportunity to advance their wholesome messages to children and to their parents."
 ,"Personality",,"Living To Learn helps Personalities",,
 ,"PTO Officer",,"Living To Learn helps School District Elementary School PTO Officers",,
-,"Curriculum Director",,"Living To Learn helps School District Elementary Level Curriculum Directors",,
+,"Curriculum Director",,"Living To Learn helps School District Elementary Level Curriculum Directors","['extra_academic','character_education','basic_academic','kidsville_news_school_distribution']","Living to Learn supports the deployment of mandated curricula without incurring hard costs to the district."
 ,"Superintendent",,"Living To Learn helps School District Superintendents",,
-,"Principal",,"Living To Learn helps Elementary School Principals",,
-,"Banker",,"Living To Learn helps Bankers"," ['private_label_financial_literacy']","Living To Learn helps Bankers establish profitable, long-term relationships with their clients by making themselves a central part of developing the financial literacy of entire families."
-,"College Student",,"Living To Learn helps College Students",,
+,"Principal",,"Living To Learn helps Elementary School Principals","['character_education','kidsville_news_school_distribution']","Living to Learn helps principals establish a positive school culture that embraces learning both in and out of school and advances  the development of strong character traits as well."
+,"Banker",,"Living To Learn helps Bankers","['private_label_financial_literacy']","Living To Learn helps Bankers establish profitable, long-term relationships with their clients by making themselves a central part of developing the financial literacy of entire families."
+,"College Student",,"Living To Learn helps College Students","['character_book','referral_fees','tutoring_employment']","Living To Learn helps College Students earn money and get valuable experience in a teaching, marketing and sales."
 ,"Welcome",,"Living to Learn helps the Whole Community!","['testing','tutoring','marketing','extra_academic','character_education','private_label_financial_literacy']","Living to Learn helps you and every member of your family achieve higher levels of academic achievement by helping individuals avoid common educational and career issues. When issues are detected, we can also help you find ways to remediate those issues."

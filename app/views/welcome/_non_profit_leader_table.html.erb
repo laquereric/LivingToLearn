@@ -1,4 +1,3 @@
-
 <% content_for :head do %>
   <meta name="Marketing" content="Sponsoring Kidsville News"/>
   <meta name="Marketing" content="Distributing Kidsville News"/>
@@ -11,30 +10,5 @@
   <meta name="Business" content="Marketing">
   <meta name="Business" content="Distributing Kidsville News"/>
   <meta name="Business" content="Sponsoring Kidsville News"/>
-
-<% end %>
-
-<% content_for :title_region do %>
-  Living to Learn Helps Non-Profits!
-<% end %>
-
-<% content_for :message_region do %>
-Living to Learn helps families reach higher levels of academic achievement while offering non-profit organizations unmatched ways of advancing their wholesome messages to children and to their parents.
-<% end %>
-
-<% content_for :top_table_region do %>
-   <% ['kidsville_news_sponsorship','kidsville_news_content_lead','character_education','marketing'].each do |code| 
-     service = Service.find_by_code(code) %>
-     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
-   <% end %>
-<% end %>
-
-<% content_for :main_table_region do %>
-<TABLE id="welcome-table">
-</TABLE>
-<% end %>
-
-<% content_for :target do-%>
-  <%= render @goto_service_symbol %>
 <% end %>
 
