@@ -1,26 +1,5 @@
-
 <% content_for :head do %>
   <meta name="Personality" content="Sponsoring Kidsville News"/>
   <meta name="Personality" content="Public Relations">
-<% end %>
-
-<% content_for :message_region do %>
-Living to Learn helps families achieve higher levels of academic achievement while providing personalities unmatched opportunities to advance their wholesome messages to children and to their parents.
-<% end %>
-
-<% content_for :top_table_region do %>
-   <% ['marketing'].each do |code| 
-     service = Service.find_by_code(code) %>
-     <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
-   <% end %>
-<% end %>
-
-<% content_for :main_table_region do %>
-<TABLE id="welcome-table">
-</TABLE>
-<% end %>
-
-<% content_for :target do-%>
-  <%= render @goto_service_symbol %>
 <% end %>
 
