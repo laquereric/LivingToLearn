@@ -1,11 +1,15 @@
-New Site</br>
+<% content_for :message_region do %>
+Site</br>
+<% end %>
+<% content_for :target do %>
 </br>
-Manager email: <%=@subdomain.manager_email%></br>
+email: <%=@subdomain.email%></br>
 </br>
+Type: <%=@subdomain.type_name%></br>
 City: <%=@subdomain.city%></br>
 County: <%=@subdomain.county%></br>
 State: <%=@subdomain.state%></br>
 Country: <%=@subdomain.country%></br>
 </br>
 Path: <%=@subdomain.path%></br>
-
+<% end %>

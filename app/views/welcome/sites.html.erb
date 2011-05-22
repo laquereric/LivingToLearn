@@ -1,0 +1,31 @@
+<% content_for :message_region do %>
+  Sites</br>
+<% end %>
+
+<% content_for :target do %>
+<table>
+
+  <tr>
+    <th>Email</th>
+    <th>Type</th>
+    <th>Name</th>
+    <th>City</th>
+    <th>County</th>
+    <th>State</th>
+    <th>Country</th>
+  </tr>
+
+<% @subdomains.each do |subdomain| %>
+  <tr>
+    <td><%= subdomain.email %></td>
+    <td><%= subdomain.type_name %></td>
+    <td><%= subdomain.name %></td>
+    <td><%= subdomain.city %></td>
+    <td><%= subdomain.county %></td>
+    <td><%= subdomain.state %></td>
+    <td><%= subdomain.country %></td>
+    <td><%= link_to 'Goto', site_root_url( :host => subdomain.root_url(request) ) %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>

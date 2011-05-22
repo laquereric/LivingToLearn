@@ -46,6 +46,8 @@ LivingToLearn::Application.routes.draw do
 
 #################
 
+  match '/site', :to => 'welcome#site', :as => 'site_root'
+  match '/sites', :to => 'welcome#sites', :as => 'sites_root'
   root :to => "welcome#index"
 
 end

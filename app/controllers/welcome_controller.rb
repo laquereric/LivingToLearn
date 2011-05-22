@@ -7,6 +7,8 @@ class WelcomeController < ApplicationController
   before_filter :get_topic
   before_filter :get_service
 
+  before_filter :only_for_site , :only => :site
+
   def no_users
     @disable_logins = true
   end
@@ -49,17 +51,14 @@ class WelcomeController < ApplicationController
     render "index"
   end
 
-  def subdomain
-    #This is a placeholder
-    render :text => "subdomain"
+  def site
+  end
+
+  def sites
   end
 
   def index
-    if @subdomain then
-      render :action => :subdomain , :layout => false
-    else
       render
-    end
   end
 
 end

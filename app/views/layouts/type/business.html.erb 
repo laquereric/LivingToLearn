@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 Transitional//EN">
+<!-- saved from url=(0036)http://www.mydoublem.net/living.html -->
+<html>
+<head>
+<title>LivingToLearn - Your Family's Education Matters</title>
+<%= yield :head -%>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<%= javascript_include_tag :defaults %>
+<style type="text/css" media=screen>
+   body {
+   }
+
+   #body_table td {
+     width:200px;
+   }
+
+   #body_table tr {
+     height:200px;
+   }
+
+   #body-table table{
+     color: #ff9900;
+     border: 1px solid black;
+     table-layout:fixed;
+     border-collapse:collapse;
+     width: 600px;
+   }
+
+   #topic-prompt {
+     position: relative;
+     left: 260px;
+     top: 40px;
+     font-size: 30pt
+   }
+
+   #target {
+     position: relative;
+     left: 10px;
+     top: 10px;
+     font-size: 18pt;
+      filter:alpha(opacity=90);
+     -moz-opacity:0.9;
+     -khtml-opacity: 0.9;
+     opacity: 0.9;
+     background: #66EECC;
+     color: #003300;
+     border: 1px solid black;
+     width: 825px;
+     padding: 12px;
+   }
+
+   #copyright {
+     position: relative;
+     left: 10px;
+     top: 10px;
+     font-size: 10pt;
+      filter:alpha(opacity=90);
+     -moz-opacity:0.9;
+     -khtml-opacity: 0.9;
+     color: #003300;
+     border: 1px solid black;
+     width: 825px;
+     height: 15px;
+     padding: 12px;
+   }
+
+   .transparent-class {
+     filter:alpha(opacity=90);
+     -moz-opacity:0.9;
+     -khtml-opacity: 0.9;
+     opacity: 0.9;
+   }
+
+   #text-block {
+     width:270px;
+     color: #663300;
+     background: #FFFFCC;
+     padding: 12px;
+   }
+
+   #top-table td{
+     text-align: center;
+     background: none repeat scroll 0 0 #E8EDFF;
+     color: #666699;
+     padding: 8px;
+  }
+
+   #welcome-table td{
+     text-align: center;
+     background: none repeat scroll 0 0 #E8EDFF;
+     border-left: 5px solid #AABCFE;
+     border-right: 5px solid #AABCFE;
+     color: #666699;
+     padding: 8px;
+     width: 400px;
+  }
+
+  #top-table table{
+    border-collapse: collapse;
+    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  #welcome-table table{
+    border-collapse: collapse;
+    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
+    font-size: 12px;
+    text-align: center;
+  }
+
+   hr {color: #ff9900; height: 1px }
+   a:hover {color: #ff0000; text-decoration: none}
+</style>
+
+</head>
+
+<body background="/images/kids_hand_prints.jpg">
+
+<table id="body-table">
+
+  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :title_region -%></td></tr>
+
+  <tr>
+    <td id="text-block" class='transparent-class'>
+       <%= yield :message_region -%>
+    </td>
+
+    <td><div id="image2">
+    <img src="/images/LivingToLearnLogo.png" alt="" border="0" width="262" height="198">
+    </div></td>
+
+    <td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
+    <div style="position:relative; left:10px">
+     </div>
+    </td>
+  </tr>
+
+  <tr></tr>
+
+  <tr>
+    <marquee width="678" height="38">
+      <div class="wpmd">
+        <div><font class="ws14" color="#000000">CALL 856 270 6810 FOR IMMEDIATE ASSISTANCE!</font></div>
+      </div>
+    </marquee>
+  </tr>
+
+</table>
+
+<div style=" width: 678; background: #66EECC; color: #003300;"  class='transparent-class'>
+  <%= yield :main -%>
+</div>
+
+<div id="copyright">
+  Copyright 2011 LivingToLearn&nbsp; LLC. All Rights Reserved.
+</div>
+
+</body>
+</html>
+
