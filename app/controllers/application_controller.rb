@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-
+  before_filter :subdomains_parse
   before_filter :subdomain_parse
+  before_filter :site_parse
 
-  def only_for_site
-    if !Subdomain::Base.is_request_for_site?(request)
-      redirect_to root_url()
-    end
+  layout :choose_layout
+
+  def choose_layout()
+    Style.choose_layout(@for_site,@subdomain)
   end
 
   def only_for_subdomain
@@ -21,7 +22,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def subdomain_parse
+####################
+#
+####################
+
+  def subdomains_parse
     @subdomains = if user_signed_in? and current_user.locked_in_subdomain?
       current_user.locked_subdomain
     elsif request.subdomain.present?
@@ -29,8 +34,16 @@ class ApplicationController < ActionController::Base
     else
       []
     end
+  end
+
+  def subdomain_parse
     @subdomain = if @subdomains.length == 1 then @subdomains[0] else nil end
   end
+
+  def site_parse
+    @for_site = Subdomain::Base.is_request_for_site?(request)
+  end
+
 
 ###############
 #

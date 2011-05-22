@@ -6,8 +6,6 @@ class WelcomeController < ApplicationController
   before_filter :get_topic
   before_filter :get_service
 
-  before_filter :only_for_site , :only => :site
-
   def no_users
     @disable_logins = true
   end

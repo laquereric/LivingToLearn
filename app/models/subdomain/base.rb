@@ -2,19 +2,34 @@ class Subdomain::Base < ActiveRecord::Base
   set_table_name :subdomain_base
 
   def self.create_mantua_test
+
     self.delete_all
-    City.create({
+
+    Muni.create({
       :email => 'laquereric@gmail.com',
+      :muni => 'mantua',
       :name => 'mantua',
-      :city => 'mantua',
       :county => 'gloucester',
+      :state => 'nj',
+      :country => 'us'
+    })
+    County.create({
+      :email => 'laquereric@gmail.com',
+      :name => 'gloucester',
+      :county => 'gloucester',
+      :state => 'nj',
+      :country => 'us'
+    })
+    State.create({
+      :email => 'laquereric@gmail.com',
+      :name => 'nj',
       :state => 'nj',
       :country => 'us'
     })
     Business.create({
       :name => 'tutoring_club',
       :email => 'laquereric@gmail.com',
-      :city => 'mantua',
+      :muni => 'washington_twp',
       :county => 'gloucester',
       :state => 'nj',
       :country => 'us'
