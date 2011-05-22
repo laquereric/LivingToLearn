@@ -1,3 +1,4 @@
+require 'csv'
 class Subdomain::Base < ActiveRecord::Base
   set_table_name :subdomain_base
 
@@ -138,6 +139,135 @@ class Subdomain::Base < ActiveRecord::Base
 
   def site_contact_lines
     "Contact email: #{self.email}"
+  end
+
+##############
+#
+##############
+
+###############
+# Lower Level
+###############
+
+  def self.filename
+    File.join(Rails.root,'data','sub_domains.csv')
+  end
+
+  def to_csv
+    [ self.country, self.state, self.county, self.muni, self.type,
+      self.name, self.theme, self.giveaway, self.prize, self.email ].join(',')
+  end
+
+  def self.clean_row(row)
+    [0..header_symbols.length].each{ |col_num|
+      row[col_num] = nil if !row[col_num].nil? and row[col_num].to_s.gsub(' ','').length == 0
+    }
+    return row
+  end
+
+  def self.all_to_csv
+    self.all.map{ |r|
+      r.to_csv
+    }
+  end
+
+  def self.each_csv_row
+    line_number = 0
+    CSV::Reader.parse(File.open(self.filename, 'rb')) do |row|
+      yield(line_number,self.clean_row(row) )
+      line_number +=1
+    end
+  end
+
+#######
+#
+#######
+
+  def self.raw_csv_data
+    rs = []
+    self.each_csv_row{ |line_number,row|
+      rs << row
+    }
+    return rs
+  end
+
+#######
+#
+#######
+
+  def self.header_list
+    strings = <<-eos
+    Country
+    State
+    County
+    Muni
+    Type
+    Name
+    Theme
+    Giveaway
+    Prize
+    Email
+    eos
+    return strings.split("\n").map{ |st| st.strip }
+  end
+
+  def self.header_symbols
+    self.header_list.map{|n| n.downcase.gsub(' ','_').to_sym}
+  end
+
+  def self.row_hash(row)
+    h = {}
+    (0..self.header_symbols.length-1).each{ |i|
+      k = self.header_symbols[i]
+      h[ k ] = row[i]
+    }
+    return h
+  end
+
+###########
+#
+###########
+
+  def self.csv_data
+    rs=[]
+    self.each_csv_row{ |line_number,row|
+      next if line_number == 0
+      rs<< row_hash(row)
+    }
+    return rs
+  end
+
+  def self.purge
+    self.delete_all
+  end
+
+###########
+#
+###########
+
+  def self.load_from_data_file
+    rcd = self.raw_csv_data
+    rcd.each_index{ |i|
+      next if i == 0
+      rh = self.row_hash(rcd[i])
+      cls = rh[:type].constantize
+      obj = cls.create(rh)
+      p "Added #{obj.name}"
+    }
+  end
+
+  def self.replace_with_data_file
+    self.delete_all
+    self.load_from_data_file
+  end
+
+  def self.all_to_data_file
+    File.open(self.filename,'w'){ |f|
+      f.puts( self.header_list.join(',') )
+      self.all_to_csv.each{ |l|
+        f.puts(l)
+      }
+    }
   end
 
 end

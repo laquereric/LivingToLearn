@@ -1,0 +1,5 @@
+Country,State,County,Muni,Type,Name,Theme,Giveaway,Prize,Email
+us,nj,gloucester,mantua,Subdomain::Muni,mantua,,,,laquereric@gmail.com
+us,nj,gloucester,,Subdomain::County,gloucester,,,,laquereric@gmail.com
+us,nj,,,Subdomain::State,nj,,,,laquereric@gmail.com
+us,nj,gloucester,washington_twp,Subdomain::Business,tutoring_club,,,,laquereric@gmail.com
