@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  layout :home
-
   protect_from_forgery
 
   before_filter :subdomain_parse

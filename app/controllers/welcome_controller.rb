@@ -1,5 +1,4 @@
 class WelcomeController < ApplicationController
-  layout 'home'
 
   before_filter :no_users
   before_filter :get_marketing_contexts
