@@ -10,4 +10,24 @@ class Subdomain::County < Subdomain::Base
     return fields.join('.')
   end
 
+#########
+#
+#########
+
+  def friendly_entity_name
+    "#{self.name.titleize} County"
+  end
+
+#########
+# Utilties for Site Message Block
+#########
+
+  def site_type_title
+    "Site for #{self.friendly_type_name}"
+  end
+
+  def site_location_lines
+    "Located in #{self.state.capitalize}"
+  end
+
 end

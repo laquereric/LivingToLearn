@@ -1,15 +1,18 @@
+<% content_for :site_title_top_line do %>
+  <%= @subdomain.site_title_top_line%>
+<% end %>
+
+<% content_for :site_title_second_line do %>
+  <%= @subdomain.site_title_second_line %>
+<% end %>
+
 <% content_for :message_region do %>
-Site</br>
+  <%= @subdomain.site_type_title %><br/>
+  <%= @subdomain.site_location_lines %><br/>
+  <%= @subdomain.site_contact_lines %><br/>
 <% end %>
+
 <% content_for :target do %>
-</br>
-email: <%=@subdomain.email%></br>
-</br>
-Type: <%=@subdomain.type_name%></br>
-Muni: <%=@subdomain.muni%></br>
-County: <%=@subdomain.county%></br>
-State: <%=@subdomain.state%></br>
-Country: <%=@subdomain.country%></br>
-</br>
-Path: <%=@subdomain.path%></br>
+Target
 <% end %>
+

@@ -104,4 +104,40 @@ class Subdomain::Base < ActiveRecord::Base
     self.class.to_s.split('::')[-1].downcase
   end
 
+  def site_title_top_line
+    "LivingToLearn"
+  end
+
+  def site_title_second_line
+    "#{self.friendly_entity_name.titleize} Cares About Education!"
+  end
+
+#########
+#
+#########
+
+  def friendly_type_name
+    self.class.to_s.split('::')[-1].titleize
+  end
+
+  def friendly_entity_name
+    self.name.titleize
+  end
+
+#########
+# Utilties for Site Message Block
+#########
+
+  def site_type_title
+    "Site for #{self.friendly_type_name}"
+  end
+
+  def site_location_lines
+    "Located in #{self.muni.titleize} in #{self.county.titleize} County , #{self.state.capitalize}"
+  end
+
+  def site_contact_lines
+    "Contact email: #{self.email}"
+  end
+
 end
