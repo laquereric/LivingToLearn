@@ -1,8 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 Transitional//EN">
-<!-- saved from url=(0036)http://www.mydoublem.net/living.html -->
 <html>
 <head>
-<title>LivingToLearn - Education Matters in Mantua</title>
+<title>LivingToLearn - Your Family's Education Matters</title>
 <%= yield :head -%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
@@ -13,47 +12,16 @@
 
 <body background="/images/kids_hand_prints.jpg" onload="onLoad()">
 
-<script type="text/javascript"> 
-  function add_user_marketing_context(form,user_id,marketing_context_id) {
-    form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
-    form.submit()
-  }
-  function select_user_marketing_context(form,user_id,marketing_context_id) {
-    form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
-    form.submit()
-  }
-  function onLoad(){
-    <%= yield :onload_script -%>
-  }
-</script>
+<script type="text/javascript" src="/javascripts/user_lines.js"/>
 
 <table id="top-table" class='transparent-class'>
-<% if @disable_logins.nil? %>
-  <tr>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  </tr>
-  <tr>
-    <td><%= render 'devise/menu/registration_items' %></td>
-    <td><%= render 'devise/menu/login_items' %></td>
-    <% if user_signed_in? %>
-      <td><%= render 'marketing_context_types/possible' %></td>
-      <% if current_user.marketing_context_types.length > 0 %>
-        <% if current_user.marketing_context_types.length > 1 %>
-          <td><%= render 'marketing_context_types/existing' %></td>
-        <% end %>
-        <td><%= link_to "Delete #{current_user.current_marketing_context} Topic",
-          delete_user_marketing_context_url(current_user.id,current_user.current_marketing_context_type) %></td>
-      <% end %>
-    <% end %>
-  </tr>
-<% end %>
-
+<%= render "user_lines" %>
 </table>
 
 <table id="body-table">
+  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :site_title_top_line -%></td></tr>
 
-  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :title_region -%></td></tr>
+  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :site_title_second_line -%></td></tr>
 
   <tr>
     <td id="text-block" class='transparent-class'>

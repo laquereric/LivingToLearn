@@ -12,7 +12,7 @@ class Subdomain::Muni < Subdomain::Base
   end
 
   def friendly_type_name
-    "Municipal"
+    "Municipality"
   end
 
 #########
