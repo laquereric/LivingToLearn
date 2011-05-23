@@ -159,7 +159,7 @@ class Subdomain::Base < ActiveRecord::Base
   end
 
   def self.clean_row(row)
-    [0..header_symbols.length].each{ |col_num|
+    [0..header_symbols.length-1].each{ |col_num|
       row[col_num] = nil if !row[col_num].nil? and row[col_num].to_s.gsub(' ','').length == 0
     }
     return row

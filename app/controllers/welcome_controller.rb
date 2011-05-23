@@ -52,6 +52,7 @@ class WelcomeController < ApplicationController
   end
 
   def sites
+    @subdomains = Subdomain::Base.all
   end
 
   def index
