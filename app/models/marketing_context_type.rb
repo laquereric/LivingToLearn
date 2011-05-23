@@ -78,7 +78,7 @@ class MarketingContextType < ActiveRecord::Base
 ###################
 
   def best_prompt
-    r = if !self.prompt.nil? and self.prompt.length > 0 then self.prompt else "If you are a #{self.name}" end
+    r = if !self.prompt.nil? and self.prompt.length > 0 then self.prompt else "If you are a #{self.name.titleize}" end
     return r
   end
 

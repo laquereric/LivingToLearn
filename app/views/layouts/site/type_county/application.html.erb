@@ -1,66 +1,86 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 Transitional//EN">
 <html>
 <head>
+
 <title>LivingToLearn - Your Family's Education Matters</title>
+
 <%= yield :head -%>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <%= javascript_include_tag :defaults %>
-<link href="/stylesheets/application.css" media="all" rel="Stylesheet" >
+
+<link href="/stylesheets/application.css" media="all" rel="stylesheet" />
+
+<script>
+  function add_user_marketing_context(form,user_id,marketing_context_id) {
+    form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
+    form.submit()
+  }
+  function select_user_marketing_context(form,user_id,marketing_context_id) {
+    form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
+    form.submit()
+  }
+  function onLoad(){
+    <%= yield :onload_script -%>
+  }
+</script>
 
 </head>
 
-<body background="/images/kids_hand_prints.jpg" onload="onLoad()">
+<body background="/images/kids_hand_prints.jpg" onLoad="onLoad()">
 
-<script type="text/javascript" src="/javascripts/user_lines.js"/>
+<div id="marquee_region">
+      <marquee id="marquee">
+          <%= render 'welcome/marquee_region' -%>
+      </marquee>
+</div>
 
-<table id="top-table" class='transparent-class'>
-<%= render "user_lines" %>
-</table>
+<table id="body-table" class='transparent-class'>
+  <tr id="site_title_top_line"><td colspan="3" class='transparent-class'>
+    <div id="site_title_second_line">
+      <%= yield :site_title_top_line -%>
+    </div>
+  </td></tr>
 
-<table id="body-table">
-  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :site_title_top_line -%></td></tr>
+  <tr id="site_title_second_line"><td colspan="3" class='transparent-class'>
+    <div id="site_title_second_line">
+      <%= yield :site_title_second_line -%>
+    </div>
+  </td></tr>
 
-  <tr><td colspan="3" class='transparent-class' style="font-size: 24px;background: none repeat scroll 0 0 #FFFFCE;text-align: center;"><%= yield :site_title_second_line -%></td></tr>
-
-  <tr>
-    <td id="text-block" class='transparent-class'>
-    <%= yield :message_region -%>
-    </td>
-
-    <td><div id="image2">
-    <img src="/images/LivingToLearnLogo.png" alt="" border="0" width="262" height="198">
+  <tr id="top_bar">
+    <td id="top_bar_left"><div id="message" class='transparent-class'>
+      <%= yield :message_region -%>
     </div></td>
 
-    <td id="text-block" style="margin:100px; padding:10px" class='transparent-class'>
-    <div style="position:relative; left:10px">
+    <td id="top_bar_middle"><div id="logo">
+      <%= render 'welcome/logo_region' -%>
+    </div></td>
+
+    <td id="top_bar_right" class='transparent-class'>
+    <div id="top_table">
       <%= yield :top_table_region -%>
      </div>
     </td>
   </tr>
 
-  <tr></tr>
-
-  <tr>
-    <marquee width="678" height="38">
-      <div class="wpmd">
-        <div><font class="ws14" color="#000000">CALL 856 270 6810 FOR IMMEDIATE ASSISTANCE!</font></div>
-      </div>
-    </marquee>
-  </tr>
-
 </table>
 
-<div id='target'>
-<%= yield :target -%>
+<div id="target" class='transparent-class'>
+<%= yield :target_region -%>
 </div>
 
-<div>
-  <%= yield :main_table_region -%>
+<div id="main" class='transparent-class'>
+<%= yield :main_region -%>
 </div>
 
-<div id="copyright">
-  Copyright 2011 LivingToLearn&nbsp; LLC. All Rights Reserved.
+<div id="sponsor" class='transparent-class'>
+  <%= render 'sponsor/sponsor_region' -%>
+</div>
+
+<div id="copyright" class='transparent-class' >
+   <%= render 'welcome/copyright_region' -%>
 </div>
 
 </body>

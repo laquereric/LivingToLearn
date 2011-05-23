@@ -1,58 +1,119 @@
    body {
    }
 
-   #body_table td {
-     width:200px;
-   }
-
-   #body_table tr {
-     height:200px;
-   }
-
-   #body-table table{
+   html body div#marquee_region {
+     position: relative;
+     left: 10px;
      color: #ff9900;
      border: 1px solid black;
      table-layout:fixed;
      border-collapse:collapse;
-     width: 600px;
+     width: 998px;
    }
 
-   #topic-prompt {
+   html body table#body-table {
      position: relative;
-     left: 260px;
-     top: 40px;
-     font-size: 30pt
-   }
-
-   #target {
-     position: relative;
-     left: 10px;
      top: 10px;
-     font-size: 18pt;
-      filter:alpha(opacity=90);
-     -moz-opacity:0.9;
-     -khtml-opacity: 0.9;
-     opacity: 0.9;
-     background: #66EECC;
-     color: #003300;
-     border: 1px solid black;
-     width: 825px;
+     left: 12px;
+     color: #ff9900;
+     border: 1px; solid black;
+     table-layout:fixed;
+     border-collapse:collapse;
+     background: none repeat scroll 0 0 #FFFFCE;
+     width: 1000px;
      padding: 12px;
    }
 
-   #copyright {
+   html body table#body_table tr {
+   }
+
+   html body table#body-table tbody tr#site_title_top_line{
+     height:20px;
+     font-size: 24px;
+     color: #993300;
+     text-align: center;
+   }
+
+   html body table#body-table tbody tr#site_title_second_line{
+     height: 20px;
+     font-size: 20px;
+     color: #993300;
+     text-align: center;
+   }
+
+   html body table#body-table tbody tr#marquee{
+     height: 20px;
+     font-size: 24px;
+     text-align: center;
+   }
+
+   html body table#body_table tbody td {
+     width: 200px;
+   }
+
+   html body table#body-table.transparent-class tbody tr#top_bar{ 
+   }
+
+   html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_left{
+     width: 400px; padding: 12px
+   }
+
+   html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_left div#message.transparent-class{
+   }
+
+   html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_middle{;
+   }
+
+   html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_middle div#logo img{
+     width: 350px;
+   }
+   html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_right.transparent-class{
+     width: 400px;
+     padding: 30px;
+   }
+
+   div#target {
      position: relative;
-     left: 10px;
-     top: 10px;
-     font-size: 10pt;
-      filter:alpha(opacity=90);
-     -moz-opacity:0.9;
-     -khtml-opacity: 0.9;
+     top: 20px;
+     font-size: 18pt;
+     background: none repeat scroll 0 0 #FFFFCE;
      color: #003300;
      border: 1px solid black;
-     width: 825px;
+     width: 1000px;
+     padding: 12px;
+   }
+
+   div#main {
+     position: relative;
+     top: 30px;
+     font-size: 10pt;
+     background: #66EECC;
+      color: #003300;
+     border: 1px solid black;
+     width: 1000px;
+     padding: 12px;
+   }
+
+   div#sponsor {
+     position: relative;
+     top: 40px;
+     font-size: 10pt;
+     background: none repeat scroll 0 0 #FFFFCE;
+     color: #003300;
+     border: 1px solid black;
+     width: 1000px;
      height: 15px;
      padding: 12px;
+   }
+
+   div#copyright {
+     position: relative;
+     top: 50px;
+     font-size: 10pt;
+     color: #003300;
+     border: 1px solid black;
+     width: 1018px;
+     padding: 3px;
    }
 
    .transparent-class {
@@ -62,43 +123,6 @@
      opacity: 0.9;
    }
 
-   #text-block {
-     width:270px;
-     color: #663300;
-     background: #FFFFCC;
-     padding: 12px;
-   }
-
-   #top-table td{
-     text-align: center;
-     background: none repeat scroll 0 0 #E8EDFF;
-     color: #666699;
-     padding: 8px;
-  }
-
-   #welcome-table td{
-     text-align: center;
-     background: none repeat scroll 0 0 #E8EDFF;
-     border-left: 5px solid #AABCFE;
-     border-right: 5px solid #AABCFE;
-     color: #666699;
-     padding: 8px;
-     width: 140px;
-  }
-
-  #top-table table{
-    border-collapse: collapse;
-    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
-    font-size: 12px;
-    text-align: center;
-  }
-
-  #welcome-table table{
-    border-collapse: collapse;
-    font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif;
-    font-size: 12px;
-    text-align: center;
-  }
-
   hr {color: #ff9900; height: 1px }
-   a:hover {color: #ff0000; text-decoration: none}
+  a:hover {color: #ff0000; text-decoration: none}
+

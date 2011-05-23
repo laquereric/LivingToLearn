@@ -1,18 +1,22 @@
-<% content_for :head do %>
+<% content_for :site_title_top_line do %>
+Living To Learn
 <% end %>
 
-<% content_for :title_region do %>
+<% content_for :site_title_second_line do %>
+Your Family's Education Matters
+<% end %>
 
-  <% if @marketing_context_type.title  %>
-    <%= @marketing_context_type.title %>
-  <% else %>
-    No Title in marketing_context_type record or in view
-  <% end %>
-
+<% content_for :head do %>
 <% end %>
 
 <% content_for :message_region do %>
 
+<% if @marketing_context_type.name == 'welcome' %>
+Overall Objective
+<% else %>
+Objectives Shared with <%= @marketing_context_type.name.pluralize.titleize %>
+<% end %>
+<br/><br/>
   <% if @marketing_context_type.message  %>
     <%= @marketing_context_type.message %>
   <% else %>
@@ -22,11 +26,15 @@
 <% end %>
 
 <% content_for :top_table_region do %>
-
+<% if @marketing_context_type.name == 'welcome' %>
+All Services
+<% else %>
+Services for <%= @marketing_context_type.name.pluralize.titleize %>
+<% end %>
   <% if @marketing_context_type.service_type_list  %>
     <% @marketing_context_type.service_type_list.each do |code|
       service = Service.find_by_code(code) %>
-      <p id="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
+      <p class="testing_link"><%= link_to(service.name,goto_topic_service_path(@goto_topic_symbol,service.code))%></p>
     <% end %>
   <% else %>
     No Service Type List in marketing_context_type record or in view
@@ -34,11 +42,17 @@
 
 <% end %>
 
-<% content_for :target do-%>
+<% content_for :target_region do-%>
   <%= render @goto_service_symbol %>
+<% end %>
+
+<% content_for :main_region do %>
+Please surf a litle to see if we can help. Our services are listed on the upper right and a list of typical user profiles is listed below. Either way you choose, we hope you find what you are looking for. If not, please just call! (856 270 6810).  We also do things JUST BECAUSE A CLIENT NEEDS US TO so do not hesitate to ask.<br/>
+
 <% end %>
 
 <% if File.exists?(File.join(RAILS_ROOT,'app','views','welcome',"_#{@goto_topic_symbol}_table.html.erb")) %>
   <%= render "#{@goto_topic_symbol}_table" %>
 <% end %>
+
 

@@ -58,9 +58,21 @@
 
 <% end %>
 
-<% content_for :main_table_region do %>
+<% content_for :title_region do %>
 
-<TABLE id="welcome-table">
+  <% if @marketing_context_type.title  %>
+    <%= @marketing_context_type.title %>
+  <% else %>
+    No Title in marketing_context_type record or in view
+  <% end %>
+
+<% end %>
+
+
+<% content_for :main_region do %>
+
+<br/>
+<TABLE id="main-table">
 <% ar = MarketingContextType.all%>
 <%   entry = 0 ; row = 0; while(true) do %>
      <TR>
@@ -76,7 +88,4 @@
 <%   break if entry > ar.length-1 %>
 <% end %>
 </TABLE>
-
 <% end %>
-
-
