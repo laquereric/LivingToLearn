@@ -87,4 +87,10 @@ class Service < ActiveRecord::Base
     }
   end
 
+  def self.replace_with_data_file
+    self.purge
+    self.to_records
+  end
+
+
 end
