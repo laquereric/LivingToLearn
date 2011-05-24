@@ -59,6 +59,7 @@
    }
 
    html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_left div#message.transparent-class{
+     color: #660000;
    }
 
    html body table#body-table.transparent-class tbody tr#top_bar td#top_bar_middle{;
@@ -125,4 +126,5 @@
 
   hr {color: #ff9900; height: 1px }
   a:hover {color: #ff0000; text-decoration: none}
+
 

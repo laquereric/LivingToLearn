@@ -1,0 +1,13 @@
+<table id='character_curriculum_table' width='1000 px'>
+<% Curriculum::CharacterJi.get_content_area.get_sorted_curriculum_standards.each do |standard| %>
+  <tr class="curriculum_character_table_standard_row">
+    <td class="curriculum_character_table_standard_cell full_code_<%=standard.full_code%>"><b><%= standard.name %><b/></td>
+    <td>
+    <% standard.curriculum_strands.each do |strand| %>
+      <td class="curriculum_character_table_strand_cell full_code_<%=strand.full_code%>"><%= strand.name %></td>
+      <% end %>
+    </td>
+  <tr/>
+<% end %>
+
+</table>

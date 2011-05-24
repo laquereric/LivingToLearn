@@ -2,6 +2,8 @@ class Curriculum::Strand < ActiveRecord::Base
 
   set_table_name :curriculum_strands
 
+  before_save :set_full_code
+
   belongs_to :curriculum_standard, 
     :class_name => 'Curriculum::Standard',
     :foreign_key => "curriculum_standard_id"
@@ -18,5 +20,13 @@ class Curriculum::Strand < ActiveRecord::Base
   scope :with_code, lambda { |code|
     where("curriculum_strands.code = ?", code)
   }
+
+  def calc_full_code()
+    "#{self.curriculum_standard.full_code}_#{self.code}"
+  end
+
+  def set_full_code
+    self.full_code ||= self.calc_full_code
+  end
 
 end

@@ -2,6 +2,8 @@ class Curriculum::ContentStatement < ActiveRecord::Base
 
   set_table_name :curriculum_content_statements
 
+  before_save :set_full_code
+
   belongs_to :curriculum_strand, 
     :class_name => 'Curriculum::Strand',
     :foreign_key => "curriculum_strand_id",
@@ -19,5 +21,13 @@ class Curriculum::ContentStatement < ActiveRecord::Base
    scope :by_end_of_grade_equals, lambda { |by_end_of_grade|
      where("curriculum_content_statements.by_end_of_grade = ?", by_end_of_grade)
    }
+
+   def calc_full_code()
+     "#{self.curriculum_strand.full_code}_#{self.code}"
+   end
+
+   def set_full_code
+     self.full_code ||= self.calc_full_code
+   end
 
 end

@@ -1,3 +1,52 @@
+<% content_for :head do %>
+
+  <style type="text/css">
+    html body div#target.transparent-class table#character_curriculum_table tbody tr.curriculum_character_table_standard_row td.curriculum_character_table_strand_cell.highlight{
+    font-size: 36px
+  }
+  </style>
+
+  <div id='curriculum_codes' style="display:none">
+    <%Curriculum::CharacterJi.get_content_area.all_strand_full_codes.each do |code| %>
+      <div><%= code %></div>
+    <% end %>
+  </div>
+
+  <script>
+
+    code_index = 0;
+
+    codes = [];
+
+    function highlight_strand(code) {
+      $$("html body div#target.transparent-class table#character_curriculum_table tbody tr.curriculum_character_table_standard_row td.curriculum_character_table_strand_cell.full_code_"+code)[0].addClassName("highlight");
+    }
+
+    function unhighlight_strand(code) {
+      $$("html body div#target.transparent-class table#character_curriculum_table tbody tr.curriculum_character_table_standard_row td.curriculum_character_table_strand_cell.full_code_"+code)[0].removeClassName("highlight");
+    }
+
+    function highlight_sequence() {
+      delay = 2000;
+      unhighlight_strand( codes[ code_index ] );
+      code_index += 1;
+      if (code_index > codes.length -1)
+        code_index = 0;
+      highlight_strand( codes[ code_index ] );
+      self.setTimeout("highlight_sequence()", delay)
+    }
+
+    function start_dynamic() {
+      $$("html body div#curriculum_codes div").each(function(d) {
+        codes.push(d.innerHTML);
+      });
+      highlight_sequence();
+    }
+
+  </script>
+
+<% end %>
+
 <% content_for :site_title_top_line do %>
   <%= @subdomain.site_title_top_line%>
 <% end %>
@@ -13,10 +62,14 @@
 <% end %>
 
 <% content_for :target_region do %>
-Site Content
+<%= render 'welcome/character_curriculum_table' %>
 <% end %>
 
 <% content_for :main_region do %>
 Site Content is produced as the result of cooperative efforts between parents, children and sponsors.
+<% end %>
+
+<% content_for :onload_script do%>
+  start_dynamic();
 <% end %>
 
