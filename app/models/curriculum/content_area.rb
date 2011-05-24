@@ -4,7 +4,7 @@ class Curriculum::ContentArea < ActiveRecord::Base
 
   before_save :set_full_code
 
-  has_many :curriculum_standards, 
+  has_many :curriculum_standards,
     :class_name => 'Curriculum::Standard',
     :foreign_key => "curriculum_content_area_id",
     :dependent => :destroy
@@ -35,7 +35,7 @@ class Curriculum::ContentArea < ActiveRecord::Base
       Curriculum::Strand.find_by_full_code(code)
     elsif  ca.length == 4
       Curriculum::ContentStatement.find_by_full_code(code)
-    elsif  ca.length == 4
+    elsif  ca.length == 5
       Curriculum::CumulativeProgressIndicator.find_by_full_code(code)
     end
   end
@@ -50,10 +50,10 @@ class Curriculum::ContentArea < ActiveRecord::Base
 
   def self.set_full_codes()
     self.all.each{ |r| r.set_full_code; r.save; p r} 
-    Curriculum::Standard.all.each{|r| r.set_full_code;r.save;p r}
-    Curriculum::Strand.all.each{|r| r.set_full_code;r.save;p r}
-    Curriculum::ContentStatement.all.each{|r| r.set_full_code;r.save;p r}
-    Curriculum::CumulativeProgressIndicator.all.each{|r| r.set_full_code;r.save;p r}
+    Curriculum::Standard.all.each{ |r| r.set_full_code;r.save;p r}
+    Curriculum::Strand.all.each{ |r| r.set_full_code;r.save;p r}
+    Curriculum::ContentStatement.all.each{ |r| r.set_full_code;r.save;p r}
+    Curriculum::CumulativeProgressIndicator.all.each{ |r| r.set_full_code;r.save;p r}
   end
 
   def self.find_by_full_code(code)
@@ -66,11 +66,9 @@ class Curriculum::ContentArea < ActiveRecord::Base
       Curriculum::Strand.find_by_full_code(code)
     elsif  ca.length == 4
       Curriculum::ContentStatement.find_by_full_code(code)
-    elsif  ca.length == 4
+    elsif  ca.length == 5
       Curriculum::CumulativeProgressIndicator.find_by_full_code(code)
     end
   end
-
-
 
 end
