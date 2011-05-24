@@ -14,7 +14,7 @@ class Curriculum::ContentArea < ActiveRecord::Base
   end
 
   def find_standards_by_code( code )
-    Curriculum::Standard.find_by_full_code("#{self.code}_#{code}")
+    [Curriculum::Standard.find_by_full_code("#{self.code}_#{code}")]
   end
 
   def calc_full_code()
