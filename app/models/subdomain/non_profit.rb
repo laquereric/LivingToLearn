@@ -1,4 +1,4 @@
-class Subdomain::Business < Subdomain::Base
+class Subdomain::NonProfit < Subdomain::Base
 
   def path()
     fields = []
@@ -12,7 +12,7 @@ class Subdomain::Business < Subdomain::Base
   end
 
   def self.create_from_potential_kvn_sponsors
-    PotentialKvnSponsors.all_private.each{ |m|
+    PotentialKvnSponsors.all_public.each{ |m|
       r = self.create({
         :ref_type => 'PotentialKvnSponsors',
         :ref_field => 'infousa_id',

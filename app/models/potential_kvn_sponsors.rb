@@ -4,6 +4,18 @@ class PotentialKvnSponsors < ActiveRecord::Base
   cattr_accessor :raw_csv_headers
   cattr_accessor :field_csv_headers
 
+  scope :all_public, lambda {
+     where("potential_kvn_sponsors.actual_sales_volume = 0")
+  }
+
+  scope :all_private, lambda {
+     where("potential_kvn_sponsors.actual_sales_volume > 0")
+  }
+
+  def self.municipalities
+    self.all.map{|r| r.city}.uniq
+  end
+
 #########################
 # CSV Import methods
 ##########################

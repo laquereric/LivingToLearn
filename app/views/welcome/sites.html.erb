@@ -18,24 +18,16 @@ Choose to visit any of the selected sites by clicking 'Goto'
 <table>
 
   <tr>
-    <th>Email</th>
     <th>Type</th>
     <th>Name</th>
-    <th>Muni</th>
-    <th>County</th>
-    <th>State</th>
-    <th>Country</th>
+    <th>Municipality</th>
   </tr>
 
 <% @subdomains.each do |subdomain| %>
   <tr>
-    <td><%= subdomain.email %></td>
     <td><%= subdomain.type_name %></td>
-    <td><%= subdomain.name %></td>
-    <td><%= subdomain.muni %></td>
-    <td><%= subdomain.county %></td>
-    <td><%= subdomain.state %></td>
-    <td><%= subdomain.country %></td>
+    <td><%= subdomain.name.titleize %></td>
+    <td><%= if subdomain.muni then subdomain.muni.titleize else "" end%></td>
     <td><%= link_to 'Goto', site_root_url( :host => subdomain.root_url(request) ) %></td>
   </tr>
 <% end %>

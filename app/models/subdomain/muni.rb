@@ -27,4 +27,22 @@ class Subdomain::Muni < Subdomain::Base
     "Located in #{self.county.titleize} County , #{self.state.capitalize}"
   end
 
+  def self.create_from_potential_kvn_sponsors
+    PotentialKvnSponsors.municipalities.each{ |m|
+      self.create({
+        #:ref_type => 'PotentialKvnSponsors',
+        #:ref_field => 'infousa_id',
+        #:ref_value => m.infousa_id,
+        :country=>'us',
+        :state=>'us',
+        :county=>'gloucester',
+        :muni =>  m.downcase.gsub('-','_').gsub(' ','_'),
+        :name => m.downcase.gsub('-','_').gsub(' ','_'),
+        :theme => 'CharacterJi'
+        #:giveaway
+        #:prize
+        #:email
+      })
+    }
+  end
 end
