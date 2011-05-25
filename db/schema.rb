@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110524005014) do
+ActiveRecord::Schema.define(:version => 20110524180332) do
 
   create_table "curriculum_content_areas", :force => true do |t|
     t.string   "code"
@@ -259,6 +259,18 @@ ActiveRecord::Schema.define(:version => 20110524005014) do
     t.datetime "updated_at"
   end
 
+  create_table "site_contents", :force => true do |t|
+    t.text     "html"
+    t.string   "type"
+    t.text     "search_terms"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.string   "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "spreadsheet__living_to_learn__municipalities", :force => true do |t|
     t.string "county"
     t.string "municipality"
@@ -386,6 +398,10 @@ ActiveRecord::Schema.define(:version => 20110524005014) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "current_marketing_context"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

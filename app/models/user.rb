@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :marketing_contexts, :dependent => :destroy
   has_many :marketing_context_types, :through => :marketing_contexts, :source => "marketing_context_type", :dependent => :destroy
 
+  #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+
   def add_marketing_context(id)
     marketing_context_type = MarketingContextType.find(id)
     self.marketing_context_types << marketing_context_type if marketing_context_type

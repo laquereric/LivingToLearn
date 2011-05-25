@@ -1,0 +1,21 @@
+<% content_for :message_region do %>
+<% end %>
+
+<% content_for :message_region do %>
+  LivingToLearn Site Content
+<% end %>
+
+<% content_for :target_region do %>
+
+  <p class="notice"><%= notice %></p>
+ 
+  <p>
+    <b>html:</b>
+    <%= @site_content.html %>
+  </p>
+
+  <%= link_to 'Edit', edit_site_content_path(@site_content) %> |
+  <%= link_to 'Back', site_contents_path %>
+
+<% end %>
+
