@@ -21,7 +21,7 @@ class Subdomain::NonProfit < Subdomain::Base
         :state=>'us',
         :county=>'gloucester',
         :muni =>  m.city.downcase.gsub('-','_').gsub(' ','_'),
-        :name => m.company_name.downcase.gsub('-','_').gsub(' ','_'),
+        :name => m.company_name.downcase.gsub('-','_').gsub(' ','_').gsub('.','_'),
         :theme => 'CharacterJi'
         #:giveaway
         #:prize

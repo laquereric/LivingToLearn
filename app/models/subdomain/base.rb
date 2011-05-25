@@ -41,6 +41,15 @@ class Subdomain::Base < ActiveRecord::Base
     "#{self.path}.#{request.domain}:#{request.port}"
   end
 
+  def self.all_wo_valid_path
+    self.all.select{ |r| !r.has_valid_path? }
+  end
+
+  def has_valid_path?
+     return false if !self.class.valid_path( self.path )
+     return self.class.find_by_path( self.path ).length != 0
+  end
+
   def self.valid_path(subdomain_path)
     valid = true
     subdomain_path.split('.').each{ |field|
@@ -267,6 +276,15 @@ class Subdomain::Base < ActiveRecord::Base
       self.all_to_csv.each{ |l|
         f.puts(l)
       }
+    }
+  end
+
+  def self.sorted_by_muni
+    self.all.sort{ |x,y| 
+      x_muni = x.muni; x_muni ||= 'a'
+      y_muni = y.muni; y_muni ||= 'a'
+      p x_muni
+      ( x_muni <=> y_muni )
     }
   end
 
