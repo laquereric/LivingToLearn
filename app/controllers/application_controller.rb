@@ -1,10 +1,17 @@
 class ApplicationController < ActionController::Base
+
   protect_from_forgery
+
   before_filter :subdomains_parse
   before_filter :subdomain_parse
   before_filter :site_parse
 
   before_filter :allow_logins
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
   def allow_logins
     @user_screen = ( ["devise/registrations","devise/sessions"].include?( params[:controller] ) )
     @allow_logins = true
