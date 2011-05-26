@@ -52,7 +52,7 @@ class WelcomeController < ApplicationController
   end
 
   def sites
-    @subdomains = Subdomain::Base.sorted_by_muni
+    @subdomains = Subdomain.sorted_by_muni
   end
 
   def index
