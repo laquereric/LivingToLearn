@@ -1,14 +1,9 @@
 class WelcomeController < ApplicationController
 
-  before_filter :no_users
   before_filter :get_marketing_contexts
 
   before_filter :get_topic
   before_filter :get_service
-
-  def no_users
-    @disable_logins = true
-  end
 
   def get_marketing_contexts
     if user_signed_in?

@@ -1,12 +1,10 @@
+<% if @allow_logins %>
 <table id="top-table" class='transparent-class'>
-<% if @disable_logins.nil? %>
- <tr>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  </tr>
   <tr>
     <td><%= render 'devise/menu/registration_items' %></td>
     <td><%= render 'devise/menu/login_items' %></td>
+
+<% if @allow_multi_contexts %>
     <% if user_signed_in? %>
       <td><%= render 'marketing_context_types/possible' %></td>
       <% if current_user.marketing_context_types.length > 0 %>
@@ -17,8 +15,9 @@
           delete_user_marketing_context_url(current_user.id,current_user.current_marketing_context_type) %></td>
       <% end %>
     <% end %>
-  </tr>
 <% end %>
-</table>
 
+  </tr>
+</table>
+<% end %>
 

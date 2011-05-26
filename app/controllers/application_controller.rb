@@ -4,6 +4,13 @@ class ApplicationController < ActionController::Base
   before_filter :subdomain_parse
   before_filter :site_parse
 
+  before_filter :allow_logins
+  def allow_logins
+    @user_screen = ( ["devise/registrations","devise/sessions"].include?( params[:controller] ) )
+    @allow_logins = true
+    @allow_multi_contexts = false
+  end
+
   layout :choose_layout
 
   def choose_layout()

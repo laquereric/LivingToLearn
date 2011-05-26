@@ -1,5 +1,8 @@
-<h2>Sign in</h2>
-<% content_for :main do %>
+<% content_for :message_region do %>
+Sign in
+<% end %>
+
+<% content_for :target_region do %>
  
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <p><%= f.label :email %><br />
@@ -14,4 +17,5 @@
 
   <p><%= f.submit "Sign in" %></p>
 <% end %>
+
 <% end %>

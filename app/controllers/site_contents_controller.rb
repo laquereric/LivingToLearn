@@ -1,5 +1,5 @@
 class SiteContentsController < ApplicationController
-  #before_filter :authenticate_user!
+  before_filter :authenticate_user!
 
   def index
     @site_contents = SiteContent.all

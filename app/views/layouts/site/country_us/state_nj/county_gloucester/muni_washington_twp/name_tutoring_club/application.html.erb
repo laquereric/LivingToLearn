@@ -24,6 +24,7 @@
   function onLoad(){
     <%= yield :onload_script -%>
   }
+
 </script>
 
 </head>
@@ -31,9 +32,9 @@
 <body background="/images/kids_hand_prints.jpg" onLoad="onLoad()">
 
 <div id="marquee_region">
-      <marquee id="marquee">
-          <%= render 'welcome/marquee_region' -%>
-      </marquee>
+  <marquee id="marquee">
+    <%= render 'welcome/marquee_region' -%>
+  </marquee>
 </div>
 
 <table id="body-table" class='transparent-class'>
@@ -48,6 +49,16 @@
       <%= yield :site_title_second_line -%>
     </div>
   </td></tr>
+<% if (not @user_screen) %>
+  <tr>
+    <td><%= render 'users/user_region' -%></td>
+    <td><%= link_to 'subdomains'.titleize, subdomains_path -%></td>
+    <td><%= link_to 'site_contents'.titleize, site_contents_path -%></td>
+  </tr>
+<% end %>
+
+  <tr><td><p class="notice"><%= notice %></p></td></tr>
+  <tr><td><p class="alert"><%= alert %></p></td></tr>
 
   <tr id="top_bar">
     <td id="top_bar_left"><div id="message" class='transparent-class'>
