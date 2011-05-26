@@ -52,8 +52,13 @@
 <% if (not @user_screen) %>
   <tr>
     <td><%= render 'users/user_region' -%></td>
-    <td><%= link_to 'subdomains'.titleize, subdomains_path -%></td>
-    <td><%= link_to 'site_contents'.titleize, site_contents_path -%></td>
+    <% if can? :update, @subdomains %>
+      <td><%= link_to 'subdomains'.titleize, subdomains_path -%></td>
+    <% end %>
+    <% if can? :update, @site_contents %>
+      <td><%= link_to 'site_contents'.titleize, site_contents_path -%></td>
+    <% end %>
+
   </tr>
 <% end %>
 
