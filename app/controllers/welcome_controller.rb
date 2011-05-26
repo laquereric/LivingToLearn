@@ -47,7 +47,7 @@ class WelcomeController < ApplicationController
   end
 
   def sites
-    @subdomains = Subdomain.sorted_by_muni
+    @subdomains = Subdomain.sorted_by_concat_type_and_name.select{ |r| r.muni=='williamstown' }
   end
 
   def index

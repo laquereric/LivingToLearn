@@ -36,6 +36,7 @@ class Subdomain < ActiveRecord::Base
     end
     return r
   end
+
 ########################
 #
 ########################
@@ -297,6 +298,16 @@ class Subdomain < ActiveRecord::Base
       y_muni = y.muni; y_muni ||= 'a'
       p x_muni
       ( x_muni <=> y_muni )
+    }
+  end
+
+  def concat_type_and_name
+    "#{self.entitytype_clean}_#{self.name_clean}"
+  end
+
+  def self.sorted_by_concat_type_and_name
+    self.all.sort{ |x,y| 
+      x.concat_type_and_name <=> y.concat_type_and_name
     }
   end
 
