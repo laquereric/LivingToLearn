@@ -51,13 +51,12 @@ class ApplicationController < ActionController::Base
   end
 
   def subdomain_parse
-    @subdomain = if @subdomains.length == 1 then @subdomains[0] else nil end
+    @subdomain = if @subdomains.length >= 1 then @subdomains[0] else nil end
   end
 
   def site_parse
     @for_site = Subdomain.is_request_for_site?(request)
   end
-
 
 ###############
 #

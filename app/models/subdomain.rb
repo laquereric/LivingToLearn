@@ -2,6 +2,44 @@ require 'csv'
 class Subdomain < ActiveRecord::Base
   set_table_name :subdomain_base
 
+########################
+#
+########################
+
+  def entitytype_clean
+    r = self.entitytype
+    #if r then r.split("::")[1].titleize else 'type_name' end
+    r = if r then 
+      r2 = r.split("::")
+      if r2 and r2.length == 2 then r2[1] else r end
+    else
+      'type_name'
+    end
+  end
+
+  def name_clean
+    r = self.name
+    if r then r.titleize else 'name' end
+  end
+
+  def muni_clean
+    r = self.muni
+    if r then r.titleize else 'muni' end
+  end
+
+  def path_bad?
+    r = false
+    begin
+      self.path
+    rescue
+      r = true
+    end
+    return r
+  end
+########################
+#
+########################
+
   def self.of_entity_type(site_type)
     where("subdomain_base.entity_type = ?", site_type)
   end

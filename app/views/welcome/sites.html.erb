@@ -25,9 +25,10 @@ Choose to visit any of the selected sites by clicking 'Goto'
 
 <% @subdomains.each do |subdomain| %>
   <tr>
-    <td><%= subdomain.type_name %></td>
-    <td><%= subdomain.name.titleize %></td>
-    <td><%= if subdomain.muni then subdomain.muni.titleize else "" end%></td>
+    <td><%= subdomain.entitytype_clean %></td>
+    <td><%= subdomain.name_clean %></td>
+    <td><%= subdomain.muni_clean %></td>
+<% next if subdomain.path_bad? %>
     <td><%= link_to 'Goto', site_root_url( :host => subdomain.root_url(request) ) %></td>
   </tr>
 <% end %>
