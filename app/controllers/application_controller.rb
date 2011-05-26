@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     @subdomains = if user_signed_in? and current_user.locked_in_subdomain?
       current_user.locked_subdomain
     elsif request.subdomain.present?
-      r = Subdomain::Base.find_by_path(request.subdomain)
+      r = Subdomain.find_by_path(request.subdomain)
     else
       []
     end
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def site_parse
-    @for_site = Subdomain::Base.is_request_for_site?(request)
+    @for_site = Subdomain.is_request_for_site?(request)
   end
 
 

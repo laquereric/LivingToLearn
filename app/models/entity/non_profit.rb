@@ -1,13 +1,13 @@
-class Subdomain::NonProfit < Subdomain::Base
+class Entity::NonProfit
 
-  def path()
+  def self.path_for(sd)
     fields = []
-    fields << "type_#{self.type_name}"
-    fields << "name_#{self.name}"
-    fields << "muni_#{self.muni}"
-    fields << "county_#{self.county}"
-    fields << "state_#{self.state}"
-    fields << "country_#{self.country}"
+    fields << "type_#{sd.type_name}"
+    fields << "name_#{sd.name}"
+    fields << "muni_#{sd.muni}"
+    fields << "county_#{sd.county}"
+    fields << "state_#{sd.state}"
+    fields << "country_#{sd.country}"
     return fields.join('.')
   end
 

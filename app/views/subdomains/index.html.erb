@@ -1,0 +1,29 @@
+<% content_for :message_region do %>
+  List of LivingToLearn Subdomains
+<% end %>
+
+<% content_for :target_region do %>
+<table>
+  <tr>
+    <th>path</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+ 
+<% @subdomains.each do |subdomain| %>
+  <tr>
+    <td><%= subdomain.path %></td>
+    <td><%= link_to 'Show', subdomain %></td>
+    <td><%= link_to 'Edit', edit_subdomain_path(subdomain) %></td>
+    <td><%= link_to 'Destroy', subdomain, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+ 
+<br />
+ 
+<%= link_to 'New subdomain', new_subdomain_path %>
+
+<% end %>
+

@@ -1,0 +1,22 @@
+<%= form_for( @subdomain , :html => { :multipart => true } ) do |f| %>
+  <% if @subdomain.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@subdomain.errors.count, "error") %> prohibited this site_content from being saved:</h2>
+    <ul>
+    <% @subdomain.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="name">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+

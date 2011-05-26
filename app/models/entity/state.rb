@@ -1,10 +1,10 @@
-class Subdomain::State < Subdomain::Base
+class Entity::State
 
-  def path()
+  def self.path_for(sd)
     fields = []
-    fields << "name_#{self.state}"
-    fields << "state_#{self.state}"
-    fields << "country_#{self.country}"
+    fields << "name_#{sd.state}"
+    fields << "state_#{sd.state}"
+    fields << "country_#{sd.country}"
     return fields.join('.')
   end
 

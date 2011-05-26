@@ -1,13 +1,13 @@
-class Subdomain::Muni < Subdomain::Base
+class Entity::Muni
 
-  def path()
+  def self.path_for(sd)
     fields = []
-    fields << "type_#{self.type_name}"
-    fields << "name_#{self.muni}"
-    fields << "muni_#{self.muni}"
-    fields << "county_#{self.county}"
-    fields << "state_#{self.state}"
-    fields << "country_#{self.country}"
+    fields << "type_#{sd.type_name}"
+    fields << "name_#{sd.muni}"
+    fields << "muni_#{sd.muni}"
+    fields << "county_#{sd.county}"
+    fields << "state_#{sd.state}"
+    fields << "country_#{sd.country}"
     return fields.join('.')
   end
 

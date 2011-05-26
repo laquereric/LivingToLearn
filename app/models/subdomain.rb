@@ -1,40 +1,9 @@
 require 'csv'
-class Subdomain::Base < ActiveRecord::Base
+class Subdomain < ActiveRecord::Base
   set_table_name :subdomain_base
 
-  def self.create_mantua_test
-
-    self.delete_all
-
-    Muni.create({
-      :email => 'laquereric@gmail.com',
-      :muni => 'mantua',
-      :name => 'mantua',
-      :county => 'gloucester',
-      :state => 'nj',
-      :country => 'us'
-    })
-    County.create({
-      :email => 'laquereric@gmail.com',
-      :name => 'gloucester',
-      :county => 'gloucester',
-      :state => 'nj',
-      :country => 'us'
-    })
-    State.create({
-      :email => 'laquereric@gmail.com',
-      :name => 'nj',
-      :state => 'nj',
-      :country => 'us'
-    })
-    Business.create({
-      :name => 'tutoring_club',
-      :email => 'laquereric@gmail.com',
-      :muni => 'washington_twp',
-      :county => 'gloucester',
-      :state => 'nj',
-      :country => 'us'
-    })
+  def self.of_entity_type(site_type)
+    where("subdomain_base.entity_type = ?", site_type)
   end
 
   def root_url(request)
@@ -111,7 +80,13 @@ class Subdomain::Base < ActiveRecord::Base
 #########
 
   def type_name
-    self.class.to_s.split('::')[-1].downcase
+    self.entity_type.to_s.split('::')[-1].downcase
+  end
+
+  def path
+    site_type_class = self.entity_type.constantize
+p site_type_class.to_s
+    site_type_class.path_for(self)
   end
 
   def site_title_top_line
@@ -280,12 +255,16 @@ class Subdomain::Base < ActiveRecord::Base
   end
 
   def self.sorted_by_muni
-    self.all.sort{ |x,y| 
+    self.all.sort{ |x,y|
       x_muni = x.muni; x_muni ||= 'a'
       y_muni = y.muni; y_muni ||= 'a'
       p x_muni
       ( x_muni <=> y_muni )
     }
+  end
+
+  def self.move_type_to_theme
+    Subdomain::Base.all.each{ |r| r.theme = r.type.to_s;r.save }
   end
 
 end

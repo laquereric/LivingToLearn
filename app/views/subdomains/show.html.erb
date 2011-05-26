@@ -1,0 +1,21 @@
+<% content_for :message_region do %>
+<% end %>
+
+<% content_for :message_region do %>
+  LivingToLearn SubDomain
+<% end %>
+
+<% content_for :target_region do %>
+
+  <p class="notice"><%= notice %></p>
+ 
+  <p>
+    <b>path:</b>
+    <%= @subdomain.path %>
+  </p>
+
+  <%= link_to 'Edit', edit_site_content_path(@subdomain) %> |
+  <%= link_to 'Back', site_contents_path %>
+
+<% end %>
+
