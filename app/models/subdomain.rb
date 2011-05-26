@@ -80,12 +80,11 @@ class Subdomain < ActiveRecord::Base
 #########
 
   def type_name
-    self.entity_type.to_s.split('::')[-1].downcase
+    self.entitytype.to_s.split('::')[-1].downcase
   end
 
   def path
-    site_type_class = self.entity_type.constantize
-p site_type_class.to_s
+    site_type_class = self.entitytype.constantize
     site_type_class.path_for(self)
   end
 

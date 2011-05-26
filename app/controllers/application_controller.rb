@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     @subdomains = if user_signed_in? and current_user.locked_in_subdomain?
       current_user.locked_subdomain
     elsif request.subdomain.present?
-      r = Subdomain.find_by_path(request.subdomain)
+      rs = Subdomain.find_by_path(request.subdomain)
     else
       []
     end

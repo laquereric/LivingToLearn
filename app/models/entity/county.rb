@@ -2,7 +2,7 @@ class Entity::County
 
   def self.path_for(sd)
     fields = []
-    fields << "type_#{sd.type_name}"
+    fields << "entitytype_#{sd.type_name}"
     fields << "name_#{sd.county}"
     fields << "county_#{sd.county}"
     fields << "state_#{sd.state}"
