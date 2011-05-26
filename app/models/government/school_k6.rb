@@ -8,6 +8,10 @@ class Government::SchoolK6 < ActiveRecord::Base
     :foreign_key => "government_district_id",
     :dependent => :destroy
 
+  def district_school_code
+    return "#{district_code}#{school_code}"
+  end
+
 ###############
 # Lower Level
 ###############
