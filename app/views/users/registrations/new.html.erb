@@ -1,7 +1,13 @@
 <% content_for :message_region do %>
   <h2>Sign up</h2>
-  <% if  session[:goto_topic_symbol] and session[:goto_topic_symbol] != 'welcome' %>
-    Hello <%= session[:goto_topic_symbol].titleize  %> !
+  <% if  @context %>
+     topic <%= @context.topic %><br/>
+     service <%= @context.service %><br/>
+     marketing <%= @context.marketing %><br/>
+     subdomain_path <%= @context.subdomain_path %><br/>
+     ref_type <%= @context.ref_type %><br/>
+     ref_field <%= @context.ref_field %><br/>
+     ref_value <%= @context.ref_value %><br/>
   <% end %>
 <% end %>
 

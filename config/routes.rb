@@ -1,6 +1,10 @@
 LivingToLearn::Application.routes.draw do
 
-  devise_for :users
+  devise_for :users, :controllers =>  {:registrations => 'registrations'}
+  devise_scope :user do
+    get "sign_in/:context_id", :to => 'registrations#new', :as =>"new_user_registration_in_context"
+  end
+
   resources :users, :only => [:index, :show]
   resources :marketing_context_types
   resources :site_contents

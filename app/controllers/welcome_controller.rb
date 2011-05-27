@@ -4,6 +4,7 @@ class WelcomeController < ApplicationController
 
   before_filter :get_topic
   before_filter :get_service
+  before_filter :store_context
 
   def get_marketing_contexts
     if user_signed_in?

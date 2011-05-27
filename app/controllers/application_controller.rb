@@ -58,6 +58,14 @@ class ApplicationController < ActionController::Base
     @for_site = Subdomain.is_request_for_site?(request)
   end
 
+  def store_context
+    @context = Context.create(
+      :user_email => if current_user then current_user.email.to_s else nil end,
+      :topic => @goto_topic_symbol,
+      :marketing => @marketing_context_type,
+      :service =>  @goto_service_symbol
+    )
+  end
 ###############
 #
 ###############
