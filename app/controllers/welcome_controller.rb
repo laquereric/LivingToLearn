@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
 
   before_filter :get_marketing_contexts
-
   before_filter :get_topic
   before_filter :get_service
   before_filter :store_context
@@ -37,7 +36,7 @@ class WelcomeController < ApplicationController
 ################
 
   def goto_topic_service
-   render "index"
+    render "index"
   end
 
   def goto_topic
@@ -52,7 +51,7 @@ class WelcomeController < ApplicationController
   end
 
   def index
-      render
+    render
   end
 
 end

@@ -1,6 +1,7 @@
 class AddContexts < ActiveRecord::Migration
   def self.up
   create_table "contexts", :force => true do |t|
+    t.boolean  "at_registration"
     t.text     "user_email"
     t.text     "topic"
     t.text     "service"

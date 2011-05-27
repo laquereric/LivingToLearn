@@ -56,6 +56,14 @@ class User < ActiveRecord::Base
     r = if type then type.id else nil end
   end
 
+  def contexts
+    Context.for_user_email(self.email)
+  end
+
+  def registration_context
+    Context.user_registrations(self.email)[0]
+  end
+
 #######################
 #
 #######################

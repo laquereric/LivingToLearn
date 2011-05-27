@@ -11,12 +11,14 @@ Your Family's Education Matters
 
 <% content_for :message_region do %>
 
-<% if @marketing_context_type.name == 'welcome' %>
-Overall Objective
-<% else %>
-Objectives Shared with <%= @marketing_context_type.name.pluralize.titleize %>
-<% end %>
+  <% if @marketing_context_type.name == 'welcome' %>
+    Overall Objective
+  <% else %>
+    Objectives Shared with <%= @marketing_context_type.name.pluralize.titleize %>
+  <% end %>
+
 <br/><br/>
+
   <% if @marketing_context_type.message  %>
     <%= @marketing_context_type.message %>
   <% else %>

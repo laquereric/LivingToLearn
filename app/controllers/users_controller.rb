@@ -2,7 +2,6 @@ class UsersController < ApplicationController
   before_filter :never_for_subdomain
   before_filter :authenticate_user!
 
-
   def index
     @users = User.all
   end

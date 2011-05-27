@@ -1,20 +1,22 @@
 <% content_for :message_region do %>
   <h2>Sign up</h2>
+
   <% if  @context %>
-     topic <%= @context.topic %><br/>
-     service <%= @context.service %><br/>
-     marketing <%= @context.marketing %><br/>
-     subdomain_path <%= @context.subdomain_path %><br/>
-     ref_type <%= @context.ref_type %><br/>
-     ref_field <%= @context.ref_field %><br/>
-     ref_value <%= @context.ref_value %><br/>
+     <% @context.message_lines.each do |ml|%>
+       <%= ml %><br/>
+     <% end %>
   <% end %>
+
 <% end %>
 
 <% content_for :target_region do %>
  
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
+
+  <% if  @context %>
+    <%= hidden_field(:context, :id) %>
+  <% end %>
 
   <p><%= f.label :email %><br />
   <%= f.email_field :email %></p>
