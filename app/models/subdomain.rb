@@ -61,7 +61,7 @@ class Subdomain < ActiveRecord::Base
   def self.valid_path(subdomain_path)
     valid = true
     subdomain_path.split('.').each{ |field|
-      field_array = field.split('_')
+      field_array = field.split('-')
       if !self.column_names.include?(field_array[0].to_s)
         valid = false
       end
@@ -74,7 +74,7 @@ class Subdomain < ActiveRecord::Base
      #organization_name_tutoring_club.city_mantua.county_gloucester.state_nj.country_us
     subdomain_hash = {}
     subdomain_path.split('.').each{ |field|
-      field_array = field.split('_')
+      field_array = field.split('-')
       if self.column_names.include?(field_array[0].to_s)
         subdomain_hash[field_array[0].to_sym] = field_array[1..-1].join('_')
       else

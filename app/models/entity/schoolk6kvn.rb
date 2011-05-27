@@ -8,7 +8,7 @@ class Entity::Schoolk6kvn
     fields << "county_#{sd.county}"
     fields << "state_#{sd.state}"
     fields << "country_#{sd.country}"
-    return fields.join('.')
+    return fields.join('.').gsub('_','-')
    end
 
 #########

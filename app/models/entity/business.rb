@@ -8,7 +8,7 @@ class Entity::Business
     fields << "county_#{sd.county}"
     fields << "state_#{sd.state}"
     fields << "country_#{sd.country}"
-    return fields.join('.')
+    return fields.join('.').gsub('_','-')
   end
 
   def self.create_from_potential_kvn_sponsors

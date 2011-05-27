@@ -6,7 +6,7 @@ class Context < ActiveRecord::Base
   def message_lines
     m = []
       m << "topic #{self.topic}" if self.topic
-      m << "servic #{self.service}"  if self.service
+      m << "service #{self.service}"  if self.service
       if self.marketing
         m << "marketing #{self.marketing}"
       end

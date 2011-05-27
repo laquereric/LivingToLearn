@@ -51,7 +51,11 @@ class WelcomeController < ApplicationController
   end
 
   def index
-    render
+    if @subdomain
+      redirect_to :action => 'site' #site_root #"/#{@subdomain.path}/site"
+    else
+      render
+    end
   end
 
 end

@@ -8,9 +8,11 @@ class RegistrationsController < Devise::RegistrationsController
     if params[:context]
       context = Context.find( params['context']['id'] )
       context.user_email = params['user']['email']
+      context.at_registration = true
       context.save
     end
     super
   end
+
 end
 

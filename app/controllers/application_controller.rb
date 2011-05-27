@@ -62,13 +62,10 @@ class ApplicationController < ActionController::Base
     @context = Context.create(
       :user_email => if current_user then current_user.email.to_s else nil end,
       :topic => @goto_topic_symbol,
+      :subdomain_path => if @subdomain then  @subdomain.path else nil end,
       :marketing => @marketing_context_type.name,
       :service =>  @goto_service_symbol
     )
   end
-
-###############
-#
-###############
 
 end
