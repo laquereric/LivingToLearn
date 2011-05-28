@@ -1,4 +1,5 @@
 LivingToLearn::Application.routes.draw do
+  netzke
 
   devise_for :users, :controllers =>  {:registrations => 'registrations'}
   devise_scope :user do

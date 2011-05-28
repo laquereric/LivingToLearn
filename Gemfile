@@ -39,6 +39,11 @@ gem 'sqlite3'
 
   gem "cancan"
 
+  gem 'netzke-core', :git => "git://github.com/skozlov/netzke-core.git"
+  gem 'netzke-basepack', :git => "git://github.com/skozlov/netzke-basepack.git"
+
+  gem 'will_paginate', '~>3.0.pre2'
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
