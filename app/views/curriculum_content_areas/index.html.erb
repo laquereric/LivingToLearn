@@ -2,7 +2,10 @@
 
   <%= netzke :curriculum_content_areas, 
     :class_name => "Basepack::GridPanel",
-    :model => "Curriculum::ContentArea"
+    :model => "Curriculum::ContentArea",
+    :columns => [
+      {:name => :code,:width => 100 },{ :name => :name, :width => 300 },{ :name => :description, :width => 300}
+      ]
   %>
 
 <% end %>

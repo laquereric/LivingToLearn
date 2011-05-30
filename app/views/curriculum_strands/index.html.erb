@@ -2,7 +2,10 @@
 
   <%= netzke :curriculum_strands, 
     :class_name => "Basepack::GridPanel",
-    :model => "Curriculum::Strand"
+    :model => "Curriculum::Strand",
+    :columns => [:id,{:name=>:code,:width=>30},:name,{:name=>:description,:width=>300},
+      :curriculum_standard__name
+    ]
   %>
 
 <% end %>

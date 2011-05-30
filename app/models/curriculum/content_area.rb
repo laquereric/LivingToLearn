@@ -9,6 +9,10 @@ class Curriculum::ContentArea < ActiveRecord::Base
     :foreign_key => "curriculum_content_area_id",
     :dependent => :destroy
 
+  def curriculum_content_area_id
+    self.id
+  end
+
   def get_sorted_curriculum_standards
     return curriculum_standards.sort{ |x,y| x.code.to_i <=> y.code.to_i }
   end

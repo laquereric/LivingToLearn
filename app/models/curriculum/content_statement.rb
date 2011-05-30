@@ -30,4 +30,8 @@ class Curriculum::ContentStatement < ActiveRecord::Base
      self.full_code ||= self.calc_full_code
    end
 
+   def by_end_of_grade_clean
+     if self.by_end_of_grade then self.by_end_of_grade else 'not specified' end
+   end
+
 end

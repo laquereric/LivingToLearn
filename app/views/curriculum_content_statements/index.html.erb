@@ -2,7 +2,15 @@
 
   <%= netzke :curriculum_content_statements, 
     :class_name => "Basepack::GridPanel",
-    :model => "Curriculum::ContentStatement"
+    :model => "Curriculum::ContentStatement",
+    :columns => [
+      :id,
+      {:name => :code, :width=>30},
+      :name,
+      {:name => :description,:width=>300},
+      {:name => :by_end_of_grade,:header => "Grade"},
+      {:name => :curriculum_strand__name,:width=>300}
+    ]
   %>
 
 <% end %>

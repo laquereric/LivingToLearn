@@ -1,5 +1,4 @@
 class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
-
   set_table_name :curriculum_cumulative_progress_indicators
 
   belongs_to :curriculum_content_statement,
