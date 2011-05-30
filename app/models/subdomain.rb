@@ -123,7 +123,9 @@ class Subdomain < ActiveRecord::Base
   end
 
   def path
+    return "self.entitytype is nil" if self.entitytype.nil?
     site_type_class = self.entitytype.constantize
+    return "#{self.entitytype} does not respond to path_for" if !site_type_class.respond_to? :path_for
     site_type_class.path_for(self)
   end
 
