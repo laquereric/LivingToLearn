@@ -1,4 +1,5 @@
 LivingToLearn::Application.routes.draw do
+  get "/curriculum_content_areas/index"
   netzke
 
   devise_for :users, :controllers =>  {:registrations => 'registrations'}
