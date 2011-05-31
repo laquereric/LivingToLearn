@@ -13,6 +13,21 @@ class Curriculum::Standard < ActiveRecord::Base
     :foreign_key => "curriculum_standard_id",
     :dependent => :destroy
 
+#######
+#
+#######
+
+  include ActionView::Helpers::UrlHelper
+  include ActionController::UrlFor
+
+  def link_to_content_area
+    self.link_to 'link',"/curriculum_content_areas/#{self.curriculum_content_area.id}"
+  end
+
+#######
+#
+#######
+
   def find_strands_by_code( code )
     return self.curriculum_strands.select{ |s| s.code == code }
   end

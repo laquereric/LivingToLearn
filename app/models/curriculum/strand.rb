@@ -21,6 +21,21 @@ class Curriculum::Strand < ActiveRecord::Base
     where("curriculum_strands.code = ?", code)
   }
 
+#######
+#
+#######
+
+  include ActionView::Helpers::UrlHelper
+  include ActionController::UrlFor
+
+  def link_to_standard
+    self.link_to 'link',"/curriculum_standards/#{self.curriculum_standard.id}"
+  end
+
+#######
+#
+#######
+
   def calc_full_code()
     "#{self.curriculum_standard.full_code}_#{self.code}"
   end

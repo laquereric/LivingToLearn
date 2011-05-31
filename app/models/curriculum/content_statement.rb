@@ -22,6 +22,21 @@ class Curriculum::ContentStatement < ActiveRecord::Base
      where("curriculum_content_statements.by_end_of_grade = ?", by_end_of_grade)
    }
 
+#######
+#
+#######
+
+  include ActionView::Helpers::UrlHelper
+  include ActionController::UrlFor
+
+  def link_to_strand
+    self.link_to 'link',"/curriculum_strands/#{self.curriculum_strand.id}"
+  end
+
+#######
+#
+#######
+
    def calc_full_code()
      "#{self.curriculum_strand.full_code}_#{self.code}"
    end

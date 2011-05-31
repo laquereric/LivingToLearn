@@ -8,6 +8,13 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
 
   before_save :set_full_code
 
+  include ActionView::Helpers::UrlHelper
+  include ActionController::UrlFor
+
+  def link_to_curriculum_content_statement
+    self.link_to 'link',"/curriculum_content_statements/#{self.curriculum_content_statement.id}"
+  end
+
   def set_full_code
     self.full_code ||= self.calc_full_code
   end
