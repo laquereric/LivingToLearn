@@ -24,6 +24,10 @@ class Curriculum::Standard < ActiveRecord::Base
     self.link_to 'link',"/curriculum_content_areas/#{self.curriculum_content_area.id}"
   end
 
+  def link_to_strands
+    self.link_to 'link',"/curriculum_strands_for/#{self.id}"
+  end
+
 #######
 #
 #######

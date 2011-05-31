@@ -1,9 +1,17 @@
 LivingToLearn::Application.routes.draw do
 
   resources :curriculum_content_areas
+
+  match 'curriculum_standards_for/:content_area_id', :to => 'curriculum_standards#for_content_area', :as => 'content_area_standards'
   resources :curriculum_standards
+
+  match 'curriculum_strands_for/:standard_id', :to => 'curriculum_strands#for_standard', :as => 'standard_curriculum_strands'
   resources :curriculum_strands
+
+  match 'curriculum_content_statements_for/:strand_id', :to => 'curriculum_content_statements#for_strand', :as => 'strand_content_statements'
   resources :curriculum_content_statements
+
+  match 'curriculum_cumulative_progress_indicators_for/:content_statement_id', :to => 'curriculum_cumulative_progress_indicators#for_content_statement', :as => 'statement_cumulative_progress_indicators'
   resources :curriculum_cumulative_progress_indicators
   netzke
 

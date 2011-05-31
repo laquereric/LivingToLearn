@@ -33,6 +33,10 @@ class Curriculum::ContentStatement < ActiveRecord::Base
     self.link_to 'link',"/curriculum_strands/#{self.curriculum_strand.id}"
   end
 
+  def link_to_cumulative_progress_indicators
+    self.link_to 'link',"/curriculum_cumulative_progress_indicators_for/#{self.id}"
+  end
+
 #######
 #
 #######

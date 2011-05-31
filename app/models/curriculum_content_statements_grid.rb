@@ -1,12 +1,19 @@
 class CurriculumContentStatementsGrid < Netzke::Basepack::GridPanel
 
   def configuration
+    strand_id = ::Netzke::Core.controller.params[:strand_id]
     c = super.merge({
       :model => 'Curriculum::ContentStatement',
+      :scope =>
+        if strand_id then
+          lambda { |r|
+            r.where("curriculum_strand_id = #{strand_id}")
+          }
+        else
+          nil
+        end,
       :columns => [
         :id,
-        {:name => :code, :width=>30},
-        :name,
         {:name => :description,:width=>300},
         {:name => :by_end_of_grade,:header => "Grade"},
         {:name => :curriculum_strand__link_to,
@@ -14,7 +21,19 @@ class CurriculumContentStatementsGrid < Netzke::Basepack::GridPanel
           :getter => lambda { |r|
             r.link_to_strand
           }
-        }
+        },
+        {:name => :cumulative_progress_indicators__children,
+           :header => "Children",
+           :getter => lambda { |r|
+              r.cumulative_progress_indicators.count
+           }
+         },
+         {:name => :cumulative_progress_indicators__link_to,
+           :header => "Cumulative Progress Indicators",
+           :getter => lambda { |r|
+              r.link_to_cumulative_progress_indicators
+           }
+         }
       ]
     })
   end

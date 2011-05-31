@@ -9,6 +9,21 @@ class Curriculum::ContentArea < ActiveRecord::Base
     :foreign_key => "curriculum_content_area_id",
     :dependent => :destroy
 
+#######
+#
+#######
+
+  include ActionView::Helpers::UrlHelper
+  include ActionController::UrlFor
+
+  def link_to_standards
+    self.link_to 'link',"/curriculum_standards_for/#{self.id}"
+  end
+
+#######
+#
+#######
+
   def curriculum_content_area_id
     self.id
   end
