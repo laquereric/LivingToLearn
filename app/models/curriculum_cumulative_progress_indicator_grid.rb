@@ -1,17 +1,8 @@
 class CurriculumCumulativeProgressIndicatorGrid < Netzke::Basepack::GridPanel
 
   def configuration
-    content_statement_id = ::Netzke::Core.controller.params[:content_statement_id].to_i
-    c = super.merge({
+    config = {
       :model => 'Curriculum::CumulativeProgressIndicator',
-      :scope =>
-        if content_statement_id then
-          lambda { |r|
-            r.where("curriculum_content_statement_id = #{content_statement_id}")
-          }
-        else
-          nil
-        end,
       :columns => [
         :id,
         {:name => :code, :width => 30 },
@@ -25,7 +16,14 @@ class CurriculumCumulativeProgressIndicatorGrid < Netzke::Basepack::GridPanel
           }
         }
       ]
-    })
+    }
+    if (content_statement_id = ::Netzke::Core.controller.params[:content_statement_id])
+      config[:scope] =
+        lambda { |r|
+          r.where("curriculum_content_statement_id = #{content_statement_id.to_i}")
+        }
+    end
+    c = super.merge(config)
   end
 
 end

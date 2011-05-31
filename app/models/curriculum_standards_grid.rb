@@ -1,18 +1,9 @@
 class CurriculumStandardsGrid < Netzke::Basepack::GridPanel
 
   def configuration
-    content_area_id = ::Netzke::Core.controller.params[:content_area_id].to_i
-    c = super.merge({
+    config = {
       :class_name => "Basepack::GridPanel",
       :model => "Curriculum::Standard",
-      :scope =>
-        if content_area_id then
-          lambda { |r|
-            r.where("curriculum_content_area_id = #{content_area_id}")
-          }
-        else
-          nil
-        end,
       :columns => [:id,
         {:name=>:code,:width=>30},
         {:name=>:name,:width=>300},
@@ -29,7 +20,14 @@ class CurriculumStandardsGrid < Netzke::Basepack::GridPanel
            }
         }
       ]
-    })
+    }
+    if (content_area_id = ::Netzke::Core.controller.params[:content_area_id]) then
+      config[:scope] =
+        lambda { |r|
+          r.where("curriculum_content_area_id = #{content_area_id.to_i}")
+        }
+    end
+    c = super.merge(config)
   end
 
 end
