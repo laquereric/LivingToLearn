@@ -4,6 +4,7 @@ class CurriculumContentStatementsController < ApplicationController
   end
 
   def show
+    render :action => :index
   end
 
   def for_strand

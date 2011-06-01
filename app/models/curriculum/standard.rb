@@ -20,6 +20,10 @@ class Curriculum::Standard < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor
 
+  def link_to_details
+    self.link_to 'link',"/curriculum_standards/#{self.id}"
+  end
+
   def link_to_content_area
     self.link_to 'link',"/curriculum_content_areas/#{self.curriculum_content_area.id}"
   end

@@ -29,6 +29,10 @@ class Curriculum::ContentStatement < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor
 
+  def link_to_details
+    self.link_to 'link',"/curriculum_content_statements/#{self.id}"
+  end
+
   def link_to_strand
     self.link_to 'link',"/curriculum_strands/#{self.curriculum_strand.id}"
   end

@@ -1,4 +1,5 @@
 class CurriculumCumulativeProgressIndicatorsController < ApplicationController
+
   def index
   end
 
@@ -6,5 +7,8 @@ class CurriculumCumulativeProgressIndicatorsController < ApplicationController
     render :action => :index
   end
 
+  def show
+    render :action => :index
+  end
 
 end

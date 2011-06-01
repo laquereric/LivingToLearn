@@ -9,7 +9,13 @@ class CurriculumContentAreasGrid < Netzke::Basepack::GridPanel
          {:name => :code,:width => 100 },
          {:name => :name, :width => 300 },
          { :name => :description, :width => 300},
-         {:name => :curriculum_standards__link_to,
+         {:name => :details,
+           :header => "Details",
+           :getter => lambda { |r|
+             r.link_to_details
+            }
+          },
+          {:name => :curriculum_standards__link_to,
            :header => "Standards",
            :getter => lambda { |r|
               r.link_to_standards

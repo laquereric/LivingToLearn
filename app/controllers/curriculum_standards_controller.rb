@@ -7,4 +7,8 @@ class CurriculumStandardsController < ApplicationController
     render :action => :index
   end
 
+  def show
+    render :action => :index
+  end
+
 end

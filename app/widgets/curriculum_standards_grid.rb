@@ -7,6 +7,12 @@ class CurriculumStandardsGrid < Netzke::Basepack::GridPanel
       :columns => [:id,
         {:name=>:code,:width=>30},
         {:name=>:name,:width=>300},
+        {:name => :details,
+          :header => "Details",
+          :getter => lambda { |r|
+            r.link_to_details
+          }
+        },
         {:name => :curriculum_content_area__link_to,
           :header => "Content Area",
           :getter => lambda { |r|

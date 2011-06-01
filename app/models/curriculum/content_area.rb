@@ -23,6 +23,9 @@ class Curriculum::ContentArea < ActiveRecord::Base
 #######
 #
 #######
+  def link_to_details
+    self.link_to 'link',"/curriculum_content_areas/#{self.id}"
+  end
 
   def curriculum_content_area_id
     self.id

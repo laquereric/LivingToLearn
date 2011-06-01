@@ -11,6 +11,10 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor
 
+  def link_to_details
+    self.link_to 'link',"/curriculum_cumulative_progress_indicators/#{self.id}"
+  end
+
   def link_to_curriculum_content_statement
     self.link_to 'link',"/curriculum_content_statements/#{self.curriculum_content_statement.id}"
   end

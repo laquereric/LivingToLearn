@@ -28,6 +28,10 @@ class Curriculum::Strand < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor
 
+  def link_to_details
+    self.link_to 'link',"/curriculum_strands/#{self.id}"
+  end
+
   def link_to_standard
     self.link_to 'link',"/curriculum_standards/#{self.curriculum_standard.id}"
   end

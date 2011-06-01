@@ -7,6 +7,12 @@ class CurriculumContentStatementsGrid < Netzke::Basepack::GridPanel
         :id,
         {:name => :description,:width=>300},
         {:name => :by_end_of_grade,:header => "Grade"},
+        {:name => :details,
+          :header => "Details",
+          :getter => lambda { |r|
+            r.link_to_details
+          }
+        },
         {:name => :curriculum_strand__link_to,
           :header => "Strand",
           :getter => lambda { |r|
