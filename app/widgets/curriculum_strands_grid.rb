@@ -27,7 +27,7 @@ class CurriculumStrandsGrid < Netzke::Basepack::GridPanel
          }
       ]
     }
-    if (standard_id = ::Netzke::Core.controller.params[:standard_id].to_i) then
+    if (standard_id = ::Netzke::Core.controller.params[:standard_id]) then
       config[:scope] =
           lambda { |r|
             r.where("curriculum_standard_id = #{standard_id.to_i}")
