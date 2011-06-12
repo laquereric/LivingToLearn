@@ -24,7 +24,11 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
   end
 
   def calc_full_code()
+   if curriculum_content_statement
      "#{self.curriculum_content_statement.full_code}_#{self.code}"
+   else
+      nil
+   end
   end
 
 end

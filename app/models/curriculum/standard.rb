@@ -41,7 +41,11 @@ class Curriculum::Standard < ActiveRecord::Base
   end
 
   def calc_full_code()
-    "#{curriculum_content_area.code}_#{self.code}"
+    if curriculum_content_area
+      "#{curriculum_content_area.code}_#{self.code}"
+    else
+      nil
+    end
   end
 
   def set_full_code

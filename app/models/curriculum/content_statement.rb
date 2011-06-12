@@ -46,7 +46,11 @@ class Curriculum::ContentStatement < ActiveRecord::Base
 #######
 
    def calc_full_code()
-     "#{self.curriculum_strand.full_code}_#{self.code}"
+     if curriculum_strand
+       "#{self.curriculum_strand.full_code}_#{self.code}"
+     else
+        nil
+     end
    end
 
    def set_full_code
