@@ -71,7 +71,7 @@ class Curriculum::ContentArea < ActiveRecord::Base
   end
 
   def self.set_full_codes()
-    self.all.each{ |r| r.set_full_code; r.save; p r} 
+    self.all.each{ |r| r.set_full_code; r.save; p r}
     Curriculum::Standard.all.each{ |r| r.set_full_code;r.save;p r}
     Curriculum::Strand.all.each{ |r| r.set_full_code;r.save;p r}
     Curriculum::ContentStatement.all.each{ |r| r.set_full_code;r.save;p r}
