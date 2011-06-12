@@ -2,10 +2,10 @@ require 'csv'
 
 class Curriculum::CcReading
 
-#ID => K.RL.2
-#Category => Reading Literature
-#Sub Category => Key Ideas and Details
-#State Standard => With prompting and support, ask and answer questions about key details in a text.
+  # ID => K.RL.2
+  # Category => Reading Literature
+  # Sub Category => Key Ideas and Details
+  # State Standard => With prompting and support, ask and answer questions about key details in a text.
 
   # :content_area               # CC_Reading
   # :standard                   # Category - Reading Literature
