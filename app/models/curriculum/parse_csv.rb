@@ -205,7 +205,8 @@ class Curriculum::ParseCsv
         nil
       end
 
-      matching_content_statements = Curriculum::ContentStatement.with_description(record.content_statement).by_end_of_grade_equals(record.by_end_of_grade)
+      matching_content_statements =
+        Curriculum::ContentStatement.with_description(record.content_statement).by_end_of_grade_equals(record.by_end_of_grade)
       content_statement = if matching_content_statements.length == 0
         Curriculum::ContentStatement.create({
            :curriculum_strand_id => strand.id,
