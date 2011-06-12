@@ -14,13 +14,13 @@ class Curriculum::ContentStatement < ActiveRecord::Base
     :foreign_key => "curriculum_content_statement_id",
     :dependent => :destroy
 
-   scope :with_description, lambda { |description|
+  scope :with_description, lambda { |description|
      where("curriculum_content_statements.description = ?", description)
-   }
+  }
 
-   scope :by_end_of_grade_equals, lambda { |by_end_of_grade|
+  scope :by_end_of_grade_equals, lambda { |by_end_of_grade|
      where("curriculum_content_statements.by_end_of_grade = ?", by_end_of_grade)
-   }
+  }
 
 #######
 #
@@ -45,28 +45,28 @@ class Curriculum::ContentStatement < ActiveRecord::Base
 #
 #######
 
-   def calc_full_code()
-     if curriculum_strand
-       "#{self.curriculum_strand.full_code}_#{self.code}"
-     else
-        nil
-     end
-   end
+  def calc_full_code()
+    if curriculum_strand
+      "#{self.curriculum_strand.full_code}_#{self.code}"
+    else
+      nil
+    end
+  end
 
-   def set_full_code
-     self.full_code ||= self.calc_full_code
-   end
+  def set_full_code
+    self.full_code ||= self.calc_full_code
+  end
 
-   def by_end_of_grade_clean
-     if self.by_end_of_grade then self.by_end_of_grade else 'not specified' end
-   end
+  def by_end_of_grade_clean
+    if self.by_end_of_grade then self.by_end_of_grade else 'not specified' end
+  end
 
-   def destroy_wrapper
-     p "Destroying Content Statement #{self.code}"
-     self.cumulative_progress_indicators.each{ |cpi|
-       cpi.destroy_wrapper
-     }
-     self.delete
+  def destroy_wrapper
+    p "Destroying Content Statement #{self.code}"
+    self.cumulative_progress_indicators.each{ |cpi|
+      cpi.destroy_wrapper
+    }
+    self.delete
   end
 
 end

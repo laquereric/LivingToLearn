@@ -110,51 +110,53 @@ class Curriculum::CcParse
         sub_category = parsed_row[:sub_category]
         new_sub_category = ( last_parsed_row.nil? or ( sub_category != last_parsed_row[:sub_category] ) )
 
+        category = parsed_row[:category]
+        new_category = ( last_parsed_row.nil? or ( category != last_parsed_row[:category] ) )
+
         standard_code = parsed_row[:standard_code]
+
         if standard.nil? or standard_code != last_parsed_row[:standard_code]
           records << ( standard = Curriculum::Standard.create({
             :code => standard_code,
-              #:name => name,
+            :name => category,
             :curriculum_content_area_id => content_area.id
           }))
           p "new standard #{standard_code}"
         end
 
-        #if strand.nil? or new_sub_category
-        #  last_strand_id = strand.id if strand
-          strand = Curriculum::Strand.find_by_name(sub_category)
-          if strand.nil?
-            records << (strand = Curriculum::Strand.create({
+        strand = Curriculum::Strand.find_by_name(sub_category)
+        if strand.nil? or
+          new_sub_category
+          records << (strand = Curriculum::Strand.create({
               :code => parsed_row[:cpi_num],
               :name => sub_category,
               :curriculum_standard_id => standard.id
-            }))
-            p "new strand #{sub_category}"
-          end
-        #end
+          }))
+          p "new strand #{sub_category}"
+        end
 
-        #if content_statement.nil? or by_grade != last_parsed_row[:by_grade]
         if content_statement.nil? or
           new_grade or
           last_strand_id != strand.id
           records << (content_statement = Curriculum::ContentStatement.create({
             :curriculum_strand_id => strand.id,
-            :by_end_of_grade => by_grade #,
-            #:description => record.content_statement
+            :by_end_of_grade => by_grade,
+            :description => parsed_row[:state_standard]
           }))
-p "new content_statement #{by_grade} #{}"
         end
 
         records << ( Curriculum::CumulativeProgressIndicator.create({
           :by_end_of_grade => by_grade,
           :code =>  parsed_row[:cpi_num],
-          :description => parsed_row[:state_standard],
+          :description => 'none',
           :curriculum_content_statement_id => content_statement.id
         }))
+
       end
 
     }
     return records
+
   end
 
 ########
