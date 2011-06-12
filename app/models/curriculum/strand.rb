@@ -56,4 +56,12 @@ class Curriculum::Strand < ActiveRecord::Base
     self.full_code ||= self.calc_full_code
   end
 
+  def destroy_wrapper
+    p "destroying Curriculum Strand #{self.code}"
+    self.curriculum_content_statements.each{ |cs|
+      cs.destroy_wrapper
+    }
+    self.delete
+  end
+
 end

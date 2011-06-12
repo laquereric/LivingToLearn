@@ -3,8 +3,7 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
 
   belongs_to :curriculum_content_statement,
     :class_name => 'Curriculum::ContentStatement',
-    :foreign_key => "curriculum_content_statement_id",
-    :dependent => :destroy
+    :foreign_key => "curriculum_content_statement_id"
 
   before_save :set_full_code
 
@@ -29,6 +28,11 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
    else
       nil
    end
+  end
+
+  def destroy_wrapper
+    p "destroying Cumulative Progress Indicator #{self.code} #{self.id}"
+    self.delete
   end
 
 end

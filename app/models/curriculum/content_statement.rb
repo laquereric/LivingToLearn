@@ -61,4 +61,12 @@ class Curriculum::ContentStatement < ActiveRecord::Base
      if self.by_end_of_grade then self.by_end_of_grade else 'not specified' end
    end
 
+   def destroy_wrapper
+     p "Destroying Content Statement #{self.code}"
+     self.cumulative_progress_indicators.each{ |cpi|
+       cpi.destroy_wrapper
+     }
+     self.delete
+  end
+
 end

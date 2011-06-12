@@ -52,4 +52,16 @@ class Curriculum::Standard < ActiveRecord::Base
      self.full_code ||= self.calc_full_code
   end
 
+################
+#
+################
+
+  def destroy_wrapper
+    p "destroying Curriculum Standard #{self.code}"
+    self.curriculum_strands.each{ |cs|
+      cs.destroy_wrapper
+    }
+    self.destroy
+  end
+
 end
