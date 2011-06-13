@@ -114,7 +114,6 @@ class Curriculum::CcParse
         new_category = ( last_parsed_row.nil? or ( category != last_parsed_row[:category] ) )
 
         standard_code = parsed_row[:standard_code]
-
         if standard.nil? or standard_code != last_parsed_row[:standard_code]
           records << ( standard = Curriculum::Standard.create({
             :code => standard_code,
@@ -135,15 +134,15 @@ class Curriculum::CcParse
           p "new strand #{sub_category}"
         end
 
-        if content_statement.nil? or
-          new_grade or
-          last_strand_id != strand.id
+        #if content_statement.nil? or
+        #  new_grade or
+        #  last_strand_id != strand.id
           records << (content_statement = Curriculum::ContentStatement.create({
             :curriculum_strand_id => strand.id,
             :by_end_of_grade => by_grade,
             :description => parsed_row[:state_standard]
           }))
-        end
+        #end
 
         records << ( Curriculum::CumulativeProgressIndicator.create({
           :by_end_of_grade => by_grade,

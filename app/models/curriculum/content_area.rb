@@ -12,6 +12,7 @@ class Curriculum::ContentArea < ActiveRecord::Base
 #######
 #
 #######
+  include ReportLine
 
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor
@@ -91,6 +92,35 @@ class Curriculum::ContentArea < ActiveRecord::Base
     elsif  ca.length == 5
       Curriculum::CumulativeProgressIndicator.find_by_full_code(code)
     end
+  end
+
+  def self.level_of(ca_object)
+    if ca_object.is_a? self
+      0
+    elsif ca_object.is_a? Curriculum::Standard
+      1
+    elsif ca_object.is_a? Curriculum::Strand
+      2
+    elsif ca_object.is_a? Curriculum::ContentStatement
+      3
+    elsif ca_object.is_a? Curriculum::CumulativeProgressIndicator
+      4
+    end
+  end
+
+  def self.get_curiculum_by_type(content_area_class,&block)
+    code = content_area_class.content_area_key
+    yield( content_area = self.find_by_code(code) )
+    content_area = Curriculum::ContentArea.find_by_code(code)
+    content_area.curriculum_standards.each{ |standard|
+      yield( standard )
+      standard.curriculum_strands.each{ |strand|
+        yield( strand )
+        strand.curriculum_content_statements.each{ |content_statement|
+          yield( content_statement )
+        }
+      }
+    }
   end
 
 end

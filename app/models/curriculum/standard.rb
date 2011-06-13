@@ -16,6 +16,7 @@ class Curriculum::Standard < ActiveRecord::Base
 #######
 #
 #######
+  include ReportLine
 
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor

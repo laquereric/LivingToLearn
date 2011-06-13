@@ -21,6 +21,8 @@ class Curriculum::Strand < ActiveRecord::Base
     where("curriculum_strands.code = ?", code)
   }
 
+  include ReportLine
+
 #######
 #
 #######

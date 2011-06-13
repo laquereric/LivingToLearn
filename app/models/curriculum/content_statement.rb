@@ -22,6 +22,8 @@ class Curriculum::ContentStatement < ActiveRecord::Base
      where("curriculum_content_statements.by_end_of_grade = ?", by_end_of_grade)
   }
 
+  include ReportLine
+
 #######
 #
 #######

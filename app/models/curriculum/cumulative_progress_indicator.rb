@@ -7,6 +7,8 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
 
   before_save :set_full_code
 
+  include ReportLine
+
   include ActionView::Helpers::UrlHelper
   include ActionController::UrlFor
 
