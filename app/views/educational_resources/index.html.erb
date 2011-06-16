@@ -1,0 +1,24 @@
+<% content_for :message_region do %>
+  EducationalResources<br/>
+  List
+<% end %>
+
+<% content_for :main_region do %>
+
+<table>
+  <tr>
+    <th>ResId</th>
+    <th>Filepath</th>
+  </tr>
+ 
+<% @educational_resources.each do |educational_resource| %>
+  <tr>
+    <td><%= educational_resource.res_id %></td>
+    <td><%= educational_resource.filepath %></td>
+  </tr>
+<% end %>
+</table>
+ 
+<br />
+
+<% end %>

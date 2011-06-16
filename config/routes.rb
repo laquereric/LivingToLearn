@@ -12,6 +12,9 @@ LivingToLearn::Application.routes.draw do
   resources :curriculum_content_statements
 
   match 'curriculum_cumulative_progress_indicators_for/:content_statement_id', :to => 'curriculum_cumulative_progress_indicators#for_content_statement', :as => 'statement_cumulative_progress_indicators'
+
+  resources :educational_resources
+
   resources :curriculum_cumulative_progress_indicators
   netzke
 

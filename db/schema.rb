@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110527132427) do
+ActiveRecord::Schema.define(:version => 20110615174302) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -97,6 +97,25 @@ ActiveRecord::Schema.define(:version => 20110527132427) do
     t.datetime "updated_at"
     t.float    "split",                  :default => 0.0
     t.string   "full_code"
+  end
+
+  create_table "educational_resources", :force => true do |t|
+    t.integer  "res_id"
+    t.integer  "parent_res_id"
+    t.text     "cc_ref"
+    t.text     "kind"
+    t.text     "isbn"
+    t.text     "web"
+    t.text     "filepath"
+    t.text     "page"
+    t.text     "reference"
+    t.text     "description"
+    t.float    "dist_down"
+    t.float    "dist_right"
+    t.float    "height"
+    t.float    "width"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "entities", :force => true do |t|
