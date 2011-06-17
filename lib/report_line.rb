@@ -6,7 +6,18 @@ module ReportLine
   end
 
   def report_line(indent=0)
-    "#{self.indent_string(indent)}#{self.class.to_s} #{self.code} #{self.name} #{self.description}"
+    l = []
+    l << "#{self.indent_string(indent)}"
+    l << "#{self.class.to_s.split('::')[1]} "
+    if self.respond_to? :by_end_of_grade
+      l << "Grade #{self.by_end_of_grade} "
+    else
+      l << " "
+    end
+    l << " "
+    l << "#{self.code} "
+    l << "#{self.name} "
+    l << "#{self.description}"
   end
 end
 

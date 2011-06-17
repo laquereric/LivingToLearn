@@ -39,7 +39,7 @@ class Document::Reports::CcMathOverview
         level = harray[index][:level]
 
         return index if level.nil?
-        line = c_object.report_line(0)
+        line = c_object.report_line(0).join('')
         pdf.font_size = 14-level
         pdf.text line
 
@@ -77,8 +77,9 @@ class Document::Reports::CcMathOverview
     'CcMathOverview'
   end
 
-  def self.report()
-    Prawn::Document.generate( File.join(Rails.root,"report") ) do |pdf|
+  def self.report_pdf()
+    #Prawn::Document.generate( self.physical_report_filename ) do |pdf|
+    Prawn::Document.generate( File.join(Rails.root,'report') ) do |pdf|
       p "See #{self.physical_report_filename}"
       harray = []
       Curriculum::ContentArea.get_curiculum_by_type(Curriculum::CcMath){ |c_object|
