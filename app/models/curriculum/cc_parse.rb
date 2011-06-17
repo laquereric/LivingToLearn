@@ -51,10 +51,12 @@ class Curriculum::CcParse
   def self.parse_id(cc_id)
     # ex "11-12.WHST.10"
     ar = cc_id.split('.')
+    cpi_num = ar[2]
+    cpi_num<< ar[3] if ar.length>3
     return {
       :by_grade => ar[0],
       :standard_code => ar[1],
-      :cpi_num => ar[2]
+      :cpi_num => cpi_num
     }
   end
 
