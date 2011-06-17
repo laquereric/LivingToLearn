@@ -78,8 +78,8 @@ class Document::Reports::CcOverview
   end
 
   def self.report_pdf()
-    #Prawn::Document.generate( self.physical_report_filename ) do |pdf|
-    Prawn::Document.generate( File.join(Rails.root,'report') ) do |pdf|
+    Prawn::Document.generate( self.physical_report_filename ) do |pdf|
+    #Prawn::Document.generate( File.join(Rails.root,'report') ) do |pdf|
       p "See #{self.physical_report_filename}"
       harray = []
       Curriculum::ContentArea.get_curiculum_by_type(self.curriculum_class){ |c_object|

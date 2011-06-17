@@ -118,6 +118,9 @@ class Curriculum::ContentArea < ActiveRecord::Base
         yield( strand )
         strand.curriculum_content_statements.each{ |content_statement|
           yield( content_statement )
+          content_statement.cumulative_progress_indicators.each{ |cumulative_progress_indicator|
+            yield( cumulative_progress_indicator )
+          }
         }
       }
     }

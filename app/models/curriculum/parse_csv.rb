@@ -218,13 +218,14 @@ class Curriculum::ParseCsv
       else
         nil
       end
-
-      Curriculum::CumulativeProgressIndicator.create({
-        :by_end_of_grade => record.by_end_of_grade,
-        :code => record.cpi_num,
-        :description => record.cumulative_progress_indicator,
-        :curriculum_content_statement_id => content_statement.id
-      })
+      if record.cpi_num
+        Curriculum::CumulativeProgressIndicator.create({
+          :by_end_of_grade => record.by_end_of_grade,
+          :code => record.cpi_num,
+          :description => record.cumulative_progress_indicator,
+          :curriculum_content_statement_id => content_statement.id
+        })
+      end
     }
     return
   end

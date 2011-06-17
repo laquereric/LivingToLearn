@@ -8,7 +8,7 @@ class Curriculum::NjS21clc < Curriculum::ParseCsv
   end
 
   def self.content_area_key
-    'NJ_S21CLC'
+    'NjS21clc'
   end
 
 end
