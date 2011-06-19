@@ -1,7 +1,11 @@
-require 'prawn'
+require "prawn"
+require "prawn/layout"
+require "prawn/table"
 require "prawn/measurement_extensions"
 
 class Document::Reports::CcOverview
+  cattr_accessor :page_number
+  cattr_accessor :line_number
 
   extend DocumentFilesBase
 
@@ -21,54 +25,6 @@ class Document::Reports::CcOverview
     File.join(self.public_directory, self.report_filename() )
   end
 
-#############
-# Report Hierarchy of Objects
-#############
-
-  def self.report_block(pdf,harray,index)
-    pdf.indent(0.2.in){
-      while true do
-
-#############
-# THIS object
-#############
-
-        break if index == harray.length
-
-        c_object = harray[index][:object]
-        level = harray[index][:level]
-
-        return index if level.nil?
-        line = c_object.report_line(0).join('')
-        pdf.font_size = 14-level
-        pdf.text line
-
-#############
-# NEXT object
-#############
-
-        index += 1
-        break if index == harray.length
-
-        next_c_object = harray[index][:object]
-        next_level = harray[index][:level]
-
-        if next_level < level
-          pdf.move_down(0.1.in)
-          break
-        elsif next_level == level
-          pdf.move_down(0.05.in)
-          next
-        elsif next_level >= level
-          pdf.move_down(0.2.in)
-          index = self.report_block(pdf,harray,index)
-        end
-
-      end
-    }
-    return index
-  end
-
 ###############
 # Report
 ###############
@@ -77,20 +33,76 @@ class Document::Reports::CcOverview
     'CcMathOverview'
   end
 
-  def self.report_pdf()
-    Prawn::Document.generate( self.physical_report_filename ) do |pdf|
-    #Prawn::Document.generate( File.join(Rails.root,'report') ) do |pdf|
-      p "See #{self.physical_report_filename}"
-      harray = []
-      Curriculum::ContentArea.get_curiculum_by_type(self.curriculum_class){ |c_object|
+  def self.get_data
+    harray = []
+    Curriculum::ContentArea.get_curiculum_by_type(self.curriculum_class){ |c_object|
+      harray << {
+        :object=> c_object,
+        :level => Curriculum::ContentArea.level_of(c_object)
+      }
+    }
+    return harray
+  end
 
-        harray << {
-          :object=> c_object,
-          :level => Curriculum::ContentArea.level_of(c_object)
+  def self.report_line_for(c_object_hash)
+    c_object_hash[:object].report_line(0).join('')
+  end
+
+  def self.indent_string(indent=0)
+    indent_string = ""; indent.times{ indent_string << ' ' }
+    return indent_string
+  end
+
+  def self.report_pdf()
+    Prawn::Document.generate(
+      self.physical_report_filename,
+      #File.join(Rails.root,'report'),
+      :page_size => "A3", :page_layout => :portrait, :margin => 0
+    ) do |pdf|
+      p "See #{self.physical_report_filename}"
+      item_number = 1
+      pdf.padded_box 10.mm do
+        pdf.move_down(10.mm)
+        items = []
+        get_data.each { |c_object_hash|
+#p c_object_hash.inspect
+          object = c_object_hash[:object]
+          level = c_object_hash[:level]
+          r = [
+            object.full_code,
+            object.report_classname,
+            object.report_by_grade,
+            #level,
+            "#{object.report_description}"
+          ]
+          item_number += 1
+          items << r
         }
 
-      }
-      self.report_block(pdf,harray,0)
+        pdf.table items,
+          :position   => :center,
+          :border_style => :underline_header,
+          :row_colors => ["FFFFFF","DDDDDD"],
+          :headers => ["Code", "Standard Level", "By Grade", "Description"],
+          :column_widths => { 0 => 140, 1 => 80, 2 => 50, 3 => 400 },
+          :align => { 0 => :left, 1 => :left, 2 => :center, 3 => :left },
+          :align_headers => { 0 => :left, 2 => :left, 3 => :center }
+    end
+
+      pdf.page_count.times do |i|
+        page_num = i+1
+        pdf.go_to_page(page_num)
+        if page_num == 1
+          # header of first page
+          pdf.text_box "#{self.filename_base}", :at => [30.mm, 410.mm], :size => 18
+          #image "logo.png", :at => [12.mm,(297-15.78).mm]
+        else
+          # header 2..n
+          pdf.text_box "#{self.filename_base} page #{page_num} ", :at => [30.mm, 415.mm], :size => 12
+        end
+      end
+
+      #self.report_block(pdf,harray,0)
     end
     return
   end

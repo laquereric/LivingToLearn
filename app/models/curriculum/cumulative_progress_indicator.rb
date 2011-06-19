@@ -24,9 +24,19 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
     self.full_code ||= self.calc_full_code
   end
 
+  def reset_full_code
+    self.full_code = self.calc_full_code
+  end
+
   def calc_full_code()
    if curriculum_content_statement
-     "#{self.curriculum_content_statement.full_code}_#{self.code}"
+     if ( curriculum_strand = curriculum_content_statement.curriculum_strand )
+       if ( curriculum_standard = curriculum_strand.curriculum_standard )
+         if ( curriculum_content_area = curriculum_standard.curriculum_content_area )
+           "#{curriculum_content_area.code} #{curriculum_standard.code}.#{curriculum_content_statement.by_end_of_grade}.#{self.code}"
+         end
+       end
+     end
    else
       nil
    end

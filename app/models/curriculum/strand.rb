@@ -48,7 +48,7 @@ class Curriculum::Strand < ActiveRecord::Base
 
   def calc_full_code()
     if self.curriculum_standard
-      "#{self.curriculum_standard.full_code}_#{self.code}"
+      "#{self.curriculum_standard.full_code} #{self.code}."
     else
       nil
     end
@@ -56,6 +56,10 @@ class Curriculum::Strand < ActiveRecord::Base
 
   def set_full_code
     self.full_code ||= self.calc_full_code
+  end
+
+  def reset_full_code
+    self.full_code = self.calc_full_code
   end
 
   def destroy_wrapper

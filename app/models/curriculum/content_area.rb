@@ -114,7 +114,9 @@ class Curriculum::ContentArea < ActiveRecord::Base
     content_area = Curriculum::ContentArea.find_by_code(code)
     content_area.curriculum_standards.each{ |standard|
       yield( standard )
-      standard.curriculum_strands.each{ |strand|
+      standard.curriculum_strands.sort{ |x,y|
+        x.code <=> y.code
+      }.each{ |strand|
         yield( strand )
         strand.curriculum_content_statements.each{ |content_statement|
           yield( content_statement )
