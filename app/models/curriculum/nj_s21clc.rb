@@ -11,5 +11,9 @@ class Curriculum::NjS21clc < Curriculum::ParseCsv
     'NjS21clc'
   end
 
+  def self.cumulative_progress_indicator__calc_full_code(spec)
+    "#{spec[:curriculum_content_area].code} #{spec[:curriculum_standard].code}.#{spec[:curriculum_content_statement].by_end_of_grade}.#{self.code}"
+  end
+
 end
 

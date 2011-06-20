@@ -13,6 +13,26 @@ class Curriculum::Standard < ActiveRecord::Base
     :foreign_key => "curriculum_standard_id",
     :dependent => :destroy
 
+  def curriculum_strands_sorted_by_name
+    self.curriculum_strands.sort{ |x,y|
+        x.name <=> y.name
+    }
+  end
+
+  def find_or_create_strand( strand_config )
+     strands = self.curriculum_strands.select{ |strand| strand.name == strand_config[:name]}
+     strand = if strands.length == 0
+       p "new strand for #{self.id} : #{strand_config.inspect}"
+       self.curriculum_strands<< (n = Curriculum::Strand.create(strand_config) )
+       n
+     elsif  strands.length == 1
+       strands[0]
+     else
+       p "Duplicate Curriculum::Strand found #{strand_config[:name]}"
+       nil
+     end
+  end
+
 #######
 #
 #######
@@ -37,16 +57,24 @@ class Curriculum::Standard < ActiveRecord::Base
 #
 #######
 
+  def full_spec()
+    spec= {}
+    spec[:curriculum_standard] = self 
+    if ( spec[:curriculum_content_area] = self.curriculum_content_area )
+      spec[:curriculum] = spec[:curriculum_content_area].curriculum
+      return spec
+    end
+    return nil
+  end
+
   def find_strands_by_code( code )
     return self.curriculum_strands.select{ |s| s.code == code }
   end
 
   def calc_full_code()
-    if curriculum_content_area
-      "#{curriculum_content_area.code}_#{self.code}"
-    else
-      nil
-    end
+    spec= self.full_spec()
+    return "" if !spec[:curriculum].respond_to?(:standard__calc_full_code)
+    return spec[:curriculum].standard__calc_full_code(spec)
   end
 
   def set_full_code

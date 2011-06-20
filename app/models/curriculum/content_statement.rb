@@ -46,12 +46,31 @@ class Curriculum::ContentStatement < ActiveRecord::Base
 #######
 #
 #######
-  def reset_full_code
-    self.full_code = self.calc_full_code
+  def full_spec()
+    spec= {}
+    if  spec[:curriculum_content_statement] = self
+      if ( spec[:curriculum_strand] = self.curriculum_strand )
+        if ( spec[:curriculum_standard] = spec[:curriculum_strand].curriculum_standard )
+          if ( spec[:curriculum_content_area] = spec[:curriculum_standard].curriculum_content_area )
+            spec[:curriculum] = spec[:curriculum_content_area].curriculum
+            return spec
+          end
+        end
+      end
+    else
+      nil
+    end
+    return nil
   end
 
   def calc_full_code()
-    ""
+    spec= self.full_spec()
+    return "" if !spec[:curriculum].respond_to?(:content_statement__calc_full_code)
+    return spec[:curriculum].content_statement__calc_full_code(spec)
+  end
+
+  def reset_full_code
+    self.full_code = self.calc_full_code
   end
 
   def set_full_code

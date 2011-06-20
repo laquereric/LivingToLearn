@@ -28,18 +28,28 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
     self.full_code = self.calc_full_code
   end
 
-  def calc_full_code()
-   if curriculum_content_statement
-     if ( curriculum_strand = curriculum_content_statement.curriculum_strand )
-       if ( curriculum_standard = curriculum_strand.curriculum_standard )
-         if ( curriculum_content_area = curriculum_standard.curriculum_content_area )
-           "#{curriculum_content_area.code} #{curriculum_standard.code}.#{curriculum_content_statement.by_end_of_grade}.#{self.code}"
-         end
-       end
-     end
-   else
+  def full_spec()
+    spec= {}
+    spec[:cumulative_progress_indicator] = self
+    if  spec[:curriculum_content_statement] = self.curriculum_content_statement
+      if ( spec[:curriculum_strand] = spec[:curriculum_content_statement].curriculum_strand )
+        if ( spec[:curriculum_standard] = spec[:curriculum_strand].curriculum_standard )
+          if ( spec[:curriculum_content_area] = spec[:curriculum_standard].curriculum_content_area )
+            spec[:curriculum] = spec[:curriculum_content_area].curriculum
+            return spec
+          end
+        end
+      end
+    else
       nil
-   end
+    end
+    return nil
+  end
+
+  def calc_full_code()
+    spec= self.full_spec()
+    return "" if !spec[:curriculum].respond_to?(:cumulative_progress_indicator__calc_full_code)
+    return spec[:curriculum].cumulative_progress_indicator__calc_full_code(spec)
   end
 
   def destroy_wrapper

@@ -33,11 +33,38 @@ class Document::Reports::CcOverview
     'CcMathOverview'
   end
 
+  def self.include?(object)
+    return false if object.nil?
+    return false if object.description == 'none'
+    return true
+  end
+
+  def self.get_objects(content_area_class,&block)
+    code = content_area_class.content_area_key
+    content_area = Curriculum::ContentArea.find_by_code(code)
+    return nil if content_area.nil?
+    yield( content_area )
+    content_area = Curriculum::ContentArea.find_by_code(code)
+    content_area.curriculum_standards.each{ |standard|
+      yield( standard )
+      standard.curriculum_strands_sorted_by_name.each{ |strand|
+        yield( strand )
+        strand.curriculum_content_statements_sorted_by_grade_and_code.each{ |content_statement|
+          yield( content_statement )
+          content_statement.cumulative_progress_indicators.each{ |cumulative_progress_indicator|
+            yield( cumulative_progress_indicator )
+          }
+        }
+      }
+    }
+  end
+
   def self.get_data
     harray = []
-    Curriculum::ContentArea.get_curiculum_by_type(self.curriculum_class){ |c_object|
+    self.get_objects(self.curriculum_class){ |c_object|
+      next if !self.include?(c_object)
       harray << {
-        :object=> c_object,
+        :object => c_object,
         :level => Curriculum::ContentArea.level_of(c_object)
       }
     }
@@ -87,7 +114,7 @@ class Document::Reports::CcOverview
           :column_widths => { 0 => 140, 1 => 80, 2 => 50, 3 => 400 },
           :align => { 0 => :left, 1 => :left, 2 => :center, 3 => :left },
           :align_headers => { 0 => :left, 2 => :left, 3 => :center }
-    end
+      end
 
       pdf.page_count.times do |i|
         page_num = i+1

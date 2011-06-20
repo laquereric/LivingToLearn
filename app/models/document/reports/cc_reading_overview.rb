@@ -9,7 +9,7 @@ class Document::Reports::CcReadingOverview < Document::Reports::CcOverview
   end
 
   def self.filename_base
-    'CcMathOverview'
+    'CcReadingOverview'
   end
 
 end

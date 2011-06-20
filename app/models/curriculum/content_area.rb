@@ -9,6 +9,19 @@ class Curriculum::ContentArea < ActiveRecord::Base
     :foreign_key => "curriculum_content_area_id",
     :dependent => :destroy
 
+  def find_or_create_standard( standard_config )
+    standards = self.curriculum_standards.select{ |standard| standard.code == standard_config[:code] }
+    standard = if standards.length == 0
+       p "new standard for #{self.id} #{standard_config.inspect}"
+       self.curriculum_standards << (n = Curriculum::Standard.create(standard_config) )
+       n
+     elsif  standards.length == 1
+       standards[0]
+     else
+       p "Duplicate Curriculum::Standards found #{standard_config[:code]}"
+       nil
+     end
+  end
 #######
 #
 #######
@@ -19,6 +32,19 @@ class Curriculum::ContentArea < ActiveRecord::Base
 
   def link_to_standards
     self.link_to 'link',"/curriculum_standards_for/#{self.id}"
+  end
+
+  def curriculum_classname
+    #TODO Should be column
+    [Curriculum::NjS21clc,Curriculum::CcMath,Curriculum::CcReading].each{ |obj|
+      return obj.to_s if self.code == obj.content_area_key
+    }
+    p  "#{self.code} not found!"
+    return nil
+  end
+
+  def curriculum
+    self.curriculum_classname.constantize
   end
 
 #######
@@ -106,26 +132,6 @@ class Curriculum::ContentArea < ActiveRecord::Base
     elsif ca_object.is_a? Curriculum::CumulativeProgressIndicator
       4
     end
-  end
-
-  def self.get_curiculum_by_type(content_area_class,&block)
-    code = content_area_class.content_area_key
-    yield( content_area = self.find_by_code(code) )
-    content_area = Curriculum::ContentArea.find_by_code(code)
-    content_area.curriculum_standards.each{ |standard|
-      yield( standard )
-      standard.curriculum_strands.sort{ |x,y|
-        x.code <=> y.code
-      }.each{ |strand|
-        yield( strand )
-        strand.curriculum_content_statements.each{ |content_statement|
-          yield( content_statement )
-          content_statement.cumulative_progress_indicators.each{ |cumulative_progress_indicator|
-            yield( cumulative_progress_indicator )
-          }
-        }
-      }
-    }
   end
 
 end
