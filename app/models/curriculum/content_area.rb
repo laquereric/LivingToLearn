@@ -10,17 +10,19 @@ class Curriculum::ContentArea < ActiveRecord::Base
     :dependent => :destroy
 
   def find_or_create_standard( standard_config )
-    standards = self.curriculum_standards.select{ |standard| standard.code == standard_config[:code] }
+    standards = self.curriculum_standards.select{ |standard|
+      standard.code == standard_config[:code]
+    }
     standard = if standards.length == 0
-       p "new standard for #{self.id} #{standard_config.inspect}"
-       self.curriculum_standards << (n = Curriculum::Standard.create(standard_config) )
-       n
-     elsif  standards.length == 1
-       standards[0]
-     else
-       p "Duplicate Curriculum::Standards found #{standard_config[:code]}"
-       nil
-     end
+      p "new standard for #{self.id} #{standard_config.inspect}"
+      self.curriculum_standards << (n = Curriculum::Standard.create(standard_config) )
+      n
+    elsif  standards.length == 1
+      standards[0]
+    else
+      p "Duplicate Curriculum::Standards found #{standard_config[:code]}"
+      nil
+    end
   end
 #######
 #

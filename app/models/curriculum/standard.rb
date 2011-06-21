@@ -20,7 +20,9 @@ class Curriculum::Standard < ActiveRecord::Base
   end
 
   def find_or_create_strand( strand_config )
-     strands = self.curriculum_strands.select{ |strand| strand.name == strand_config[:name]}
+     strands = self.curriculum_strands.select{ |strand|
+       strand.name == strand_config[:name]
+     }
      strand = if strands.length == 0
        p "new strand for #{self.id} : #{strand_config.inspect}"
        self.curriculum_strands<< (n = Curriculum::Strand.create(strand_config) )

@@ -19,7 +19,7 @@ class Document::Reports::CcOverview
     File.join(self.physical_directory, self.report_filename() )
   end
 
- ###
+###
 
   def self.public_report_filename()
     File.join(self.public_directory, self.report_filename() )
@@ -91,15 +91,18 @@ class Document::Reports::CcOverview
       pdf.padded_box 10.mm do
         pdf.move_down(10.mm)
         items = []
-        get_data.each { |c_object_hash|
-#p c_object_hash.inspect
+        c_object_hashs = self.get_data
+        if c_object_hashs.length == 0
+          p "No Data Found!"
+          break
+        end
+        c_object_hashs.each { |c_object_hash|
           object = c_object_hash[:object]
           level = c_object_hash[:level]
           r = [
             object.full_code,
             object.report_classname,
             object.report_by_grade,
-            #level,
             "#{object.report_description}"
           ]
           item_number += 1
@@ -129,7 +132,6 @@ class Document::Reports::CcOverview
         end
       end
 
-      #self.report_block(pdf,harray,0)
     end
     return
   end

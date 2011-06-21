@@ -27,9 +27,21 @@ class Curriculum::Strand < ActiveRecord::Base
     }
   end
 
-  scope :under_standard, lambda { |standard|
-    where("curriculum_strands.curriculum_standard_id = ?", standard.id)
-  }
+  def find_or_create_content_statement( content_statement_config )
+    content_statements = self.curriculum_content_statements.select{ |content_statement|
+      content_statement.code == content_statement_config[:code]
+    }
+    content_statement = if content_statements.length == 0
+      p "new content_statement for #{self.id} : #{content_statement_config.inspect}"
+      self.curriculum_content_statements<< ( n = Curriculum::ContentStatement.create(content_statement_config) )
+      n
+    elsif content_statements.length == 1
+      content_statements[0]
+    else
+      p "Duplicate Curriculum::ContentStatement found #{content_statement_config}"
+      nil
+    end
+  end
 
   scope :with_code, lambda { |code|
     where("curriculum_strands.code = ?", code)

@@ -172,6 +172,7 @@ class Curriculum::ParseCsv
       content_area = Curriculum::ContentArea.create({
         :code => code #,
       })
+p content_area_hash
       content_area_hash.each_pair{ |code,name|
         Curriculum::Standard.create({
           :code => code,
@@ -191,35 +192,23 @@ class Curriculum::ParseCsv
     rs = []
     records.each{ |record|
       content_area = Curriculum::ContentArea.find_by_code(record.content_area)
-      standard = content_area.find_standards_by_code(record.standard)[0]
-      matching_strands = Curriculum::Strand.under_standard(standard).with_code(record.strand)
-        strand = if matching_strands.length == 0
-          Curriculum::Strand.create({
-            :code => record.strand,
-            :name => self.strands[content_area.code][standard.code][record.strand],
-            :curriculum_standard_id => standard.id
-          })
-      elsif matching_strands.length == 1
-        matching_strands[0]
-      else
-        nil
-      end
-
-      matching_content_statements =
-        Curriculum::ContentStatement.with_description(record.content_statement).by_end_of_grade_equals(record.by_end_of_grade)
-      content_statement = if matching_content_statements.length == 0
-        Curriculum::ContentStatement.create({
-           :curriculum_strand_id => strand.id,
-           :by_end_of_grade => record.by_end_of_grade,
-           :description => record.content_statement
-        })
-      elsif matching_content_statements.length == 1
-        matching_content_statements[0]
-      else
-        nil
-      end
+      standard = content_area.find_or_create_standard({
+        :code => record.standard
+      })
+      strand_name = self.strands[content_area.code][standard.code][record.strand]
+      next if strand_name.nil?
+      strand = standard.find_or_create_strand({
+        :code => record.strand,
+        :name => strand_name,
+        :curriculum_standard_id => standard.id
+      })
+      content_statement = strand.find_or_create_content_statement({
+        :curriculum_strand_id => strand.id,
+        :by_end_of_grade => record.by_end_of_grade,
+        :description => record.content_statement
+      })
       if record.cpi_num
-        Curriculum::CumulativeProgressIndicator.create({
+        cumulative_progress_indicator = content_statement.find_or_create_cumulative_progress_indicator({
           :by_end_of_grade => record.by_end_of_grade,
           :code => record.cpi_num,
           :description => record.cumulative_progress_indicator,
