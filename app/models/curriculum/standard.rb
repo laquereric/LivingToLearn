@@ -19,6 +19,12 @@ class Curriculum::Standard < ActiveRecord::Base
     }
   end
 
+  def curriculum_strands_sorted_by_code
+    self.curriculum_strands.sort{ |x,y|
+        x.code <=> y.code
+    }
+  end
+
   def find_or_create_strand( strand_config )
      strands = self.curriculum_strands.select{ |strand|
        strand.name == strand_config[:name]

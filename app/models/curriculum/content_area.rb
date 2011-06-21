@@ -24,6 +24,12 @@ class Curriculum::ContentArea < ActiveRecord::Base
       nil
     end
   end
+
+  def curriculum_standards_sorted_by_code
+    self.curriculum_standards.sort{ |x,y|
+        x.code <=> y.code
+    }
+  end
 #######
 #
 #######
@@ -36,9 +42,15 @@ class Curriculum::ContentArea < ActiveRecord::Base
     self.link_to 'link',"/curriculum_standards_for/#{self.id}"
   end
 
+  def self.curriculum_class_list
+    [ Curriculum::NjS21clc, Curriculum::CcMath,
+      Curriculum::CcReading,Curriculum::CharacterJi
+    ]
+  end
+
   def curriculum_classname
     #TODO Should be column
-    [Curriculum::NjS21clc,Curriculum::CcMath,Curriculum::CcReading].each{ |obj|
+    self.class.curriculum_class_list.each{ |obj|
       return obj.to_s if self.code == obj.content_area_key
     }
     p  "#{self.code} not found!"

@@ -45,7 +45,7 @@ class Document::Reports::CcOverview
     return nil if content_area.nil?
     yield( content_area )
     content_area = Curriculum::ContentArea.find_by_code(code)
-    content_area.curriculum_standards.each{ |standard|
+    content_area.curriculum_standards_sorted_by_code.each{ |standard|
       yield( standard )
       standard.curriculum_strands_sorted_by_name.each{ |strand|
         yield( strand )

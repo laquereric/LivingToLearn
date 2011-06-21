@@ -12,5 +12,9 @@ class Curriculum::CharacterJi < Curriculum::ParseCsv
     'CharacterJi'
   end
 
+  def self.strand__calc_full_code(spec)
+    "#{spec[:curriculum_content_area].code} #{spec[:curriculum_standard].code}.#{spec[:curriculum_strand].code}"
+  end
+
 end
 
