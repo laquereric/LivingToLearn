@@ -134,15 +134,8 @@ p parsed_row
   end
 
 ########
-#
-########
 
-  def self.records_from_file
-    self.destroy_existing
-    self.get_csv_data
-  end
-
-########
+#####
 #
 ########
 
@@ -156,5 +149,36 @@ p parsed_row
     end
   end
 
+  def self.get_objects(&block)
+    code = self.content_area_key
+    content_area = Curriculum::ContentArea.find_by_code(code)
+    return nil if content_area.nil?
+    yield( content_area )
+    content_area.curriculum_standards_sorted_by_code.each{ |standard|
+      yield( standard )
+      standard.curriculum_strands_sorted_by_name.each{ |strand|
+        yield( strand )
+        strand.curriculum_content_statements_sorted_by_grade_and_code.each{ |content_statement|
+          yield( content_statement )
+          content_statement.cumulative_progress_indicators.each{ |cumulative_progress_indicator|
+            yield( cumulative_progress_indicator )
+          }
+        }
+      }
+    }
+  end
+
+###########
+# Load database from csv
+############
+
+  def self.load_database_from_csv
+    CurriculumItem.remove_nodes_for_curriculum(self)
+    self.destroy_existing
+    self.get_csv_data
+    CurriculumItem.add_nodes_for_curriculum(self)
+  end
+
+###
 end
 

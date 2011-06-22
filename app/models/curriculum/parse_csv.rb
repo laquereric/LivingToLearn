@@ -258,9 +258,38 @@ p content_area_hash
     }
   end
 
-  def self.to_records
+  def self.get_objects(&block)
+    code = self.content_area_key
+    content_area = Curriculum::ContentArea.find_by_code(code)
+    return nil if content_area.nil?
+    yield( content_area )
+    content_area = Curriculum::ContentArea.find_by_code(code)
+    content_area.curriculum_standards_sorted_by_code.each{ |standard|
+      yield( standard )
+      standard.curriculum_strands_sorted_by_code.each{ |strand|
+        yield( strand )
+        strand.curriculum_content_statements_sorted_by_grade_and_code.each{ |content_statement|
+          yield( content_statement )
+          content_statement.cumulative_progress_indicators.each{ |cumulative_progress_indicator|
+            yield( cumulative_progress_indicator )
+          }
+        }
+      }
+    }
+  end
 
+###########
+# Root Node
+############
+
+###########
+# Load database from csv
+############
+
+  def self.load_database_from_csv
     raw_hash = self.get_csv_hash
+
+    CurriculumItem.remove_nodes_for_curriculum(self)
 
     p "Before destroy : #{self.total_record_count()}"
     self.destroy_records(self.content_area_key)
@@ -276,6 +305,8 @@ p content_area_hash
       :cumulative_progress_indicators => Curriculum::CumulativeProgressIndicator.all
     }
     p "After Add : #{self.total_record_count()}"
+
+    CurriculumItem.add_nodes_for_curriculum(self)
 
     return records_hash
   end
