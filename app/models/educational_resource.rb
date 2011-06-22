@@ -1,5 +1,13 @@
 class EducationalResource < ActiveRecord::Base
 
+  def record_id
+    id
+  end
+
+  def source
+    'unknown'
+  end
+
   def self.worksheet_directory
     File.join(Rails.root,'data','worksheets')
   end

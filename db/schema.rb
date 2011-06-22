@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615174302) do
+ActiveRecord::Schema.define(:version => 20110622105835) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -78,6 +78,13 @@ ActiveRecord::Schema.define(:version => 20110615174302) do
     t.string   "full_code"
   end
 
+  create_table "curriculum_map_arces", :force => true do |t|
+    t.string   "secondary_curriculum_code"
+    t.integer  "educational_resource_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "curriculum_standards", :force => true do |t|
     t.string   "code"
     t.string   "name"
@@ -102,7 +109,7 @@ ActiveRecord::Schema.define(:version => 20110615174302) do
   create_table "educational_resources", :force => true do |t|
     t.integer  "res_id"
     t.integer  "parent_res_id"
-    t.text     "cc_ref"
+    t.text     "primary_curriculum_code"
     t.text     "kind"
     t.text     "isbn"
     t.text     "web"
