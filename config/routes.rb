@@ -1,5 +1,7 @@
 LivingToLearn::Application.routes.draw do
 
+  match 'curriculum', :to => 'curriculum#index', :as => 'curriculum'
+
   resources :curriculum_content_areas
 
   match 'curriculum_standards_for/:content_area_id', :to => 'curriculum_standards#for_content_area', :as => 'content_area_standards'
