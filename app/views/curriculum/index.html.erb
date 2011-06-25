@@ -1,11 +1,31 @@
-<div id='curriculum'>
-Name:    <div class='name'><%= @target.name %></div>
-End:    <div class='end'><%= @target.calc_by_end_of_grade %></div>
+<div id='curriculum' style='display:none'>
+
+<% if @parent %>
+Parent
+<div id='parent'>
+Name:    <div class='name'><%= @parent[:name] %></div>
+Id:    <div class='id'><%= @parent[:node].id %></div>
+End:    <div class='end'><%= @parent[:target].calc_by_end_of_grade %></div>
 Length    <div class='length'><%='3'%></div>
-<% @child_targets.each do |child_target| %>
-  <div class='item'>
-Name:    <div class='name'><%= child_target.name %></div>
-End:    <div class='end'><%= child_target.calc_by_end_of_grade %></div>
+</div>
+
+<% end %>
+
+Center
+
+<div id='center'>
+Name:    <div class='name'><%= @center[:name] %></div>
+Id:    <div class='id'><%= @center[:node].id %></div>
+End:    <div class='end'><%= @center[:target].calc_by_end_of_grade %></div>
+Length    <div class='length'><%='3'%></div>
+</div>
+
+Children
+<% @children.each do |child| %>
+  <div class='child'>
+Name:    <div class='name'><%= child[:name] %></div>
+Id:    <div class='id'><%= child[:node].id %></div>
+End:    <div class='end'><%= child[:target].calc_by_end_of_grade %></div>
 Length    <div class='length'><%='3'%></div>
   </div>
 <br/>

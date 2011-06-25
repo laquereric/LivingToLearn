@@ -1,14 +1,37 @@
 class CurriculumItem < ActiveRecord::Base
   acts_as_nested_set :dependent => :destroy
 
+  def is_root?
+    return ( !self.source_klass_name.nil? and self.source_klass_name == 'Curriculum::Root' )
+  end
+
   def target
     klass= self.target_node_klass_name.constantize
-    return klass.find(self.target_node_object_id)
+    klass.find(self.target_node_object_id)
+  end
+
+  def self.get_curriculum_root
+    curriculum_root = Curriculum::Root.first
+    curriculum_root ||= Curriculum::Root.create(
+      :name => 'Root',
+      :code => 'root',
+      :full_code => 'root'
+    )
   end
 
   def self.get_root_node
-    root_node = self.find_by_source_klass_name_and_source_full_code('CurriculumItem','root')
-    root_node ||= self.create(:source_klass_name=>'CurriculumItem',:source_full_code=>'root')
+    curriculum_root = self.get_curriculum_root
+
+    root_node = self.find_by_source_klass_name_and_source_full_code(
+      curriculum_root.class.to_s,
+      curriculum_root.full_code
+    )
+    root_node ||= self.create(
+      :source_klass_name => curriculum_root.class.to_s,
+      :source_full_code => curriculum_root.full_code,
+      :target_node_klass_name => curriculum_root.class.to_s,
+      :target_node_object_id => curriculum_root.id
+    )
   end
 
   def self.get_curriculum_root_node(curriculum)

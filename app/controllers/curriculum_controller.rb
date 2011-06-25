@@ -2,23 +2,42 @@ class CurriculumController < ApplicationController
   layout 'curriculum_navigator'
 
   def index
-    @curriculum_item_root = Curriculum::CcMath.root_node
+    #@curriculum_item_root = Curriculum::CcMath.root_node
+    @center = if params[:node_id] == 'root'
+      curriculum_klass = "Curriculum::#{params[:name]}".constantize
+      node = curriculum_klass.root_node
+      { :node => node, :target => node.target }
+    else
+      node = CurriculumItem.find_by_id(params[:node_id])
+      { :node => node, :target => node.target }
+    end
+    @center[:name] = @center[:target].name
+    @center[:name] ||= @center[:target].description
 
-    #@curriculum_item_root = if params[:node_id] == 'root'
-    #  "Curriculum::#{params[:name]}".constantize.root_node
-    #else
-    #  CurriculumItem.find_by_id(params[:node_id])
-    #end
+    @parent = if (@center[:node].is_root?)
+      nil
+    else
+      node = @center[:node].parent
+      #target = node.target
+      klass= node.target_node_klass_name.constantize
+      target = klass.find(node.target_node_object_id)
+      name = target.name
+      name ||= target.description
+      {:node => node, :target => target, :name => name }
+    end
 
-    @target = @curriculum_item_root.target
-    @child_targets = @curriculum_item_root.children.map{ |n|
-      n.target
+    @children = @center[:node].children.map{ |n|
+      { :node => n, :target => n.target }
     }.select{ |t|
-      t.calc_by_end_of_grade != -2
+      t[:target].calc_by_end_of_grade != -2
     }.sort{ |x,y|
-      x.calc_by_end_of_grade <=> y.calc_by_end_of_grade
+      x[:target].calc_by_end_of_grade <=> y[:target].calc_by_end_of_grade
+    }.each{|h|
+      h[:name] = h[:target].name
+      h[:name] ||= h[:target].description
     }
-    #render :text => @child_targets.map{ |t| t.calc_by_end_of_grade }
+    #render :text => @parent.inspect
+    #render :text => @center.inspect
     #render :layout => false
   end
 end

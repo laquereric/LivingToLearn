@@ -89,14 +89,9 @@
       }
 
       function changeCurriculum(paper, myDate, alter){
-        //var nmonth;
-        //nmonth = adate.getMonth();
-        //nyear = adate.getFullYear();
         curriculum_offset = curriculum_offset + alter;
         if (curriculum_offset < 0) curriculum_offset = 0;
         if (curriculum_offset > 4) curriculum_offset = 4;
-//console.log(curriculum_offset);
-//console.log(alter);
 
         //adate.setFullYear(nyear, nmonth, 1);
         //setCalendar(adate);
@@ -183,19 +178,12 @@
          */
         var r, c;
         for (var i = 0; i < item_count; i++) {
-//console.log(i);
-          //r = Math.floor(i / columns);//row index
-          //c = i % columns;//column index
-
           r = i+1;
           c = calcells[i].end;
           l = calcells[i].length;
           var left_col = c - l + 1;
           if (left_col < 0 ) {
-console.log(l);
-console.log(left_col);
              l = eval(l) + eval(left_col);
-console.log(l);
              left_col = 0;
           }
 
@@ -211,12 +199,8 @@ console.log(l);
       //Initialise calendar state  - end or month change
       function initCalstate(){
         for (var i = 0; i < item_count; i++) {
-        //for (var i in calcells) {
           var calcell = calcells[i];
           if (typeof calcell == 'undefined') next;
-//console.log(i);
-//console.log(typeof calcell);
-//console.log(calcell);
           calcell.state = 'free';//initial state free, can be: free/selected/busy
           calcell.cell.attr({
             "stroke": calbgd,
@@ -265,7 +249,6 @@ console.log(l);
         for (var i = 0; i < item_count; i++) {
         //for (var i in calcells) {
           var bBox = calcells[i].cell.getBBox();
-//console.log(i);
 
           calcells[i].state = 'free';
 
@@ -323,7 +306,7 @@ console.log(l);
        Mouse functions
        */
       function calcellClick(i){
-console.log('click');
+console.log('click '+i+' '+calcells[i].id);
         switch (calcells[i].state) {
           case 'free':
             calcells[i].state = selected;
@@ -331,7 +314,8 @@ console.log('click');
               rotation: "45"
             }, 1000, "elastic");
             calcells[i].cell.attr("fill", calcellbgd_slct)
-            break;
+            window.location = '/curriculum/x/'+calcells[i].id;
+          break;
           //case selected:
           //  calcells[i].state = free;
           //  calcells[i].animate({
@@ -343,10 +327,8 @@ console.log('click');
       }
 
       function calcellMouseover(i){
-//console.log("mo"+i+calcells[i].state);
         switch (calcells[i].state) {
           case 'free':
-//console.log("mo"+i+calcells[i].state);
             calcells[i].cell.attr("fill", calcellbgd_hover);
             break;
           //case selected:
@@ -377,32 +359,27 @@ console.log('click');
       var items;
       var item_count;
       function get_curriculum(){
-        //var items = new Array();
-        $$('#curriculum div.item div.name').each(function(item_name, index) {
-          console.log(item_name.innerText);
+        $$('#curriculum div.child div.name').each(function(item_name, index) {
           calcells.push({'name' : item_name.innerText,'end':1,'length':2})
         });
-        $$('#curriculum div.item div.end').each(function(item_end, index) {
+        $$('#curriculum div.child div.id').each(function(item_id, index) {
+          calcells[index].id= item_id.innerText;
+        });
+        $$('#curriculum div.child div.end').each(function(item_end, index) {
           calcells[index].end= item_end.innerText;
         });
-        $$('#curriculum div.item div.length').each(function(item_length, index) {
+        $$('#curriculum div.child div.length').each(function(item_length, index) {
           calcells[index].length= item_length.innerText;
         });
-        //items.each( function(item, index) {
-        //  if (item.end != -2) calcells.push(item)
-        //});
         item_count = calcells.length;
       };
 
-      //var items = $$('#curriculum div.item');
       window.onload = function(){
         init();
-        //var items = $$('#curriculum div.item');
         var paper = new Raphael(document.getElementById('canvas_container'), canvas_width, canvas_height);
         get_curriculum();
         //$('#curriculum').hide();
         layoutCalendar(paper, offset_y);
-        //showCalendar(paper, offset_y, curriculum_offset);
         changeCurriculum(paper, myDate, 0)
       }
     </script>
