@@ -2,7 +2,7 @@
 
 <% if @parent %>
 Parent
-<div id='parent'>
+<div class='parent'>
 Name:    <div class='name'><%= @parent[:name] %></div>
 Id:    <div class='id'><%= @parent[:node].id %></div>
 End:    <div class='end'><%= @parent[:target].calc_by_end_of_grade %></div>
@@ -13,7 +13,7 @@ Length    <div class='length'><%='3'%></div>
 
 Center
 
-<div id='center'>
+<div class='center'>
 Name:    <div class='name'><%= @center[:name] %></div>
 Id:    <div class='id'><%= @center[:node].id %></div>
 End:    <div class='end'><%= @center[:target].calc_by_end_of_grade %></div>

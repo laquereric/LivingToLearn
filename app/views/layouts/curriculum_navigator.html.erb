@@ -9,56 +9,50 @@
      var bookUri="";
 
       var iDay, cDay, thisYear, thisMonth, thisDay, daysInMonth, myDate;
-      var day = new Array("K", "1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12","F","So","J","Se");
+      var grade = new Array("K", "1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12","F","So","J","Se");
 
       var curricula = new Array("All","21rst Century","Reading", "Math", "Character");
-
-      //var today = new Date();
       var curriculum_offset = 0;
-      //setCalendar(today);
 
       /*
        Calendar cell array and properties GLOBAL Variables
        */
       var canvas_width = 1400;
       var canvas_height = 720;
-      var left_col_width = 250;//weekdays
+      var left_col_width = 250;
 
-      //var calcells = new Array({name:'a',end:0,length:4},{name:'b',end:1,length:4},{name:'c',end:2,length:4});
-      var calcells = new Array();
+      var curcells = new Array();
 
-      var monthday = new Array();//days of month
-      var calslct = new Array();//selectable area of days of month calandar cells
-      var daycells = new Array();//weekdays
+      var left_col = new Array();
+      var curslct = new Array();//selectable area of curriculum cells
+      var grades = new Array();
 
-      //calcells[41];
-      daycells[13];
-      var calbgd = "#C0C0C0", offset_x = 5, offset_y = 40;
+      var curbgd = "#C0C0C0", offset_x = 5, offset_y = 40;
       //Sizes
-      var calcell_x = 50;//width
-      var calcell_y = 50;//height
-      var calcell_r = 10;//rounded corner
-      var calcell_bord = 5;
-      var datesize = 12, monthsize = 30;
+      var curcell_x = 50;//width
+      var curcell_y = 50;//height
+      var curcell_r = 10;//rounded corner
+      var curcell_bord = 5;
+      var cursize = 12, titlesize = 30;
       var free = 0, selected = 1, busy = 2;
       //Colours
-      var calcellbgd_default = "#FFFFFF";//white
-      var calcellbgd_wkend = "#D3D3D3";//lightgray
-      var calcellbgd_busy = "#FF0000";//red
-      var calcellbgd_slct = "#FFD700";//gold
-      var calcellbgd_hover = "#008000";//green
-      var wkdaybgd = "#A9A9A9";//darkgray
+      var curcellbgd_default = "#FFFFFF";//white
+      var curcellbgd_wkend = "#D3D3D3";//lightgray
+      var curcellbgd_busy = "#FF0000";//red
+      var curcellbgd_slct = "#FFD700";//gold
+      var curcellbgd_hover = "#008000";//green
+      var gradebgd = "#A9A9A9";//darkgray
       var wkdayfont = "#FFFFFF";//white
       //Adjust scale
       var calscale = 0.75;
 
       function init(){
         //Adjust to Scale
-        calcell_x = calcell_x * calscale;
-        calcell_y = calcell_y * calscale;
-        calcell_r = calcell_r * calscale;
-        datesize = datesize * calscale;
-        monthsize = monthsize * calscale;
+        curcell_x = curcell_x * calscale;
+        curcell_y = curcell_y * calscale;
+        curcell_r = curcell_r * calscale;
+        cursize = cursize * calscale;
+        titlesize = titlesize * calscale;
         offset_x = offset_x * calscale;
         offset_y = offset_y * calscale;
         canvas_width = canvas_width * calscale;
@@ -69,55 +63,84 @@
         d.style.width = "" + canvas_width + "px";
       }
 
-      function findDaysInMonth(month, year){
-        return 32 - new Date(year, month, 32).getDate();
-      }
+/////////////////////
+// Import From HTML
+//////////////////////
 
-      function setCalendar(){
-        var nmonth;//month number
-        nmonth = adate.getMonth();
-        thisMonth = months[nmonth];
-        thisYear = adate.getFullYear();
-        iDay = adate.getDay();
-        thisDay = day[iDay];
-        daysInMonth = findDaysInMonth(nmonth, thisYear);
-        myDate = adate;
+      var item_count;
+      function get_children(){
+        $$('#curriculum div.child div.name').each(function(item_name, index) {
+          curcells.push({'name' : item_name.innerText,'end':1,'length':2})
+        });
+        $$('#curriculum div.child div.id').each(function(item_id, index) {
+          curcells[index].id= item_id.innerText;
+        });
+        $$('#curriculum div.child div.end').each(function(item_end, index) {
+          curcells[index].end= item_end.innerText;
+        });
+        $$('#curriculum div.child div.length').each(function(item_length, index) {
+          curcells[index].length= item_length.innerText;
+        });
+        item_count = curcells.length;
+      };
 
-        adate.setDate(1);
-        cDay = adate.getDay();
-        cDay = (cDay != 0) ? cDay - 2 : 5;
-      }
+      var cur_parent;
+      function get_parent(){
+        $$('#curriculum div.parent div.name').each(function(item_name, index) {
+          cur_parent = {'name' : item_name.innerText,'end':1,'length':2};
+        });
+        if (typeof cur_parent != 'undefined') {
+          $$('#curriculum div.parent div.id').each(function(item_id, index) {
+            cur_parent.id= item_id.innerText;
+          });
+          $$('#curriculum div.parent div.end').each(function(item_end, index) {
+            cur_parent.end= item_end.innerText;
+          });
+          $$('#curriculum div.parent div.length').each(function(item_length, index) {
+            cur_parent.length= item_length.innerText;
+          });
+        }
+      };
+
+      var cur_center;
+      function get_center(){
+        $$('#curriculum div.center div.name').each(function(item_name, index) {
+          cur_center = {'name' : item_name.innerText,'end':1,'length':2};
+        });
+        if (typeof cur_center != 'undefined') {
+          $$('#curriculum div.center div.id').each(function(item_id, index) {
+            cur_center.id= item_id.innerText;
+          });
+          $$('#curriculum div.center div.end').each(function(item_end, index) {
+            cur_center.end= item_end.innerText;
+          });
+          $$('#curriculum div.center div.length').each(function(item_length, index) {
+            cur_center.length= item_length.innerText;
+          });
+        }
+      };
+
+////////////////////////
+//
+/////////////////////////
 
       function changeCurriculum(paper, myDate, alter){
-        curriculum_offset = curriculum_offset + alter;
-        if (curriculum_offset < 0) curriculum_offset = 0;
-        if (curriculum_offset > 4) curriculum_offset = 4;
-
-        //adate.setFullYear(nyear, nmonth, 1);
-        //setCalendar(adate);
-        thisCurriculum = curricula[curriculum_offset];
-        showCalendar(paper, offset_y, thisCurriculum);
+        showCurriculum(paper, offset_y, cur_center.name );
       }
 
-      function layoutCalendar(paper, offsety){
+      function layoutCurriculum(paper, offsety){
         /*
          Navigation buttons
-         */
+        */
         var xob, xon, yo;// x,y origins of next and back buttons
         xob = 2 * offset_x * calscale;
-        xon = 7 * calcell_x - offset_x;
+        xon = 7 * curcell_x - offset_x;
         yo = offset_y - (30 * calscale);
 
-        //Create Forward button
-        var arrownext = paper.path("m 53.159616,167.25906 -17.377,-10.033 v 5.156 c 0,0 -3.83,0 -7.529,0 -3.7,0 -7.885,-4.855 -7.885,-4.855 0,0 1.141,11.418 5.326,13.32 4.188,1.902 10.087,1.293 10.087,1.293 v 5.154 l 17.378,-10.035 z").attr({
-          fill: "#FFFFFF",
-          cursor: "pointer"
-        }).scale(calscale);
-        var bBox = arrownext.getBBox();
-        arrownext.translate(xon - bBox.x - bBox.width, yo - bBox.y);
-
         //Create Back button
-        var arrowback = paper.path("m 20.368616,123.25906 17.377,-10.033 v 5.156 c 0,0 3.83,0 7.529,0 3.7,0 7.885,-4.855 7.885,-4.855 0,0 -1.141,11.418 -5.326,13.32 -4.188,1.902 -10.087,1.293 -10.087,1.293 v 5.154 l -17.378,-10.035 z").attr({
+        var arrowback = paper.path(
+          "m 20.368616,123.25906 17.377,-10.033 v 5.156 c 0,0 3.83,0 7.529,0 3.7,0 7.885,-4.855 7.885,-4.855 0,0 -1.141,11.418 -5.326,13.32 -4.188,1.902 -10.087,1.293 -10.087,1.293 v 5.154 l -17.378,-10.035 z"
+          ).attr({
           fill: "#FFFFFF",//white
           cursor: "pointer"
         }).scale(calscale);
@@ -126,18 +149,9 @@
 
         // Hover navigation buttons
         arrowback.hover(function(){
-          this.animate({
+            this.animate({
             scale: [calscale * 1.2, calscale * 1.2],
-            "fill": calcellbgd_hover
-          }, 500, ">");
-        }, function(){
-          this.stop();//if moveout stop animation early
-          this.scale(calscale, calscale).attr("fill", "#FFFFFF");
-        });
-        arrownext.hover(function(){
-          this.animate({
-            scale: [calscale * 1.2, calscale * 1.2],
-            "fill": calcellbgd_hover
+            "fill": curcellbgd_hover
           }, 500, ">");
         }, function(){
           this.stop();//if moveout stop animation early
@@ -146,240 +160,145 @@
 
         //onClick Navigation Buttons
         arrowback.click(function(){
-          clearCalendar(paper);
-          changeCurriculum(paper, myDate, -1);
-        });
-        arrownext.click(function(){
-          clearCalendar(paper);
-          changeCurriculum(paper, myDate, 1);
+          window.location = '/curriculum/x/'+cur_parent.id;
+
         });
 
         /*
          School Year header
          */
-        columns=17;
+        columns= 17;
         var ooffset_x = offset_x + left_col_width;
         for (var i = 0; i < columns; i++) {
-          daycells[i] = paper.rect(ooffset_x + calcell_x * i, offsety, calcell_x, calcell_y);
-          daycells[i].date = paper.text(ooffset_x + (i + 0.5) * calcell_x, offsety + 0.25 * calcell_y, day[i]);
-          daycells[i].attr({
-            "fill": wkdaybgd,
-            "stroke": calbgd,
-            "stroke-width": calcell_bord
+          grades[i] = paper.rect(ooffset_x + curcell_x * i, offsety, curcell_x, curcell_y);
+          grades[i].cell = paper.text(ooffset_x + (i + 0.5) * curcell_x, offsety + 0.25 * curcell_y, grade[i]);
+          grades[i].attr({
+            "fill": gradebgd,
+            "stroke": curbgd,
+            "stroke-width": curcell_bord
           });
-          daycells[i].date.attr({
-            "font-size": datesize * .8,
+          grades[i].cell.attr({
+            "font-size": cursize * .8,
             "fill": wkdayfont
           });
         }
-        offsety = offsety + calcell_y / 2;
+        offsety = offsety + curcell_y / 2;
         /*
-         Create Calendar Cell-Table
-         */
+         Create Cur Cell-Table
+        */
         var r, c;
         for (var i = 0; i < item_count; i++) {
           r = i+1;
-          c = calcells[i].end;
-          l = calcells[i].length;
+          c = curcells[i].end;
+          l = curcells[i].length;
           var left_col = c - l + 1;
           if (left_col < 0 ) {
              l = eval(l) + eval(left_col);
              left_col = 0;
           }
-
-          var left = ooffset_x + (left_col * calcell_x);
-          calcells[i].cell = paper.rect(left, r * calcell_y + offsety, calcell_x*l, calcell_y, calcell_r);
-          calcells[i].index = i;
-          calcells[i].col = c;
-
+          var left = ooffset_x + (left_col * curcell_x);
+          curcells[i].cell = paper.rect(left, r * curcell_y + offsety, curcell_x*l, curcell_y, curcell_r);
+          curcells[i].index = i;
+          curcells[i].col = c;
         }
-        initCalstate();
+        initCurstate();
       }
 
       //Initialise calendar state  - end or month change
-      function initCalstate(){
+      function initCurstate(){
         for (var i = 0; i < item_count; i++) {
-          var calcell = calcells[i];
-          if (typeof calcell == 'undefined') next;
-          calcell.state = 'free';//initial state free, can be: free/selected/busy
-          calcell.cell.attr({
-            "stroke": calbgd,
-            "stroke-width": calcell_bord
+          var curcell = curcells[i];
+          if (typeof curcell == 'undefined') next;
+          //curcell.state = 'free';//initial state free, can be: free/selected/busy
+          curcell.cell.attr({
+            "stroke": curbgd,
+            "stroke-width": curcell_bord
           });
-          //switch (calcells[i].col) {
-          //  case 5:
-          //  case 6:
-          //    calcells[i].attr({
-          //      "fill": calcellbgd_wkend
-          //    });
-          //    break;
-          //  default:
-              calcell.cell.attr({
-                "fill": calcellbgd_default
-              });
-              //calcells[i].rotate(0, true);
-              calcells[i].cell.attr({
-                "rotation": 0
-              });
-          //}
+          curcell.cell.attr({
+            "fill": curcellbgd_default
+          });
+          curcells[i].cell.attr({
+            "rotation": 0
+          });
         }
       }
 
-      function clearCalendar(){
+      function clearCurriculum(){
         month.remove();
-        for (var i in monthday) {
-          monthday[i].remove();
+        for (var i in left_col) {
+          left_col[i].remove();
         }
-        for (var i in calslct) {
-          calslct[i].remove();
+        for (var i in curslct) {
+          curslct[i].remove();
         }
-        initCalstate();
+        initCurstate();
       }
 
-      function showCalendar(paper, offsety, cmonth){
+      function showCurriculum(paper, offsety, cmonth){
+console.log('showCurriculum '+cmonth);
+console.log(cur_center);
+        month = paper.text(8.5 * curcell_x, offsety - titlesize / 1.5, cmonth + " ").attr("font-size", titlesize);
 
-        month = paper.text(3.5 * calcell_x, offsety - monthsize / 1.5, cmonth + " ").attr("font-size", monthsize);
-        offsety = offsety + calcell_y / 2;
-        /*
-         Fill Calendar Cell-Table
-         */
-        //Previous Month ....to do
-
+        offsety = offsety + curcell_y / 2;
         //This Curriculum
         for (var i = 0; i < item_count; i++) {
-        //for (var i in calcells) {
-          var bBox = calcells[i].cell.getBBox();
+          var bBox = curcells[i].cell.getBBox();
 
-          calcells[i].state = 'free';
-
-          //coli = i % columns;
-          //monthday[i] = paper.text( bBox.x + 0.5 * calcell_x, bBox.y + 0.5 * calcell_y,  calcells[i].name );
-          monthday[i] = paper.text( left_col_width/2 , bBox.y + 0.5 * calcell_y,  calcells[i].name );
-          monthday[i].attr({
-            "font-size": datesize
+          curcells[i].state = 'free';
+          left_col[i] = paper.text( left_col_width/2 , bBox.y + 0.5 * curcell_y,  curcells[i].name );
+          left_col[i].attr({
+            "font-size": cursize
           });
 
-          calslct[i] = paper.rect(bBox.x, bBox.y, bBox.width, bBox.height).attr({
+          curslct[i] = paper.rect(bBox.x, bBox.y, bBox.width, bBox.height).attr({
             "stroke-opacity": "0",
             "fill": "#FFFFFF",
             "opacity": "0"
           });
 
-          calslct[i].index = i;
+          curslct[i].index = i;
+          curslct[i].attr("cursor", "pointer");
 
-              calslct[i].attr("cursor", "pointer");
-
-              calslct[i].click(function(){
-                calcellClick(this.index);
-              });
-              calslct[i].mouseover(function(){
-                calcellMouseover(this.index);
-              });
-              calslct[i].mouseout(function(){
-                calcellMouseout(this.index);
-              });
-
+          curslct[i].click(function(){
+            curcellClick(this.index);
+          });
+          curslct[i].mouseover(function(){
+            curcellMouseover(this.index);
+          });
+          curslct[i].mouseout(function(){
+            curcellMouseout(this.index);
+          });
         }
-
-        //end for loop creating Calendar cell-table
-        //Next month
-        /*
-         Set up Calendar busy states
-         First determine the numeric value of the current month and year
-         Fetch busy states from Google Calendar(s)
-         */
-       // for (var i in months) {
-       //   if (months[i] == thisMonth) {
-       //     var thisMonthN = i - 1 + 2;// '-'forces numerical data type
-       //   }
-       // }
-
-        //var nextMonthN = (thisMonthN == 12) ? 1 : thisMonthN + 1;
-        //var beginDate = "" + thisYear + "-" + thisMonthN + "-" + "01";
-        //var endDate = (nextMonthN == 1) ? "" + thisYear - 1 + 2 + "-" + nextMonthN + "-" + "01" : "" + thisYear + "-" + nextMonthN + "-" + "01";
-
-        //getCalEvents(teachUri, beginDate, endDate, calcells);
-
       }
 
       /*
        Mouse functions
        */
-      function calcellClick(i){
-console.log('click '+i+' '+calcells[i].id);
-        switch (calcells[i].state) {
-          case 'free':
-            calcells[i].state = selected;
-            calcells[i].cell.animate({
-              rotation: "45"
-            }, 1000, "elastic");
-            calcells[i].cell.attr("fill", calcellbgd_slct)
-            window.location = '/curriculum/x/'+calcells[i].id;
-          break;
-          //case selected:
-          //  calcells[i].state = free;
-          //  calcells[i].animate({
-          //    rotation: "0"
-          //  }, 1000, "elastic");
-          //  calcells[i].attr("fill", calcellbgd_default)
-          default:
-        }
+      function curcellClick(i){
+console.log('click '+i+' '+curcells[i].id);
+        curcells[i].state = selected;
+        curcells[i].cell.animate({
+          rotation: "45"
+        }, 1000, "elastic");
+        curcells[i].cell.attr("fill", curcellbgd_slct)
+        window.location = '/curriculum/x/'+curcells[i].id;
       }
 
-      function calcellMouseover(i){
-        switch (calcells[i].state) {
-          case 'free':
-            calcells[i].cell.attr("fill", calcellbgd_hover);
-            break;
-          //case selected:
-          //  calcells[i].attr("fill", calcellbgd_slct);
-          //  break;
-          //case busy:
-          //  calcells[i].attr("fill", calcellbgd_busy);
-          //  break;
-          default:
-        }
+      function curcellMouseover(i){
+        curcells[i].cell.attr("fill", curcellbgd_hover);
       }
 
-      function calcellMouseout(i){
-        switch (calcells[i].state) {
-          case 'free':
-            calcells[i].cell.attr("fill", calcellbgd_default);
-            break;
-          //case selected:
-          //  calcells[i].attr("fill", calcellbgd_slct);
-          // break;
-          //case busy:
-          //  calcells[i].attr("fill", calcellbgd_busy);
-          //  break;
-          default:
-        }
+      function curcellMouseout(i){
+        curcells[i].cell.attr("fill", curcellbgd_default);
       }
-
-      var items;
-      var item_count;
-      function get_curriculum(){
-        $$('#curriculum div.child div.name').each(function(item_name, index) {
-          calcells.push({'name' : item_name.innerText,'end':1,'length':2})
-        });
-        $$('#curriculum div.child div.id').each(function(item_id, index) {
-          calcells[index].id= item_id.innerText;
-        });
-        $$('#curriculum div.child div.end').each(function(item_end, index) {
-          calcells[index].end= item_end.innerText;
-        });
-        $$('#curriculum div.child div.length').each(function(item_length, index) {
-          calcells[index].length= item_length.innerText;
-        });
-        item_count = calcells.length;
-      };
 
       window.onload = function(){
         init();
         var paper = new Raphael(document.getElementById('canvas_container'), canvas_width, canvas_height);
-        get_curriculum();
-        //$('#curriculum').hide();
-        layoutCalendar(paper, offset_y);
+        get_parent();
+        get_center();
+        get_children();
+        layoutCurriculum(paper, offset_y);
         changeCurriculum(paper, myDate, 0)
       }
     </script>

@@ -2,7 +2,6 @@ class CurriculumController < ApplicationController
   layout 'curriculum_navigator'
 
   def index
-    #@curriculum_item_root = Curriculum::CcMath.root_node
     @center = if params[:node_id] == 'root'
       curriculum_klass = "Curriculum::#{params[:name]}".constantize
       node = curriculum_klass.root_node
@@ -13,6 +12,7 @@ class CurriculumController < ApplicationController
     end
     @center[:name] = @center[:target].name
     @center[:name] ||= @center[:target].description
+    @center[:name] ||= @center[:target].code
 
     @parent = if (@center[:node].is_root?)
       nil
@@ -21,8 +21,9 @@ class CurriculumController < ApplicationController
       #target = node.target
       klass= node.target_node_klass_name.constantize
       target = klass.find(node.target_node_object_id)
-      name = target.name
+      name   = target.name
       name ||= target.description
+      name ||= target.code
       {:node => node, :target => target, :name => name }
     end
 
@@ -35,6 +36,7 @@ class CurriculumController < ApplicationController
     }.each{|h|
       h[:name] = h[:target].name
       h[:name] ||= h[:target].description
+      h[:name] ||= h[:target].code
     }
     #render :text => @parent.inspect
     #render :text => @center.inspect

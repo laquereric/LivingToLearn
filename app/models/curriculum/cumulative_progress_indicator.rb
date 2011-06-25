@@ -46,6 +46,10 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
     return nil
   end
 
+  def calc_by_end_of_grade
+    return self.by_end_of_grade
+  end
+
   def calc_full_code()
     spec= self.full_spec()
     return "" if !spec[:curriculum].respond_to?(:cumulative_progress_indicator__calc_full_code)
