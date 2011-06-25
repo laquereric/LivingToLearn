@@ -107,4 +107,16 @@ class Curriculum::ContentStatement < ActiveRecord::Base
     self.delete
   end
 
+  def calc_by_end_of_grade
+    r = if self.by_end_of_grade.nil?
+      self.by_end_of_grade = self.cumulative_progress_indicators.map{ |cumulative_progress_indicator|
+        r = cumulative_progress_indicator.by_end_of_grade.nil?
+        r ||= -1
+      }.max
+    else
+      self.by_end_of_grade
+    end
+    return Curriculum::Base.grade_to_int(r)
+  end
+
 end

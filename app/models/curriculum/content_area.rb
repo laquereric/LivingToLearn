@@ -64,6 +64,7 @@ class Curriculum::ContentArea < ActiveRecord::Base
 #######
 #
 #######
+
   def link_to_details
     self.link_to 'link',"/curriculum_content_areas/#{self.id}"
   end
@@ -146,6 +147,12 @@ class Curriculum::ContentArea < ActiveRecord::Base
     elsif ca_object.is_a? Curriculum::CumulativeProgressIndicator
       4
     end
+  end
+
+  def calc_by_end_of_grade
+    self.by_end_of_grade = self.curriculum_standards.map{ |standard|
+      Curriculum::Base.grade_to_int( standard.calc_by_end_of_grade )
+    }.max
   end
 
 end

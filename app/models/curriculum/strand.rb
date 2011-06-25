@@ -109,4 +109,10 @@ class Curriculum::Strand < ActiveRecord::Base
     self.delete
   end
 
+  def calc_by_end_of_grade
+    self.by_end_of_grade = self.curriculum_content_statements.map{ |curriculum_content_statement|
+      Curriculum::Base.grade_to_int( curriculum_content_statement.calc_by_end_of_grade )
+    }.max
+  end
+
 end

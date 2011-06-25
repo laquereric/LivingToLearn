@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110622140715) do
+ActiveRecord::Schema.define(:version => 20110623132745) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20110622140715) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "full_code"
+    t.string   "by_end_of_grade"
   end
 
   create_table "curriculum_content_statements", :force => true do |t|
@@ -105,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20110622140715) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "full_code"
+    t.string   "by_end_of_grade"
   end
 
   create_table "curriculum_strands", :force => true do |t|
@@ -116,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20110622140715) do
     t.datetime "updated_at"
     t.float    "split",                  :default => 0.0
     t.string   "full_code"
+    t.string   "by_end_of_grade"
   end
 
   create_table "educational_resources", :force => true do |t|

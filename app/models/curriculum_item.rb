@@ -1,9 +1,18 @@
 class CurriculumItem < ActiveRecord::Base
   acts_as_nested_set :dependent => :destroy
 
+  def target
+    klass= self.target_node_klass_name.constantize
+    return klass.find(self.target_node_object_id)
+  end
+
   def self.get_root_node
     root_node = self.find_by_source_klass_name_and_source_full_code('CurriculumItem','root')
     root_node ||= self.create(:source_klass_name=>'CurriculumItem',:source_full_code=>'root')
+  end
+
+  def self.get_curriculum_root_node(curriculum)
+    self.find_by_target_node_klass_name_and_source_klass_name("Curriculum::ContentArea",curriculum.to_s)
   end
 
   def self.node_config_for(curriculum,c_object)

@@ -1,6 +1,6 @@
 require 'csv'
 
-class Curriculum::CcParse
+class Curriculum::CcParse < Curriculum::Base
 
 #ID => K.RL.2
 #Category => Reading Literature
@@ -138,16 +138,6 @@ p parsed_row
 #####
 #
 ########
-
-  def self.grade_to_int(grade)
-    r= if grade == 'K'
-      0
-    elsif (m = /(.*)-(.*)/.match(grade))
-      m[1].to_i
-    else
-      grade.to_i
-    end
-  end
 
   def self.get_objects(&block)
     code = self.content_area_key

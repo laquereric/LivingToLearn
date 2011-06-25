@@ -1,4 +1,4 @@
-class Curriculum::ParseCsv
+class Curriculum::ParseCsv < Curriculum::Base
 
   require 'csv'
 
