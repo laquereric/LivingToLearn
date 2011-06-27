@@ -1,14 +1,44 @@
-<div id='curriculum' style='display:none'>
+<table id="curriculum">
 
 <% if @parent %>
+  <tr><td colspan="18">
+    <%= link_to @parent[:name], curriculum_node_path( 'x', @parent[:node].id ) %>
+  </td></tr>
+<% end %>
+
+<tr>
+<td colspan="<%=@all_grades.length%>" style="width:400"><%= link_to @center[:name], curriculum_node_path( 'x', @center[:node].id ) %></td>
+</tr>
+
+<tr>
+<td colspan="1" width='400'></td>
+<% Curriculum::Grade.all.each do |grade| %>
+  <td colspan="1" width="40"><%= grade.initials %></td>
+<% end %>
+</tr>
+
+<% @children.each_index do |index| ; child = @children[index] %>
+  <tr>
+    <td colspan="1" width='400'><%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %></td>
+    <% Curriculum::Grade.all.each do |grade| %>
+      <% to_deadline = child[:target].deadline_relative_to(grade) %>
+      <td colspan="1" width="40" class="curriculum-cell <%= "to-deadline-#{to_deadline}" %>" id="<%="#{grade.initials}--index#{@children[index][:node].id}"%>" >
+        <%= to_deadline %>
+      </td>
+    <% end %>
+  </tr>
+<% end %>
+
+</table>
+
+<% if @parent %>
+<div id='curriculum' style='display:none'>
 Parent
 <div class='parent'>
 Name:    <div class='name'><%= @parent[:name] %></div>
 Id:    <div class='id'><%= @parent[:node].id %></div>
-End:    <div class='end'><%= @parent[:target].calc_by_end_of_grade %></div>
 Length    <div class='length'><%='3'%></div>
 </div>
-
 <% end %>
 
 Center
@@ -16,7 +46,6 @@ Center
 <div class='center'>
 Name:    <div class='name'><%= @center[:name] %></div>
 Id:    <div class='id'><%= @center[:node].id %></div>
-End:    <div class='end'><%= @center[:target].calc_by_end_of_grade %></div>
 Length    <div class='length'><%='3'%></div>
 </div>
 
@@ -25,11 +54,12 @@ Children
   <div class='child'>
 Name:    <div class='name'><%= child[:name] %></div>
 Id:    <div class='id'><%= child[:node].id %></div>
-End:    <div class='end'><%= child[:target].calc_by_end_of_grade %></div>
 Length    <div class='length'><%='3'%></div>
   </div>
 <br/>
 <% end %>
 
 </div>
+
+
 

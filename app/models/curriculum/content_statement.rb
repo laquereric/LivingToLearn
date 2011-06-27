@@ -1,4 +1,5 @@
 class Curriculum::ContentStatement < ActiveRecord::Base
+  include CurriculumContent
 
   set_table_name :curriculum_content_statements
 
@@ -107,16 +108,19 @@ class Curriculum::ContentStatement < ActiveRecord::Base
     self.delete
   end
 
-  def calc_by_end_of_grade
-    r = if self.by_end_of_grade.nil?
-      self.by_end_of_grade = self.cumulative_progress_indicators.map{ |cumulative_progress_indicator|
-        r = cumulative_progress_indicator.by_end_of_grade.nil?
-        r ||= -1
-      }.max
+  def deadline_range
+    if self.cumulative_progress_indicators.length == 0
+      ::Curriculum::Grade.deadline_range(
+        self
+      )
     else
-      self.by_end_of_grade
+      ::Curriculum::Grade.deadline_range(
+        self.cumulative_progress_indicators.map{ |cumulative_progress_indicator|
+          cumulative_progress_indicator.deadline_range
+        }
+      )
     end
-    return Curriculum::Base.grade_to_int(r)
   end
 
 end
+

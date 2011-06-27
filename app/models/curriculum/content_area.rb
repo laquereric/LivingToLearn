@@ -1,4 +1,5 @@
 class Curriculum::ContentArea < ActiveRecord::Base
+  include CurriculumContent
 
   set_table_name :curriculum_content_areas
 
@@ -149,10 +150,12 @@ class Curriculum::ContentArea < ActiveRecord::Base
     end
   end
 
-  def calc_by_end_of_grade
-    self.by_end_of_grade = self.curriculum_standards.map{ |standard|
-      Curriculum::Base.grade_to_int( standard.calc_by_end_of_grade )
-    }.max
+  def deadline_range
+    Curriculum::Grade.deadline_range(
+      self.curriculum_standards.map{ |standard|
+        standard.deadline_range
+      }
+    )
   end
 
 end

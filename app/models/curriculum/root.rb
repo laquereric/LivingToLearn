@@ -9,7 +9,4 @@ class Curriculum::Root < ActiveRecord::Base
     "Root"
   end
 
-  def calc_by_end_of_grade
-  end
-
 end

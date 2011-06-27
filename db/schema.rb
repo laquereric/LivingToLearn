@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110625183931) do
+ActiveRecord::Schema.define(:version => 20110626234329) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -54,7 +54,8 @@ ActiveRecord::Schema.define(:version => 20110625183931) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "full_code"
-    t.string   "by_end_of_grade"
+    t.integer  "min_by_end_of_grade_age"
+    t.integer  "max_by_end_of_grade_age"
   end
 
   create_table "curriculum_content_statements", :force => true do |t|
@@ -116,7 +117,8 @@ ActiveRecord::Schema.define(:version => 20110625183931) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "full_code"
-    t.string   "by_end_of_grade"
+    t.integer  "min_by_end_of_grade_age"
+    t.integer  "max_by_end_of_grade_age"
   end
 
   create_table "curriculum_strands", :force => true do |t|
@@ -126,9 +128,10 @@ ActiveRecord::Schema.define(:version => 20110625183931) do
     t.integer  "curriculum_standard_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "split",                  :default => 0.0
+    t.float    "split",                   :default => 0.0
     t.string   "full_code"
-    t.string   "by_end_of_grade"
+    t.integer  "min_by_end_of_grade_age"
+    t.integer  "max_by_end_of_grade_age"
   end
 
   create_table "educational_resources", :force => true do |t|

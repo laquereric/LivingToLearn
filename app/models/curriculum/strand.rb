@@ -1,4 +1,5 @@
 class Curriculum::Strand < ActiveRecord::Base
+  include CurriculumContent
 
   set_table_name :curriculum_strands
 
@@ -109,10 +110,12 @@ class Curriculum::Strand < ActiveRecord::Base
     self.delete
   end
 
-  def calc_by_end_of_grade
-    self.by_end_of_grade = self.curriculum_content_statements.map{ |curriculum_content_statement|
-      Curriculum::Base.grade_to_int( curriculum_content_statement.calc_by_end_of_grade )
-    }.max
+  def deadline_range
+    Curriculum::Grade.deadline_range(
+      self.curriculum_content_statements.map{ |curriculum_content_statement|
+        curriculum_content_statement.deadline_range
+      }
+    )
   end
 
 end

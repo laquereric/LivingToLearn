@@ -1,27 +1,4 @@
 class Curriculum::Base
-  def self.grade_to_int(grade)
-
-    return grade if grade.is_a? Fixnum
-    r= if grade == 'K'
-      0
-    elsif grade == 'A'
-      -2
-    elsif grade == 'F'
-      -2
-    elsif grade == 'G'
-      -2
-    elsif grade == 'K'
-      -2
-    elsif grade == 'N'
-      -2
-    elsif grade == 'S'
-      -2
-    elsif (m = /(.*)-(.*)/.match(grade))
-      m[1].to_i
-    else
-      grade.to_i
-    end
-  end
 
   def self.get_cpi ( ref )
     r = {}
@@ -48,10 +25,6 @@ class Curriculum::Base
 
   def self.content_area
      self.root_node.target
-  end
-
-  def self.calc_by_end_of_grade
-    self.content_area.calc_by_end_of_grade
   end
 
 end

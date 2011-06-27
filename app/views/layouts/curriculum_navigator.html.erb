@@ -3,6 +3,19 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Version 0.9</title>
+
+   <style>
+   td.curriculum-cell{
+     color: #000000;
+   }
+   td.to-deadline-0{
+     background: #660000;
+   }
+   td.to-deadline--1{
+     background: #667010;
+   }
+   </style>
+
     <script type="text/javascript" src="/javascripts/prototype.js"></script>
     <script type="text/javascript" src="/javascripts/raphael-min.js"></script>
     <script type="text/javascript">
@@ -292,14 +305,49 @@ console.log('click '+i+' '+curcells[i].id);
         curcells[i].cell.attr("fill", curcellbgd_default);
       }
 
+/////////////////
+//
+//////////////////
+      function create_grade_sequence(paper,index,grade){
+          s = paper.rect((40*grade+50), 5, 30, 10).attr({
+            "stroke-opacity": "1",
+            "fill": "#FF0000",
+            "opacity": "1"
+          });
+      };
+
+      function create_grade_box_sequence(paper,index){
+        for (var grade = -1; grade < 17; grade++) {
+          //create_child_span(i);
+          create_grade_sequence(paper,index,grade);
+        }
+      };
+
+      function create_child_span(index){
+        var paper = new Raphael(document.getElementById('child_span_'+index), 600, 20);
+          s = paper.rect(0,0, 600, 20).attr({
+            "stroke-opacity": "1",
+            "fill": "#FFFF00",
+            "opacity": "1"
+          });
+          create_grade_box_sequence(paper,index);
+      };
+
+      function create_child_spans(){
+        for (var i = 0; i < item_count; i++) {
+          create_child_span(i);
+        }
+      }
+
       window.onload = function(){
         init();
-        var paper = new Raphael(document.getElementById('canvas_container'), canvas_width, canvas_height);
         get_parent();
         get_center();
         get_children();
-        layoutCurriculum(paper, offset_y);
-        changeCurriculum(paper, myDate, 0)
+        create_child_spans();
+        //var paper = new Raphael(document.getElementById('canvas_container'), canvas_width, canvas_height);
+        //layoutCurriculum(paper, offset_y);
+        //changeCurriculum(paper, myDate, 0)
       }
     </script>
 

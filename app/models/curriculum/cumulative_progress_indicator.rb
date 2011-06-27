@@ -1,4 +1,5 @@
 class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
+  include CurriculumContent
   set_table_name :curriculum_cumulative_progress_indicators
 
   belongs_to :curriculum_content_statement,
@@ -46,11 +47,13 @@ class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
     return nil
   end
 
-  def calc_by_end_of_grade
-    return self.by_end_of_grade
-  end
+  def deadline_range
+    Curriculum::Grade.deadline_range(
+      self
+    )
+ end
 
-  def calc_full_code()
+ def calc_full_code()
     spec= self.full_spec()
     return "" if !spec[:curriculum].respond_to?(:cumulative_progress_indicator__calc_full_code)
     return spec[:curriculum].cumulative_progress_indicator__calc_full_code(spec)

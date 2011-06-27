@@ -30,14 +30,17 @@ class CurriculumController < ApplicationController
     @children = @center[:node].children.map{ |n|
       { :node => n, :target => n.target }
     }.select{ |t|
-      t[:target].calc_by_end_of_grade != -2
-    }.sort{ |x,y|
-      x[:target].calc_by_end_of_grade <=> y[:target].calc_by_end_of_grade
+      t[:target].has_deadlines?
+    #}.sort{ |x,y|
+    #  x[:target].calc_by_end_of_grade <=> y[:target].calc_by_end_of_grade
     }.each{|h|
       h[:name] = h[:target].name
       h[:name] ||= h[:target].description
       h[:name] ||= h[:target].code
     }
+
+    @all_grades = Curriculum::Grade.all
+
     #render :text => @parent.inspect
     #render :text => @center.inspect
     #render :layout => false
