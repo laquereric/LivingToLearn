@@ -34,8 +34,12 @@ class CurriculumItem < ActiveRecord::Base
     )
   end
 
-  def self.get_curriculum_root_node(curriculum)
+  def self.get_root_for_curriculum(curriculum)
     self.find_by_target_node_klass_name_and_source_klass_name("Curriculum::ContentArea",curriculum.to_s)
+  end
+
+  def self.get_root_for_content(content)
+    self.find_by_target_node_klass_name_and_target_node_object_id(content.class.to_s,content.id)
   end
 
   def self.node_config_for(curriculum,c_object)

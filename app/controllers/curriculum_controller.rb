@@ -32,7 +32,7 @@ class CurriculumController < ApplicationController
     }.select{ |t|
       t[:target].has_deadlines?
     }.sort{ |x,y|
-      x[:target].start_grade_age*100 + x[:target].complexity <=> y[:target].start_grade_age*100 + x[:target].complexity
+      x[:target].start_grade_age*100 + x[:target].complexity <=> y[:target].start_grade_age*100 + y[:target].complexity
     }.each{|h|
       h[:name] = h[:target].name
       h[:name] ||= h[:target].description

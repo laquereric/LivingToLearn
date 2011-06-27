@@ -82,8 +82,12 @@ p 'cached'
      self.class.to_s.split('::')[1]
   end
 
+  def root_node
+    CurriculumItem.get_root_for_content(self)
+  end
+
   def complexity
-    0
+    self.root_node.children.length
   end
 
 end

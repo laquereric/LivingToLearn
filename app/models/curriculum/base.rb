@@ -20,7 +20,7 @@ class Curriculum::Base
   end
 
   def self.root_node
-    CurriculumItem.get_curriculum_root_node(self)
+    CurriculumItem.get_root_for_curriculum(self)
   end
 
   def self.content_area
