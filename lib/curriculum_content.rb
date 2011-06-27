@@ -90,5 +90,10 @@ p 'cached'
     self.root_node.children.length
   end
 
+  def span
+    dlr = self.get_deadline_range
+    return ( dlr[:max].age - dlr[:min].age )
+  end
+
 end
 
