@@ -11,7 +11,7 @@ class Curriculum::Grade
       }).initials
   end
 
-  def initials()
+  def cc_grade()
     if self.age < 4 then
       "#{age}yo"
     elsif self.age == 4 then

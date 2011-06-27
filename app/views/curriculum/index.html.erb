@@ -11,19 +11,24 @@
 </tr>
 
 <tr>
+<td></td>
+<td></td>
 <td colspan="1" width='400'></td>
 <% Curriculum::Grade.all.each do |grade| %>
-  <td colspan="1" width="40"><%= grade.initials %></td>
+  <td colspan="1" width="40"><%= grade.cc_grade %></td>
 <% end %>
 </tr>
 
 <% @children.each_index do |index| ; child = @children[index] %>
   <tr>
+
+    <td colspan="1" width='20'><%=  child[:target].klassname %></td>
+    <td colspan="1" width='10'><%=  child[:target].id %></td>
     <td colspan="1" width='400'><%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %></td>
     <% Curriculum::Grade.all.each do |grade| %>
       <% to_deadline = child[:target].deadline_relative_to(grade) %>
-      <td colspan="1" width="40" class="curriculum-cell <%= "to-deadline-#{to_deadline}" %>" id="<%="#{grade.initials}--index#{@children[index][:node].id}"%>" >
-        <%= to_deadline %>
+      <td colspan="1" width="40" class="curriculum-cell <%= "to-deadline-#{to_deadline}" %>" id="<%="#{grade.age}--index#{child[:node].id}"%>" >
+        <%= grade.cc_grade %>
       </td>
     <% end %>
   </tr>

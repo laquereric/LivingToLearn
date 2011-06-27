@@ -31,8 +31,8 @@ class CurriculumController < ApplicationController
       { :node => n, :target => n.target }
     }.select{ |t|
       t[:target].has_deadlines?
-    #}.sort{ |x,y|
-    #  x[:target].calc_by_end_of_grade <=> y[:target].calc_by_end_of_grade
+    }.sort{ |x,y|
+      x[:target].start_grade_age*100 + x[:target].complexity <=> y[:target].start_grade_age*100 + x[:target].complexity
     }.each{|h|
       h[:name] = h[:target].name
       h[:name] ||= h[:target].description
@@ -42,6 +42,8 @@ class CurriculumController < ApplicationController
     @all_grades = Curriculum::Grade.all
 
     #render :text => @parent.inspect
+    #render :text => @center[:target].deadline_relative_to(Curriculum::Grade.create(:cc_grade=>'1'))
+    #render :text => @children[0][:target].deadline_relative_to(Curriculum::Grade.create(:cc_grade=>'K'))
     #render :text => @center.inspect
     #render :layout => false
   end

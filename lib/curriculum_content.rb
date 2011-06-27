@@ -2,7 +2,11 @@ module CurriculumContent
 
   def get_deadline_range
      return cached_deadline_range() if has_cached_deadline_range?
-     return self.deadline_range
+p 'cache_miss'
+     r = self.deadline_range
+     return r if !has_cache_deadline_range_fields?
+     self.cache_deadline_range(r)
+     return r
   end
 
   def deadline_relative_to(grade)
@@ -32,6 +36,7 @@ module CurriculumContent
 
    def cache_deadline_range(range)
       self.min_by_end_of_grade_age = if range and range[:min] and range[:min].age then
+p 'cached'
        range[:min].age
      else
        -1
@@ -62,6 +67,24 @@ module CurriculumContent
        :max =>  Curriculum::Grade.create(:age => self.max_by_end_of_grade_age)
      }
    end
+
+   def start_grade_age
+     if self.has_cache_deadline_range_fields? and self.min_by_end_of_grade_age
+       self.min_by_end_of_grade_age.to_i
+     elsif self.respond_to? :by_end_of_grade and self.by_end_of_grade
+       self.by_end_of_grade.to_i
+     else
+       -1
+     end
+  end
+
+  def klassname
+     self.class.to_s.split('::')[1]
+  end
+
+  def complexity
+    0
+  end
 
 end
 
