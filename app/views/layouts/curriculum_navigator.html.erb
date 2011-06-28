@@ -5,376 +5,85 @@
     <title>Version 0.9</title>
 
    <style>
-   td.curriculum-cell{
+
+   table#curriculum{
+     border-width: 3px;
+     border-spacing: ;
+     border-style: outset;
+     background-color: #FFCECE;
+   }
+
+   table#curriculum tr.breadcrumb{
+     background-color: #FF99FF;
+   }
+
+   table#curriculum tr.header{
+     background-color: #FFFFCC;
+   }
+
+   table#curriculum th.curriculum-description{
+     font-size: 10pt;
+   }
+
+   table#curriculum td.class{
+     width: 20;
      color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
    }
-   td.to-deadline-0{
-     background: #660000;
+
+   table#curriculum td.id{
+     width: 20;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
    }
-   td.to-deadline--1{
-     background: #667010;
+
+   table#curriculum td.code{
+     width: 20;
    }
+
+   table#curriculum th.description{
+     padding:10px;
+     width: 800px;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table#curriculum th.grade{
+     width: 40px;
+     color: #000000;
+     font-size: 6pt;
+   }
+
+   table#curriculum td.grade{
+     width: 40px;
+     color: #000000;
+     font-size: 6pt;
+   }
+
+   table#curriculum td.grade div.ref-line.ref-to-deadline--1{
+     background: #33FF66;
+   }
+
+   table#curriculum td.grade div.ref-line.ref-to-deadline-0{
+     background: #FFFF66
+   }
+
+   table#curriculum td.grade div.ref-line.ref-to-deadline-1{
+     background: #FF3366;
+   }
+
    </style>
 
     <script type="text/javascript" src="/javascripts/prototype.js"></script>
-    <script type="text/javascript" src="/javascripts/raphael-min.js"></script>
-    <script type="text/javascript">
-     var bookUri="";
 
-      var iDay, cDay, thisYear, thisMonth, thisDay, daysInMonth, myDate;
-      var grade = new Array("K", "1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12","F","So","J","Se");
-
-      var curricula = new Array("All","21rst Century","Reading", "Math", "Character");
-      var curriculum_offset = 0;
-
-      /*
-       Calendar cell array and properties GLOBAL Variables
-       */
-      var canvas_width = 1400;
-      var canvas_height = 720;
-      var left_col_width = 250;
-
-      var curcells = new Array();
-
-      var left_col = new Array();
-      var curslct = new Array();//selectable area of curriculum cells
-      var grades = new Array();
-
-      var curbgd = "#C0C0C0", offset_x = 5, offset_y = 40;
-      //Sizes
-      var curcell_x = 50;//width
-      var curcell_y = 50;//height
-      var curcell_r = 10;//rounded corner
-      var curcell_bord = 5;
-      var cursize = 12, titlesize = 30;
-      var free = 0, selected = 1, busy = 2;
-      //Colours
-      var curcellbgd_default = "#FFFFFF";//white
-      var curcellbgd_wkend = "#D3D3D3";//lightgray
-      var curcellbgd_busy = "#FF0000";//red
-      var curcellbgd_slct = "#FFD700";//gold
-      var curcellbgd_hover = "#008000";//green
-      var gradebgd = "#A9A9A9";//darkgray
-      var wkdayfont = "#FFFFFF";//white
-      //Adjust scale
-      var calscale = 0.75;
-
-      function init(){
-        //Adjust to Scale
-        curcell_x = curcell_x * calscale;
-        curcell_y = curcell_y * calscale;
-        curcell_r = curcell_r * calscale;
-        cursize = cursize * calscale;
-        titlesize = titlesize * calscale;
-        offset_x = offset_x * calscale;
-        offset_y = offset_y * calscale;
-        canvas_width = canvas_width * calscale;
-        canvas_height = canvas_height * calscale;
-        // get the canvas div element
-        var d = document.getElementById('canvas_container');
-        // scale canvas width
-        d.style.width = "" + canvas_width + "px";
-      }
-
-/////////////////////
-// Import From HTML
-//////////////////////
-
-      var item_count;
-      function get_children(){
-        $$('#curriculum div.child div.name').each(function(item_name, index) {
-          curcells.push({'name' : item_name.innerText,'end':1,'length':2})
-        });
-        $$('#curriculum div.child div.id').each(function(item_id, index) {
-          curcells[index].id= item_id.innerText;
-        });
-        $$('#curriculum div.child div.end').each(function(item_end, index) {
-          curcells[index].end= item_end.innerText;
-        });
-        $$('#curriculum div.child div.length').each(function(item_length, index) {
-          curcells[index].length= item_length.innerText;
-        });
-        item_count = curcells.length;
-      };
-
-      var cur_parent;
-      function get_parent(){
-        $$('#curriculum div.parent div.name').each(function(item_name, index) {
-          cur_parent = {'name' : item_name.innerText,'end':1,'length':2};
-        });
-        if (typeof cur_parent != 'undefined') {
-          $$('#curriculum div.parent div.id').each(function(item_id, index) {
-            cur_parent.id= item_id.innerText;
-          });
-          $$('#curriculum div.parent div.end').each(function(item_end, index) {
-            cur_parent.end= item_end.innerText;
-          });
-          $$('#curriculum div.parent div.length').each(function(item_length, index) {
-            cur_parent.length= item_length.innerText;
-          });
-        }
-      };
-
-      var cur_center;
-      function get_center(){
-        $$('#curriculum div.center div.name').each(function(item_name, index) {
-          cur_center = {'name' : item_name.innerText,'end':1,'length':2};
-        });
-        if (typeof cur_center != 'undefined') {
-          $$('#curriculum div.center div.id').each(function(item_id, index) {
-            cur_center.id= item_id.innerText;
-          });
-          $$('#curriculum div.center div.end').each(function(item_end, index) {
-            cur_center.end= item_end.innerText;
-          });
-          $$('#curriculum div.center div.length').each(function(item_length, index) {
-            cur_center.length= item_length.innerText;
-          });
-        }
-      };
-
-////////////////////////
-//
-/////////////////////////
-
-      function changeCurriculum(paper, myDate, alter){
-        showCurriculum(paper, offset_y, cur_center.name );
-      }
-
-      function layoutCurriculum(paper, offsety){
-        /*
-         Navigation buttons
-        */
-        var xob, xon, yo;// x,y origins of next and back buttons
-        xob = 2 * offset_x * calscale;
-        xon = 7 * curcell_x - offset_x;
-        yo = offset_y - (30 * calscale);
-
-        //Create Back button
-        var arrowback = paper.path(
-          "m 20.368616,123.25906 17.377,-10.033 v 5.156 c 0,0 3.83,0 7.529,0 3.7,0 7.885,-4.855 7.885,-4.855 0,0 -1.141,11.418 -5.326,13.32 -4.188,1.902 -10.087,1.293 -10.087,1.293 v 5.154 l -17.378,-10.035 z"
-          ).attr({
-          fill: "#FFFFFF",//white
-          cursor: "pointer"
-        }).scale(calscale);
-        var bBox = arrowback.getBBox();
-        arrowback.translate(xob - bBox.x, yo - bBox.y);
-
-        // Hover navigation buttons
-        arrowback.hover(function(){
-            this.animate({
-            scale: [calscale * 1.2, calscale * 1.2],
-            "fill": curcellbgd_hover
-          }, 500, ">");
-        }, function(){
-          this.stop();//if moveout stop animation early
-          this.scale(calscale, calscale).attr("fill", "#FFFFFF");
-        });
-
-        //onClick Navigation Buttons
-        arrowback.click(function(){
-          window.location = '/curriculum/x/'+cur_parent.id;
-
-        });
-
-        /*
-         School Year header
-         */
-        columns= 17;
-        var ooffset_x = offset_x + left_col_width;
-        for (var i = 0; i < columns; i++) {
-          grades[i] = paper.rect(ooffset_x + curcell_x * i, offsety, curcell_x, curcell_y);
-          grades[i].cell = paper.text(ooffset_x + (i + 0.5) * curcell_x, offsety + 0.25 * curcell_y, grade[i]);
-          grades[i].attr({
-            "fill": gradebgd,
-            "stroke": curbgd,
-            "stroke-width": curcell_bord
-          });
-          grades[i].cell.attr({
-            "font-size": cursize * .8,
-            "fill": wkdayfont
-          });
-        }
-        offsety = offsety + curcell_y / 2;
-        /*
-         Create Cur Cell-Table
-        */
-        var r, c;
-        for (var i = 0; i < item_count; i++) {
-          r = i+1;
-          c = curcells[i].end;
-          l = curcells[i].length;
-          var left_col = c - l + 1;
-          if (left_col < 0 ) {
-             l = eval(l) + eval(left_col);
-             left_col = 0;
-          }
-          var left = ooffset_x + (left_col * curcell_x);
-          curcells[i].cell = paper.rect(left, r * curcell_y + offsety, curcell_x*l, curcell_y, curcell_r);
-          curcells[i].index = i;
-          curcells[i].col = c;
-        }
-        initCurstate();
-      }
-
-      //Initialise calendar state  - end or month change
-      function initCurstate(){
-        for (var i = 0; i < item_count; i++) {
-          var curcell = curcells[i];
-          if (typeof curcell == 'undefined') next;
-          //curcell.state = 'free';//initial state free, can be: free/selected/busy
-          curcell.cell.attr({
-            "stroke": curbgd,
-            "stroke-width": curcell_bord
-          });
-          curcell.cell.attr({
-            "fill": curcellbgd_default
-          });
-          curcells[i].cell.attr({
-            "rotation": 0
-          });
-        }
-      }
-
-      function clearCurriculum(){
-        month.remove();
-        for (var i in left_col) {
-          left_col[i].remove();
-        }
-        for (var i in curslct) {
-          curslct[i].remove();
-        }
-        initCurstate();
-      }
-
-      function showCurriculum(paper, offsety, cmonth){
-console.log('showCurriculum '+cmonth);
-console.log(cur_center);
-        month = paper.text(8.5 * curcell_x, offsety - titlesize / 1.5, cmonth + " ").attr("font-size", titlesize);
-
-        offsety = offsety + curcell_y / 2;
-        //This Curriculum
-        for (var i = 0; i < item_count; i++) {
-          var bBox = curcells[i].cell.getBBox();
-
-          curcells[i].state = 'free';
-          left_col[i] = paper.text( left_col_width/2 , bBox.y + 0.5 * curcell_y,  curcells[i].name );
-          left_col[i].attr({
-            "font-size": cursize
-          });
-
-          curslct[i] = paper.rect(bBox.x, bBox.y, bBox.width, bBox.height).attr({
-            "stroke-opacity": "0",
-            "fill": "#FFFFFF",
-            "opacity": "0"
-          });
-
-          curslct[i].index = i;
-          curslct[i].attr("cursor", "pointer");
-
-          curslct[i].click(function(){
-            curcellClick(this.index);
-          });
-          curslct[i].mouseover(function(){
-            curcellMouseover(this.index);
-          });
-          curslct[i].mouseout(function(){
-            curcellMouseout(this.index);
-          });
-        }
-      }
-
-      /*
-       Mouse functions
-       */
-      function curcellClick(i){
-console.log('click '+i+' '+curcells[i].id);
-        curcells[i].state = selected;
-        curcells[i].cell.animate({
-          rotation: "45"
-        }, 1000, "elastic");
-        curcells[i].cell.attr("fill", curcellbgd_slct)
-        window.location = '/curriculum/x/'+curcells[i].id;
-      }
-
-      function curcellMouseover(i){
-        curcells[i].cell.attr("fill", curcellbgd_hover);
-      }
-
-      function curcellMouseout(i){
-        curcells[i].cell.attr("fill", curcellbgd_default);
-      }
-
-/////////////////
-//
-//////////////////
-      function create_grade_sequence(paper,index,grade){
-          s = paper.rect((40*grade+50), 5, 30, 10).attr({
-            "stroke-opacity": "1",
-            "fill": "#FF0000",
-            "opacity": "1"
-          });
-      };
-
-      function create_grade_box_sequence(paper,index){
-        for (var grade = -1; grade < 17; grade++) {
-          //create_child_span(i);
-          create_grade_sequence(paper,index,grade);
-        }
-      };
-
-      function create_child_span(index){
-        var paper = new Raphael(document.getElementById('child_span_'+index), 600, 20);
-          s = paper.rect(0,0, 600, 20).attr({
-            "stroke-opacity": "1",
-            "fill": "#FFFF00",
-            "opacity": "1"
-          });
-          create_grade_box_sequence(paper,index);
-      };
-
-      function create_child_spans(){
-        for (var i = 0; i < item_count; i++) {
-          create_child_span(i);
-        }
-      }
-
-      window.onload = function(){
-        init();
-        get_parent();
-        get_center();
-        get_children();
-        create_child_spans();
-        //var paper = new Raphael(document.getElementById('canvas_container'), canvas_width, canvas_height);
-        //layoutCurriculum(paper, offset_y);
-        //changeCurriculum(paper, myDate, 0)
-      }
-    </script>
-
-    <style type="text/css">
-      #canvas_container {
-          width: 360px;
-          border: 10px solid #aaa;
-          background: #C0C0C0;/*silver*/
-      }
-  .tagline {
-      color:#CC3300;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      line-height: 18px;
-  }
-  .broken {
-      color: #F00;
-  }
-    </style>
-  </head>
+   </head>
 <body>
 <%= yield %>
-    <div id="canvas_container">
-    </div>
-    <p class="broken"><strong>Some Toolbars in Internet Explorer will stop this page from working, e.g ZoneAlarm Toolbar. Try hiding the toolbar!</strong></p>
-<div class="tagline"><br />
-    	Last modified: June 14 2011 22:48:40.    </div>
-
-  </body>
+</body>
 </html>

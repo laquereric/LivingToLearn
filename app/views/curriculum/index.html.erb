@@ -1,70 +1,62 @@
 <table id="curriculum">
 
 <% if @parent %>
-  <tr><td colspan="18">
-    <%= link_to @parent[:name], curriculum_node_path( 'x', @parent[:node].id ) %>
+  <tr  class="breadcrumb" ><td colspan=<%=@all_grades.length+4%> >
+    Parent: <%= link_to @parent[:name], curriculum_node_path( 'x', @parent[:node].id ) %>
   </td></tr>
 <% end %>
 
-<tr>
-<td colspan="<%=@all_grades.length%>" style="width:400"><%= link_to @center[:name], curriculum_node_path( 'x', @center[:node].id ) %></td>
+<tr class="breadcrumb" >
+<td colspan="<%=@all_grades.length+4%>">
+  Current: <%= link_to @center[:name], curriculum_node_path( 'x', @center[:node].id ) %>
+</td>
 </tr>
 
-<tr>
-<td></td>
-<td></td>
-<td colspan="1" width='400'></td>
-<% Curriculum::Grade.all.each do |grade| %>
-  <td colspan="1" width="40"><%= grade.cc_grade %></td>
-<% end %>
+<tr class="header">
+  <th class="header">Klass</th>
+  <th  class="description" rowspan="3">Description</th>
+  <% Curriculum::Grade.all.each do |grade| %>
+    <th rowspan="3" class="grade"><%= grade.cc_grade %></th>
+  <% end %>
 </tr>
+
+<tr class="header"><th>Id</th></tr>
+<tr class="header"><th>Code</th></tr>
 
 <% @children.each_index do |index| ; child = @children[index] %>
   <tr>
 
-    <td colspan="1" width='20'><%=  child[:target].klassname %></td>
-    <td colspan="1" width='10'><%=  child[:target].id %></td>
-    <td colspan="1" width='400'><%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %></td>
+    <td colspan="1" class="class" >
+      <div><%=  child[:target].klassname %></div>
+      <div><%=  child[:target].id %></div>
+      <div><%=  child[:target].full_code %></div>
+    </td>
+    <td colspan="1" class="description" >
+      <%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %>
+    </td>
     <% Curriculum::Grade.all.each do |grade| %>
-      <% to_deadline = child[:target].deadline_relative_to(grade) %>
-      <td colspan="1" width="40" class="curriculum-cell <%= "to-deadline-#{to_deadline}" %>" id="<%="#{grade.age}--index#{child[:node].id}"%>" >
-        <%= grade.cc_grade %>
+      <% ref_to_deadline = child[:target].deadline_relative_to(grade) %>
+      <% ref_line = if ref_to_deadline > -2 and ref_to_deadline < 2 then
+         grade.cc_grade
+      end %>
+      <td rowspan="1" class="grade" id="<%="#{grade.age}--index#{child[:node].id}"%>" >
+
+        <div class="ref-line <%= "ref-to-deadline-#{ref_to_deadline}" %>">
+          <%= ref_line %>
+        </div>
+
+        <div class="second_line">
+
+        </div>
+
+        <div class="third_line">
+
+        </div>
+
       </td>
     <% end %>
   </tr>
 <% end %>
 
 </table>
-
-<% if @parent %>
-<div id='curriculum' style='display:none'>
-Parent
-<div class='parent'>
-Name:    <div class='name'><%= @parent[:name] %></div>
-Id:    <div class='id'><%= @parent[:node].id %></div>
-Length    <div class='length'><%='3'%></div>
-</div>
-<% end %>
-
-Center
-
-<div class='center'>
-Name:    <div class='name'><%= @center[:name] %></div>
-Id:    <div class='id'><%= @center[:node].id %></div>
-Length    <div class='length'><%='3'%></div>
-</div>
-
-Children
-<% @children.each do |child| %>
-  <div class='child'>
-Name:    <div class='name'><%= child[:name] %></div>
-Id:    <div class='id'><%= child[:node].id %></div>
-Length    <div class='length'><%='3'%></div>
-  </div>
-<br/>
-<% end %>
-
-</div>
-
-
 
