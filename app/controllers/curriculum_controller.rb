@@ -1,5 +1,5 @@
 class CurriculumController < ApplicationController
-
+  caches_page :index, :root
   def root
     params[:name] = 'root'
     self.index
@@ -69,6 +69,7 @@ begin
          r = x[:target].start_grade_age*100 + x[:target].span <=> y[:target].start_grade_age*100 + y[:target].span
       #else
 rescue
+p "could not sort #{x[:target].inspect}"
         r = 0 <=> 0
 end
     }.each{|h|
