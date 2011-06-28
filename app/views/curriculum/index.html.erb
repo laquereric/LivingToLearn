@@ -1,3 +1,96 @@
+<% content_for :head do -%>
+
+   <style>
+
+   table#curriculum{
+     border-width: 3px;
+     border-spacing: ;
+     border-style: outset;
+     background-color: #FFCECE;
+   }
+
+   table#curriculum tr.breadcrumb{
+     background-color: #FF99FF;
+   }
+
+   table#curriculum tr.header th{
+     font-size: 10pt;
+     text-align: center;
+     background-color: #FFFFCC;
+   }
+i
+   table#curriculum th.curriculum-description{
+     font-size: 10pt;
+   }
+
+   table#curriculum td.class{
+     width: 20;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table#curriculum td.id{
+     width: 20;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table#curriculum td.code{
+     width: 20;
+   }
+
+   table#curriculum th.description{
+     padding:10px;
+     width: 400px;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table#curriculum td.description{
+     padding:5px;
+     width:400px;
+   }
+
+   table#curriculum th.grade{
+     width: 40px;
+     color: #000000;
+     font-size: 6pt;
+   }
+
+   table#curriculum td.grade{
+     text-align: center;
+     width: 40px;
+     color: #000000;
+     font-size: 6pt;
+   }
+
+   table#curriculum td.grade div.ref-line.ref-to-deadline--1{
+     background: #33FF66;
+   }
+
+   table#curriculum td.grade div.ref-line.ref-to-deadline-0{
+     background: #FFFF66
+   }
+
+   table#curriculum td.grade div.ref-line.ref-to-deadline-1{
+     background: #FF3366;
+   }
+
+   </style>
+
+<% end %>
+
+<% content_for :message_region do %>
+  Curriculum Standards
+<% end %>
+
+<% content_for :target_region do %>
 <table id="curriculum">
 
 <% if @parent %>
@@ -57,6 +150,6 @@
     <% end %>
   </tr>
 <% end %>
-
 </table>
 
+<% end %>

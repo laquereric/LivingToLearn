@@ -1,8 +1,17 @@
 class CurriculumController < ApplicationController
-  layout 'curriculum_navigator'
+
+  def root
+    params[:name] = 'root'
+    self.index
+    render :action => :index
+  end
 
   def index
-    @center = if params[:node_id] == 'root'
+
+    @center = if params[:name] == 'root'
+      node = CurriculumItem.root
+      { :node => node, :target => Curriculum::Root.first }
+    elsif params[:node_id] == 'root'
       curriculum_klass = "Curriculum::#{params[:name]}".constantize
       node = curriculum_klass.root_node
       { :node => node, :target => node.target }
@@ -10,6 +19,7 @@ class CurriculumController < ApplicationController
       node = CurriculumItem.find_by_id(params[:node_id])
       { :node => node, :target => node.target }
     end
+
     @center[:name] = @center[:target].name
     @center[:name] ||= @center[:target].description
     @center[:name] ||= @center[:target].code
