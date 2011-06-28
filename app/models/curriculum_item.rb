@@ -52,6 +52,7 @@ class CurriculumItem < ActiveRecord::Base
   end
 
   def self.add_nodes_for_curriculum(curriculum_klass)
+p "add_nodes_for_curriculum #{curriculum_klass.to_s}"
     current_node= nil
     current_level= nil
     curriculum_klass.get_objects{ |c_object|

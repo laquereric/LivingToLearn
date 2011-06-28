@@ -92,7 +92,7 @@ class Curriculum::Grade
 #p "4 #{r.inspect}"
         r[:min] = if r[:min].nil? or
           ( !r[:min].nil? and     !result[:min].nil? and
-            !r[:min].age.nil? and !result[:min].age..nil? and
+            !r[:min].age.nil? and !result[:min].age.nil? and
             result[:min].age < r[:min].age
           )
           result[:min]

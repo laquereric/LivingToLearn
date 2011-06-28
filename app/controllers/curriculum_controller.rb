@@ -61,11 +61,16 @@ class CurriculumController < ApplicationController
     }.select{ |t|
       ( @curriculum.nil? or !@curriculum.by_grade? or (@curriculum.by_grade? and t[:target].has_deadlines? ) )
     }.sort{ |x,y|
-      if @curriculum and @curriculum.by_grade?
-        x[:target].start_grade_age*100 + x[:target].span <=> y[:target].start_grade_age*100 + y[:target].span
-      else
-        0 <=> 0
-      end
+r=nil
+begin
+      #if @curriculum and @curriculum.by_grade? and
+       #!x[:target].start_grade_age.nil? and !y[:target].start_grade_age.nil? and
+       #!x[:target].span.nil? and !y[:target].span.nil? then
+         r = x[:target].start_grade_age*100 + x[:target].span <=> y[:target].start_grade_age*100 + y[:target].span
+      #else
+rescue
+        r = 0 <=> 0
+end
     }.each{|h|
       h[:name] = h[:target].name
       h[:name] ||= h[:target].description

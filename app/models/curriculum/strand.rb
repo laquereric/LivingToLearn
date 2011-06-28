@@ -16,15 +16,29 @@ class Curriculum::Strand < ActiveRecord::Base
 
   def curriculum_content_statements_sorted_by_grade
     self.curriculum_content_statements.sort{ |x,y|
-      Curriculum::CcParse.grade_to_int(x.by_end_of_grade) <=>
-      Curriculum::CcParse.grade_to_int(y.by_end_of_grade)
+      if !x.by_end_of_grade.nil? and !x.by_end_of_grade.nil?
+        Curriculum::Grade.cc_grade_to_int(x.by_end_of_grade) <=>
+        Curriculum::Grade.cc_grade_to_int(y.by_end_of_grade)
+      else
+        0<=>0
+      end
     }
   end
 
   def curriculum_content_statements_sorted_by_grade_and_code
     self.curriculum_content_statements.sort{ |x,y|
-      (100*Curriculum::CcParse.grade_to_int(x.by_end_of_grade))+x.code.to_i <=>
-      (100*Curriculum::CcParse.grade_to_int(y.by_end_of_grade))+y.code.to_i
+      r = if !x.by_end_of_grade.nil? and !y.by_end_of_grade.nil? then
+        x_cc_int = Curriculum::Grade.cc_grade_to_int(x.by_end_of_grade)
+        y_cc_int = Curriculum::Grade.cc_grade_to_int(y.by_end_of_grade)
+        if !x_cc_int.nil? and !y_cc_int.nil? and !x.code.nil? and !y.code.nil? then
+          (100*x_cc_int) + x.code.to_i <=>
+          (100*y_cc_int) + y.code.to_i
+        else
+          0<=>0
+        end
+      else
+          0<=>0
+      end
     }
   end
 
