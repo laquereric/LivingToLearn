@@ -93,15 +93,21 @@ i
 <% content_for :target_region do %>
 <table id="curriculum">
 
-<% if @parent %>
-  <tr  class="breadcrumb" ><td colspan=<%=@all_grades.length+4%> >
-    Parent: <%= link_to @parent[:name], curriculum_node_path( 'x', @parent[:node].id ) %>
-  </td></tr>
-<% end %>
-
 <tr class="breadcrumb" >
 <td colspan="<%=@all_grades.length+4%>">
-  Current: <%= link_to @center[:name], curriculum_node_path( 'x', @center[:node].id ) %>
+  <% if @great_great_grand_parent %>
+    <%= link_to @great_great_grand_parent[:name], curriculum_node_path( 'x', @great_great_grand_parent[:node].id ) %> >
+  <% end %>
+  <% if @great_grand_parent %>
+    <%= link_to @great_grand_parent[:name], curriculum_node_path( 'x', @great_grand_parent[:node].id ) %> >
+  <% end %>
+  <% if @grand_parent %>
+    <%= link_to @grand_parent[:name], curriculum_node_path( 'x', @grand_parent[:node].id ) %> >
+  <% end %>
+  <% if @parent %>
+    <%= link_to @parent[:name], curriculum_node_path( 'x', @parent[:node].id ) %> >
+  <% end %>
+  <%= @center[:name] %>
 </td>
 </tr>
 
@@ -125,7 +131,11 @@ i
       <div><%=  child[:target].full_code %></div>
     </td>
     <td colspan="1" class="description" >
-      <%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %>
+      <% if child[:terminal] %>
+        <%=  child[:name] %>
+      <% else %>
+        <%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %>
+      <% end %>
     </td>
     <% Curriculum::Grade.all.each do |grade| %>
       <% ref_to_deadline = child[:target].deadline_relative_to(grade) %>
