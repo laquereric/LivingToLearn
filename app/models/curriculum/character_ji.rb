@@ -1,5 +1,9 @@
 class Curriculum::CharacterJi < Curriculum::ParseCsv
 
+  def self.by_grade?
+    false
+  end
+
 ############
 # Lower Level
 #############

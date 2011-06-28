@@ -90,13 +90,22 @@ class Curriculum::Grade
 
       if result
 #p "4 #{r.inspect}"
-        r[:min] = if r[:min].nil? or ( result[:min].age and result[:min].age < r[:min].age )
+        r[:min] = if r[:min].nil? or
+          ( !r[:min].nil? and     !result[:min].nil? and
+            !r[:min].age.nil? and !result[:min].age..nil? and
+            result[:min].age < r[:min].age
+          )
           result[:min]
         else
           r[:min]
         end
-#p "5 #{r.inspect}"
-        r[:max] = if r[:max].nil? or ( result[:max].age and result[:max].age > r[:max].age )
+p "r #{r.inspect}"
+p "result #{result.inspect}"
+        r[:max] = if r[:max].nil? or
+          ( !r[:max].nil? and     !result[:max].nil? and
+            !r[:max].age.nil? and !result[:max].age.nil? and
+            result[:max].age > r[:max].age
+          )
           result[:max]
         else
           r[:max]

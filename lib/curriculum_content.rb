@@ -1,6 +1,7 @@
 module CurriculumContent
 
   def get_deadline_range
+     return nil if curriculum and !curriculum.by_grade?
      return cached_deadline_range() if has_cached_deadline_range?
 p 'cache_miss'
      r = self.deadline_range
@@ -17,7 +18,7 @@ p 'cache_miss'
 
      r = if age and range and range[:min] and range[:min].age and age < range[:min].age then
        age - range[:min].age
-     elsif  age and range and range[:max] and range[:max].age and age > range[:max].age
+     elsif  age and range and range[:max] and range[:max].age and age > range[:max].age then
        age - range[:max].age
      else
        0
@@ -94,6 +95,13 @@ p 'cached'
     dlr = self.get_deadline_range
     return ( dlr[:max].age - dlr[:min].age )
   end
+
+  def curriculum
+    #(self.respond_to? :curriculum_classname ? self.curriculum_classname.constantize : nil )
+    if self.respond_to? :curriculum_classname then self.curriculum_classname.constantize else nil end
+  end
+
+
 
 end
 

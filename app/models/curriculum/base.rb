@@ -1,4 +1,7 @@
 class Curriculum::Base
+  def self.by_grade?
+    true
+  end
 
   def self.get_cpi ( ref )
     r = {}

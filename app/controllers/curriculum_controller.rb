@@ -39,21 +39,9 @@ class CurriculumController < ApplicationController
 
     self.complete(@center)
 
-    @children = @center[:node].children.map{ |node|
-      self.complete( { :node => node } )
-    }.select{ |t|
-      t[:target].has_deadlines?
-    }.sort{ |x,y|
-      x[:target].start_grade_age*100 + x[:target].span <=> y[:target].start_grade_age*100 + y[:target].span
-    }.each{|h|
-      h[:name] = h[:target].name
-      h[:name] ||= h[:target].description
-      h[:name] ||= h[:target].code
-    }
-
    @parent= complete ( {:node => @center[:node].parent } )  if !(@center[:node].is_root?)
-   @grand_parent= complete ( {:node => @parent[:node].parent } ) if @parent and !(@parent[:node].is_root?)
 
+   @grand_parent= complete ( {:node => @parent[:node].parent } ) if @parent and !(@parent[:node].is_root?)
 
     @great_grand_parent = if @grand_parent and !(@grand_parent[:node].is_root?)
       complete ( {:node => @grand_parent[:node].parent } )
@@ -63,8 +51,32 @@ class CurriculumController < ApplicationController
       complete ( {:node => @great_grand_parent[:node].parent } )
     end
 
+    @curriculum = [@center,@parent,@grand_parent,@great_grand_parent, @great_great_grand_parent].compact.map{ |i|
+      i[:target].curriculum 
+    }.compact[0]
+#render :text => @curriculum.by_grade? ; return
+
+    @children = @center[:node].children.map{ |child|
+      self.complete( { :node => child } )
+    }.select{ |t|
+      ( @curriculum.nil? or !@curriculum.by_grade? or (@curriculum.by_grade? and t[:target].has_deadlines? ) )
+    }.sort{ |x,y|
+      if @curriculum and @curriculum.by_grade?
+        x[:target].start_grade_age*100 + x[:target].span <=> y[:target].start_grade_age*100 + y[:target].span
+      else
+        0 <=> 0
+      end
+    }.each{|h|
+      h[:name] = h[:target].name
+      h[:name] ||= h[:target].description
+      h[:name] ||= h[:target].code
+    }
+
     @all_grades = Curriculum::Grade.all
 
+    #render :text => @curriculum.inspect
+    #render :text => @center.inspect
+    #render :text => @children.inspect
     #render :text => @parent.inspect
     #render :text => @center[:target].deadline_relative_to(Curriculum::Grade.create(:cc_grade=>'1'))
     #render :text => @children[0][:target].deadline_relative_to(Curriculum::Grade.create(:cc_grade=>'K'))

@@ -137,11 +137,18 @@ i
         <%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %>
       <% end %>
     </td>
+
+<% if @curriculum.nil? or @curriculum.by_grade? %>
+
     <% Curriculum::Grade.all.each do |grade| %>
+
       <% ref_to_deadline = child[:target].deadline_relative_to(grade) %>
-      <% ref_line = if ref_to_deadline > -2 and ref_to_deadline < 2 then
-         grade.cc_grade
-      end %>
+      <% ref_line = if !ref_to_deadline.nil? and ref_to_deadline > -2 and ref_to_deadline < 2 then
+           grade.cc_grade
+         else
+           nil
+         end
+      %>
       <td rowspan="1" class="grade" id="<%="#{grade.age}--index#{child[:node].id}"%>" >
 
         <div class="ref-line <%= "ref-to-deadline-#{ref_to_deadline}" %>">
@@ -158,6 +165,8 @@ i
 
       </td>
     <% end %>
+<% end %>
+
   </tr>
 <% end %>
 </table>

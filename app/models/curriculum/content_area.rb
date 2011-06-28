@@ -31,9 +31,11 @@ class Curriculum::ContentArea < ActiveRecord::Base
         x.code <=> y.code
     }
   end
+
 #######
 #
 #######
+
   include ReportLine
 
   include ActionView::Helpers::UrlHelper
@@ -56,10 +58,6 @@ class Curriculum::ContentArea < ActiveRecord::Base
     }
     p  "#{self.code} not found!"
     return nil
-  end
-
-  def curriculum
-    self.curriculum_classname.constantize
   end
 
 #######
