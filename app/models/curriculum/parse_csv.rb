@@ -46,15 +46,6 @@ class Curriculum::ParseCsv < Curriculum::Base
 # CSV Import methods
 ##########################
 
-  def self.to_key(raw_value)
-    return nil if raw_value.nil? or raw_value.gsub(' ','').length == 0
-    if ( srw = raw_value.split('__') ).length == 2
-      return srw[0]
-    else
-      return raw_value
-    end
-  end
-
   def self.to_key_pair(raw_value)
     return nil if raw_value.nil? or raw_value.gsub(' ','').length == 0
     if ( srw = raw_value.split('__') ).length == 2
@@ -81,152 +72,72 @@ class Curriculum::ParseCsv < Curriculum::Base
   end
 
   def self.get_csv_data
-    last_r = nil
-    self.records = []
-    self.content_areas = {}
-    self.standards = {}
-    self.strands = {}
-    new_r = false
+    content_area = nil
+    standard = nil
+    strand = nil
+    content_statement = nil
+    cumulative_progress_indicator = nil
+
+    by_end_of_grade_column = nil
 
     self.each_csv_row{ |line_number,raw_row|
 
       row = self.clean_row(raw_row)
 
       if line_number != 0
-        r = self.new
-
-        r.content_area = to_key( row[0] )
-        if last_r and r.content_area != last_r.content_area
-        end
-        r.content_area ||= last_r.content_area  if last_r
-
-        content_area_key , value = to_key_pair( row[0] )
-        if content_area_key
-          self.content_areas[content_area_key]  = value
-          self.standards[content_area_key] = {} if standards[content_area_key].nil?
-          self.strands[content_area_key] = {} if strands[content_area_key].nil?
+        content_area_column = to_key_pair( row[0] )
+        if content_area_column and content_area_column.length>0
+          content_area = Curriculum::ContentArea.create({
+            :code => content_area_column[0],
+            :name => content_area_column[1]
+          })
         end
 
-        r.standard = to_key( row[1] )
-        if last_r and r.standard != last_r.standard
-          new_r = true
-        end
-        r.standard ||= last_r.standard if last_r
-
-        standard_key , value = to_key_pair( row[1] )
-        if standard_key
-          content_area_key = r.content_area
-          self.standards[content_area_key][standard_key]  = value
-          self.strands[content_area_key][standard_key] = {} if strands[content_area_key][standard_key].nil?
-        end
-        r.strand = to_key( row[2] )
-        r.strand ||= last_r.strand if last_r
-        if last_r and r.strand != last_r.strand
-          new_r = true
-        end
-        strand_key , value = to_key_pair( row[2] )
-        if strand_key
-          content_area_key = r.content_area
-          standard_key = r.standard
-          self.strands[content_area_key][standard_key][strand_key] = value
+        standard_column = to_key_pair( row[1] )
+        if standard_column and standard_column[1] and standard_column[1].length>0
+          standard = content_area.find_or_create_standard({
+            :code => standard_column[0],
+            :name => standard_column[1],
+            :curriculum_content_area_id => content_area.id
+          })
         end
 
-        r.split = row[3]
-        r.split ||= last_r.split if last_r
-
-        r.by_end_of_grade = row[4]
-        r.by_end_of_grade ||= last_r.by_end_of_grade if last_r
-        if last_r and r.by_end_of_grade != last_r.by_end_of_grade
-          new_r = true
+        strand_column = to_key_pair( row[2] )
+        if strand_column and strand_column[0] and strand_column[0].length > 0
+          strand = standard.find_or_create_strand({
+            :code => strand_column[0],
+            :name => strand_column[1],
+            :curriculum_standard_id => standard.id
+          })
         end
 
-        r.content_statement = row[5]
-        r.content_statement.strip! if r.content_statement
-        r.content_statement ||= last_r.content_statement if last_r
-        if last_r and r.content_statement != last_r.content_statement
-          new_r = true
+        split_column = row[3]
+        by_end_of_grade_column = row[4] if !row[4].nil? and row[4].length>0
+
+        content_statement_column = row[5]
+        content_statement_column.strip! if content_statement_column
+        if content_statement_column and content_statement_column.length>0
+          content_statement = strand.find_or_create_content_statement({
+            #:by_end_of_grade => by_end_of_grade_column,
+            :description => content_statement_column,
+            :curriculum_strand_id => strand.id
+          })
         end
 
-        r.cpi_num = row[6]
-        r.cumulative_progress_indicator = row[7]
-        if last_r and r.cpi_num != last_r.cpi_num
-          new_r = true
+        cpi_num_column = row[6]
+        cumulative_progress_indicator_column = row[7]
+        if cpi_num_column and cpi_num_column.length>0 then
+          cumulative_progress_indicator = content_statement.find_or_create_cumulative_progress_indicator({
+            :by_end_of_grade => by_end_of_grade_column,
+            :code => cpi_num_column,
+            :description => cumulative_progress_indicator_column,
+            :curriculum_content_statement_id => content_statement.id
+          })
         end
-
-        records << r if new_r
-
-        last_r = r
-        new_r = false
 
       end
     }
     return
-  end
-
-###############
-#
-###############
-
-  def self.process_standards( standards )
-    standards.each_pair{ |code,content_area_hash|
-      content_area = Curriculum::ContentArea.create({
-        :code => code #,
-      })
-p content_area_hash
-      content_area_hash.each_pair{ |code,name|
-        Curriculum::Standard.create({
-          :code => code,
-          :name => name,
-          :curriculum_content_area_id => content_area.id
-        })
-      }
-    }
-    return
-  end
-
-  def self.get_content_area
-    Curriculum::ContentArea.find_by_code(self.content_area_key)
-  end
-
-  def self.process_records( records )
-    rs = []
-    records.each{ |record|
-      content_area = Curriculum::ContentArea.find_by_code(record.content_area)
-      standard = content_area.find_or_create_standard({
-        :code => record.standard
-      })
-      strand_name = self.strands[content_area.code][standard.code][record.strand]
-      next if strand_name.nil?
-      strand = standard.find_or_create_strand({
-        :code => record.strand,
-        :name => strand_name,
-        :curriculum_standard_id => standard.id
-      })
-      content_statement = strand.find_or_create_content_statement({
-        :curriculum_strand_id => strand.id,
-        :by_end_of_grade => record.by_end_of_grade,
-        :description => record.content_statement
-      })
-      if record.cpi_num
-        cumulative_progress_indicator = content_statement.find_or_create_cumulative_progress_indicator({
-          :by_end_of_grade => record.by_end_of_grade,
-          :code => record.cpi_num,
-          :description => record.cumulative_progress_indicator,
-          :curriculum_content_statement_id => content_statement.id
-        })
-      end
-    }
-    return
-  end
-
-  def self.get_csv_hash
-    self.get_csv_data
-    return {
-      :content_areas => self.content_areas,
-      :standards => self.standards,
-      :strands => self.strands,
-      :records => self.records
-    }
   end
 
 #########################
@@ -287,28 +198,19 @@ p content_area_hash
 ############
 
   def self.load_database_from_csv
-    raw_hash = self.get_csv_hash
-
     CurriculumItem.remove_nodes_for_curriculum(self)
 
     p "Before destroy : #{self.total_record_count()}"
     self.destroy_records(self.content_area_key)
     p "After destroy : #{self.total_record_count()}"
 
-    process_standards( raw_hash[:standards] )
-    process_records( raw_hash[:records] )
+    self.get_csv_data
 
-    records_hash = {
-      :content_areas => Curriculum::ContentArea.all,
-      :standards => Curriculum::Standard.all,
-      :strands => Curriculum::Strand.all,
-      :cumulative_progress_indicators => Curriculum::CumulativeProgressIndicator.all
-    }
     p "After Add : #{self.total_record_count()}"
 
     CurriculumItem.add_nodes_for_curriculum(self)
 
-    return records_hash
+    return
   end
 
 end

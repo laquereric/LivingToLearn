@@ -55,6 +55,7 @@ class CurriculumItem < ActiveRecord::Base
     current_node= nil
     current_level= nil
     curriculum_klass.get_objects{ |c_object|
+      putc('.')
       level = Curriculum::ContentArea.level_of(c_object)
 #p level
       new_node = if current_level.nil?
