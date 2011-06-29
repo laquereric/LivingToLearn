@@ -11,8 +11,8 @@ namespace :curricula do
 
     desc "Cache all pages"
     task :cache => :environment do
-      #server= "http://LivingToLearn.com"
-      server= "http://localhost:3001"
+      server= "http://LivingToLearn.com"
+      #server= "http://localhost:3001"
 
       root_url= "#{server}/curriculum/root"
       node_url_format= "#{server}/curriculum/x/%s"
@@ -32,13 +32,16 @@ namespace :curricula do
       files = Dir.glob( File.join(Rails.root,"tmp","cache","**","*") )
       max_path = files.map{ |file| file.split('/').length }.max
       cached_items = files.select{ |file| file.split('/').length == max_path  }
-      cached_items.map{ |file|
+      count = cached_items.length
+
+      items = cached_items.map{ |file|
         last = file.split('/')[-1]
         last.gsub!('%2F','/')
         item = last.split('/')[-1]
-        p item
-      }
-      count = cached_items.length
+        item.to_i
+      }.sort
+      p items.inspect
+
       p "#{count} Items Cached"
     end
 
