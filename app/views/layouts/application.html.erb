@@ -4,8 +4,10 @@
 
 <title>LivingToLearn - Your Family's Education Matters</title>
 
-<%= netzke_init %>
-<%= csrf_meta_tag %>
+<% if @uses_extjs_netzke %>
+  <%= netzke_init %>
+  <%= csrf_meta_tag %>
+<% end %>
 
 <%= yield :head -%>
 
