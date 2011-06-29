@@ -39,16 +39,16 @@ class CurriculumController < ApplicationController
 
     self.complete(@center)
 
-   @parent= complete ( {:node => @center[:node].parent } )  if !(@center[:node].is_root?)
+   @parent= complete( {:node => @center[:node].parent } )  if !(@center[:node].is_root?)
 
-   @grand_parent= complete ( {:node => @parent[:node].parent } ) if @parent and !(@parent[:node].is_root?)
+   @grand_parent= complete( {:node => @parent[:node].parent } ) if @parent and !(@parent[:node].is_root?)
 
     @great_grand_parent = if @grand_parent and !(@grand_parent[:node].is_root?)
-      complete ( {:node => @grand_parent[:node].parent } )
+      complete( {:node => @grand_parent[:node].parent } )
     end
 
     @great_great_grand_parent = if @great_grand_parent and !(@great_grand_parent[:node].is_root?)
-      complete ( {:node => @great_grand_parent[:node].parent } )
+      complete( {:node => @great_grand_parent[:node].parent } )
     end
 
     @curriculum = [@center,@parent,@grand_parent,@great_grand_parent, @great_great_grand_parent].compact.map{ |i|
