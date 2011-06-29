@@ -11,10 +11,20 @@ namespace :curricula do
 
     desc "cache"
     task :cache => :environment do
-      wget 'http://LivingToLearn.com/curriculum/root' -o 'tmp/last_wget' --output-document='tmp/last_cached'
+      #server= "http://LivingToLearn.com"
+      server= "http://localhost:3001"
+
+      root_url= "#{server}/curriculum/root"
+      node_url_format= "#{server}/curriculum/x/%s"
+
+      cmd_format= "wget %s --output-document=tmp/last_cached"
+
+      %x{ wget #{ cmd_format % ( root_url ) } }
+
       CurriculumItem.all.each{ |ci|
-        wget "http://LivingToLearn.com/curriculum/x/#{ci.id} -o 'tmp/last_wget' --output-document='tmp/last_cached'
+        %x{ wget #{ cmd_format % (node_url_format % ci.id) }}
       }
+
     end
 
 end
