@@ -1,5 +1,6 @@
 class CurriculumController < ApplicationController
-  caches_page :index, :root
+  caches_action :index, :root
+
   def root
     params[:name] = 'root'
     self.index
