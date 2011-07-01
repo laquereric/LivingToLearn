@@ -15,7 +15,7 @@ namespace :curricula do
       #server= "http://localhost:3001"
 
       root_url= "#{server}/curriculum/root"
-      node_url_format= "#{server}/curriculum/x/%s"
+      node_url_format= "#{server}/curriculum/%s/#{Curriculum::Grade::MaxAge}"
 
       cmd_format= "wget %s --output-document=tmp/last_cached"
 
