@@ -1,8 +1,11 @@
 LivingToLearn::Application.routes.draw do
 
-  match 'curriculum/root', :to => 'curriculum#root', :as => 'curriculum_root'
+  #match 'curriculum/root', :to => 'curriculum#index', :as => 'curriculum_root'
+  #match 'curriculum/age/:age', :to => 'curriculum#index', :as => 'curriculum_age'
+  #match 'curriculum/:name/:node_id', :to => 'curriculum#index', :as => 'curriculum_node'
 
-  match 'curriculum/:name/:node_id', :to => 'curriculum#index', :as => 'curriculum_node'
+  match 'curriculum/:node_id/:age', :to => 'curriculum#index', :as => 'curriculum_node_age'
+  match 'curriculum', :to => 'curriculum#index', :as => 'curriculum_root'
 
   resources :curriculum_content_areas
 

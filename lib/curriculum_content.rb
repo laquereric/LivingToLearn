@@ -101,7 +101,5 @@ p 'cached'
     if self.respond_to? :curriculum_classname then self.curriculum_classname.constantize else nil end
   end
 
-
-
 end
 

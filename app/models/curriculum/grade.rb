@@ -49,8 +49,8 @@ class Curriculum::Grade
     end
   end
 
-  def self.all()
-    (MinAge..MaxAge).map{ |age|
+  def self.all(max_age= MaxAge)
+    (MinAge..max_age).map{ |age|
       self.create({
         :age => age
       })

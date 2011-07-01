@@ -96,26 +96,36 @@ i
 <tr class="breadcrumb" >
 <td colspan="<%=@all_grades.length+4%>">
   <% if @great_great_grand_parent %>
-    <%= link_to @great_great_grand_parent[:name], curriculum_node_path( 'x', @great_great_grand_parent[:node].id ) %> >
+    <%= link_to @great_great_grand_parent[:name], curriculum_node_age( @great_great_grand_parent[:node].id, @max_grade.age ) %> :
   <% end %>
   <% if @great_grand_parent %>
-    <%= link_to @great_grand_parent[:name], curriculum_node_path( 'x', @great_grand_parent[:node].id ) %> >
+    <%= link_to @great_grand_parent[:name], curriculum_node_age_path( @great_grand_parent[:node].id, @max_grade.age ) %> :
   <% end %>
   <% if @grand_parent %>
-    <%= link_to @grand_parent[:name], curriculum_node_path( 'x', @grand_parent[:node].id ) %> >
+    <%= link_to @grand_parent[:name], curriculum_node_age_path( @grand_parent[:node].id, @max_grade.age ) %> :
   <% end %>
   <% if @parent %>
-    <%= link_to @parent[:name], curriculum_node_path( 'x', @parent[:node].id ) %> >
+    <%= link_to @parent[:name], curriculum_node_age_path( @parent[:node].id, @max_grade.age ) %> :
   <% end %>
   <%= @center[:name] %>
 </td>
 </tr>
 
+<% if @max_grade.age != Curriculum::Grade::MaxAge %>
+  <tr class="breadcrumb" >
+    <td colspan="<%=@all_grades.length+4%>">
+      <%= link_to 'All Grades', curriculum_node_age_path( @center[:node].id, Curriculum::Grade::MaxAge ) %>
+    </td>
+  </tr>
+<% end %>
+
 <tr class="header">
   <th class="header">Klass</th>
   <th  class="description" rowspan="3">Description</th>
-  <% Curriculum::Grade.all.each do |grade| %>
-    <th rowspan="3" class="grade"><%= grade.cc_grade %></th>
+  <%  @all_grades.each do |grade| %>
+    <th rowspan="3" class="grade">
+      <%= link_to grade.cc_grade, curriculum_node_age_path( @center[:node].id, grade.age ) %>
+    </th>
   <% end %>
 </tr>
 
@@ -134,14 +144,12 @@ i
       <% if child[:terminal] %>
         <%=  child[:name] %>
       <% else %>
-        <%=  link_to child[:name], curriculum_node_path( 'x', child[:node].id ) %>
+        <%=  link_to child[:name], curriculum_node_age_path( child[:node].id, @max_grade.age ) %>
       <% end %>
     </td>
 
 <% if @curriculum.nil? or @curriculum.by_grade? %>
-
-    <% Curriculum::Grade.all.each do |grade| %>
-
+    <%  @all_grades.each do |grade| %>
       <% ref_to_deadline = child[:target].deadline_relative_to(grade) %>
       <% ref_line = if !ref_to_deadline.nil? and ref_to_deadline > -2 and ref_to_deadline < 2 then
            grade.cc_grade
@@ -150,7 +158,6 @@ i
          end
       %>
       <td rowspan="1" class="grade" id="<%="#{grade.age}--index#{child[:node].id}"%>" >
-
         <div class="ref-line <%= "ref-to-deadline-#{ref_to_deadline}" %>">
           <%= ref_line %>
         </div>
