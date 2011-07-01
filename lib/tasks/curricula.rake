@@ -45,5 +45,10 @@ namespace :curricula do
       p "#{count} Items Cached"
     end
 
+    desc "Purge Cache"
+    task :purge_cache => :environment do
+      cache_dir = File.join(Rails.root,"tmp","cache")
+      %x{rm -r #{cache_dir}}
+    end
 end
 
