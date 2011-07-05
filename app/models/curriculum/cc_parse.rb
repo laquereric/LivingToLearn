@@ -169,6 +169,5 @@ p parsed_row
     CurriculumItem.add_nodes_for_curriculum(self)
   end
 
-###
 end
 

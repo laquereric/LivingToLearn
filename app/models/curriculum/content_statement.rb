@@ -3,8 +3,6 @@ class Curriculum::ContentStatement < ActiveRecord::Base
   has_one :curriculum_item, :as => "target_node_object"
   include CurriculumContent
 
-  before_save :set_full_code
-
   belongs_to :curriculum_strand, 
     :class_name => 'Curriculum::Strand',
     :foreign_key => "curriculum_strand_id",
@@ -62,64 +60,12 @@ class Curriculum::ContentStatement < ActiveRecord::Base
     self.link_to 'link',"/curriculum_cumulative_progress_indicators_for/#{self.id}"
   end
 
-#######
-#
-#######
-  def full_spec()
-    spec= {}
-    if  spec[:curriculum_content_statement] = self
-      if ( spec[:curriculum_strand] = self.curriculum_strand )
-        if ( spec[:curriculum_standard] = spec[:curriculum_strand].curriculum_standard )
-          if ( spec[:curriculum_content_area] = spec[:curriculum_standard].curriculum_content_area )
-            spec[:curriculum] = spec[:curriculum_content_area].curriculum
-            return spec
-          end
-        end
-      end
-    else
-      nil
-    end
-    return nil
-  end
-
-  def calc_full_code()
-    spec= self.full_spec()
-    return "" if !spec[:curriculum].respond_to?(:content_statement__calc_full_code)
-    return spec[:curriculum].content_statement__calc_full_code(spec)
-  end
-
-  def reset_full_code
-    self.full_code = self.calc_full_code
-  end
-
-  def set_full_code
-    self.full_code ||= self.calc_full_code
-  end
-
-  def by_end_of_grade_clean
-    if self.by_end_of_grade then self.by_end_of_grade else 'not specified' end
-  end
-
   def destroy_wrapper
     p "Destroying Content Statement #{self.code}"
     self.cumulative_progress_indicators.each{ |cpi|
       cpi.destroy_wrapper
     }
     self.delete
-  end
-
-  def deadline_range
-    if self.cumulative_progress_indicators.length == 0
-      ::Curriculum::Grade.deadline_range(
-        self
-      )
-    else
-      ::Curriculum::Grade.deadline_range(
-        self.cumulative_progress_indicators.map{ |cumulative_progress_indicator|
-          cumulative_progress_indicator.deadline_range
-        }
-      )
-    end
   end
 
 end

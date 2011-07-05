@@ -282,13 +282,19 @@ class CurriculumItem < ActiveRecord::Base
   end
 
   def self.update_start_grade_caches
+
     p ""; p "Purging #{self.to_s} Purging Start Grade Caches"
     self.all.each{ |s| 
       s.purge_start_grade_cache
       putc('.') 
     }
+
+    p ""; p "Updating #{self.to_s} Updating Full Codes"
+    self.all.each{ |s| s.ti.set_full_code; putc('.') }
+
     p ""; p "Updating #{self.to_s} Updating Start Grade Caches"
     self.all.each{ |s| s.ti.start_grade; putc('.') }
+
     return nil
   end
 

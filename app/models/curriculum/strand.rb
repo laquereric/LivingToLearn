@@ -3,8 +3,6 @@ class Curriculum::Strand < ActiveRecord::Base
   has_one :curriculum_item, :as => "target_node_object"
   include CurriculumContent
 
-  before_save :set_full_code
-
   belongs_to :curriculum_standard, 
     :class_name => 'Curriculum::Standard',
     :foreign_key => "curriculum_standard_id"
@@ -87,49 +85,12 @@ class Curriculum::Strand < ActiveRecord::Base
 #
 #######
 
-  def full_spec()
-    spec= {}
-      if ( spec[:curriculum_strand] = self )
-        if ( spec[:curriculum_standard] = self.curriculum_standard )
-          if ( spec[:curriculum_content_area] = spec[:curriculum_standard].curriculum_content_area )
-            spec[:curriculum] = spec[:curriculum_content_area].curriculum
-            return spec
-          end
-        end
-      else
-        nil
-      end
-      return nil
-  end
-
-  def calc_full_code()
-    spec= self.full_spec()
-    return "" if !spec[:curriculum].respond_to?(:strand__calc_full_code)
-    return spec[:curriculum].strand__calc_full_code(spec)
-  end
-
-  def set_full_code
-    self.full_code ||= self.calc_full_code
-  end
-
-  def reset_full_code
-    self.full_code = self.calc_full_code
-  end
-
   def destroy_wrapper
     p "destroying Curriculum Strand #{self.code}"
     self.curriculum_content_statements.each{ |cs|
       cs.destroy_wrapper
     }
     self.delete
-  end
-
-  def deadline_range
-    Curriculum::Grade.deadline_range(
-      self.curriculum_content_statements.map{ |curriculum_content_statement|
-        curriculum_content_statement.deadline_range
-      }
-    )
   end
 
 end

@@ -28,9 +28,8 @@ class Curriculum::CcReading < Curriculum::CcParse
   end
 
   def self.content_statement__calc_full_code(spec)
-    "#{spec[:curriculum_content_area].code} #{spec[:curriculum_content_statement].by_end_of_grade}.#{spec[:curriculum_standard].code}.#{spec[:curriculum_content_statement].code}"
+    "#{spec[:content_area].code} #{spec[:content_statement].by_end_of_grade}.#{spec[:standard].code}.#{spec[:content_statement].code}"
   end
-
 
 end
 

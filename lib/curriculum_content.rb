@@ -147,5 +147,29 @@ p "reduce #{start_grades.inspect}"
     }
   end
 
+#################################
+  def full_spec()
+    r= {}
+    ancestors= [ self.ci.as, self.ci ].flatten
+    ancestors.map{ |ancestor|
+      ancestor.ti
+    }.each{ |ancestor|
+      key= ancestor.class.to_s .split('::')[1].underscore.to_sym
+      r[key]= ancestor
+    }
+    return r
+  end
+
+  def set_full_code
+    self_key= self.class.to_s .split('::')[1].underscore
+    set_full_code_method = "#{self_key}__calc_full_code".to_sym
+p " #{set_full_code_method}"
+     if self.curriculum_class.respond_to?(set_full_code_method)
+      self.full_code = self.curriculum_class.send(set_full_code_method,full_spec)
+p "Set full_code for #{self.class.to_s} #{self.id} to #{self.full_code}"
+      self.save
+    end
+  end
+
 end
 

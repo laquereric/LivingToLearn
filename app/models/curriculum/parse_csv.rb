@@ -181,17 +181,9 @@ class Curriculum::ParseCsv < Curriculum::Base
 
   def self.load_database_from_csv
     CurriculumItem.remove_nodes_for_curriculum(self)
-
-    p "Before destroy : #{self.total_record_count()}"
     self.destroy_records(self.content_area_key)
-    p "After destroy : #{self.total_record_count()}"
-
     self.get_csv_data
-
-    p "After Add : #{self.total_record_count()}"
-
     CurriculumItem.add_nodes_for_curriculum(self)
-
     return
   end
 

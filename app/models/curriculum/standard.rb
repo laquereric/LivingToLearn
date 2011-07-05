@@ -3,8 +3,6 @@ class Curriculum::Standard < ActiveRecord::Base
   has_one :curriculum_item, :as => "target_node_object"
   include CurriculumContent
 
-  before_save :set_full_code
-
   belongs_to :curriculum_content_area,
     :class_name => 'Curriculum::ContentArea',
     :foreign_key => "curriculum_content_area_id"
@@ -62,34 +60,6 @@ class Curriculum::Standard < ActiveRecord::Base
     self.link_to 'link',"/curriculum_strands_for/#{self.id}"
   end
 
-#######
-#
-#######
-
-  def full_spec()
-    spec= {}
-    spec[:curriculum_standard] = self 
-    if ( spec[:curriculum_content_area] = self.curriculum_content_area )
-      spec[:curriculum] = spec[:curriculum_content_area].curriculum
-      return spec
-    end
-    return nil
-  end
-
-  def find_strands_by_code( code )
-    return self.curriculum_strands.select{ |s| s.code == code }
-  end
-
-  def calc_full_code()
-    spec= self.full_spec()
-    return "" if !spec[:curriculum].respond_to?(:standard__calc_full_code)
-    return spec[:curriculum].standard__calc_full_code(spec)
-  end
-
-  def set_full_code
-     self.full_code ||= self.calc_full_code
-  end
-
 ################
 #
 ################
@@ -100,14 +70,6 @@ class Curriculum::Standard < ActiveRecord::Base
       cs.destroy_wrapper
     }
     self.destroy
-  end
-
-  def deadline_range
-    Curriculum::Grade.deadline_range(
-      self.curriculum_strands.map{ |strand|
-        strand.deadline_range
-      }
-    )
   end
 
 end
