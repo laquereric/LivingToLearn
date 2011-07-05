@@ -148,12 +148,4 @@ class Curriculum::ContentArea < ActiveRecord::Base
     end
   end
 
-  def deadline_range
-    Curriculum::Grade.deadline_range(
-      self.curriculum_standards.map{ |standard|
-        standard.deadline_range
-      }
-    )
-  end
-
 end

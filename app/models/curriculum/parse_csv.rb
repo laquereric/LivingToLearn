@@ -144,24 +144,6 @@ class Curriculum::ParseCsv < Curriculum::Base
 # utility
 ##########################
 
-  def self.purge
-    Curriculum::ContentArea.delete_all
-    Curriculum::Standard.delete_all
-    Curriculum::Strand.delete_all
-    Curriculum::ContentStatement.delete_all
-    Curriculum::CumulativeProgressIndicator.delete_all
-  end
-
-  def self.total_record_count()
-    sum = 0
-    sum += Curriculum::ContentArea.count
-    sum += Curriculum::Standard.count
-    sum += Curriculum::Strand.count
-    sum += Curriculum::ContentStatement.count
-    sum += Curriculum::CumulativeProgressIndicator.count
-    return sum
-  end
-
   def self.destroy_records(keys)
     keys.each{ |content_area_key|
       content_area = Curriculum::ContentArea.find_by_code(content_area_key)

@@ -1,54 +1,23 @@
 namespace :curricula do
 
-    desc "Load"
+    desc "Reload Database From CSV"
     task :load => :environment do
-      Curriculum::ParseCsv.purge
-      Curriculum::CharacterJi.load_database_from_csv
-      Curriculum::CcMath.load_database_from_csv
-      Curriculum::CcReading.load_database_from_csv
-      Curriculum::NjS21clc.load_database_from_csv
+      Curriculum::Root.load_database_from_csvs
     end
 
     desc "Cache all pages"
     task :cache => :environment do
-      server= "http://LivingToLearn.com"
-      #server= "http://localhost:3001"
-
-      root_url= "#{server}/curriculum/root"
-      node_url_format= "#{server}/curriculum/%s/#{Curriculum::Grade::MaxAge}"
-
-      cmd_format= "wget %s --output-document=tmp/last_cached"
-
-      %x{ wget #{ cmd_format % ( root_url ) } }
-
       CurriculumItem.all.each{ |ci|
-        %x{ wget #{ cmd_format % (node_url_format % ci.id) }}
+        p "CurriculumItem #{ci.id}"
+        ci.details= nil
+        ci.get_details
       }
-
-    end
-
-    desc "Report items cached"
-    task :cached_items => :environment do
-      files = Dir.glob( File.join(Rails.root,"tmp","cache","**","*") )
-      max_path = files.map{ |file| file.split('/').length }.max
-      cached_items = files.select{ |file| file.split('/').length == max_path  }
-      count = cached_items.length
-
-      items = cached_items.map{ |file|
-        last = file.split('/')[-1]
-        last.gsub!('%2F','/')
-        item = last.split('/')[-1]
-        item.to_i
-      }.sort
-      p items.inspect
-
-      p "#{count} Items Cached"
     end
 
     desc "Purge Cache"
     task :purge_cache => :environment do
-      cache_dir = File.join(Rails.root,"tmp","cache")
-      %x{rm -r #{cache_dir}}
+      CurriculumItem.purge_caches
     end
+
 end
 

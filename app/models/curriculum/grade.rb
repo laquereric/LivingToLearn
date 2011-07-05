@@ -41,7 +41,7 @@ class Curriculum::Grade
 
   def self.cc_grade_to_int(cc_grade)
     if ['A','F','G','N','S'].include?(cc_grade)
-      return nil
+      return 17
     elsif ['K'].include?(cc_grade)
       return 5
     else
@@ -60,17 +60,10 @@ class Curriculum::Grade
   def self.deadline_range(curriculum_objects,previous_result=nil)
     r = previous_result
     r ||= { :min => nil , :max => nil}
-#begin
-#  p "N r min:#{r[:min].age} r max:#{r[:max].age} co: #{curriculum_objects.inspect}"
-#rescue
-#end
     if curriculum_objects.is_a? Array and curriculum_objects.length > 1
-#p "2 #{r.inspect}"
       result = self.deadline_range(curriculum_objects[0],r)
-#p "1 result min:#{result[:min].age} r max:#{result[:max].age} co: #{curriculum_objects.inspect}"
       return self.deadline_range(curriculum_objects[1..-1],result)
     else
-#p "3 #{r.inspect}"
       curriculum_object = if curriculum_objects.is_a? Array then
         curriculum_objects[0]
       else
@@ -79,7 +72,6 @@ class Curriculum::Grade
 
       result = if !curriculum_object.is_a? Hash and curriculum_object.respond_to?(:by_end_of_grade)
         grade = self.create(:cc_grade=>curriculum_object.by_end_of_grade)
-#p "- #{grade.inspect}"
         curriculum_object.by_end_of_grade
         { :min => grade , :max => grade }
       elsif curriculum_object.is_a? Hash
@@ -89,7 +81,6 @@ class Curriculum::Grade
       end
 
       if result
-#p "4 #{r.inspect}"
         r[:min] = if r[:min].nil? or
           ( !r[:min].nil? and     !result[:min].nil? and
             !r[:min].age.nil? and !result[:min].age.nil? and
@@ -99,8 +90,6 @@ class Curriculum::Grade
         else
           r[:min]
         end
-p "r #{r.inspect}"
-p "result #{result.inspect}"
         r[:max] = if r[:max].nil? or
           ( !r[:max].nil? and     !result[:max].nil? and
             !r[:max].age.nil? and !result[:max].age.nil? and
@@ -110,8 +99,25 @@ p "result #{result.inspect}"
         else
           r[:max]
         end
-#p "6 #{r.inspect}"
       end
+    end
+    return r
+  end
+
+  def self.deadline_relative_to(child_start_grade,grade)
+    r= if child_start_grade.nil? or child_start_grade == -1
+      nil
+    elsif child_start_grade.is_a? Hash
+      range= child_start_grade
+      r2= if range[:min] and range[:min].age and grade.age < range[:min].age then
+        grade.age - range[:min].age
+      elsif range[:max] and range[:max].age and grade.age > range[:max].age then
+        grade.age - range[:max].age
+      else
+        0
+      end
+    else
+      (grade.age - child_start_grade.age)
     end
     return r
   end

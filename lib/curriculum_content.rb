@@ -1,94 +1,148 @@
 module CurriculumContent
 
-  def get_deadline_range
-     return nil if curriculum and !curriculum.by_grade?
-     return cached_deadline_range() if has_cached_deadline_range?
-p 'cache_miss'
-     r = self.deadline_range
-     return r if !has_cache_deadline_range_fields?
-     self.cache_deadline_range(r)
-     return r
+  def ci=(v)
+    @ci= v
   end
 
-  def deadline_relative_to(grade)
-     range = get_deadline_range()
-     age = grade.age
+  def ci
+    if @ci.nil? 
+      @ci= self.curriculum_item
+      @ci.ti = self
+    end
+    return @ci
+  end
 
-     return nil if range.nil? or range[:min].nil? or range[:max].nil?
+  def parent
+    return ci.parent.ti
+  end
 
-     r = if age and range and range[:min] and range[:min].age and age < range[:min].age then
-       age - range[:min].age
-     elsif  age and range and range[:max] and range[:max].age and age > range[:max].age then
-       age - range[:max].age
-     else
-       0
-     end
+  def curriculum_class
+    if ci.curriculum_name
+      ci.curriculum_name.constantize
+    else
+      nil
+    end
+  end
 
-     return r
-   end
+  def children
+    return ci.children.map{|child| child.ti}
+  end
 
-   def has_cache_deadline_range_fields?
-     ( self.respond_to? "min_by_end_of_grade_age" and self.respond_to? "max_by_end_of_grade_age" )
-   end
-
-   def has_cached_deadline_range?
-     ( self.has_cache_deadline_range_fields? and !self.min_by_end_of_grade_age.nil? and !self.max_by_end_of_grade_age.nil? )
-   end
-
-   def cache_deadline_range(range)
-      self.min_by_end_of_grade_age = if range and range[:min] and range[:min].age then
-p 'cached'
-       range[:min].age
-     else
-       -1
-     end
-
-     self.max_by_end_of_grade_age = if range and range[:max] and range[:max].age then
-       range[:max].age
-     else
-       -1
-     end
-
-     self.save
-   end
-
-   def  has_deadlines?
-     return true if !self.has_cache_deadline_range_fields?
-     return !(self.min_by_end_of_grade_age == -1)
-   end
-
-   def clear_cached_deadline_range
-     self.min_by_end_of_grade_age = nil
-     self.max_by_end_of_grade_age = nil
-     self.save
-   end
-
-   def cached_deadline_range
-     {:min => Curriculum::Grade.create(:age => self.min_by_end_of_grade_age),
-       :max =>  Curriculum::Grade.create(:age => self.max_by_end_of_grade_age)
+   def reduce_start_grades(start_grades)
+p "reduce #{start_grades.inspect}"
+     age_max = -1
+     age_min = 1000
+     start_grades.each{ |start_grade|
+       if start_grade.is_a? Hash
+         age_min= start_grade[:min].age if start_grade[:min].age > 0 and start_grade[:min].age < age_min
+         age_max= start_grade[:max].age if start_grade[:max].age > age_max
+       else
+         age_min= start_grade.age if start_grade.age > 0 and start_grade.age < age_min
+         age_max= start_grade.age if start_grade.age > age_max
+       end
      }
+     r= self.age_min_max_to_range( age_min, age_max )
+     return r
    end
 
-   def start_grade_age
-     if self.has_cache_deadline_range_fields? and self.min_by_end_of_grade_age
-       self.min_by_end_of_grade_age.to_i
-     elsif self.respond_to? :by_end_of_grade and self.by_end_of_grade
-       self.by_end_of_grade.to_i
-     else
+   def start_grade_search( depth = 0 )
+     result= if self.ci.terminal
        -1
+     else
+       start_grades= self.children.map{ |child|
+         child.start_grade
+       }.compact
+       self.reduce_start_grades(start_grades)
+     end
+     return result
+   end
+
+   def start_grade( depth = 0 )
+     return nil if !self.curriculum_class or !self.curriculum_class.by_grade?
+
+# Respond frm Cache
+     result = if has_stored_start_grade?
+       stored_start_grade
+     elsif has_start_grade_stored_range?
+       start_grade_stored_range
+
+# Load Cache Immediately
+     elsif self.respond_to?(:by_end_of_grade) and !self.by_end_of_grade.nil?
+       store_start_grade_age(self.by_end_of_grade)
+
+# Load Cache from iteration
+     else
+       store_start_grade_range( start_grade_search(depth+1) )
      end
   end
+
+#########
+
+  def has_start_grade_stored_range?
+    return (!ci.min_by_end_of_grade_age.nil? and !ci.max_by_end_of_grade_age.nil?)
+  end
+
+  def age_min_max_to_range(min_age,max_age)
+    return {
+      :min => Curriculum::Grade.create(:age => min_age),
+      :max => Curriculum::Grade.create(:age => max_age)
+    }
+  end
+
+  def start_grade_stored_range
+    return age_min_max_to_range(
+      ci.min_by_end_of_grade_age,
+      ci.max_by_end_of_grade_age
+    )
+  end
+
+  def store_start_age_range( min_age, max_age )
+    ci.min_by_end_of_grade_age= min_age
+    ci.max_by_end_of_grade_age= max_age
+    ci.save
+    return start_grade_stored_range
+  end
+
+  def store_start_cc_grade_range( min_cc_grade, max_cc_grade )
+    store_start_age_range(
+      Curriculum::Grade.cc_grade_to_int(min_cc_grade),
+      Curriculum::Grade.cc_grade_to_int(max_cc_grade)
+    )
+    return start_grade_stored_range
+  end
+
+  def store_start_grade_range( range )
+    return self.store_start_age_range( range[:min].age, range[:max].age )
+  end
+
+#######
+
+  def has_stored_start_grade?
+    return !ci.by_end_of_grade_age.nil?
+  end
+
+  def stored_start_grade
+    Curriculum::Grade.create(:age => ci.by_end_of_grade_age.to_i)
+  end
+
+  def store_start_grade_age(cc_grade)
+    ci.by_end_of_grade_age= Curriculum::Grade.cc_grade_to_int(cc_grade)
+    ci.save
+    return stored_start_grade
+  end
+
+#################################
 
   def klassname
      self.class.to_s.split('::')[1]
   end
 
-  def root_node
+  def curriculum_item
     CurriculumItem.get_root_for_content(self)
   end
 
   def complexity
-    self.root_node.children.length
+    self.root_ci.children.length
   end
 
   def span
@@ -96,9 +150,10 @@ p 'cached'
     return ( dlr[:max].age - dlr[:min].age )
   end
 
-  def curriculum
-    #(self.respond_to? :curriculum_classname ? self.curriculum_classname.constantize : nil )
-    if self.respond_to? :curriculum_classname then self.curriculum_classname.constantize else nil end
+  def deadlines_relative_to( all_grades )
+    all_grades.each.map { |grade|
+      [ grade, Curriculum::Grade.deadline_relative_to( self.ci.sg , grade ) ]
+    }
   end
 
 end
