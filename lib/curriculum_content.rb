@@ -1,15 +1,10 @@
 module CurriculumContent
 
   def ci=(v)
-    @ci= v
   end
 
   def ci
-    if @ci.nil? 
-      @ci= self.curriculum_item
-      @ci.ti = self
-    end
-    return @ci
+    self.curriculum_item
   end
 
   def parent

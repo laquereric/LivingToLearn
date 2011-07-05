@@ -29,15 +29,10 @@ class CurriculumItem < ActiveRecord::Base
 
 ##############
   def ti=(v)
-    @ti= v
   end
 
   def ti
-    if @ti.nil?
-      @ti= self.target_node_object
-      @ti.ci= self
-    end
-    return @ti
+    self.target_node_object
   end
 
 ##############
