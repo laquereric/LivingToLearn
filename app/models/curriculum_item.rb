@@ -1,14 +1,10 @@
 class CurriculumItem < ActiveRecord::Base
+  belongs_to :target_node_object , :polymorphic => true
   acts_as_nested_set :dependent => :destroy
   serialize :cache
 
   def is_root?
     return ( !self.source_klass_name.nil? and self.source_klass_name == 'Curriculum::Root' )
-  end
-
-  def target_item
-    klass= self.target_node_klass_name.constantize
-    klass.find(self.target_node_object_id)
   end
 
 #############
@@ -38,13 +34,13 @@ class CurriculumItem < ActiveRecord::Base
 
   def ti
     if @ti.nil?
-      @ti= self.target_item
+      @ti= self.target_node_object
       @ti.ci= self
     end
     return @ti
   end
 
-###############
+##############
 
 ##############
   def sg=(v)
@@ -77,24 +73,24 @@ class CurriculumItem < ActiveRecord::Base
     root_node ||= self.create(
       :source_klass_name => curriculum_root.class.to_s,
       :source_full_code => curriculum_root.full_code,
-      :target_node_klass_name => curriculum_root.class.to_s,
+      :target_node_object_type => curriculum_root.class.to_s,
       :target_node_object_id => curriculum_root.id
     )
   end
 
   def self.get_root_for_curriculum(curriculum)
-    self.find_by_target_node_klass_name_and_source_klass_name("Curriculum::ContentArea",curriculum.to_s)
+    self.find_by_target_node_object_type_and_source_klass_name("Curriculum::ContentArea",curriculum.to_s)
   end
 
   def self.get_root_for_content(content)
-    self.find_by_target_node_klass_name_and_target_node_object_id(content.class.to_s,content.id)
+    self.find_by_target_node_object_type_and_target_node_object_id(content.class.to_s,content.id)
   end
 
   def self.node_config_for(curriculum,c_object)
     {
       :source_klass_name => curriculum.to_s,
       :source_full_code => c_object.full_code,
-      :target_node_klass_name => c_object.class.to_s,
+      :target_node_object_type => c_object.class.to_s,
       :target_node_object_id => c_object.id
     }
   end
@@ -180,7 +176,7 @@ class CurriculumItem < ActiveRecord::Base
       :curriculum_name => nil
     } if self.source_klass_name == "Curriculum::Root"
 
-    curriculum_name =  self.source_klass_name if self.target_node_klass_name == "Curriculum::ContentArea"
+    curriculum_name =  self.source_klass_name if self.target_node_object_type == "Curriculum::ContentArea"
     return{
       :id => self.parent.id,
       :target_name => name_value_for(self.parent.ti),
@@ -223,11 +219,10 @@ class CurriculumItem < ActiveRecord::Base
   def curriculum_name
     self.update_cache if self.cache.nil?
     return self.cache[:curriculum_name]
-    #curriculum_name_calc
   end
 
   def curriculum_name_calc
-    return self.source_klass_name if self.target_node_klass_name == "Curriculum::ContentArea"
+    return self.source_klass_name if self.target_node_object_type == "Curriculum::ContentArea"
     return [
       self.parent_ref,
       self.grand_parent_ref,

@@ -1,6 +1,7 @@
 class Curriculum::CumulativeProgressIndicator < ActiveRecord::Base
-  include CurriculumContent
   set_table_name :curriculum_cumulative_progress_indicators
+  has_one :curriculum_item, :as => "target_node_object"
+  include CurriculumContent
 
   belongs_to :curriculum_content_statement,
     :class_name => 'Curriculum::ContentStatement',

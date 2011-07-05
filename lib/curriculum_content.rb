@@ -137,10 +137,6 @@ p "reduce #{start_grades.inspect}"
      self.class.to_s.split('::')[1]
   end
 
-  def curriculum_item
-    CurriculumItem.get_root_for_content(self)
-  end
-
   def complexity
     self.root_ci.children.length
   end

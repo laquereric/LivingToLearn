@@ -73,10 +73,12 @@ class Curriculum::Root < ActiveRecord::Base
     }
   end
 
-  def self.load_database_from_csv
+  def self.load_database_from_csvs
+    Curriculum::Root.purge
     curricula_classes.each{ |klass|
       klass.load_database_from_csv
     }
+    CurriculumItem.update_caches
   end
 
 #############

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110701200202) do
+ActiveRecord::Schema.define(:version => 20110705190901) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(:version => 20110701200202) do
   create_table "curriculum_items", :force => true do |t|
     t.string   "source_klass_name"
     t.string   "source_full_code"
-    t.string   "target_node_klass_name"
+    t.string   "target_node_object_type"
     t.integer  "target_node_object_id"
     t.integer  "parent_id"
     t.integer  "lft"

@@ -1,7 +1,7 @@
 class Curriculum::Strand < ActiveRecord::Base
-  include CurriculumContent
-
   set_table_name :curriculum_strands
+  has_one :curriculum_item, :as => "target_node_object"
+  include CurriculumContent
 
   before_save :set_full_code
 
