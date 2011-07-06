@@ -101,29 +101,29 @@ Reports
 </tr>
 
 <tr>
-  <td><%= link_to 'K', curriculum_grade_report_path( 'K' ) %></td>
-  <td><%= link_to '4', curriculum_grade_report_path( '4' ) %></td>
-  <td><%= link_to '8', curriculum_grade_report_path( '8' ) %></td>
+  <td><%= link_to 'K', Curriculum::Root.grade_report_path( 'K' ) %></td>
+  <td><%= link_to '4', Curriculum::Root.grade_report_path( '4' ) %></td>
+  <td><%= link_to '8', Curriculum::Root.grade_report_path( '8' ) %></td>
   <td><%= link_to 'Common Core Math', Curriculum::Root.area_report_path( 'CcMath' ) %></td>
 </tr>
 
 <tr>
-  <td><%= link_to '1', curriculum_grade_report_path( '1' ) %></td>
-  <td><%= link_to '5', curriculum_grade_report_path( '5' ) %></td>
-  <td><%= link_to '12', curriculum_grade_report_path( '12' ) %></td>
+  <td><%= link_to '1', Curriculum::Root.grade_report_path( '1' ) %></td>
+  <td><%= link_to '5', Curriculum::Root.grade_report_path( '5' ) %></td>
+  <td><%= link_to '12', Curriculum::Root.grade_report_path( '12' ) %></td>
   <td><%= link_to 'Common Core Reading', Curriculum::Root.area_report_path( 'CcReading' ) %></td>
 </tr>
 
 <tr>
-  <td><%= link_to '2', curriculum_grade_report_path( '2' ) %></td>
-  <td><%= link_to '6', curriculum_grade_report_path( '6' ) %></td>
+  <td><%= link_to '2', Curriculum::Root.grade_report_path( '2' ) %></td>
+  <td><%= link_to '6', Curriculum::Root.grade_report_path( '6' ) %></td>
   <td></td>
   <td><%= link_to '21rst Century', Curriculum::Root.area_report_path( 'NjS21clc' ) %></td>
 </tr>
 
 <tr>
-  <td><%= link_to '3', curriculum_grade_report_path( '3' ) %></td>
-  <td><%= link_to '7', curriculum_grade_report_path( '7' ) %></td>
+  <td><%= link_to '3', Curriculum::Root.grade_report_path( '3' ) %></td>
+  <td><%= link_to '7', Curriculum::Root.grade_report_path( '7' ) %></td>
   <td></td>
   <td><%= link_to 'Character', Curriculum::Root.area_report_path( 'CharacterJi' ) %></td>
 </tr>
