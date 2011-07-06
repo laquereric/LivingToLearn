@@ -45,7 +45,7 @@ class Document::Reports::CcOverview
       next if !self.include?(c_object)
       harray << {
         :object => c_object,
-        :level => Curriculum::ContentArea.level_of(c_object)
+        :level => Curriculum::Root.level_of(c_object)
       }
     }
     return harray
@@ -60,7 +60,11 @@ class Document::Reports::CcOverview
     return indent_string
   end
 
+  def self.config
+  end
+
   def self.report_pdf()
+    self.config
     Prawn::Document.generate(
       self.physical_report_filename,
       #File.join(Rails.root,'report'),

@@ -69,18 +69,5 @@ class Curriculum::ContentArea < ActiveRecord::Base
   def get_sorted_curriculum_standards
     return curriculum_standards.sort{ |x,y| x.code.to_i <=> y.code.to_i }
   end
-  def self.level_of(ca_object)
-    if ca_object.is_a? self
-      0
-    elsif ca_object.is_a? Curriculum::Standard
-      1
-    elsif ca_object.is_a? Curriculum::Strand
-      2
-    elsif ca_object.is_a? Curriculum::ContentStatement
-      3
-    elsif ca_object.is_a? Curriculum::CumulativeProgressIndicator
-      4
-    end
-  end
 
 end

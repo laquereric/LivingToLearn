@@ -98,4 +98,19 @@ class Curriculum::Root < ActiveRecord::Base
     }
     return r
   end
+
+  def self.level_of(ca_object)
+    if ca_object.is_a? self
+      0
+    elsif ca_object.is_a? Curriculum::Standard
+      1
+    elsif ca_object.is_a? Curriculum::Strand
+      2
+    elsif ca_object.is_a? Curriculum::ContentStatement
+      3
+    elsif ca_object.is_a? Curriculum::CumulativeProgressIndicator
+      4
+    end
+  end
+
 end
