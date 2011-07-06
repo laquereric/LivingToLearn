@@ -160,33 +160,33 @@ Reports<br/>
 
   <% if ref = @curriculum_item.great_great_grand_parent_ref %>
     <% if ref[:target_name] == "Root" %>
-      <%= link_to "Curricula", curriculum_root_age_path( @max_grade.age ) %> :
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
     <% else %>
-      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @max_grade.age ) %> :
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
     <% end %>
   <% end %>
 
   <% if ref = @curriculum_item.great_grand_parent_ref %>
     <% if ref[:target_name] == "Root" %>
-      <%= link_to "Curricula", curriculum_root_age_path( @max_grade.age ) %> :
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
     <% else %>
-      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @max_grade.age ) %> :
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
     <% end %>
   <% end %>
 
   <% if ref = @curriculum_item.grand_parent_ref %>
     <% if ref[:target_name] == "Root" %>
-      <%= link_to "Curricula", curriculum_root_age_path( @max_grade.age ) %> :
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
     <% else %>
-      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @max_grade.age ) %> :
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
     <% end %>
   <% end %>
 
   <% if ref = @curriculum_item.parent_ref %>
     <% if ref[:target_name] == "Root" %>
-      <%= link_to "Curricula", curriculum_root_age_path( @max_grade.age ) %> :
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
     <% else %>
-      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @max_grade.age ) %> :
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
     <% end %>
   <% end %>
 
@@ -199,7 +199,7 @@ Reports<br/>
 </td>
 </tr>
 
-<% if @max_grade.age != Curriculum::Grade::MaxAge %>
+<% if @target_grade.age != Curriculum::Grade::MaxAge %>
   <tr class="breadcrumb" >
     <td colspan="<%=@all_grades.length+4%>">
       <%= link_to 'All Grades', curriculum_node_age_path( @curriculum_item.id, Curriculum::Grade::MaxAge ) %>
@@ -233,7 +233,7 @@ Reports<br/>
       <% if child.terminal %>
         <%=  child.target_name %>
       <% else %>
-        <%=  link_to child.target_name, curriculum_node_age_path( child.id, @max_grade.age ) %>
+        <%=  link_to child.target_name, curriculum_node_age_path( child.id, @target_grade.age ) %>
       <% end %>
     </td>
 

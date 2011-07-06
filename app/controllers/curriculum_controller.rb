@@ -29,14 +29,17 @@ class CurriculumController < ApplicationController
 
   def get_grades
     filtered_by_grade = false
-    max_grade = if params[:age].nil? or ( params[:age].to_i == Curriculum::Grade::MaxAge )
-      Curriculum::Grade.create({:age=>Curriculum::Grade::MaxAge})
-    else
+    max_age = Curriculum::Grade::MaxAge
+    min_age = 0
+    if !params[:age].nil? and ( params[:age].to_i != Curriculum::Grade::MaxAge )
       filtered_by_grade= true
-      Curriculum::Grade.create({:age=>params[:age].to_i})
+      target_age= params[:age].to_i
+      max_age= target_age + 1
+      min_age= target_age - 1
+      min_age= 0 if min_age < 0
     end
-    all_grades= Curriculum::Grade.all(max_grade.age)
-    return filtered_by_grade, all_grades, max_grade
+    all_grades= Curriculum::Grade.age_range(min_age,max_age)
+    return filtered_by_grade, all_grades,  Curriculum::Grade.create({:age=>target_age})
   end
 
   def display_by_grade?(child)
@@ -48,8 +51,8 @@ class CurriculumController < ApplicationController
         elsif !@filtered_by_grade
           true
         else
-          ref_to_deadline= Curriculum::Grade.deadline_relative_to( child.sg , @max_grade )
-          r=(ref_to_deadline > -1 and ref_to_deadline < 1 )
+          ref_to_deadline= Curriculum::Grade.deadline_relative_to( child.sg , @target_grade )
+          r=(ref_to_deadline >= -1 and ref_to_deadline <= 1 )
           r
         end
       return r
@@ -57,13 +60,13 @@ class CurriculumController < ApplicationController
 
   def index()
     @curriculum_item = get_curriculum_item
-    @filtered_by_grade, @all_grades, @max_grade= get_grades
+    @filtered_by_grade, @all_grades, @target_grade= get_grades
     all_children = @curriculum_item.ch.sort{ |x,y|
       x.sort_term <=> y.sort_term
     }
     @displayed_children = if @curriculum_item.ti.curriculum_class.nil?
       all_children
-    elsif  @curriculum_item.ti.curriculum_class.by_grade? and @max_grade.age != Curriculum::Grade::MaxAge
+    elsif  @curriculum_item.ti.curriculum_class.by_grade? and @filtered_by_grade
       all_children.select{ |child|
         self. display_by_grade?(child)
       }
