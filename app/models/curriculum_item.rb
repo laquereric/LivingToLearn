@@ -95,7 +95,7 @@ class CurriculumItem < ActiveRecord::Base
     current_level= nil
     curriculum_klass.get_objects{ |c_object|
       putc('.')
-      level = Curriculum::ContentArea.level_of(c_object)
+      level = Curriculum::Root.level_of(c_object)
       new_node = if current_level.nil?
         self.get_root_node.children.create(
           self.node_config_for(curriculum_klass,c_object)
@@ -165,23 +165,26 @@ class CurriculumItem < ActiveRecord::Base
 #########################
 
   def ref
-    return {
-      :id => Curriculum::Root.first.id,
-      :target_name => 'Root',
-      :curriculum_name => nil
-    } if self.source_klass_name == "Curriculum::Root"
-
-    curriculum_name =  self.source_klass_name if self.target_node_object_type == "Curriculum::ContentArea"
-    return{
-      :id => self.parent.id,
-      :target_name => name_value_for(self.parent.ti),
-      :curriculum_name => curriculum_name
-    }
+    r= if self.source_klass_name == "Curriculum::Root" then
+      {
+        :id => Curriculum::Root.first.id,
+        :target_name => 'Root',
+        :curriculum_name => nil
+      }
+    else
+      curriculum_name =  self.source_klass_name if self.target_node_object_type == "Curriculum::ContentArea"
+      {
+        :id => self.parent.id,
+        :target_name => name_value_for(self.ti),
+        :curriculum_name => curriculum_name
+      }
+    end
+    return r
   end
 
   def parent_ref
     if as.length >= 1
-      as[0].ref
+      as[-1].ref
     else
       nil
     end
@@ -189,7 +192,7 @@ class CurriculumItem < ActiveRecord::Base
 
   def grand_parent_ref
     if as.length >= 2
-      as[1].ref
+      as[-2].ref
     else
       nil
     end
@@ -197,7 +200,7 @@ class CurriculumItem < ActiveRecord::Base
 
   def great_grand_parent_ref
     if as.length >= 3
-      as[2].ref
+      as[-3].ref
     else
       nil
     end
@@ -205,11 +208,13 @@ class CurriculumItem < ActiveRecord::Base
 
   def great_great_grand_parent_ref
     if as.length >= 4
-      as[3].ref
+      as[-4].ref
     else
       nil
     end
   end
+
+#####################
 
   def curriculum_name
     self.update_cache if self.cache.nil?
