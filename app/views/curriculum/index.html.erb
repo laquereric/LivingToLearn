@@ -90,7 +90,10 @@ i
    div.red{
      background: #FF3366;
    }
-
+   div#top_table_region_frame{
+     margin: 20pt;
+     color: #000000
+   }
    </style>
 
 <% end %>
@@ -104,7 +107,10 @@ i
 <% end %>
 
 <% content_for :top_table_region do %>
-Reports
+
+<div id='top_table_region_frame'>
+Reports<br/>
+<br/>
 <table class="std_curriculum">
 
 <tr class="header">
@@ -141,6 +147,8 @@ Reports
 </tr>
 
 </table>
+
+</div>
 
 <% end %>
 
