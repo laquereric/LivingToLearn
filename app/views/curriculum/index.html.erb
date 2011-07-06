@@ -2,28 +2,28 @@
 
    <style>
 
-   table#curriculum{
+   table.std_curriculum{
      border-width: 3px;
      border-spacing: ;
      border-style: outset;
      background-color: #FFCECE;
    }
 
-   table#curriculum tr.breadcrumb{
+   table.std_curriculum tr.breadcrumb{
      background-color: #FF99FF;
    }
 
-   table#curriculum tr.header th{
+   table.std_curriculum tr.header th{
      font-size: 10pt;
      text-align: center;
      background-color: #FFFFCC;
    }
 i
-   table#curriculum th.curriculum-description{
+   table.std_curriculum th.curriculum-description{
      font-size: 10pt;
    }
 
-   table#curriculum td.class{
+   table.std_curriculum td.class{
      width: 20;
      color: #000000;
      margin: 10pt;
@@ -31,7 +31,7 @@ i
      font-size: 10pt;
    }
 
-   table#curriculum td.id{
+   table.std_curriculum td.id{
      width: 20;
      color: #000000;
      margin: 10pt;
@@ -39,11 +39,11 @@ i
      font-size: 10pt;
    }
 
-   table#curriculum td.code{
+   table.std_curriculum td.code{
      width: 20;
    }
 
-   table#curriculum th.description{
+   table.std_curriculum th.description{
      padding:10px;
      width: 400px;
      color: #000000;
@@ -52,33 +52,42 @@ i
      font-size: 10pt;
    }
 
-   table#curriculum td.description{
+   table.std_curriculum td.description{
      padding:5px;
      width:400px;
    }
 
-   table#curriculum th.grade{
+   table.std_curriculum th.grade{
      width: 40px;
      color: #000000;
      font-size: 6pt;
    }
 
-   table#curriculum td.grade{
+   table.std_curriculum td.grade{
      text-align: center;
      width: 40px;
      color: #000000;
      font-size: 6pt;
    }
 
-   table#curriculum td.grade div.ref-line.ref-to-deadline--1{
+   table.std_curriculum td.grade div.ref-line.ref-to-deadline--1{
+     background: #33FF66;
+   }
+   div.green{
      background: #33FF66;
    }
 
-   table#curriculum td.grade div.ref-line.ref-to-deadline-0{
+   table.std_curriculum td.grade div.ref-line.ref-to-deadline-0{
      background: #FFFF66
    }
+   div.yellow{
+     background: #FFFF66;
+   }
 
-   table#curriculum td.grade div.ref-line.ref-to-deadline-1{
+   table.std_curriculum td.grade div.ref-line.ref-to-deadline-1{
+     background: #FF3366;
+   }
+   div.red{
      background: #FF3366;
    }
 
@@ -87,13 +96,16 @@ i
 <% end %>
 
 <% content_for :message_region do %>
-  All Curriculum Standards<br/>
-  By Grade
+  All Curriculum Standards By Grade<br/>
+  <br/>
+  <div class='green'>Green = To Get Ready For Next Year</div><br/>
+  <div class='yellow'>Yellow = To Be Completed This Year</div><br/>
+  <div class='red'>Red = Should have Been Completed</div><br/>
 <% end %>
 
 <% content_for :top_table_region do %>
 Reports
-<table id="curriculum">
+<table class="std_curriculum">
 
 <tr class="header">
   <th colspan=3 class="header" >Grade</th>
@@ -133,7 +145,7 @@ Reports
 <% end %>
 
 <% content_for :target_region do %>
-<table id="curriculum">
+<table  class="std_curriculum">
 
 <tr class="breadcrumb" >
 <td colspan="<%=@all_grades.length+4%>">
