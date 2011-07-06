@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110705190901) do
+ActiveRecord::Schema.define(:version => 20110706014939) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -93,6 +93,14 @@ ActiveRecord::Schema.define(:version => 20110705190901) do
     t.integer  "max_by_end_of_grade_age"
     t.integer  "by_end_of_grade_age"
   end
+
+  add_index "curriculum_items", ["lft"], :name => "index_curriculum_items_on_lft"
+  add_index "curriculum_items", ["parent_id"], :name => "index_curriculum_items_on_parent_id"
+  add_index "curriculum_items", ["rgt"], :name => "index_curriculum_items_on_rgt"
+  add_index "curriculum_items", ["source_full_code"], :name => "index_curriculum_items_on_source_full_code"
+  add_index "curriculum_items", ["source_klass_name"], :name => "index_curriculum_items_on_source_klass_name"
+  add_index "curriculum_items", ["target_node_object_id"], :name => "index_curriculum_items_on_target_node_object_id"
+  add_index "curriculum_items", ["target_node_object_type"], :name => "index_curriculum_items_on_target_node_object_type"
 
   create_table "curriculum_map_arces", :force => true do |t|
     t.string   "secondary_curriculum_code"
