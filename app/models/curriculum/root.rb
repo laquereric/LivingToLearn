@@ -113,4 +113,12 @@ class Curriculum::Root < ActiveRecord::Base
     end
   end
 
+  def self.area_report_path(area)
+    File.join('/','images',"#{area}Overview","#{area}Overview.report.pdf")
+  end
+
+  def self.grade_report_path(grade)
+    File.join('/','images',"CcByGrade#{grade}","CcByGrade#{grade}.report.pdf")
+  end
+
 end

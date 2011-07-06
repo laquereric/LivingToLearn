@@ -30,7 +30,7 @@ class Document::Reports::CcOverview
 ###############
 
   def self.filename_base
-    'CcMathOverview'
+    'CcOverview'
   end
 
   def self.include?(object)
