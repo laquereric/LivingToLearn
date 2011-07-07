@@ -9,15 +9,18 @@ class Document::Reports::AllByGrade < Document::Reports::CcOverview
     return false if object.nil?
     return false if object.description == 'none'
     ref_to_deadline = Curriculum::Grade.deadline_relative_to( object.ci.sg , target_grade )
-    return( !ref_to_deadline.nil? and ref_to_deadline > -2 and ref_to_deadline < 2 )
+    r= ( !ref_to_deadline.nil? and ref_to_deadline > -2 and ref_to_deadline < 2 )
+p "#{object.class.to_s} #{object.ci.id} #{ref_to_deadline}" if r
+    return r
   end
 
   def self.get_data
     harray= []
     Curriculum::Root.curricula_classes.each{|curricula_class|
+p curricula_class.to_s
       curricula_class.get_objects{ |c_object|
       next if !self.include?(c_object)
-p c_object
+#p c_object
         harray << {
           :object => c_object,
           :level => Curriculum::Root.level_of(c_object)

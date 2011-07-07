@@ -29,8 +29,9 @@ class CurriculumController < ApplicationController
 
   def get_grades
     filtered_by_grade = false
-    max_age = Curriculum::Grade::MaxAge
-    min_age = 0
+    target_age= Curriculum::Grade::MaxAge
+    max_age= Curriculum::Grade::MaxAge
+    min_age= 0
     if !params[:age].nil? and ( params[:age].to_i != Curriculum::Grade::MaxAge )
       filtered_by_grade= true
       target_age= params[:age].to_i
@@ -52,7 +53,8 @@ class CurriculumController < ApplicationController
           true
         else
           ref_to_deadline= Curriculum::Grade.deadline_relative_to( child.sg , @target_grade )
-          r=(ref_to_deadline >= -1 and ref_to_deadline <= 1 )
+p "#{child.id} #{ref_to_deadline}"
+          r=(ref_to_deadline > -3 and ref_to_deadline < 3)
           r
         end
       return r

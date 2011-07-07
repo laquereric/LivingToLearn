@@ -15,7 +15,7 @@ class Curriculum::Grade
     if self.age < 4 then
       "#{age}yo"
     elsif self.age == 4 then
-      "preK"
+      "PreK"
     elsif self.age == 5 then
       "K"
     elsif self.age >= 6 and self.age <= 17 then
@@ -44,6 +44,8 @@ class Curriculum::Grade
       return 17
     elsif ['K'].include?(cc_grade)
       return 5
+    elsif ['PreK'].include?(cc_grade)
+      return 4
     else
       cc_grade.to_i + 5
     end
