@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110706014939) do
+ActiveRecord::Schema.define(:version => 20110707165832) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                    :default => "", :null => false
@@ -538,6 +538,15 @@ ActiveRecord::Schema.define(:version => 20110706014939) do
     t.string   "ref_field"
     t.string   "ref_value"
     t.string   "entitytype"
+  end
+
+  create_table "time_logs", :force => true do |t|
+    t.string   "user_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "activity"
   end
 
   create_table "users", :force => true do |t|

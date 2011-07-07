@@ -1,0 +1,36 @@
+<% content_for :message_region do %>
+  Time Log<br/>
+  New
+<% end %>
+
+<% content_for :target_region do %>
+
+<p>
+  <b>Id:</b>
+  <%= @time_log.id %>
+</p>
+
+<p>
+  <b>Activity:</b>
+  <%= @time_log.activity %>
+</p>
+
+<p>
+  <b>User Email:</b>
+  <%= @time_log.user_email %>
+</p>
+
+<p>
+  <b>Start Time:</b>
+  <%= @time_log.start_time %>
+</p>
+
+<p>
+  <b>End Time:</b>
+  <%= @time_log.end_time %>
+</p>
+
+<%= link_to 'Edit', edit_time_log_path(@post) %> |
+<%= link_to 'Back', time_logs_path %>
+
+<% end %>

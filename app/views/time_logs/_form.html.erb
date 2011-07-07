@@ -1,0 +1,36 @@
+<%= form_for(@time_log) do |f| %>
+  <% if @time_log.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@time_log.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <ul>
+    <% @time_log.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_email %><br />
+    <%= f.text_field :user_email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_time %><br />
+    <%= f.datetime_select :start_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_time %><br />
+    <%= f.datetime_select :end_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :activity %><br />
+    <%= f.text_field :activity %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
