@@ -1,4 +1,4 @@
-<%= form_for(@time_log) do |f| %>
+<%= form_for([:activity,@time_log]) do |f| %>
   <% if @time_log.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@time_log.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -9,16 +9,6 @@
     </ul>
   </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :activity_id %><br />
-    <%= f.text_field :activity_id %>
-  </div>
 
   <div class="field">
     <%= f.label :start_time %><br />

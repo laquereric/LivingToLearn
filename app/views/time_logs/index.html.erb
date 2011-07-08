@@ -1,11 +1,11 @@
 <% content_for :message_region do %>
-  Time Log<br/>
-  List
+  Time Log List for Activity<br/>
+  <%= render "activity" %>
 <% end %>
 
 <% content_for :target_region do %>
-
 <table>
+
   <tr>
     <th>Id</th>
     <th>User Id</th>
@@ -13,7 +13,7 @@
     <th>Start Time</th>
     <th>End Time</th>
   </tr>
- 
+
 <% @time_logs.each do |time_log| %>
   <tr>
 
@@ -22,15 +22,16 @@
     <td><%= time_log.activity_id %></td>
     <td><%= time_log.start_time %></td>
     <td><%= time_log.end_time %></td>
-    <td><%= link_to 'Show', time_log %></td>
-    <td><%= link_to 'Edit', edit_time_log_path(time_log) %></td>
-    <td><%= link_to 'Destroy', time_log, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', activity_time_log_path(@activity.id, time_log.id) %></td>
+    <td><%= link_to 'Edit', edit_activity_time_log_path(@activity.id, time_log.id) %></td>
+    <td><%= link_to 'Destroy', activity_time_log_path(@activity.id, time_log.id), :confirm => 'Are you sure?', :method => :delete %></td>
 
   </tr>
 <% end %>
+
 </table>
- 
+
 <br />
- 
-<%= link_to 'New Time Log entry', new_time_log_path %>
+
+<%= link_to 'New Time Log entry', new_activity_time_log_path(@activity) %>
 <% end %>

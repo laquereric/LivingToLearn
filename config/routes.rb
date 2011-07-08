@@ -39,7 +39,10 @@ LivingToLearn::Application.routes.draw do
 
   resources :subdomains
 
-  resources :time_logs
+  resources :activities do
+    resources :time_logs
+  end
+
   resources :activities
 
   match 'user/:user_id/add_marketing_context/:marketing_context_id', :to => 'users#add_marketing_context', :as => 'add_user_marketing_context'
