@@ -1,0 +1,28 @@
+<%= form_for(@activity) do |f| %>
+
+  <% if @activity.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@activity.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul>
+      <% @activity.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_email %><br />
+    <%= f.text_field :user_email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

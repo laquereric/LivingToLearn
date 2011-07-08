@@ -1,0 +1,33 @@
+<% content_for :message_region do %>
+  Actvity<br/>
+  List
+<% end %>
+
+<% content_for :target_region do %>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>User Email</th>
+    <th>Name</th>
+  </tr>
+
+<% @activities.each do |activity| %>
+  <tr>
+
+    <td><%= activity.id %></td>
+    <td><%= activity.user_email %></td>
+    <td><%= activity.name %></td>
+
+    <td><%= link_to 'Show', activity %></td>
+    <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
+    <td><%= link_to 'Destroy', activity, :confirm => 'Are you sure?', :method => :delete %></td>
+
+  </tr>
+<% end %>
+</table>
+ 
+<br />
+ 
+<%= link_to 'New Activity Log entry', new_activity_path %>
+<% end %>
