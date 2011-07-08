@@ -8,8 +8,8 @@
 <table>
   <tr>
     <th>Id</th>
-    <th>User Email</th>
-    <th>Activity</th>
+    <th>User Id</th>
+    <th>Activity Id</th>
     <th>Start Time</th>
     <th>End Time</th>
   </tr>
@@ -18,11 +18,10 @@
   <tr>
 
     <td><%= time_log.id %></td>
-    <td><%= time_log.user_email %></td>
+    <td><%= time_log.user_id %></td>
+    <td><%= time_log.activity_id %></td>
     <td><%= time_log.start_time %></td>
     <td><%= time_log.end_time %></td>
-    <td><%= time_log.activity %></td>
-
     <td><%= link_to 'Show', time_log %></td>
     <td><%= link_to 'Edit', edit_time_log_path(time_log) %></td>
     <td><%= link_to 'Destroy', time_log, :confirm => 'Are you sure?', :method => :delete %></td>

@@ -11,13 +11,23 @@
 </p>
 
 <p>
+  <b>Activity Id:</b>
+  <%= @time_log.activity_id %>
+</p>
+
+<p>
   <b>Activity:</b>
-  <%= @time_log.activity %>
+  <%= @time_log.activity.name %>
+</p>
+
+<p>
+  <b>User Id:</b>
+  <%= @time_log.user_id %>
 </p>
 
 <p>
   <b>User Email:</b>
-  <%= @time_log.user_email %>
+  <%= @time_log.user.email %>
 </p>
 
 <p>

@@ -16,6 +16,9 @@ class User < ActiveRecord::Base
   has_many :marketing_contexts, :dependent => :destroy
   has_many :marketing_context_types, :through => :marketing_contexts, :source => "marketing_context_type", :dependent => :destroy
 
+  has_many :activities, :dependent => :destroy
+  has_many :time_logs, :dependent => :destroy
+
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
 
   def add_marketing_context(id)
