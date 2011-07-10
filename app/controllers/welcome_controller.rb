@@ -51,8 +51,8 @@ class WelcomeController < ApplicationController
   end
 
   def index
-    if @subdomain
-      redirect_to :action => 'site' #site_root #"/#{@subdomain.path}/site"
+    if @redirect_host
+      redirect_to( "http://#{@host_with_port}/" )
     else
       render
     end

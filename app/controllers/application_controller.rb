@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
 
   protect_from_forgery
+  before_filter :set_host_with_port
 
   before_filter :subdomains_parse
   before_filter :subdomain_parse
@@ -10,6 +11,16 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
+  end
+
+  def set_host_with_port
+    m= /localhost:(.*)/.match(request.raw_host_with_port)
+    @host_with_port = if m
+      @redirect_host= true
+      "lvh.me:#{m[1]}"
+    else
+      request.raw_host_with_port
+    end
   end
 
   def allow_logins
