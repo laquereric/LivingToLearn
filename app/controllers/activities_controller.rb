@@ -1,7 +1,13 @@
 class ActivitiesController < ApplicationController
+  :authenticate_user!
 
   def index
-    @activities= Activity.all
+    if user_signed_in?
+      @activities = current_user.activities
+      render
+    else
+      render :text => "ActivitiesController.index user not logged in!"
+    end
   end
 
   def show
@@ -12,18 +18,18 @@ class ActivitiesController < ApplicationController
   end
 
   def new
-    @activity = Activity.new
+    @activity= current_user.activities.new
     respond_to do |format|
       format.html # new.html.erb
     end
   end
 
   def create
-    @activity = Activity.new( params[:activity] )
+    @activity = current_user.activities.new( params[:activity] )
     respond_to do |format|
       if @activity.save
         format.html { redirect_to(@activity,
-          :notice => 'Post was successfully created.')
+          :notice => 'Activity was successfully created.')
         }
       else
         format.html { render :action => "new" }

@@ -1,6 +1,9 @@
 class TimeLogsController < ApplicationController
 
+  :authenticate_user!
+  before_filter :store_context
   before_filter :get_activity
+
   def get_activity
     @activity = Activity.find(params[:activity_id])
   end
@@ -17,7 +20,6 @@ class TimeLogsController < ApplicationController
   end
 
   def new
-    Time.zone = "Eastern Time (US & Canada)"
     @time_log = TimeLog.new
     respond_to do |format|
       format.html # new.html.erb
@@ -43,7 +45,6 @@ class TimeLogsController < ApplicationController
   end
 
   def edit
-    Time.zone = "Eastern Time (US & Canada)"
     @time_log = TimeLog.find( params[:id] )
   end
 

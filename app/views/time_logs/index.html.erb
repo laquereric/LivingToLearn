@@ -8,8 +8,6 @@
 
   <tr>
     <th>Id</th>
-    <th>User Id</th>
-    <th>Activity Id</th>
     <th>Start Time</th>
     <th>End Time</th>
   </tr>
@@ -18,10 +16,8 @@
   <tr>
 
     <td><%= time_log.id %></td>
-    <td><%= time_log.user_id %></td>
-    <td><%= time_log.activity_id %></td>
-    <td><%= time_log.start_time %></td>
-    <td><%= time_log.end_time %></td>
+    <td><%= time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
+    <td><%= time_log.end_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
     <td><%= link_to 'Show', activity_time_log_path(@activity.id, time_log.id) %></td>
     <td><%= link_to 'Edit', edit_activity_time_log_path(@activity.id, time_log.id) %></td>
     <td><%= link_to 'Destroy', activity_time_log_path(@activity.id, time_log.id), :confirm => 'Are you sure?', :method => :delete %></td>
@@ -33,5 +29,7 @@
 
 <br />
 
-<%= link_to 'New Time Log entry', new_activity_time_log_path(@activity) %>
+<%= link_to 'New Time Log', new_activity_time_log_path(@activity) %> |
+<%= link_to 'Show Activity', activity_path( @activity.id )  %>
+
 <% end %>

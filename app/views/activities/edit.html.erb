@@ -1,13 +1,13 @@
 <% content_for :message_region do %>
-  Time Log<br/>
-  Edit
+  Edit Activity
 <% end %>
 
 <% content_for :target_region do %>
 
 <%= render 'form' %>
  
-<%= link_to 'Show', @time_log %> |
-<%= link_to 'Back', time_log_path %>
+<%= link_to 'Show Activity', @activity %> |
+<%= link_to 'Activity List', activities_path()%> |
+<%= link_to 'Time Log List', activity_time_logs_path(@activity.id )%>
 
 <% end %>

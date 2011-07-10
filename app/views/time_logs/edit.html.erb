@@ -7,7 +7,7 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', activity_time_log_path(@activity.id, @time_log.id) %>
-<%= link_to 'Back', activity_time_logs_path(@activity.id) %>
+<%= link_to 'Show', activity_time_log_path(@activity.id, @time_log.id) %> |
+<%= link_to 'Time Log List', activity_time_logs_path(@activity.id) %>
 
 <% end %>

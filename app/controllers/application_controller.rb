@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
 
   before_filter :allow_logins
 
+  before_filter :set_timezone
+  def set_timezone
+    Time.zone = "Eastern Time (US & Canada)"
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
@@ -19,7 +24,12 @@ class ApplicationController < ActionController::Base
       @redirect_host= true
       "lvh.me:#{m[1]}"
     else
-      request.raw_host_with_port
+      if request.subdomain.present?
+        subdomain_length = request.subdomain.length
+        request.raw_host_with_port[ (subdomain_length+1)..-1]
+      else
+        request.raw_host_with_port
+      end
     end
   end
 
@@ -80,7 +90,7 @@ class ApplicationController < ActionController::Base
       :user_email => if current_user then current_user.email.to_s else nil end,
       :topic => @goto_topic_symbol,
       :subdomain_path => if @subdomain then  @subdomain.path else nil end,
-      :marketing =>  if @marketing_context_type then @marketing_context_type.name else nil end,
+      :marketing => if @marketing_context_type then @marketing_context_type.name else nil end,
       :service =>  @goto_service_symbol
     )
   end

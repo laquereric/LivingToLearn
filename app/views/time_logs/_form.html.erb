@@ -1,7 +1,7 @@
-<%= form_for([:activity,@time_log]) do |f| %>
+<%= form_for( [@activity,@time_log]) do |f| %>
   <% if @time_log.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@time_log.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <h2><%= pluralize(@time_log.errors.count, "error") %> prohibited this time log from being saved:</h2>
     <ul>
     <% @time_log.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>

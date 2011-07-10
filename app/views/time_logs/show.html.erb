@@ -15,7 +15,7 @@
   <%= @time_log.end_time %>
 </p>
 
-<%= link_to 'Edit', edit_activity_time_log_path(@activity.id, @time_log.id) %>
-<%= link_to 'Back', activity_time_logs_path(@activity.id) %>
+<%= link_to 'Edit', edit_activity_time_log_path( @activity.id , @time_log.id ) %> |
+<%= link_to 'Time Log List', activity_time_logs_path( @activity.id ) %>
 
 <% end %>
