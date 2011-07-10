@@ -1,15 +1,17 @@
 <% if user_signed_in? %>
-  <li>
-  <%= current_user.email.to_s %>
+  <td>
+  Logged in as : <%= current_user.email.to_s %>
+  </td>
+  <td>
   <%= link_to('Edit account', edit_user_registration_path) %>
-  </li>
+  </td>
 <% else %>
-  <li>
+  <td colspan='2'>
   <% if !@context.nil? %>
     <%= link_to('Sign up', new_user_registration_in_context_path(@context.id)) %>
   <% else %>
     <%= link_to('Sign up', new_user_registration_path()) %>
   <% end %>
-  </li>
+  </td>
 <% end %>
 

@@ -42,6 +42,7 @@
 </div>
 
 <table id="body-table" class='transparent-class'>
+
   <tr id="site_title_top_line"><td colspan="3" class='transparent-class'>
     <div id="site_title_second_line">
       <%= yield :site_title_top_line -%>
@@ -57,18 +58,9 @@
 <% if (not @user_screen) %>
   <tr>
     <td><%= render 'users/user_region' -%></td>
-    <% [
-         'subdomains','site_contents','curriculum_content_areas','curriculum_standards',
-         'curriculum_strands','curriculum_content_statements','curriculum_cumulative_progress_indicators'
-       ].each do |model_name| %>
-      <% model_sym = model_name.to_sym%>
-      <% model_path = self.send("#{model_name.pluralize}_path")%>
-      <% if can? :update, model_sym %>
-        <td><%= link_to model_name.titleize, model_path -%></td>
-      <% end %>
-    <% end %>
   </tr>
 <% end %>
+
 </table>
 
 <table id="body-table" class='transparent-class'>

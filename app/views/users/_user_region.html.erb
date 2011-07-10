@@ -1,8 +1,7 @@
 <% if @allow_logins %>
-<table id="top-table" class='transparent-class'>
   <tr>
-    <td><%= render 'devise/menu/registration_items' %></td>
-    <td><%= render 'devise/menu/login_items' %></td>
+    <%= render 'devise/menu/registration_items' %>
+    <%= render 'devise/menu/login_items' %>
 
 <% if @allow_multi_contexts %>
     <% if user_signed_in? %>
@@ -18,6 +17,5 @@
 <% end %>
 
   </tr>
-</table>
 <% end %>
 
