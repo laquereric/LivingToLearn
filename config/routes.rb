@@ -43,6 +43,9 @@ LivingToLearn::Application.routes.draw do
     resources :time_logs
   end
 
+
+  match 'user_private', :to => 'user_private#index', :as =>"user_private"
+
   resources :activities
 
   match 'user/:user_id/add_marketing_context/:marketing_context_id', :to => 'users#add_marketing_context', :as => 'add_user_marketing_context'

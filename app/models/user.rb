@@ -21,6 +21,26 @@ class User < ActiveRecord::Base
 
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
 
+  def self.is_mnemonic?(string)
+    return ( string and string.length >= 5 and string[0..4] == "user-" )
+  end
+
+  def self.find_by_mnemonic(string)
+    user_id = string[5..-1].to_i
+    p "string #{string} user_id #{user_id}"
+    self.find( user_id )
+  end
+
+  def mnemonic
+    r= "user-#{self.id}"
+    r<< "-#{self.nickname}" if self.respond_to? :nickname
+    return r
+  end
+
+  def path
+    "#{mnemonic}."
+  end
+
   def add_marketing_context(id)
     marketing_context_type = MarketingContextType.find(id)
     self.marketing_context_types << marketing_context_type if marketing_context_type

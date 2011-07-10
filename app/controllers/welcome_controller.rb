@@ -53,6 +53,8 @@ class WelcomeController < ApplicationController
   def index
     if @redirect_host
       redirect_to( "http://#{@host_with_port}/" )
+    elsif user_signed_in?
+      redirect_to( "http://#{current_user.mnemonic}.#{@host_with_port}/user_private" )
     else
       render
     end

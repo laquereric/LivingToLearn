@@ -52,10 +52,16 @@ class ApplicationController < ActionController::Base
 ####################
 
   def subdomains_parse
-    @subdomains = if user_signed_in? and current_user.locked_in_subdomain?
-      current_user.locked_subdomain
-    elsif request.subdomain.present?
-      rs = Subdomain.find_by_path(request.subdomain)
+    #TODO revisit locked_subdomain
+    # @subdomains = if user_signed_in? and current_user.locked_in_subdomain?
+      #[ current_user.locked_subdomain ]
+    #els
+    @subdomains = if request.subdomain.present?
+      rs = if User.is_mnemonic?( request.subdomain )
+        [ User.find_by_mnemonic( request.subdomain ) ]
+      else
+        Subdomain.find_by_path( request.subdomain )
+      end
     else
       []
     end
@@ -74,7 +80,7 @@ class ApplicationController < ActionController::Base
       :user_email => if current_user then current_user.email.to_s else nil end,
       :topic => @goto_topic_symbol,
       :subdomain_path => if @subdomain then  @subdomain.path else nil end,
-      :marketing => @marketing_context_type.name,
+      :marketing =>  if @marketing_context_type then @marketing_context_type.name else nil end,
       :service =>  @goto_service_symbol
     )
   end
