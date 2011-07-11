@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
 
-  load_and_authorize_resource
+  before_filter :authenticate_user!
 
   def index
     if user_signed_in?
@@ -13,6 +13,7 @@ class ActivitiesController < ApplicationController
 
   def show
     @activity = Activity.find(params[:id])
+    authorize! :show,  @activity
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -40,10 +41,12 @@ class ActivitiesController < ApplicationController
 
   def edit
     @activity = Activity.find( params[:id] )
+    authorize! :update,  @activity
   end
 
   def destroy
     @activity = Activity.find( params[:id] )
+    authorize! :destroy,  @activity
     @activity.destroy
     respond_to do |format|
       format.html { redirect_to( activities_url ) }
@@ -52,6 +55,7 @@ class ActivitiesController < ApplicationController
 
   def update
     @activity = Activity.find(params[:id])
+    authorize! :update,  @activity
     respond_to do |format|
       if @activity.update_attributes(params[:activity])
         format.html { redirect_to(@activity,
