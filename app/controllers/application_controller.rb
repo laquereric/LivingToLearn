@@ -5,11 +5,13 @@ class ApplicationController < ActionController::Base
 
   before_filter :subdomains_parse
   before_filter :subdomain_parse
+
   before_filter :site_parse
 
   before_filter :allow_logins
 
   before_filter :set_timezone
+
   def set_timezone
     Time.zone = "Eastern Time (US & Canada)"
   end
@@ -68,7 +70,9 @@ class ApplicationController < ActionController::Base
     #els
     @subdomains = if request.subdomain.present?
       rs = if User.is_mnemonic?( request.subdomain )
-        [ User.find_by_mnemonic( request.subdomain ) ]
+        [
+          User.find_by_mnemonic( request.subdomain )
+        ]
       else
         Subdomain.find_by_path( request.subdomain )
       end

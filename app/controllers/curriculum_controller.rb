@@ -40,7 +40,7 @@ class CurriculumController < ApplicationController
       min_age= 0 if min_age < 0
     end
     all_grades= Curriculum::Grade.age_range(min_age,max_age)
-    return filtered_by_grade, all_grades,  Curriculum::Grade.create({:age=>target_age})
+    return filtered_by_grade, all_grades,  Curriculum::Grade.create({:age => target_age})
   end
 
   def display_by_grade?(child)

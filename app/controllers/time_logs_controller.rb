@@ -1,11 +1,10 @@
 class TimeLogsController < ApplicationController
 
-  :authenticate_user!
-  before_filter :store_context
   before_filter :get_activity
 
   def get_activity
-    @activity = Activity.find(params[:activity_id])
+    @activity= Activity.find(params[:activity_id])
+    authorize! :show,  @activity
   end
 
   def index
@@ -14,6 +13,7 @@ class TimeLogsController < ApplicationController
 
   def show
     @time_log = TimeLog.find(params[:id])
+    authorize! :show,  @time_log
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -45,11 +45,13 @@ class TimeLogsController < ApplicationController
   end
 
   def edit
+    authorize! :update,  @time_log
     @time_log = TimeLog.find( params[:id] )
   end
 
   def destroy
     @time_log = TimeLog.find( params[:id] )
+    authorize! :destroy,  @time_log
     @time_log.destroy
     respond_to do |format|
       format.html { redirect_to(
@@ -60,6 +62,7 @@ class TimeLogsController < ApplicationController
 
   def update
     @time_log = TimeLog.find(params[:id])
+    authorize! :update,  @time_log
     respond_to do |format|
       if @time_log.update_attributes(params[:time_log])
         format.html { redirect_to( 

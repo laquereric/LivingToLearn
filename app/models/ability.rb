@@ -6,7 +6,17 @@ class Ability
       can :manage, :none
     elsif user.admin?
       can :manage, :all
+    else
+      can :manage, Activity do |activity|
+        activity.user_id == user.id
+      end
+      can :manage, TimeLog do |time_log|
+        time_log.activity.user_id == user.id
+      end
     end
+ end
+
+end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
@@ -29,5 +39,4 @@ class Ability
     #   can :update, Article, :published => true
     #
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
-  end
-end
+ 
