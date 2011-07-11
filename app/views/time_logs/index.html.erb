@@ -1,5 +1,5 @@
 <% content_for :message_region do %>
-  Time Log List for Activity<br/>
+  Time Log List for<br/>
   <%= render "activity" %>
 <% end %>
 
@@ -14,7 +14,6 @@
 
 <% @time_logs.each do |time_log| %>
   <tr>
-
     <td><%= time_log.id %></td>
     <td><%= time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
     <td><%= time_log.end_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
