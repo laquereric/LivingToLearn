@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
   has_many :marketing_context_types, :through => :marketing_contexts, :source => "marketing_context_type", :dependent => :destroy
 
   has_many :activities, :dependent => :destroy
+  def activities_sorted_hier
+    return Activity.sort_hier( self.activities )
+  end
+
   has_many :time_logs, :dependent => :destroy
 
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }

@@ -1,5 +1,10 @@
 <% content_for :message_region do %>
-  New Activity
+  <% if @parent_activity %>
+    New Subactivity for
+    <%= render "parent_activity" %>
+  <% else %>
+    New Activity
+  <% end %>
 <% end %>
 
 <% content_for :target_region do %>

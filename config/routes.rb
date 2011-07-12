@@ -39,10 +39,10 @@ LivingToLearn::Application.routes.draw do
 
   resources :subdomains
 
+  match '/activities/new_sub_for_:parent_activity_id', :to => 'activities#new_sub', :as => 'new_sub_activity'
   resources :activities do
     resources :time_logs
   end
-
 
   match 'user_private', :to => 'user_private#index', :as =>"user_private"
 

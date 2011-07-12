@@ -11,8 +11,16 @@
     </div>
   <% end %>
 
+  <div style="visible:false">
+   <%= f.hidden_field :parent_id %>
+  </div>
+
   <div class="field">
-    <%= f.label "Activity Name" %><br />
+    <% if @parent_activity.nil? %>
+      <%= f.label "Activity Name" %><br />
+    <% else %>
+      <%= f.label "SubActivity Name" %><br />
+    <% end %>
     <%= f.text_field :name %>
   </div>
 

@@ -1,6 +1,5 @@
 <% content_for :message_region do %>
-  Activity<br/>
-  New
+  Show Activity
 <% end %>
 
 <% content_for :target_region do %>
@@ -32,6 +31,7 @@
 
 <%= link_to 'Edit', edit_activity_path(@activity) %> |
 <%= link_to 'Activity List', activities_path() %> |
-<%= link_to 'Time Log List', activity_time_logs_path(@activity) %>
+<%= link_to 'Time Log List', activity_time_logs_path(@activity) %> |
+<%= link_to 'New Sub-Activity', new_sub_activity_path(@activity) %>
 
 <% end %>

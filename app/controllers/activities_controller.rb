@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
 
   def index
     if user_signed_in?
-      @activities = current_user.activities
+      @activities = Activity.sort_hier( current_user.activities )
       render
     else
       render :text => "ActivitiesController.index user not logged in!"
@@ -26,7 +26,20 @@ class ActivitiesController < ApplicationController
     end
   end
 
+  def new_sub
+    @parent_activity= Activity.find( params[:parent_activity_id] )
+    authorize! :update, @parent_activity
+    @activity= current_user.activities.new
+    @activity.parent_id= @parent_activity.id
+
+    respond_to do |format|
+      format.html { render :action => :new }# new.html.erb
+    end
+  end
+
   def create
+#render :text => params.inspect
+
     @activity = current_user.activities.new( params[:activity] )
     respond_to do |format|
       if @activity.save
@@ -37,6 +50,7 @@ class ActivitiesController < ApplicationController
         format.html { render :action => "new" }
       end
     end
+
   end
 
   def edit
