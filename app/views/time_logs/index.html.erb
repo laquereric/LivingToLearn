@@ -10,16 +10,20 @@
     <th>Id</th>
     <th>Start Time</th>
     <th>End Time</th>
+    <th>Continue?</th>
   </tr>
 
 <% @time_logs.each do |time_log| %>
   <tr>
     <td><%= time_log.id %></td>
     <td><%= time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
-    <td><%= time_log.end_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
+    <td><%= time_log.end_time.nil? ? "in process" : time_log.end_time.strftime('%m/%d/%Y %I:%M %p') %></td>
+
+    <td><%= time_log.end_time.nil? ? ( link_to 'Go', continue_activity_path(@activity.id, time_log.id) ) : "" %></td>
+
     <td><%= link_to 'Show', activity_time_log_path(@activity.id, time_log.id) %></td>
     <td><%= link_to 'Edit', edit_activity_time_log_path(@activity.id, time_log.id) %></td>
-    <td><%= link_to 'Destroy', activity_time_log_path(@activity.id, time_log.id), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', delete_time_log_path(@activity.id, time_log.id), :confirm => 'Are you sure?' %></td>
 
   </tr>
 <% end %>
@@ -27,8 +31,7 @@
 </table>
 
 <br />
-
-<%= link_to 'New Time Log', new_activity_time_log_path(@activity) %> |
+<%= link_to ( @time_logs.length==0 ? 'Start Activity' :'Restart Activity'), start_activity_path( @activity.id ) %> |
 <%= link_to 'Show Activity', activity_path( @activity.id )  %>
 
 <% end %>

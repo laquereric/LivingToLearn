@@ -22,7 +22,9 @@ class User < ActiveRecord::Base
   end
 
   has_many :time_logs, :dependent => :destroy
-
+  def open_time_logs
+    self.time_logs.select{ |time_log| time_log.end_time.nil? }
+  end
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
 
   def self.is_mnemonic?(string)

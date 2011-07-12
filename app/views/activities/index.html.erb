@@ -28,6 +28,7 @@
     <td> <%= activity.level == 3 ?  activity.name : "" %></td>
     <td> <%= activity.level > 3 ?  activity.name : "" %></td>
 
+    <td><%= link_to 'Start Activity', start_activity_path(activity.id) %></td>
     <td><%= link_to 'Show Activity', activity %></td>
     <td><%= link_to 'Edit Activity', edit_activity_path(activity) %></td>
     <td><%= link_to 'Destroy Activity', activity, :confirm => 'Are you sure?', :method => :delete %></td>

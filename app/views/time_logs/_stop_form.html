@@ -1,0 +1,8 @@
+<%= form_for( [@activity,@time_log]) do |f| %>
+    <%= f.hidden_field :activity_id %>
+    <%= f.hidden_field :user_id %>
+    <%= f.hidden_field :start_time %>
+    <div class="actions">
+    <%= f.submit %>
+    </div>
+<% end %>

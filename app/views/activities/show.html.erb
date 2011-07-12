@@ -29,6 +29,8 @@
   <%= @activity.id %>
 </p>
 
+<%= link_to 'Start Activity', start_activity_path(@activity) %>
+
 <%= link_to 'Edit', edit_activity_path(@activity) %> |
 <%= link_to 'Activity List', activities_path() %> |
 <%= link_to 'Time Log List', activity_time_logs_path(@activity) %> |

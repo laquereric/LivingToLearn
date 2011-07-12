@@ -1,9 +1,11 @@
 class TimeLogsController < ApplicationController
 
-  before_filter :get_activity
+  before_filter :get_activity, :except => :open_index
+  before_filter :authenticate_user!, :only => :open_index
 
   def get_activity
     @activity= Activity.find(params[:activity_id])
+p "got activity #{@activity.inspect}"
     authorize! :show,  @activity
   end
 
@@ -13,17 +15,12 @@ class TimeLogsController < ApplicationController
 
   def show
     @time_log = TimeLog.find(params[:id])
+    @activity ||= @time_log.activity
     authorize! :show,  @time_log
-    respond_to do |format|
-      format.html # show.html.erb
-    end
   end
 
   def new
-    @time_log = TimeLog.new
-    respond_to do |format|
-      format.html # new.html.erb
-    end
+    @time_log = @activity.time_logs.new
   end
 
   def create
@@ -45,23 +42,23 @@ class TimeLogsController < ApplicationController
   end
 
   def edit
-    authorize! :update,  @time_log
+    #authorize! :update,  @time_log
     @time_log = TimeLog.find( params[:id] )
   end
 
-  def destroy
+  def delete
+#p "@activity.id #{@activity.id}"
     @time_log = TimeLog.find( params[:id] )
-    authorize! :destroy,  @time_log
+    #authorize! :destroy,  @time_log
     @time_log.destroy
-    respond_to do |format|
-      format.html { redirect_to(
-        activity_time_logs_path( @activity.id )
-      ) }
-    end
+    redirect_to( :action => :index )
+#render :text=> 'tt'
   end
 
   def update
     @time_log = TimeLog.find(params[:id])
+    @time_log.end_time ||= Time.now
+    @activity ||= @time_log.activity
     authorize! :update,  @time_log
     respond_to do |format|
       if @time_log.update_attributes(params[:time_log])
@@ -75,6 +72,49 @@ class TimeLogsController < ApplicationController
       else
         format.html { render :action => "edit" }
       end
+    end
+  end
+
+
+############
+#
+############
+
+  def open_index
+    @time_logs= current_user.open_time_logs
+  end
+
+############
+#
+############
+
+  def start
+    @activity= Activity.find(params[:activity_id])
+    authorize! :update, @activity
+    @time_log= @activity.time_logs.new
+    @time_log.user_id= current_user.id
+    @time_log.start_time= Time.now.localtime
+    @time_log.save
+
+    respond_to do |format|
+      format.html { render :action => :doing } # show.html.erb
+    end
+  end
+
+  def continue
+    @time_log = TimeLog.find( params[:time_log_id] )
+    @activity = @time_log.activity
+    respond_to do |format|
+      format.html { render :action => :doing } # show.html.erb
+    end
+  end
+
+  def stop
+    @time_log = TimeLog.find( params[:time_log_id] )
+    @time_log.end_time ||= Time.now
+    @time_log.save
+    respond_to do |format|
+      format.html { redirect_to :action= > :index } # show.html.erb
     end
   end
 

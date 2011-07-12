@@ -10,7 +10,10 @@
   </div>
   <% end %>
 
-  <div class="field">
+    <%= f.hidden_field :activity_id %>
+    <%= f.hidden_field :user_id %>
+
+   <div class="field">
     <%= f.label :start_time %><br />
     <%= f.datetime_select :start_time %>
   </div>

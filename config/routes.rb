@@ -39,14 +39,22 @@ LivingToLearn::Application.routes.draw do
 
   resources :subdomains
 
+  match 'activities/open', :to => 'time_logs#open_index', :as => 'open_time_logs'
+
+  match 'activities/:activity_id/start', :to => 'time_logs#start', :as => 'start_activity'
+  match 'activities/:activity_id/time_logs/:time_log_id/continue', :to => 'time_logs#continue', :as => 'continue_activity'
+  match 'activities/:activity_id/time_logs/:time_log_id/end', :to => 'time_logs#end', :as => 'end_activity'
+
+  #TODO RESTFUL form of this caused loss of session!
+  match 'activities/:activity_id/time_logs/:id/delete', :to => 'time_logs#delete', :as => 'delete_time_log'
+
   match '/activities/new_sub_for_:parent_activity_id', :to => 'activities#new_sub', :as => 'new_sub_activity'
   resources :activities do
-    resources :time_logs
+     resources :time_logs
   end
+  resources :activities
 
   match 'user_private', :to => 'user_private#index', :as =>"user_private"
-
-  resources :activities
 
   match 'user/:user_id/add_marketing_context/:marketing_context_id', :to => 'users#add_marketing_context', :as => 'add_user_marketing_context'
   match 'user/:user_id/delete_marketing_context/:marketing_context_id', :to => 'users#delete_marketing_context', :as => 'delete_user_marketing_context'

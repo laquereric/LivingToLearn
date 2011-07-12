@@ -15,7 +15,8 @@
   <%= @time_log.end_time.strftime('%m/%d/%Y %I:%M %p') %>
 </p>
 
+<%= link_to 'Restart Activity', start_activity_path( @activity.id ) %> |
 <%= link_to 'Edit', edit_activity_time_log_path( @activity.id , @time_log.id ) %> |
-<%= link_to 'Time Log List', activity_time_logs_path( @activity.id ) %>
-
+<%= link_to 'Time Log List', activity_time_logs_path( @activity.id ) %> |
+<%= link_to 'Activity List', activities_path() %>
 <% end %>

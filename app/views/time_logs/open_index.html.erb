@@ -1,0 +1,31 @@
+<% content_for :message_region do %>
+  Activities in Progress
+<% end %>
+
+<% content_for :target_region do %>
+<table>
+
+  <tr>
+    <th>TimeLog Id</th>
+    <th>Activity</th>
+    <th>Start Time</th>
+
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @time_logs.each do |time_log| %>
+  <tr>
+    <td><%= time_log.id %></td>
+    <td><%= time_log.activity.name %></td>
+    <td><%= time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
+
+    <td><%= link_to 'Continue', continue_activity_path(time_log.activity.id, time_log.id) %></td>
+    <td><%= link_to 'Destroy', activity_time_log_path(time_log.activity.id, time_log.id), :confirm => 'Are you sure?', :method => :delete %></td>
+
+  </tr>
+<% end %>
+
+</table>
+
+<% end %>

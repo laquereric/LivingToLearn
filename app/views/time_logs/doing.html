@@ -1,0 +1,19 @@
+<% content_for :message_region do %>
+  Doing Activity
+<% end %>
+
+<% content_for :target_region do %>
+
+<p>
+  <b>Activity Name:</b>
+  <%= @activity.name %>
+</p>
+<p>
+  <b>Started:</b>
+  <%=  @time_log.start_time %>
+</p>
+
+<%= render 'stop_form' %>
+
+<% end %>
+
