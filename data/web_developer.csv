@@ -1,0 +1,368 @@
+"Content Area","Standard","Strand","Split","By End Of Grade","Content Statement","Cpi Num","Cumulative Progress Indicator"
+"Rails__Web Engineering",,,,,,,
+,"1__Internet",,,,,,
+,"2__HTTP"," "," ",,,,
+,"3__Hypertext Markup Language (HTML)",,,,,,
+,"4__Object Oriented Programming (OOP)",,,,,,
+,"5__Ruby",,,,,,
+,"6__Ruby On Rails",,,,,,
+,,"1__Framework",,,,,
+,,,," ","Web programming using Ruby on Rails provides a robust platform for developing web sites."," "," "
+,"http://www.joelonsoftware.com/articles/fog0000000043.html",,,,,,"Position RAILS in the Market"
+,,,,,,1,"Confirm prerequisite understanding of Internet"
+,,,,,,1,"Confirm prerequisite understanding of HTTP"
+,,,,,,1,"Confirm prerequisite understanding of HTML"
+,,,,8," ",1,"Confirm prerequisite understanding of OOP"
+,,,,,,"A.2","Confirm prerequisite understanding of Ruby"
+,,,,,,"A.3",
+,,,,,,"A.4","Design and implement a project management plan using one or more problem-solving strategies."
+,,,,12,"Gathering and evaluating knowledge and information from a variety of sources, including global perspectives, fosters creativity and innovative thinking.","A.1","Apply critical thinking and problem-solving strategies during structured learning experiences."
+,,,,,,"A.2","Participate in online strategy and planning sessions for course-based, school-based, or outside projects."
+,,,,,"Critical thinking and problem solving in the 21st century are enhanced by the ability to work in cross-cultural teams in face-to-face and virtual environments.","A.3","Assess how a variety of problem-solving strategies are being used to address solutions to global problems by participating in online discussions with peers from other countries."
+,,,,,,"A.4","Justify problem-solving strategies used in the development of a particular innovative product or practice in the United States and in another country."
+,,"B__Creativity and Innovation",,4,"Brainstorming activities enhance creative and innovative thinking in individual and group goal setting and problem solving.","B.1","Participate in brainstorming sessions to seek information, ideas, and strategies that foster creative thinking."
+,,,,8,"Gathering and evaluating knowledge and information from a variety of sources, including global perspectives, fosters creativity and innovative thinking.","B.1","Use multiple points of view to create alternative solutions."
+,,,,,,"B.2","Assess data gathered to solve a problem for which there are varying perspectives (e.g., cross-cultural, gender-specific, generational), and determine how the data can best be used to design multiple solutions."
+,,,,12,"Gathering and evaluating knowledge and information from a variety of sources, including global perspectives, fosters creativity and innovative thinking.","B.1","Present resources and data in a format that effectively communicates the meaning of the data and its implications for solving problems, using multiple perspectives."
+,,,,,,"B.2","Create and respond to a feedback loop when problem solving."
+,,,,,,"B.3","Assist in the development of innovative solutions to an onsite problem by incorporating multiple perspectives and applying effective problem-solving strategies during structured learning experiences, service learning, or volunteering."
+,,"C__Collaboration, Teamwork, and Leadership",,4,"Collaboration and teamwork enable individuals or groups to achieve common goals with greater efficiency.","C.1","Practice collaborative skills in groups, and explain how these skills assist in completing tasks in different settings (at home, in school, and during play)."
+,,,,8,"Collaboration and teamwork enable individuals or groups to achieve common goals with greater efficiency.","C.1","Determine an individuals responsibility for personal actions and contributions to group activities.ﾠ"
+,,,,,,"C.2","Demonstrate the use of compromise, consensus, and community building strategies for carrying out different tasks, assignments, and projects."
+,,,,,"Leadership abilities develop over time through participation in groups and/or teams that are engaged in challenging or competitive activities.","C.3","Model leadership skills during classroom and extra-curricular activities."
+,,,,12,"Collaboration and teamwork enable individuals or groups to achieve common goals with greater efficiency.","C.1","Enlist input from experts in the field, community members, and other stakeholders to design a service-learning activity that addresses a local, national, or worldwide need."
+,,,,,"Leadership abilities develop over time through participation in groups and/or teams that are engaged in challenging or competitive activities.","C.2","Analyze the common traits of effective state, national, or international leaders."
+,,,,,,"C.3","Explain why some current and/or past world leaders have had a greater impact on people and society than others, regardless of their countries of origin."
+,,,,,,"C.4","Demonstrate leadership and collaborative skills when participating in online learning communities and structured learning experiences."
+,,,,,,"C.5","Assume a leadership position by guiding the thinking of peers in a direction that leads to successful completion of a challenging task or project."
+,,"D__Cross-Cultural Understanding and Interpersonal Communication",,4,"Effective communication skills convey intended meaning to others and assist in preventing misunderstandings.","D.1","Use effective oral and written communication in face-to-face and online interactions and when presenting to an audience."
+,,,,,,"D.2","Express needs, wants, and feelings appropriately in various situations."
+,,,,,"Communication with people from different cultural backgrounds is enhanced by the understanding of different cultural perspectives.","D.3","Demonstrate an awareness of ones own culture and other cultures during interactions within and outside of the classroom."
+,,,,8,"Effective communication skills convey intended meaning to others and assist in preventing misunderstandings.","D.1","Employ appropriate conflict resolution strategies."
+,,,,,,"D.2","Demonstrate the ability to understand inferences."
+,,,,,"Communication with people from different cultural backgrounds is enhanced by the understanding of different cultural perspectives.","D.3","Use effective communication skills in face-to-face and online interactions with peers and adults from home and from diverse cultures."
+,,,,,,"D.4","Compare and contrast nuances in verbal and nonverbal communication in different cultures that may result in misinterpretation and misunderstanding."
+,,,,,,"D.5","Justify the need for greater cross-cultural understanding due to globalization."
+,,,,12,"Communication with people from different cultural backgrounds is enhanced by the understanding of different cultural perspectives.","D.1","Interpret spoken and written communication within the appropriate cultural context."
+,,,,,,"D.2","Determine the immediate and long-term effects of cross-cultural misconceptions or misunderstandings resulting from past or current international issues or events."
+,,,,,,"D.3","Explain why the ability to communicate in another language in an appropriate cultural context is a valuable 21st-century skill."
+,,"E__Communication and Media Fluency",,4,"Digital media are 21st-century tools used for local and global communication.","E.1","Explain how digital media are used in daily life in a variety of settings."
+,,,,,,"E.2","Demonstrate effective communication using digital media during classroom activities."
+,,,,,,"E.3","Distinguish how digital media are used by individuals, groups, and organizations for varying purposes"
+,,,,,"There are ethical and unethical uses of communication and media.","E.4","Explain why some uses of media are unethical."
+,,,,8,"Digital media are 21st-century tools used for local and global communication.","E.1","Explain how technology has strengthened the role of digital media in the global society."
+,,,,,,"E.2","Analyze the role of digital media in sales and marketing and in delivering cultural, political, and other societal messages."
+,,,,,,"E.3","Differentiate between explicit and implicit digital media messages, and discuss the impact on individuals, groups, and society as a whole."
+,,,,,"There are ethical and unethical uses of communication and media.","E.4","Create messages for different purposes and audiences with sensitivity to cultural, gender, and age diversity, using various digital media outlets."
+,,,,,,"E.5","Compare and contrast ways governments regulate media advertising to protect children and adults in the United States and in other countries."
+,,,,12,"Digital media are 21st-century tools used for local and global communication.","E.1","Create messages for different purposes and audiences with sensitivity to cultural, gender, and age diversity, using various digital media outlets."
+,,,,,,"E.2","Generate digital media campaigns in support of or opposing a current political, social, or economic issue."
+,,,,,,"E.3","Design a digital communication system to alert other countries in the event of a natural disaster."
+,,,,,,"E.4","Predict the impact of emerging media technologies on international business and globalization."
+,,,,,"There are ethical and unethical uses of communication and media.","E.5","Compare laws governing the unethical use of media in different countries."
+,,"F__Accountability, Productivity, and Ethics",,4,"The nature of the 21st-century workplace has shifted, demanding greater individual accountability, productivity, and collaboration.","F.1","Demonstrate how productivity and accountability contribute to realizing individual or group work goals within or outside the classroom."
+,,,,,,"F.2","Establish and follow performance goals to guide progress in assigned areas of responsibility and accountability during classroom projects and extra-curricular activities."
+,,,,,"Ethical behaviors support human rights and dignity in all aspects of life.","F.3","Explain the importance of understanding and following rules in family, classroom, and community settings."
+,,,,8,"The nature of the 21st-century workplace has shifted, demanding greater individual accountability, productivity, and collaboration.","F.1","Demonstrate how productivity and accountability contribute to realizing individual or group work goals within or outside the classroom."
+,,,,,"Ethical behaviors support human rights and dignity in all aspects of life.","F.2","Explain how rules, laws, and safety practices protect individual rights in the global workplace."
+,,,,,,"F.3","Relate the use of new technologies at home, in the workplace, and in other settings to incidences of ethical and/or unethical behavior."
+,,,,12,"The nature of the 21st-century workplace has shifted, demanding greater individual accountability, productivity, and collaboration.","F.1","Explain the impact of current and emerging technological advances on the demand for increased and new types of accountability and productivity in the global workplace."
+,,,,,"Ethical behaviors support human rights and dignity in all aspects of life.","F.2","Demonstrate a positive work ethic in various settings, including the classroom and during structured learning experiences."
+,,,,,,"F.3","Defend the need for intellectual property rights, workers rights, and workplace safety regulations in the United States and abroad."
+,,,,,,"F.4","Explain the impact of computer hacking on products and services."
+,,,,,,"F.5","Formulate an opinion regarding a current workplace or societal/ethical issue based on research."
+,,,,,,"F.6","Relate scientific advances (e.g., advances in medicine) to the creation of new ethical dilemmas."
+" ","9.2__Personal Financial Literacy",,,,,,
+,,"A__Income and Careers",,,,,
+,,,,4,"Educational achievement, career choice, and entrepreneurial skills all play a role in achieving a desired lifestyle.","A.1","Explain the difference between a career and a job, and identify various jobs in the community and the related earnings."
+,,,,,"Income often comes from different sources, including alternative sources.","A.2","Identify potential sources of income and their limitations."
+,,,,,"Income affects spending decisions and lifestyle.","A.3","Explain how income affects spending and take-home pay."
+,,,,,"Taxes and the cost of employee benefits affect the amount of disposable income.","A.4","Explain the meaning and purposes of taxes and tax deductions and why fees for various benefits (e.g., medical benefits) are taken out of pay."
+,,,,8,"Educational achievement, career choice, and entrepreneurial skills all play a role in achieving a desired lifestyle.","A.1","Relate how career choices, education choices, skills, entrepreneurship, and economic conditions affect income."
+,,,,,,"A.2","Differentiate among ways that workers can improve earning power through the acquisition of new knowledge and skills."
+,,,,,,"A.3","Relate earning power to quality of life across cultures."
+,,,,,,"A.4","Relate how the demand for certain skills determines an individualﾒs earning power."
+,,,,,"Income often comes from different sources, including alternative sources.","A.5","Explain the difference between earned income and unearned income (e.g., gifts) and why earned income is important."
+,,,,,"Income affects spending decisions and lifestyle.","A.6","Examine how labor market trends and the cost of living can affect real income, spending decisions, and lifestyle."
+,,,,,"Taxes and the cost of employee benefits affect the amount of disposable income.","A.7","Explain the purpose of the payroll deduction process, taxable income, and employee benefits."
+,,,,," ","A.8","Differentiate among the types of taxes and employee benefits."
+,,,,,,"A.9","Differentiate between taxable and nontaxable income."
+,,,,12,"Educational achievement, career choice, and entrepreneurial skills all play a role in achieving a desired lifestyle.","A.1","Analyze the relationship between various careers and personal earning goals."
+,,,,,,"A.2","Identify a career goal and develop a plan and timetable for achieving it, including educational/training requirements, costs, and possible debt."
+,,,,,,"A.3","Analyze how the economic, social, and political conditions of a time period can affect starting a business and can affect a plan for establishing such an enterprise."
+,,,,,,"A.4","Summarize the financial risks and benefits of entrepreneurship as a career choice."
+,,,,,,"A.5","Evaluate current advances in technology that apply to a selected occupational career cluster."
+,,,,,"Income often comes from different sources, including alternative sources.","A.6","Analyze and critique various sources of income and available resources (e.g., financial assets, property, and transfer payments) and how they may substitute for earned income."
+,,,,,,"A.7","Analyze different forms of currency, how currency is used to exchange goods and services, and how it can be transferred from one persons business to another."
+,,,,,"Income affects spending decisions and lifestyle.","A.8","Analyze how personal and cultural values impact spending and other financial decisions."
+,,,,,"Taxes and the cost of employee benefits can affect the amount of disposable income.","A.9","Demonstrate how exemptions and deductions can reduce taxable income."
+,,,,,,"A.10","Explain the relationship between government programs and services and taxation."
+,,,,,,"A.11","Explain how compulsory government programs (e.g., Social Security, Medicare) provide insurance against some loss of income and benefits to eligible recipients."
+,,,,,,"A.12","Analyze the impact of the collective bargaining process on benefits, income, and fair labor practice."
+,,"B__Money Management",,,,,
+,,,,4,"Money management involves setting financial goals.",,
+,,,,,,"B.1","Differentiate between financial wants and needs. 9.2.4.B.2"
+,,,,,,"B.2","Identify age-appropriate financial goals."
+,,,,,"Money management is reliant on developing and maintaining personal budgets.",,
+,,,,,,"B.3","Explain what a budget is and why it is important."
+,,,,,,"B.4","Identify common household expense categories and sources of income."
+,,,,,"Money management requires understanding of cash flow systems and business practices.",,
+,,,,,,"B.5","Identify ways to earn and save. "
+,,,,,,"B.6","Distinguish among cash, check, credit card, and debit card."
+,,,,,,"B.7","Explain the purposes of financial institutions in the community."
+,,,,8,"Money management involves setting financial goals.",,
+,,,,,,"B.1","Construct a simple personal savings and spending plan based on various sources of income."
+,,,,,,"B.2","Justify the concept of paying yourself first as a financial savings strategy."
+,,,,,,"B.3","Relate the concept of deferred gratification to investment, meeting financial goals, and building wealth."
+,,,,,,"B.4","Analyze the effect of the economy on personal income, individual and family security, and consumer decisions."
+,,,,,,"B.5","Evaluate the relationship of cultural traditions and historical influences on financial practice."
+,,,,,"Money management is reliant on developing and maintaining personal budgets.",,
+,,,,,,"B.6","Construct a budget to save for long-term, short-term, and charitable goals."
+,,,,,,"B.7","Develop a system for keeping and using financial records."
+,,,,,"Money management requires understanding of cash flow systems and business practices",,
+,,,,,,"B.8","Explain the concept of cash flow and construct cash flow statements."
+,,,,,,"B.9","Create debit and credit balance sheets and income and cash statements."
+,,,,,,"B.10","Determine the most appropriate use of various financial products and services (e.g., ATM, debit cards, credit cards, checkbooks)."
+,,,,,,"B.11","Justify safeguarding personal information when using credit cards, banking electronically, or filing forms."
+,,,,,,"B.12","Evaluate the appropriate financial institutions to assist with meeting various personal financial needs and goals."
+,,,,12,"Money management involves setting financial goals.",,
+,,,,,,"B.1","Prioritize financial decisions by systematically considering alternatives and possible consequences."
+,,,,,,"B.2","Compare strategies for saving and investing and the factors that influence how much should be saved or invested to meet financial goals."
+,,,,,,"B.3","Construct a plan to accumulate emergency rainy day funds."
+,,,,,"Money management is reliant on developing and maintaining personal budgets.",,
+,,,,,,"B.4","Analyze how income and spending plans are affected by age, needs, and resources."
+,,,,,,"B.5","Analyze how changes in taxes, inflation, and personal circumstances can affect a personal budget."
+,,,,,,"B.6","Design and utilize a simulated budget to monitor progress of financial plans."
+,,,,,"Money management requires understanding of cash flow systems and business practices.",,
+,,,,,,"B.7","Develop personal financial planning strategies that respond to and use tax deductions and shelters."
+,,,,,,"B.8","Describe and calculate interest and fees that are applied to various forms of spending, debt, and saving."
+,,,,,,"B.9","Chart and evaluate the growth of mid- and long-term investments."
+,,,,,,"B.10","Develop a plan that uses the services of various financial institutions to meet personal and family financial goals."
+,,"C__Credit and Debt Management",,,,,
+,,,,4,"Credit management includes making informed choices about sources of credit and requires an understanding of the cost of credit.",,
+,,,,,,"C.1","Explain why people borrow money and the relationship between credit and debt."
+,,,,,,"C.2","Identify common sources of credit (e.g., banks, credit card companies) and types of credit (e.g., loans, credit cards, mortgages)."
+,,,,,,"C.3","Compare and contrast credit cards and debit cards and the advantages and disadvantages of using each."
+,,,,,,"C.4","Determine the relationships among income, expenses, and interest."
+,,,,,"Credit worthiness is dependent on making informed credit decisions and managing debt responsibly.",,
+,,,,,,"C.5","Determine personal responsibility related to borrowing and lending."
+,,,,,,"C.6","Summarize ways to avoid credit problems."
+,,,,8,"Credit management includes making informed choices about sources of credit and requires an understanding of the cost of credit.",,
+,,,,,,"C.1","Compare and contrast the financial products and services offered by different types of financial institutions."
+,,,,,,"C.2","Compare and contrast debt and credit management strategies."
+,,,,,,"C.3","Demonstrate an understanding of the terminology associated with different types of credit (e.g., credit cards, installment loans, mortgages) and compare the interest rates associated with each."
+,,,,,,"C.4","Calculate the cost of borrowing various amounts of money using different types of credit (e.g., credit cards, installment loans, mortgages)."
+,,,,,"Credit worthiness is dependent on making informed credit decisions and managing debt responsibly.",,
+,,,,,,"C.5","Determine ways to leverage debt beneficially."
+,,,,,,"C.6","Determine potential consequences of using easy access credit (e.g., using a line of credit vs. obtaining a loan for a specific purpose)."
+,,,,,,"C.7","Explain the meaning and possible consequences ofﾓpredatory lending practices.ﾔ"
+,,,,,,"C.8","Explain the purpose of a credit score and credit record, and summarize borrowersﾒ credit report rights."
+,,,,,,"C.9","Summarize the causes and consequences of personal bankruptcy."
+,,,,,,"C.10","Determine when there is a need to seek credit counseling and appropriate times to utilize it."
+,,,,12,"Credit management includes making informed choices about sources of credit and requires an understanding of the cost of credit.",,
+,,,,,,"C.1","Compare and contrast the financial benefits of different products and services offered by a variety of financial institutions."
+,,,,,,"C.2","Compare and compute interest and compound interest and develop an amortization table using business tools."
+,,,,,,"C.3","Compute and assess the accumulating effect of interest paid over time when using a variety of sources of credit."
+,,,,,,"C.4","Compare and contrast the advantages and disadvantages of various types of mortgages."
+,,,,,"Credit worthiness is dependent on making informed credit decisions and managing debt responsibly.",,
+,,,,,,"C.5","Analyze the information contained in a credit report and explain the importance of disputing inaccurate entries."
+,,,,,,"C.6","Explain how predictive modeling determines credit scores."
+,,,,,,"C.7","Explain the rights and responsibilities of buyers and sellers under consumer protection laws, and discuss common unfair or deceptive business practices."
+,,,,,,"C.8","Evaluate the implications of personal and corporate bankruptcy for self and others."
+,,"D__Planning, Saving, and Investing",,,,,
+,,,,4,"Information about investment options",,
+,,,,,,"D.1","Determine various ways to save. assists with financial planning."
+,,,,,"Appropriate application of basic economic principles leads to wiser decisions for individual, family, and business financial planning.",,
+,,,,,,"D.2","Explain the concept of opportunity cost."
+,,,,,,"D.3","Explain what it means to invest."
+,,,,,,"D.4","Distinguish between saving and investing."
+,,,,8,"Information about investment options assists with financial planning.",,
+,,," ",,,"D.1","Determine how saving contributes to financial well-being. assists with financial planning."
+,,,,,,"D.2","Differentiate among various savings tools and how to use them most effectively."
+,,,,,,"D.3","Differentiate among various investment options."
+,,,,,,"D.4","Distinguish between income and investment growth."
+,,,,,"Appropriate application of basic economic principles leads to wiser decisions for individual, family, and business financial planning.",,
+,,,,,,"D.5","Explain the economic principle of supply and demand."
+,,,,,,"D.6","Relate saving and investing decisions to successful entrepreneurship."
+,," ",,,,"D.7","Calculate short- and long-term returns on various investments (e.g., stocks, bonds, mutual funds, IRAs, deferred pension plans, and so on)."
+,,,,,,"D.8","Assess the impact of inflation on economic decisions and lifestyles."
+,,,,12,"Information about investment options assists with financial planning.",,
+,,,,,,"D.1","Summarize how investing builds wealth and assists in meeting long- and short-term financial goals."
+,,,,,,"D.2","Assess factors that influence financial planning."
+,,,,,,"D.3","Justify the use of savings and investment options to meet targeted goals."
+,,,,,,"D.4","Analyze processes and vehicles for buying and selling investments."
+,,,,,,"D.5","Compare the risk, return, and liquidity of various savings and investment alternatives."
+,,,,,,"D.6","Explain how government and independent financial services and products are used to achieve personal financial goals."
+,,,,,"Appropriate application of basic economic principles leads to wiser decisions for individual, family, and business financial planning.",,
+,,,,,,"D.7","Relate saving and investing decisions to successful entrepreneurship."
+,,,,,,"D.8","Differentiate among various investment products and savings vehicles and how to use them most effectively."
+,,,,,,"D.9","Assess the role of revenue-generating assets as mechanisms for accruing and managing wealth."
+,,,,,,"D.10","Compare and contrast the past and present role of government in the financial industry and in the regulation of financial markets."
+,,,,,,"D.11","Determine the impact of various market events on stock market prices and on other savings and investments."
+,,,,,,"D.12","Evaluate how taxes affect the rate of return on savings and investments."
+,,,,,,"D.13","Analyze how savings, retirement plans, and other investment options help to shift current income for purposes of tax reporting and filing."
+,,"E__Becoming a Critical Consumer",,,,,
+,,,,4,"The ability to prioritize wants and needs assists in making informed investments, purchases, and decisions.",,
+,,,,,,"E.1","Determine factors that influence consumer decisions related to money."
+,,,,,"Cost-benefit analysis informs responsible spending practices.",,
+,,,,,,"E.2","Identify ways interest rates add to the cost of goods and services."
+,,,,,,"E.3","Evaluate financial information from a variety of sources. Apply comparison shopping skills to purchasing decisions."
+,,,,,,"E.4","Apply comparison shopping skills to purchasing decisions."
+,,,,,"Consumer protection includes providing information about the range of products and services and about consumer resources, rights, and responsibilities.",,
+,,,,,,"E.5","Explain what it means to be a responsible consumer and the factors to consider when making consumer decisions.
+"
+,,,,,,"E.6","Identify personal information that should not be disclosed to others and the possible consequences of doing or not doing so."
+,,,,,,"E.7","Compare and contrast product facts versus advertising claims."
+,,,,8,"The ability to prioritize wants and needs assists in making informed investments, purchases, and decisions.",,
+,,,,,,"E.1","Prioritize personal wants and needs when making purchases."
+,,,,,"Cost-benefit analysis informs responsible spending practices.",,
+,,,,,,"E.2","Analyze interest rates and fees associated with financial services, credit cards, debit cards, and gift cards."
+,,,,,,"E.3","Evaluate the appropriateness of different types of monetary transactions (e.g., electronic transfer, check, certified check, money order, gift card, barter) for various situations."
+,,,,,,"E.4","Compare the value of goods or services from different sellers when purchasing large quantities and small quantities."
+,,,,,,"E.5","Identify the components of written and verbal contracts and the inherent responsibilities of the contracting parties."
+,,,,,"Consumer protection includes providing information about the range of products and services and about consumer resources, rights, and responsibilities.",,
+,,,,,,"E.6","Evaluate how fraudulent activities impact consumers, and justify the creation of consumer protection laws."
+,,,,,,"E.7","Recognize the techniques and effects of deceptive advertising."
+,,,,12,"The ability to prioritize wants and needs assists in making informed investments, purchases, and decisions.",,
+,,,,,,"E.1","Analyze and apply multiple sources of financial information when prioritizing financial decisions."
+,,,,,,"E.2","Determine how objective, accurate, and current financial information affects the prioritization of financial decisions."
+,,,,,,"E.3","Evaluate how media, bias, purpose, and validity affect the prioritization of consumer decisions and spending."
+,,,,,"Cost-benefit analysis informs responsible spending practices.",,
+,,,,,,"E.4","Evaluate the appropriateness of different types of monetary transactions (e.g., electronic transfer, check, certified check, money order, gift card, barter) for various situations."
+,,,,,,"E.5","Compare the value of goods or services from different sellers when purchasing large quantities and small quantities."
+,,,,,"Consumer protection includes providing information about the range of products and services and about consumer resources, rights, and responsibilities.",,
+,,,,,,"E.6","Apply consumer protection laws to the issues they address."
+,,,,,,"E.7","Relate consumer fraud, including online scams and theft of employee time and goods, to laws that protect consumers."
+,,,,,,"E.8","Determine when credit counseling is necessary and evaluate the resources available to assist consumers who wish to use it."
+,,,,,,"E.9","Determine reasons for the increase of identity theft worldwide and evaluate the extent to which victims of identity theft are successful in fully restoring their personal identities."
+,,"F__Civic Financial Responsibility",,,,,
+,,,,4,"The potential for building and using personal wealth includes responsibility to the broader community and an understanding of the legal rights and responsibilities of being a good citizen.",,
+,,,,,,"F.1","Demonstrate an understanding of individual financial obligations and community financial obligations."
+,,,,,,"F.2","Relate a countrys economic system of production and consumption to building personal wealth and achieving societal responsibilities."
+,,,,,,"F.3","Explain the roles of philanthropy, volunteer service, and charitable contributions, and analyze their impact on community development and quality of living."
+,,,,,,"F.4","Identify skills related to organizing, managing, and taking on the risks of owning a business."
+,,,,,"Philanthropic, charitable, and entrepreneurial organizations play distinctly different but vitally important roles in supporting the interests of local and global communities.",,
+,,,,,,"F.5","Explain how the economic system of production and consumption may be a means to achieve significant societal goals."
+,,,,,,"F.6","Examine the implications of legal and ethical behaviors when making financial decisions."
+,,,,,,"F.7","Relate the impact of business, government, and consumer fiscal responsibility to the economy and to personal finance."
+,,,,8,"The potential for building and using personal wealth includes responsibility to the broader community and an understanding of the legal rights and responsibilities of being a good citizen.",,
+,,,,,,"F.1","Explain how the economic system of production and consumption may be a means to achieve significant societal goals."
+,,,,,,"F.2","Examine the implications of legal and ethical behaviors when making financial decisions."
+,,,,,,"F.3","Relate the impact of business, government, and consumer fiscal responsibility to the economy and to personal finance."
+,,,,,"Philanthropic, charitable, and entrepreneurial organizations play distinctly different but vitally important roles in supporting the interests of local and global communities.",,
+,,,,,,"F.4","Calculate appropriate amounts of charitable giving based on current financial status."
+,,,,,,"F.5","Determine opportunities for micro-financing of global charities and causes."
+,,,,12,"The potential for building and using personal wealth includes responsibility to the broader community and an understanding of the legal rights and responsibilities of being a good citizen.",,
+,,,,,,"F.1","Demonstrate an understanding of the interrelationships among attitudes, assumptions, and patterns of behavior regarding money, saving, investing, and work across cultures."
+,,,,,,"F.2","Summarize the concept and types of taxation used to fund public initiatives."
+,,,,,,"F.3","Assess the impact of emerging global economic events on financial planning."
+,,,,,,"F.4","Analyze how citizen decisions and actions can influence the use of economic resources to achieve societal goals and"
+,," ",,,,"F.5","Summarize the purpose and importance of a will."
+,,,,,"Philanthropic, charitable, and entrepreneurial organizations play distinctly different but vitally important roles in supporting the interests of local and global communities.",,
+,,,,,,"F.6","Compare and contrast the role of philanthropy, volunteer service, and charities in community development and quality of life in a variety of cultures."
+,,,,,,"F.7","Explain the concept and forms of taxation and justify the use of taxation to fund public activities and initiatives."
+,,,,,,"F.8","Evaluate the effects of entrepreneurship on economic stability and quality of living in local and global"
+,,,,,,"F.9","Assess the impact of the global economy on entrepreneurial opportunities."
+,,"G__Risk Management and Insurance",,,,,
+,,,,4,"There are common financial risks and ways to manage risks.",,
+,,,,,,"G.1","Summarize common types of financial risks and basic risk"
+,,,,,"Insurance is designed to protect the consumer against unintended losses.",,
+,,,,,,"G.2","Explain the importance of protection against financial loss and reasons for risk assessment."
+,,,,,,"G.3","Describe how valuable items might be damaged or lost and ways to protect them."
+,,,,8,"There are common financial risks and ways to manage risks.",,
+,,,,,,"G.1","Compare the impact of losses associated with different types of financial risk."
+,,,,,,"G.2","Explain why it is important to develop plans for protecting current and future personal assets against loss."
+,,,,,"Insurance is designed to protect the consumer against unintended losses.",,
+,,,,,,"G.3","Explain the purpose and importance of health, disability, life, and consumer insurance protection."
+,,,,,,"G.4","Determine criteria for deciding the amount of insurance protection needed."
+,,,,,,"G.5","Analyze the need for and value of different types of insurance and the impact of deductibles."
+,,,,12,"There are common financial risks and ways to manage risks.",,
+,,,,,,"G.1","Analyze risks and benefits in various financial situations."
+,,,,,"Insurance is designed to protect the consumer against unintended losses.",,
+,,,,,,"G.2","Differentiate between property and liability insurance protection."
+,,,,,,"G.3","Compare the cost of various types of insurance (e.g., life, homeowners, motor vehicle) for the same product or service, given different liability limits and risk factors."
+,,,,,,"G.4","Evaluate individual and family needs for insurance protection using opportunity-cost analysis."
+,,,,,,"G.5","Compare insurance policy coverage limits and related premiums and deductibles to minimize costs."
+,,,,,,"G.6","Differentiate the costs and benefits of renters and homeowners insurance."
+,,,,,,"G.7","Compare sources of health and disability coverage, including employee benefit plans, with options in another country."
+,,,,,,"G.8","Compare and contrast options for long-term healthcare insurance for home care and external care."
+,,,,,,"G.9","Explain how to self-insure and how to determine when self- insurance is appropriate."
+,,,,,,"G.10","Determine when and why it may be appropriate for the government to provide insurance coverage, rather than private industry."
+,"9.3__Career Awareness Exploration and Preparation",,,,,,
+,,"A__Career Awareness",,,,,
+,,,,4,"Career awareness includes an understanding of the world of work and the knowledge and skills needed for traditional and nontraditional jobs and careers.",,
+,,,,,,"A.1","Identify reasons why people work and discuss how work can help a person achieve personal goals."
+,,,,,,"A.2","Identify various life roles and civic and work-related activities in the school, home, and community."
+,,,,,,"A.3","Appraise personal likes and dislikes and identify careers that might be suited to personal likes."
+,,,,,,"A.4","Identify qualifications needed to pursue traditional and nontraditional careers and occupations."
+,,,,,,"A.5","Locate career information using a variety of resources."
+,,,,,,"A.6","Explain why knowledge and skills acquired in the elementary grades lay the foundation for the future academic and career success."
+,,"B__Career Exploration",,,,,
+,,,,8,"Career exploration includes investigation of the contemporary workplace and an understanding of the relationships among personal abilities, education, and knowledge and skills needed to pursue 21st- century occupations and careers.",,
+,,,,,,"B.1","Develop a Personalized Student Learning Plan that includes information about career areas of interest with the assistance of adult mentors.
+"
+,,,,,,"B.2","Identify common knowledge, skills, and abilities needed within the federal 16 Career Clusters. 9.3.8.B.3	Evaluate personal abilities, interests, and motivations and"
+,,,,,,"B.3","Evaluate personal abilities, interests, and motivations and discuss how they might influence job and career selection."
+,,,,,,"B.4","Identify high school and county career and technical school courses and programs that support career or occupational areas of interest."
+,,,,,,"B.5","Use workplace readiness skills and career information learned from job shadowing, high school visits, speakers, volunteering, or other career exploration activities to assist with career exploration."
+,,,,,,"B.6","Evaluate communication, collaboration, and leadership skills and how they might be further developed in preparation for a future career through involvement in school, home, work, and extracurricular activities."
+,,,,,,"B.7","Explain what is meant by jobs and careers, and examine how each tends to be distributed regionally, nationally, and globally."
+,,,,,,"B.8","Compare and contrast how traditional and nontraditional occupational roles have changed or remained the same regionally, nationally, and globally."
+,,,,,,"B.9","Inventory the requirements for entering different career areas of interest using online job information, such as the federal Occupational Information Network (O*NET) or the New Jersey State Career Development Website, and determine why those requirements are needed for success in a chosen career ."
+,,,,,,"B.10","Evaluate employment trends (including job outlook and wage trends) in areas of career interest using online resources, such as the federal Occupational Information Network (O*NET) or the New Jersey State Career Development Website."
+,,,,,,"B.11","Prepare a sample resume and cover letter as part of an application for part-time or summer employment."
+,,,,,,"B.12","Explain how personal behavior, dress, attitudes, and other choices can impact the success or failure of a job applicant"
+,,,,,"State and federal agencies are responsible for regulating workplaces to ensure that employees are safe from harm and exploitation.",,
+,,,,,,"B.13","Locate information about working papers, including what is required to obtain them and who must sign them."
+,,,,,,"B.14","Use online state and federal agency resources to identify jobs that are permitted or prohibited for minors."
+,,,,,"Both employers and employees have professional, legal, and ethical responsibilities in the workplace and in the global marketplace.",,
+,,,,,,"B.15","Analyze a past or current local, national, or international incident that violated professional, legal, and/or ethical responsibilities in an employment setting, and explain the impact of the incident on employees and others."
+,,,,,"There is a relationship between personal behavior and employability.",,
+,,,,,,"B.16","Relate academic achievement, as represented by high school diplomas, college degrees, and industry credentials, to employability and to potential level of income."
+,,,,,,"B.17","Recognize that an individuals online behavior (e.g., social networking, photo exchanges, video postings) may impact opportunities for employment or advancement."
+,,,,,,"B.18","Compare and contrast current and past employer hiring and employment practices related to substance use (e.g., tobacco, drugs, and alcohol)."
+,,"C__Career Preparation",,,,,
+,,,,12,"Career preparation requires purposeful planning based on research, self-knowledge, and informed choices.",,
+,,,,,,"C.1","Assess and modify Personalized Student Learning Plans to support declared career goals."
+,,,,,,"C.2","Characterize education and skills needed to achieve career goals, and take steps to prepare for postsecondary options, including making course selections, preparing for and taking assessments, and participating in extra-curricular activities."
+,,,,,,"C.3","Develop personal interests and activities that support declared career goals and plans."
+,,,,,,"C.4","Use online resources to examine licensing, certification, and credentialing requirements at the local, state, and national levels to maintain compliance with industry requirements in areas of career interest."
+,,,,,,"C.5","Identify transferable skills in career choices and design alternative career plans based on those skills."
+,,,,,,"C.6","Develop job readiness skills by participating in structured learning experiences and employment seeking opportunities."
+,,,,,,"C.7","Pursue a variety of activities related to career preparation (e.g., volunteer, seek employment, and/or apply for training grants, higher education grants, and loans)."
+,,,,,,"C.8","Interpret how changing economic and societal needs influence employment trends and future education."
+,,,,,,"C.9","Investigate career opportunities in the United States or abroad that involve working with people from diverse cultures and that require knowledge of other languages or cultures."
+,,,,,,"C.10","Differentiate entrepreneurship opportunities as options for career planning, and identify the knowledge, skills,"
+,,,,,"State and federal laws and regulations require specific employment and workplace safety and health policies and procedures in order to ensure that workers are free from exploitation and to ensure a safe and healthy work environment.",,
+,,,,,,"C.11","Evaluate the responsibilities of employers and employees for maintaining workplace safety, and explain health rights related to a particular occupation/career."
+,,,,,,"C.12","Determine the impact of past and/or recent lawsuits and/or court decisions regarding employment laws."
+,,,,,,"C.13","Comply with workplace child labor regulations and safety and health policies during structured learning experiences."
+,,,,,"Both employers and employees have professional, legal, and ethical responsibilities in the workplace and in the global marketplace.",,
+,,,,,,"C.14","Interpret and justify written employer organizational policies and procedures for job performance."
+,,,,,,"C.15","Propose potential solutions for current workplace ethics court cases involving multinational companies."
+,,,,,,"C.16","Determine the consequences of quality control failures in the United States and in another country based on issues reported in the media."
+,,,,,,"C.17","Analyze relationships between companies and the communities in which they are located, and explain how the presence of companies in a community may have a positive or negative impact."
+,,,,,"There is a relationship between personal behavior and employability.",,
+,,,,,,"C.18","Determine how an individuals driving record (e.g., tickets, points, penalties for driving while intoxicated) and/or credit score may impact opportunities for employment, job retention, or job advancement."
+,,,,,,"C.19","Compare and contrast employee substance abuse policies (e.g., tobacco, drugs, and alcohol) by industry sector."
+,,,,,,"C.20","Analyze employment trends by industry sector to determine how employment and training requirements change over time."
+,,,,,,"C.21","Determine the extent to which an individualﾒs online behavior (e.g., social networking, photo exchanges, video postings) may impact opportunities for employment, job retention, or job advancement."
+,,,,,,"C.22","Compare and contrast New Jersey school district policies with employer policies related to individual behavior and responsibilities (e.g., absenteeism and tardiness, plagiarism, harassment)."
+,,,,,,"C.23","Determine job entrance criteria (e.g., education credentials, math/writing/reading comprehension tests, drug tests) used by employers in various industry sectors."
+,,,,,,"C.24","Analyze why employers use different interview techniques."
+,"9.4__Career and Technical Education",,,,,,
+,,"A__Agriculture, Food, & Natural Resources Career Cluster",,,,,
+,,,,,"Skip"," ",
+,,,,,,0,
+,,"B__Architecture & Construction Career Cluster",,,,,
+,,,,,"Skip",,
+,,,,,,0,
+,,"C__Arts, A/V Technology, & Communications Career Cluster",,," ",,
+,,,,,"Skip",,
+,,,,,,0,
+,,"D__Business, Management & Administration Career Cluster",,,,,
+,,,,,"Skip",,
+,,,,,,0,
+,,"E__Education & Training Career Cluster",,,,,
+,,,,,"Skip",,
+,,,,,,0,
