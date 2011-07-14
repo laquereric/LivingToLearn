@@ -50,6 +50,10 @@ class WelcomeController < ApplicationController
     @subdomains = Subdomain.sorted_by_concat_type_and_name.select{ |r| r.muni=='williamstown' }
   end
 
+  def touch_index
+      render :layout=>'touch',:template=>'welcome/touch/index'
+  end
+
   def index
     if @redirect_host
       redirect_to( "http://#{@host_with_port}/" )
