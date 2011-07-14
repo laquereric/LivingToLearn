@@ -10,5 +10,6 @@ tmp/
 inbox/*
 inbox_other/*
 public/extjs*
+public/sencha-touch*
 public/KidsvilleNewsOfGloucesterCountyNj/
 data/.~lock.*
