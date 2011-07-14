@@ -52,7 +52,7 @@ Services for <%= @marketing_context_type.name.pluralize.titleize %>
 
 <% content_for :main_region do %>
 Please surf a litle to see if we can help. Our services are listed on the upper right and a list of typical user profiles is listed below. Either way you choose, we hope you find what you are looking for. If not, please just call! (856 270 6810).  We also do things JUST BECAUSE A CLIENT NEEDS US TO so do not hesitate to ask.<br/>
-
+<%= link_to "Mobile App", '/touch' %>
 <% end %>
 
 <% if File.exists?(File.join(RAILS_ROOT,'app','views','welcome',"_#{@goto_topic_symbol}_table.html.erb")) %>

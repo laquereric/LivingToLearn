@@ -3,22 +3,23 @@ class Touch::Welcome::Index < Netzke::Base
 
   def configuration
     super.merge({
-      :docked_items => [{:dock => :top, :xtype => :toolbar, :title => 'Hello World Touch Component',
+      :docked_items => [{:dock => :top, :xtype => :toolbar, :title => 'LivingToLearn',
         :items => [
-          {:text => "Greet the World", :handler => :on_bug_server}
+          {:text => "TimeTracker", :handler => :on_time_tracker}
         ]
       }]
     })
   end
 
-  js_method :on_bug_server, <<-JS
+  js_method :on_time_tracker, <<-JS
     function(){
-      this.greetTheWorld();
+      this.timeTrackerHello();
     }
   JS
 
-  endpoint :greet_the_world do |params|
-    {:update => "Hello from the server!"}
+  endpoint :time_tracker_hello do |params|
+    {:update => "Hello from LivingToLearn TimeTracker at #{Time.now}!"}
   end
+
 end
 
