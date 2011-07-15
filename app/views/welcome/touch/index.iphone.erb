@@ -1,1 +1,7 @@
-<%= netzke :touch, :class_name => Touch::Welcome::Index %>
+<%= Touch::Welcome::Index.netzke(self,@page_ref) do |config|%>
+<%
+  config[:title]= "New Title"
+  config[:html]= "Hello World"
+%>
+<% end %>
+

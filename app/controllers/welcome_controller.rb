@@ -58,6 +58,7 @@ class WelcomeController < ApplicationController
       respond_to do |format|
         format.html # index.html.erb
         format.iphone {
+          @page_ref="welcome#index"
           render :template => 'welcome/touch/index' ,:layout => '/layouts/touch.iphone'
         }
       end
