@@ -101,6 +101,8 @@ LivingToLearn::Application.routes.draw do
   match '/site', :to => 'welcome#site', :as => 'site_root'
   match '/sites', :to => 'welcome#sites', :as => 'sites_root'
 
+  #match '/' => 'welcome#subdomain_index', :constraints => { :subdomain => /.+/ }
+  match 'index' => 'welcome#index'
   root :to => "welcome#index"
 
 end

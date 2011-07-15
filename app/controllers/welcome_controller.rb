@@ -1,5 +1,4 @@
 class WelcomeController < ApplicationController
-
   before_filter :get_marketing_contexts
   before_filter :get_topic
   before_filter :get_service
@@ -59,7 +58,7 @@ class WelcomeController < ApplicationController
       respond_to do |format|
         format.html # index.html.erb
         format.iphone {
-          render :layout=>'touch',:template=>'welcome/touch/index'
+          render :template => 'welcome/touch/index' ,:layout => '/layouts/touch.iphone'
         }
       end
     end
