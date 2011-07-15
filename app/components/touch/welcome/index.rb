@@ -10,18 +10,19 @@ class Touch::Welcome::Index < Netzke::Base
     end
   end
 
-  def self.netzke( view, page_ref="None", config = {} )
-    config[:page_ref]= page_ref
-    config[:title]= titlize_page_ref(page_ref)
+  def self.netzke( view, config = {} )
+    configr= Configurator.new(config,view)
+    yield(configr) if block_given?
+    config= configr.contents
     config[:class_name]= self
-    yield(config) if block_given?
     return view.send(:netzke, :touch, config)
   end
 
   def configuration
+p session_config[:title]
     super.merge({
       :html => session_config[:html],
-      :docked_items => [{:dock => :top, :xtype => :toolbar, :title => session_config[:title],
+      :docked_items => [{:dock => :top, :xtype => :toolbar, :title => session_config[:title].to_s,
         :items => [
           {:text => "TimeTracker", :handler => :on_time_tracker}
         ]
