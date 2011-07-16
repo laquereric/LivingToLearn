@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   def set_iphone_format
     if is_iphone_request?
-      request.format.symbol = :iphone
+      request.format.instance_variable_set( '@symbol', :iphone )
     end
     @iphone_component = Touch::Layouts::Application
   end
