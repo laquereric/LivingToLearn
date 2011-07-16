@@ -1,9 +1,10 @@
-<% content_for :message_region do %>
+<%= @iphone_component.netzke(self) do |config| %>
+<% config.content_for :message_region do %>
   Time Log List for<br/>
-  <%= render "activity" %>
+  <%= render "activity.html.erb" %>
 <% end %>
 
-<% content_for :target_region do %>
+<% config.content_for :target_region do %>
 <table>
 
   <tr>
@@ -21,9 +22,9 @@
 
     <td><%= time_log.end_time.nil? ? ( link_to 'Go', continue_activity_path(@activity.id, time_log.id) ) : "" %></td>
 
-    <td><%= link_to 'Show', activity_time_log_path({ :activity_id => @activity.id, :time_log_id => time_log.id, :format => 'iphone' }) %></td>
-    <td><%= link_to 'Edit', edit_activity_time_log_path(@activity.id, time_log.id,{}) %></td>
-    <td><%= link_to 'Destroy', delete_time_log_path(@activity.id, time_log.id,{:format=>'iphone'}), :confirm => 'Are you sure?' %></td>
+    <td><%= link_to 'Show', activity_time_log_path(@activity.id, time_log.id) %></td>
+    <td><%= link_to 'Edit', edit_activity_time_log_path(@activity.id, time_log.id) %></td>
+    <td><%= link_to 'Destroy', delete_time_log_path(@activity.id, time_log.id), :confirm => 'Are you sure?' %></td>
 
   </tr>
 <% end %>
@@ -35,3 +36,6 @@
 <%= link_to 'Show Activity', activity_path( @activity.id )  %>
 
 <% end %>
+
+<% end %>
+

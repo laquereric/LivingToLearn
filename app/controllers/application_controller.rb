@@ -20,9 +20,13 @@ class ApplicationController < ActionController::Base
 
   def set_iphone_format
     if is_iphone_request?
-      request.format = :iphone
+      request.format.symbol = :iphone
     end
     @iphone_component = Touch::Layouts::Application
+  end
+
+  def default_url_options(options={})
+    { :format => request.format.symbol }
   end
 
   def set_timezone

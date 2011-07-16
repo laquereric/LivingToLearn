@@ -1,7 +1,7 @@
 class TimeLogsController < ApplicationController
 
-  before_filter :get_activity, :except => :open_index
-  before_filter :authenticate_user!, :only => :open_index
+  before_filter :get_activity, :except => :open_list
+  before_filter :authenticate_user!, :only => :open_list
 
   def get_activity
     @activity= Activity.find(params[:activity_id])
@@ -69,8 +69,16 @@ p "got activity #{@activity.inspect}"
           ),
           :notice => 'TimeLog was successfully updated.')
         }
+        format.iphone { redirect_to(
+          activity_time_log_path(
+            @activity.id,
+            @time_log.id
+          ),
+          :notice => 'TimeLog was successfully updated.')
+        }
       else
         format.html { render :action => "edit" }
+        format.iphone { render :action => "edit" }
       end
     end
   end
@@ -80,8 +88,12 @@ p "got activity #{@activity.inspect}"
 #
 ############
 
-  def open_index
+  def open_list
     @time_logs= current_user.open_time_logs
+    respond_to do |format|
+      format.html
+      format.iphone
+    end
   end
 
 ############
@@ -97,8 +109,8 @@ p "got activity #{@activity.inspect}"
     @time_log.save
 
     respond_to do |format|
-      format.html { render :action => :doing } # show.html.erb
-      format.iphone { render :action => :doing } # show.html.erb
+      format.html { render :action => :doing }
+      format.iphone { render :action => :doing }
     end
   end
 

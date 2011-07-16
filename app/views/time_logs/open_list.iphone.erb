@@ -1,8 +1,10 @@
-<% content_for :message_region do %>
+<%= @iphone_component.netzke(self) do |config| %>
+
+<% config.content_for :message_region do %>
   Activities in Progress
 <% end %>
 
-<% content_for :target_region do %>
+<% config.content_for :target_region do %>
 <table>
 
   <tr>
@@ -21,7 +23,7 @@
     <td><%= time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %> </td>
 
     <td><%= link_to 'Continue', continue_activity_path(time_log.activity.id, time_log.id) %></td>
-    <td><%= link_to 'Destroy', activity_time_log_path(time_log.activity.id, time_log.id), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', delete_time_log_path(time_log.activity.id, time_log.id), :confirm => 'Are you sure?' %></td>
 
   </tr>
 <% end %>
@@ -29,3 +31,6 @@
 </table>
 
 <% end %>
+
+<% end %>
+

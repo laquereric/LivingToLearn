@@ -1,0 +1,37 @@
+<%= @iphone_component.netzke(self) do |config| %>
+
+<% config.content_for :message_region do %>
+  Show Activity
+<% end %>
+
+<% config.content_for :target_region do %>
+
+<p>
+  <b>Id:</b>
+  <%= @activity.id %>
+</p>
+
+<p>
+  <b>User Id:</b>
+  <%= @activity.user.id %>
+</p>
+
+<p>
+  <b>User Email:</b>
+  <%= @activity.user.email %>
+</p>
+
+<p>
+  <b>Activity Name:</b>
+  <%= @activity.name %>
+</p>
+
+<p>
+  <b>User Id:</b>
+  <%= @activity.id %>
+</p>
+
+<% end %>
+
+<% end %>
+
