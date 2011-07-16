@@ -28,7 +28,10 @@ LivingToLearn::Application.routes.draw do
   resources :curriculum_cumulative_progress_indicators
   netzke
 
-  devise_for :users, :controllers =>  {:registrations => 'registrations'}
+  devise_for :users, :controllers =>  {
+    :registrations => 'registrations',
+    :sessions => 'sessions'
+  }
   devise_scope :user do
     get "sign_in/:context_id", :to => 'registrations#new', :as =>"new_user_registration_in_context"
   end

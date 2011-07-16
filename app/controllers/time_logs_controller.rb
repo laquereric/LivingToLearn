@@ -98,6 +98,7 @@ p "got activity #{@activity.inspect}"
 
     respond_to do |format|
       format.html { render :action => :doing } # show.html.erb
+      format.iphone { render :action => :doing } # show.html.erb
     end
   end
 

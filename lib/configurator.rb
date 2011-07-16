@@ -12,8 +12,19 @@ class Configurator
     @_content_for[name] unless content
   end
 
+  def erb(erb_template)
+    ERB.new( erb_template ).result(binding)
+  end
+
+  def render(erb_template)
+    erb(erb_template){ |key|
+      @_content_for[key]
+    }
+  end
+
   def contents
     @_content_for
   end
+
 end
 

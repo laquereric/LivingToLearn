@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     if is_iphone_request?
       request.format = :iphone
     end
+    @iphone_component = Touch::Layouts::Application
   end
 
   def set_timezone
