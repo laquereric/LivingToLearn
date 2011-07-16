@@ -1,13 +1,17 @@
-<% content_for :message_region do %>
+<%= @iphone_component.netzke(self) do |config| %>
+
+<% config.content_for :message_region do %>
   Edit Activity
 <% end %>
 
-<% content_for :target_region do %>
+<% config.content_for :target_region do %>
 
-<%= render 'form' %>
+<%= render 'form.html.erb' %>
 
 <%= link_to 'Show Activity', @activity %> |
 <%= link_to 'Activity List', activities_path()%> |
 <%= link_to 'Time Log List', activity_time_logs_path(@activity.id )%>
+
+<% end %>
 
 <% end %>

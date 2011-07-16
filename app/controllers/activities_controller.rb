@@ -5,24 +5,29 @@ class ActivitiesController < ApplicationController
   def index
     if user_signed_in?
       @activities = Activity.sort_hier( current_user.activities )
-      render
-    else
+      respond_to do |format|
+        format.html
+        format.iphone
+       end
+     else
       render :text => "ActivitiesController.index user not logged in!"
     end
-  end
+ end
 
   def show
     @activity = Activity.find(params[:id])
     authorize! :show,  @activity
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
+      format.iphone
     end
   end
 
   def new
     @activity= current_user.activities.new
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
+      format.iphone
     end
   end
 
@@ -33,7 +38,8 @@ class ActivitiesController < ApplicationController
     @activity.parent_id= @parent_activity.id
 
     respond_to do |format|
-      format.html { render :action => :new }# new.html.erb
+      format.html { render :action => :new }
+      format.iphone { render :action => :new }
     end
   end
 
@@ -48,6 +54,7 @@ class ActivitiesController < ApplicationController
         }
       else
         format.html { render :action => "new" }
+        format.iphone { render :action => "new" }
       end
     end
 
@@ -64,6 +71,7 @@ class ActivitiesController < ApplicationController
     @activity.destroy
     respond_to do |format|
       format.html { redirect_to( activities_url ) }
+      format.iphone { redirect_to( activities_url ) }
     end
   end
 
@@ -74,8 +82,11 @@ class ActivitiesController < ApplicationController
       if @activity.update_attributes(params[:activity])
         format.html { redirect_to(@activity,
           :notice => 'Activity was successfully updated.') }
+        format.iphone { redirect_to(@activity,
+          :notice => 'Activity was successfully updated.') }
       else
         format.html { render :action => "edit" }
+        format.iphone { render :action => "edit" }
       end
     end
   end

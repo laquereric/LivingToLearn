@@ -1,0 +1,13 @@
+<%= @iphone_component.netzke(self) do |config| %>
+
+<% content_for :message_region do %>
+  New Time Log Entry for Activity<br/>
+  <%= render "activity.html.erb" %>
+<% end %>
+
+<% content_for :target_region do %>
+  <%= render 'form' %>
+  <%= link_to 'Time Log List', activity_time_logs_path(@activity) %>
+<% end %>
+
+<% end %>
