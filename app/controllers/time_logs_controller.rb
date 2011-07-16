@@ -118,7 +118,8 @@ p "got activity #{@activity.inspect}"
     @time_log = TimeLog.find( params[:time_log_id] )
     @activity = @time_log.activity
     respond_to do |format|
-      format.html { render :action => :doing } # show.html.erb
+      format.html { render :action => :doing }
+      format.iphone { render :action => :doing }
     end
   end
 
@@ -127,7 +128,8 @@ p "got activity #{@activity.inspect}"
     @time_log.end_time ||= Time.now
     @time_log.save
     respond_to do |format|
-      format.html { redirect_to :action= > :index } # show.html.erb
+      format.html { redirect_to :action= => :index }
+      format.iphone { redirect_to :action= => :index }
     end
   end
 

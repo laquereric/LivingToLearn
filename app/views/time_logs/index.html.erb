@@ -21,9 +21,9 @@
 
     <td><%= time_log.end_time.nil? ? ( link_to 'Go', continue_activity_path(@activity.id, time_log.id) ) : "" %></td>
 
-    <td><%= link_to 'Show', activity_time_log_path({ :activity_id => @activity.id, :time_log_id => time_log.id, :format => 'iphone' }) %></td>
+    <td><%= link_to 'Show', activity_time_log_path(@activity.id,time_log.id) %></td>
     <td><%= link_to 'Edit', edit_activity_time_log_path(@activity.id, time_log.id,{}) %></td>
-    <td><%= link_to 'Destroy', delete_time_log_path(@activity.id, time_log.id,{:format=>'iphone'}), :confirm => 'Are you sure?' %></td>
+    <td><%= link_to 'Destroy', delete_time_log_path(@activity.id, time_log.id), :confirm => 'Are you sure?' %></td>
 
   </tr>
 <% end %>
