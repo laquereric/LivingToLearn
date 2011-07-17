@@ -1,9 +1,25 @@
 <%= @iphone_component.netzke(self) do |config| %>
-  <% config.content_for(:title) do %>
-      New Title
-  <% end %>
-  <% config.content_for(:html) do %>
-      New HTML
-  <% end %>
+
+<% config.content_for :title do-%>
+  LivingToLearn
+<% end %>
+
+<%  config.content_for :message__title do %>
+  <%= render 'index__message__title.html.erb' %>
+<% end %>
+
+<%  config.content_for :message__region do %>
+  <%= render 'index__message__region.html.erb' %>
+<% end %>
+
+
+<% config.content_for :main__title do-%>
+  <%= render 'index__main__title.html.erb' %>
+<% end %>
+
+<% config.content_for :main__region do-%>
+  <%= render 'index__main__region.html.erb' %>
+<% end %>
+
 <% end %>
 

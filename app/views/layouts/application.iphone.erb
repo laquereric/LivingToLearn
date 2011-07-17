@@ -2,14 +2,26 @@
 <html>
 <head>
 
+<%= stylesheet_link_tag "application.iphone.css", :media => "all" %>
+
+<%= yield(:head) %>
 <title>LivingToLearn - Your Family's Education Matters</title>
   <%= netzke_init :platform => :touch %>
   <%= csrf_meta_tag %>
+
 </head>
 
 <body>
-<div id='touch-netzke' class='netzke-component'></div>
-<% yield %>
+
+<% if Screen.default.mode == :frame %>
+  <% res = Screen.default.device.resolution %>
+  <div width="<%=res[:width]%>px" height="<%=res[:height]%>px" >
+<% end %>
+    <div id='touch-netzke' class='netzke-component'></div>
+<% if Rails.env == 'development' %>
+  </div>
+<% end %>
+  <% 'yield' %>
 </body>
 </html>
 

@@ -1,20 +1,5 @@
 class Touch::Layouts::Application < Netzke::Base
-  js_base_class "Ext.Panel"
-
-  def self.template
-    r= <<-HTML_ERB
-<table style="border-width:2px">
-  <tr>
-<td><%= yield :message_region%></td>
-  </tr>
-
-  <tr>
-<td><%= yield :target_region%></td>
-  </tr>
-</table>
-  HTML_ERB
-
-  end
+  js_base_class "Ext.TabPanel"
 
   def self.netzke( view, config = {} )
     configr= Configurator.new(config,view)
@@ -24,6 +9,18 @@ class Touch::Layouts::Application < Netzke::Base
     return view.send(:netzke, :touch, config)
   end
 
+  def screen_config
+    screen= Screen.default
+    if screen.default == :fullscreen
+      { :fullscreen => true }
+    else
+      {
+        :height => screen.device.resolution[:height],
+        :width => screen.device.resolution[:width]
+      }
+    end
+  end
+
   def top_toolbar_items
     [
       {:text => "Login", :handler => :to_sign_in},
@@ -31,15 +28,41 @@ class Touch::Layouts::Application < Netzke::Base
     ]
   end
 
+  def tab_item(contents,key)
+    region_key= "#{key.to_s}__region".to_sym
+    region= contents[region_key]
+    return nil if region.nil?
+
+    title_key= "#{key.to_s}__title".to_sym
+    title= contents[title_key]
+    title||= key.to_s.titleize
+
+    return ( region.nil? ? nil : {
+      :title => title,
+      :cls => "#{key.to_s} transparent-class",
+      :html => region
+    } )
+  end
+
+  def tab_items(contents)
+    [:message,:target,:main].map{ |key| tab_item(contents,key)}.compact
+  end
+
   def configuration
-    configurr= Configurator.new(session_config,nil)
-    super.merge({
-      :html => configurr.render(self.class.template),
+    contents= Configurator.new(session_config,nil).contents
+    super.merge(self.screen_config).merge({
+      :ui        => 'dark',
+      :items => self.tab_items(contents),
       :docked_items => [
         {
           :dock => :top,
           :xtype => :toolbar,
-          :title => session_config[:title].to_s,
+          :title => contents[:title].to_s,
+        },
+        {
+          :dock => :bottom,
+          :xtype => :toolbar,
+          :ui   => 'light',
           :items => self.top_toolbar_items
         }
       ]

@@ -14,6 +14,12 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_iphone_format
 
+  before_filter :set_screen
+
+  def set_screen
+    Screen.default= Screen.new
+  end
+
   def is_iphone_request?
     request.user_agent =~ /(Mobile\/.+Safari)/
   end
