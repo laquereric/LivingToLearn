@@ -53,6 +53,7 @@ class Touch::Layouts::Application < Netzke::Base
     contents= Configurator.new(session_config,nil).contents
     super.merge(self.screen_config).merge({
       :ui        => 'dark',
+      :style => Screen.default.component_style,
       :items => self.tab_items(contents),
       :docked_items => [
         {
