@@ -10,10 +10,11 @@ class Touch::Layouts::Application < Netzke::Base
   end
 
   def screen_config
-    if screen.default == :fullscreen
+    screen= Screen.default
+    if screen.mode == :fullscreen
       { :fullscreen => true }
     else
-      res= Screen.default.device.resolution
+      res= screen.device.resolution
       {
         :height => res[:height],
         :width => res[:width]
