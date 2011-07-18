@@ -53,7 +53,11 @@ class WelcomeController < ApplicationController
     if @redirect_host
       redirect_to( "http://#{@host_with_port}/" )
     elsif user_signed_in?
-      redirect_to( "http://#{current_user.mnemonic}.#{@host_with_port}/user_private" )
+      base= "http://#{current_user.mnemonic}.#{@host_with_port}/user_private/index"
+      respond_to do |format|
+        format.html{"#{base}.html"} # index.html.erb
+        format.iphone{"#{base}.iphone"}
+      end
     else
       respond_to do |format|
         format.html # index.html.erb

@@ -62,7 +62,7 @@ LivingToLearn::Application.routes.draw do
   end
   resources :activities
 
-  match 'user_private', :to => 'user_private#index', :as =>"user_private"
+  match 'user_private/index', :to => 'user_private#index', :as =>"user_private"
 
   match 'user/:user_id/add_marketing_context/:marketing_context_id', :to => 'users#add_marketing_context', :as => 'add_user_marketing_context'
   match 'user/:user_id/delete_marketing_context/:marketing_context_id', :to => 'users#delete_marketing_context', :as => 'delete_user_marketing_context'
