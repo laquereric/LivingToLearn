@@ -1,0 +1,27 @@
+<% content_for :head do-%>
+  <style>
+    div.register-form-frame{
+      margin: 20px
+    }
+  </style>
+<% end %>
+
+<%= Touch::Layouts::ApplicationWoToolbar.netzke(self) do |config| %>
+
+<% config.content_for :title do-%>
+  LivingToLearn
+<% end %>
+
+<%  config.content_for :message__title do %>
+  Register
+<% end %>
+
+<%  config.content_for :message__region do %>
+  <div class="register-form-frame">
+    <%= render 'form.html.erb' %>
+  </div>
+<% end %>
+
+
+<% end %>
+

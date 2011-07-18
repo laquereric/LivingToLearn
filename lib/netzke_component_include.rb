@@ -6,13 +6,13 @@ module NetzkeComponentInclude
 
   def public_toolbar_items
     [
-      {:text => "Register", :handler => :to_register}
+      {:text => "Register", :handler => :to_register},
+      {:text => "Login", :handler => :to_login},
     ]
   end
 
   def user_toolbar_items
     [
-     {:text => "Login", :handler => :to_login},
      {:text => "Logout", :handler => :to_logout}
     ]
   end
