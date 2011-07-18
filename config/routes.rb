@@ -35,10 +35,11 @@ LivingToLearn::Application.routes.draw do
     get "login", :to => "sessions#new"
     get "logout", :to => "sessions#destroy"
     get "register", :to => "registrations#new"
+    get "register_context", :to => "registrations#new_context"
   end
-  devise_scope :user do
-    get "sign_in/:context_id", :to => 'registrations#new', :as =>"new_user_registration_in_context"
-  end
+  #devise_scope :user do
+  #  get "sign_in/:context_id", :to => 'registrations#new', :as =>"new_user_registration_in_context"
+  #end
 
   resources :users, :only => [:index, :show]
   resources :marketing_context_types
