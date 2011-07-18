@@ -1,22 +1,35 @@
-<%= @iphone_component.netzke(self) do |config| %>
+<% content_for :head do-%>
+  <style>
+    div.activity-frame{
+      margin: 20px
+    }
+    div.activity-frame table {
+      font-size: 20px
+    }
 
-<% config.content_for :message_region do %>
-  Doing Activity
+  </style>
 <% end %>
 
-<% config.content_for :target_region do %>
+<%= Touch::Layouts::Application.netzke(self) do |config| %>
 
+<% config.content_for :title do-%>
+   LivingToLearn
+<% end %>
+
+<% config.content_for :target__title do-%>
+   Doing Activity
+<% end %>
+
+<% config.content_for :target__region do-%>
+<div class="activity-frame">
 <p>
-  <b>Activity Name:</b>
-  <%= @activity.name %>
+  <b>Started <%= @activity.name %> at</b></br>
+  <%=  @time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %>
 </p>
-<p>
-  <b>Started:</b>
-  <%=  @time_log.start_time %>
-</p>
+</br>
 
 <%= render 'stop_form.html.erb' %>
-
+</div>
 <% end %>
 
 <% end %>

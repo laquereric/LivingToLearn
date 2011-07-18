@@ -1,0 +1,10 @@
+<div class="activity-list-frame">
+<table>
+<% @activities.each do |activity| %>
+  <tr>
+    <td><%= link_to "Start #{activity.name}", start_activity_path(activity.id) %></td>
+  </tr>
+<% end %>
+</table>
+</div>
+

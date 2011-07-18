@@ -57,11 +57,14 @@ p "got activity #{@activity.inspect}"
 
   def update
     @time_log = TimeLog.find(params[:id])
+    first= @time_log.end_time.nil?
     @time_log.end_time ||= Time.now
     @activity ||= @time_log.activity
     authorize! :update,  @time_log
+    result= @time_log.update_attributes( params[:time_log] )
+
     respond_to do |format|
-      if @time_log.update_attributes(params[:time_log])
+      if !first and result
         format.html { redirect_to( 
           activity_time_log_path(
             @activity.id,
@@ -69,6 +72,7 @@ p "got activity #{@activity.inspect}"
           ),
           :notice => 'TimeLog was successfully updated.')
         }
+
         format.iphone { redirect_to(
           activity_time_log_path(
             @activity.id,
@@ -76,13 +80,15 @@ p "got activity #{@activity.inspect}"
           ),
           :notice => 'TimeLog was successfully updated.')
         }
+      elsif first and result
+        format.html { redirect_to :controller=> 'activities' , :action => "index", :action => @activity_id }
+        format.iphone { redirect_to :controller=> 'activities' , :action => "index", :id => @activity_id }
       else
-        format.html { render :action => "edit" }
-        format.iphone { render :action => "edit" }
+        format.html { redirect_to :action => "edit" }
+        format.iphone { redirect_to :action => "edit" }
       end
     end
   end
-
 
 ############
 #
@@ -128,8 +134,8 @@ p "got activity #{@activity.inspect}"
     @time_log.end_time ||= Time.now
     @time_log.save
     respond_to do |format|
-      format.html { redirect_to :action= => :index }
-      format.iphone { redirect_to :action= => :index }
+      format.html { redirect_to :controller => :activities, :action= => :index }
+      format.iphone { redirect_to :controller => :activities, :action= => :index }
     end
   end
 

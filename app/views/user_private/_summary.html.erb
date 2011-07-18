@@ -1,6 +1,2 @@
-  <% if true or (open_time_logs_length= current_user.open_time_logs.length) == 0 %>
-    <%= link_to('Activites',activities_path) %>
-  <% else %>
-     <%= link_to("Acivities In Progress : #{open_time_logs_length}",open_time_logs_path)  %>
-  <% end %>
+<%= link_to('Start Activity',activities_path) %>
 
