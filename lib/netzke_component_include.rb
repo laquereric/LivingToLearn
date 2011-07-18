@@ -33,7 +33,7 @@ module NetzkeComponentInclude
     return ( region.nil? ? nil : {
       :title => title,
       :cls => "#{key.to_s} transparent-class",
-      :html => region
+      :html => "#{contents[:notice]}</br>#{contents[:alert]}</br>#{region}"
     } )
   end
 

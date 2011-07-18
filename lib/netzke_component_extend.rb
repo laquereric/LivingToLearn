@@ -40,6 +40,10 @@ end
     config= configr.contents
     config[:class_name]= self
     config[:user_signed_in]= view.user_signed_in?
+
+    config[:notice]= view.notice
+    config[:alert]= view.alert
+
     return view.send(:netzke, :touch, config)
   end
 
