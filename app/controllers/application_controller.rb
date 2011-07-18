@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     if is_iphone_request?
       request.format.instance_variable_set( '@symbol', :iphone )
     end
-    @iphone_component = Touch::Layouts::Application
+    @default_touch_component = Touch::Layouts::Application
   end
 
   def default_url_options(options={})
