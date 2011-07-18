@@ -8,9 +8,9 @@
 <% else %>
   <td colspan='2'>
   <% if !@context.nil? %>
-    <%= link_to('Sign up', new_user_registration_in_context_path(@context.id)) %>
+    <%= link_to('Register', new_user_registration_in_context_path(@context.id)) %>
   <% else %>
-    <%= link_to('Sign up', new_user_registration_path()) %>
+    <%= link_to('Register', new_user_registration_path()) %>
   <% end %>
   </td>
 <% end %>

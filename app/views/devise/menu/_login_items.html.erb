@@ -1,9 +1,9 @@
 <% if user_signed_in? %>
   <td>
-  <%= link_to('Logout', destroy_user_session_path) %>
+  <%= link_to('Logout', logout_path) %>
   </td>
 <% else %>
   <td>
-  <%= link_to('Login', new_user_session_path)  %>
+  <%= link_to('Login', login_path)  %>
   </td>
 <% end %>
