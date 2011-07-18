@@ -7,7 +7,8 @@ module NetzkeComponentExtend
 
 def route_toolbars
   format='iphone'
-  js_method :to_login_in, <<-JS
+
+  js_method :to_login, <<-JS
     function(){
       window.location="/login.#{format}";
     }
@@ -21,9 +22,11 @@ def route_toolbars
 
   js_method :to_logout, <<-JS
     function(){
+console.log("to logout");
       window.location="logout.#{format}";
     }
   JS
+
   @toolbars_routed= true
 end
 

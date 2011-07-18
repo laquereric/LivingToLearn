@@ -1,0 +1,14 @@
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <p><%= f.label :email %><br />
+  <%= f.email_field :email %></p>
+</br>
+  <p><%= f.label :password %><br />
+  <%= f.password_field :password %></p>
+</br>
+  <% if devise_mapping.rememberable? -%>
+    <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+  <% end -%>
+</br>
+  <p><%= f.submit "Sign in" %></p>
+<% end %>
+

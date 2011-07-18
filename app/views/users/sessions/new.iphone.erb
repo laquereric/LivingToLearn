@@ -1,23 +1,27 @@
-<%= @iphone_component.netzke(self) do |config| %>
-  <% config.content_for(:message_region) do %>
-      Sign in
-  <% end %>
-
-  <% config.content_for(:target_region) do %>
-    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <p><%= f.label :email %><br />
-    <%= f.email_field :email %></p>
-
-    <p><%= f.label :password %><br />
-    <%= f.password_field :password %></p>
-
-    <% if devise_mapping.rememberable? -%>
-      <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
-    <% end -%>
-
-    <p><%= f.submit "Sign in" %></p>
-    <% end %>
-  <% end %>
+<% content_for :head do-%>
+  <style>
+    div.register-form-frame{
+      margin: 20px
+    }
+  </style>
 <% end %>
 
+<%= Touch::Layouts::ApplicationWoToolbar.netzke(self) do |config| %>
+
+<% config.content_for :title do-%>
+  LivingToLearn
+<% end %>
+
+<%  config.content_for :message__title do %>
+  Login
+<% end %>
+
+<%  config.content_for :message__region do %>
+  <div class="register-form-frame">
+    <%= render 'users/sessions/form.html.erb' %>
+  </div>
+<% end %>
+
+
+<% end %>
 
