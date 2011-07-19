@@ -51,6 +51,7 @@ module NetzkeComponentInclude
     title||= key.to_s.titleize
 
     return ( region.nil? ? nil : {
+      :scroll => :vertical,
       :title => title,
       :cls => "#{key.to_s} transparent-class",
       :html => self.tab_html(contents,region)
