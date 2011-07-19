@@ -1,17 +1,17 @@
-<%= @iphone_component.netzke(self) do |config| %>
+<%= Touch::Layouts::Application.netzke(self) do |config| %>
 
-<% config.content_for :message_region do %>
-  Edit Activity
+<% config.content_for :title do-%>
+    LivingToLearm
 <% end %>
 
-<% config.content_for :target_region do %>
+<% config.content_for :target__title do-%>
+    Edit Activity
+<% end %>
 
-<%= render 'form.html.erb' %>
-
-<%= link_to 'Show Activity', @activity %> |
-<%= link_to 'Activity List', activities_path()%> |
-<%= link_to 'Time Log List', activity_time_logs_path(@activity.id )%>
-
+<% config.content_for :target__region do-%>
+  <%= render 'form.html.erb' %>
 <% end %>
 
 <% end %>
+
+

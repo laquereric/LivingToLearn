@@ -6,9 +6,18 @@ class TimeLog < ActiveRecord::Base
     return seconds_logged/60/60
   end
 
+  def raw_seconds_logged_negative?
+    (self.raw_seconds_logged < 0)
+  end
+
+  def raw_seconds_logged
+    return (self.end_time - self.start_time)
+  end
+
   def seconds_logged
-    return 0 if end_time.nil?
-    return self.end_time-self.start_time
+    return 0 if self.end_time.nil?
+    return 0 if self.raw_seconds_logged_negative?
+    return self.raw_seconds_logged
   end
 
   def during?(period=:all)
