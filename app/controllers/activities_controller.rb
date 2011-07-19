@@ -2,6 +2,14 @@ class ActivitiesController < ApplicationController
 
   before_filter :authenticate_user!
 
+  def time_logged
+      @activities = Activity.sort_hier( current_user.activities )
+      respond_to do |format|
+        format.html
+        format.iphone
+      end
+ end
+
   def list
       @activities = Activity.sort_hier( current_user.activities )
       respond_to do |format|

@@ -50,6 +50,7 @@ LivingToLearn::Application.routes.draw do
   match 'activities/open_list', :to => 'time_logs#open_list', :as => 'open_time_logs'
   match 'activities/start', :to => 'activities#start', :as => 'activities_start'
   match 'activities/list', :to => 'activities#list', :as => 'activities_list'
+  match 'activities/time_logged', :to => 'activities#time_logged', :as => 'activity_time_logged'
 
   match 'activities/:id/delete', :to => 'activities#delete', :as => 'delete_activity'
 

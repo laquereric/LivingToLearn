@@ -1,0 +1,34 @@
+Cummulative</br>
+
+<table>
+
+  <tr>
+<th>
+</th>
+<th>
+<b>Hours</b>
+</th>
+<th>
+<b>Entries</b>
+</th>
+  </tr>
+<% @activities.each do |activity| %>
+
+  <tr>
+
+    <td class="activity" > 
+      <div class="level-<%= activity.level %>" >
+        <%= activity.name %>
+      </div>
+    </td>
+
+   <td class='entries' ><%= sprintf('%10.4f',activity.hours_logged_during(:all) ) %></td>
+   <td class='entries' ><%= activity.full_time_log_set.length %></td>
+
+  </tr>
+<% end %>
+
+</table>
+
+</br>
+

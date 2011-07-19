@@ -14,13 +14,13 @@ class Activity < ActiveRecord::Base
   end
 
   def time_log_entries_during(period=:all)
-    self.time_logs_hier.select{ |time_log|
+    self.full_time_log_set.select{ |time_log|
       time_log.during?(period)
     }
   end
 
-  def time_logs_hier
-    r = self.full_set.map{ |activity| self.time_logs }
+  def full_time_log_set
+    r = self.full_set.map{ |activity| activity.time_logs }
     return r.flatten
   end
 
