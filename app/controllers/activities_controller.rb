@@ -2,7 +2,15 @@ class ActivitiesController < ApplicationController
 
   before_filter :authenticate_user!
 
-  def index
+  def list
+      @activities = Activity.sort_hier( current_user.activities )
+      respond_to do |format|
+        format.html
+        format.iphone
+      end
+ end
+
+  def start
     if user_signed_in?
       @activities = Activity.sort_hier( current_user.activities )
       respond_to do |format|
@@ -49,7 +57,10 @@ class ActivitiesController < ApplicationController
     @activity = current_user.activities.new( params[:activity] )
     respond_to do |format|
       if @activity.save
-        format.html { redirect_to(@activity,
+        format.html { redirect_to(:action=>:list,
+          :notice => 'Activity was successfully created.')
+        }
+        format.iphone { redirect_to(:action=>:list,
           :notice => 'Activity was successfully created.')
         }
       else
@@ -65,13 +76,13 @@ class ActivitiesController < ApplicationController
     authorize! :update,  @activity
   end
 
-  def destroy
+  def delete
     @activity = Activity.find( params[:id] )
     authorize! :destroy,  @activity
     @activity.destroy
     respond_to do |format|
-      format.html { redirect_to( activities_url ) }
-      format.iphone { redirect_to( activities_url ) }
+      format.html { redirect_to( :action => :list ) }
+      format.iphone { redirect_to( :action => :list ) }
     end
   end
 
@@ -80,9 +91,9 @@ class ActivitiesController < ApplicationController
     authorize! :update,  @activity
     respond_to do |format|
       if @activity.update_attributes(params[:activity])
-        format.html { redirect_to(@activity,
+        format.html { redirect_to(:action => :list ,
           :notice => 'Activity was successfully updated.') }
-        format.iphone { redirect_to(@activity,
+        format.iphone { redirect_to(:action => :list ,
           :notice => 'Activity was successfully updated.') }
       else
         format.html { render :action => "edit" }

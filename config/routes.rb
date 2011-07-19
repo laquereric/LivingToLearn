@@ -48,6 +48,10 @@ LivingToLearn::Application.routes.draw do
   resources :subdomains
 
   match 'activities/open_list', :to => 'time_logs#open_list', :as => 'open_time_logs'
+  match 'activities/start', :to => 'activities#start', :as => 'activities_start'
+  match 'activities/list', :to => 'activities#list', :as => 'activities_list'
+  match 'activities/:id/delete', :to => 'activities#delete', :as => 'delete_activity'
+
 
   match 'activities/:activity_id/start', :to => 'time_logs#start', :as => 'start_activity'
   match 'activities/:activity_id/time_logs/:time_log_id/continue', :to => 'time_logs#continue', :as => 'continue_activity'

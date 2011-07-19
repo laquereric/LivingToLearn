@@ -2,7 +2,8 @@
 <table>
 <% @activities.each do |activity| %>
   <tr>
-    <td><%= link_to "Start #{activity.name}", start_activity_path(activity.id) %></td>
+    <td class="activity"><div class="level-<%= activity.level %>">
+      <%= link_to "#{activity.name}", start_activity_path(activity.id) %></div></td>
   </tr>
 <% end %>
 </table>

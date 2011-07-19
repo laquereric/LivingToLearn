@@ -1,37 +1,23 @@
 
 <table>
-  <tr>
-    <th>Id</th>
-    <th>User Id</th>
-    <th>L0</th>
-    <th>L1</th>
-    <th>L2</th>
-    <th>L3</th>
-    <th>L>3</th>
-    <th>Name</th>
-  </tr>
 
 <% @activities.each do |activity| %>
   <tr>
 
-    <td><%= activity.id %></td>
-    <td><%= activity.user_id %></td>
+    <td class="activity" > 
+      <div class="level-<%= activity.level %>" >
+        <%= activity.name %>
+      </div>
+    </td>
 
-    <td> <%= activity.level == 0 ?  activity.name : "" %></td>
-    <td> <%= activity.level == 1 ?  activity.name : "" %></td>
-    <td> <%= activity.level == 2 ?  activity.name : "" %></td>
-    <td> <%= activity.level == 3 ?  activity.name : "" %></td>
-    <td> <%= activity.level > 3 ?  activity.name : "" %></td>
-
-    <td><%= link_to 'Start Activity', start_activity_path(activity.id) %></td>
-    <td><%= link_to 'Show Activity', activity %></td>
-    <td><%= link_to 'Edit Activity', edit_activity_path(activity) %></td>
-    <td><%= link_to 'Destroy Activity', activity, :confirm => 'Are you sure?', :method => :delete %></td>
-    <td><%= link_to 'Time Log List', activity_time_logs_path(activity) %></td>
+    <td class='link' ><%= link_to 'Edit', edit_activity_path(activity) %></td>
+    <td class='link'> <%= link_to 'Destroy', delete_activity_path(activity) %></td>
+    <td class='link' ><%= link_to 'Add Item', new_sub_activity_path(activity) %></td>
 
   </tr>
 <% end %>
 
 </table>
 
-<%= link_to 'New Activity', new_activity_path %>
+</br>
+<%= link_to 'Add Activity Section', new_activity_path %>

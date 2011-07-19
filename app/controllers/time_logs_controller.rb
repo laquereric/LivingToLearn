@@ -81,8 +81,8 @@ p "got activity #{@activity.inspect}"
           :notice => 'TimeLog was successfully updated.')
         }
       elsif first and result
-        format.html { redirect_to :controller=> 'activities' , :action => "index", :action => @activity_id }
-        format.iphone { redirect_to :controller=> 'activities' , :action => "index", :id => @activity_id }
+        format.html { redirect_to :controller=> 'activities' , :action => "start", :action => @activity_id }
+        format.iphone { redirect_to :controller=> 'activities' , :action => "start", :id => @activity_id }
       else
         format.html { redirect_to :action => "edit" }
         format.iphone { redirect_to :action => "edit" }
@@ -126,16 +126,6 @@ p "got activity #{@activity.inspect}"
     respond_to do |format|
       format.html { render :action => :doing }
       format.iphone { render :action => :doing }
-    end
-  end
-
-  def stop
-    @time_log = TimeLog.find( params[:time_log_id] )
-    @time_log.end_time ||= Time.now
-    @time_log.save
-    respond_to do |format|
-      format.html { redirect_to :controller => :activities, :action= => :index }
-      format.iphone { redirect_to :controller => :activities, :action= => :index }
     end
   end
 
