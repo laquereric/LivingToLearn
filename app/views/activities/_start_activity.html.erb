@@ -1,7 +1,7 @@
 <div class="activity-list-frame">
 <table>
 <% @activities.each do |activity| %>
-  <tr>
+  <tr class="single">
     <td class="activity"><div class="level-<%= activity.level %>">
       <%= link_to "#{activity.name}", start_activity_path(activity.id) %></div></td>
   </tr>
