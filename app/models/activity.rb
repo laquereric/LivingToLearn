@@ -3,6 +3,27 @@ class Activity < ActiveRecord::Base
   acts_as_nested_set :dependent => :destroy
   has_many :time_logs, :dependent => :destroy
 
+  def hours_logged_during(period=:all)
+    return self.hours_list_during(period).sum
+  end
+
+  def hours_list_during(period=:all)
+    self.time_log_entries_during(period).map{ |time_log_entry|
+      time_log_entry.hours_logged
+    }
+  end
+
+  def time_log_entries_during(period=:all)
+    self.time_logs_hier.select{ |time_log|
+      time_log.during?(period)
+    }
+  end
+
+  def time_logs_hier
+    r = self.full_set.map{ |activity| self.time_logs }
+    return r.flatten
+  end
+
   def full_set()
     r = [self]
     r << self.children.map{ |child|
