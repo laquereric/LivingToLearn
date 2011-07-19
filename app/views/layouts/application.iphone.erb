@@ -3,7 +3,14 @@
 <head>
 
 <%= stylesheet_link_tag "application.iphone.css", :media => "all" %>
-
+<style>
+  div.notice{
+    margin: 20px
+  }
+  div.alert{
+    margin: 20px
+  }
+</style>
 <%= yield(:head) %>
 <title>LivingToLearn - Your Family's Education Matters</title>
   <%= netzke_init :platform => :touch %>

@@ -21,6 +21,22 @@ module NetzkeComponentInclude
 # Tabs
 ###############
 
+  def alert_tag(contents)
+    if contents[:alert]
+      "<div class=\"alert\">#{contents[:alert]}<div></br>"
+    else
+      ""
+    end
+  end
+
+  def notice_tag(contents)
+    if contents[:notice]
+      "<div class=\"notice\">#{contents[:notice]}<div></br>"
+    else
+      ""
+    end
+  end
+
   def tab_item(contents,key)
     region_key= "#{key.to_s}__region".to_sym
     region= contents[region_key]
@@ -33,7 +49,7 @@ module NetzkeComponentInclude
     return ( region.nil? ? nil : {
       :title => title,
       :cls => "#{key.to_s} transparent-class",
-      :html => "#{contents[:notice]}</br>#{contents[:alert]}</br>#{region}"
+      :html => "#{notice_tag(contents)}#{alert_tag(contents)}#{region}"
     } )
   end
 
