@@ -3,13 +3,14 @@
 
 <% @activities.each do |activity| %>
   <tr>
-
-    <td class="activity" > 
+    <td colspan="4"class="activity" > 
       <div class="level-<%= activity.level %>" >
         <%= activity.name %>
       </div>
     </td>
-
+  </tr>
+  <tr>
+    <td><div  class='indent' /></td>
     <td class='link' ><%= link_to 'Edit', edit_activity_path(activity) %></td>
     <td class='link'> <%= link_to 'Destroy', delete_activity_path(activity) %></td>
     <td class='link' ><%= link_to 'Add Item', new_sub_activity_path(activity) %></td>

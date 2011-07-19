@@ -10,8 +10,12 @@
       padding: 5px;
     }
 
+    table td div.indent{
+      width: 100px;
+    }
+
     table td.link a{
-      font-size: 10px;
+      font-size: 12px;
     }
 
     table td.activity div.level-0 {
