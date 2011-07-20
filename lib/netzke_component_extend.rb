@@ -22,7 +22,6 @@ def route_toolbars
 
   js_method :to_logout, <<-JS
     function(){
-console.log("to logout");
       window.location="/logout.#{format}";
     }
   JS
