@@ -3,101 +3,169 @@ class Touch::TimeLogs::Doing < Netzke::Base
   extend NetzkeComponentExtend
   include NetzkeComponentInclude
 
-  def top_box(title="")
+  def top_box(contents)
     return  {
-      :height => 80,
-      :padding => '10px',
-      :html => title
+      :baseCls => 'header',
+      :padding => '15px',
+      :html => "Doing Activity:</br>#{contents[:activity_name]}",
     }
   end
 
-  def clock_box()
-    return  {
-      :padding => '10px',
+  def clock_box(contents)
+    return [{
+      :html =>"Current Time"
+    },{
       :baseCls => 'clock',
-      :height => 80,
-      :width => 140,
-      :html =>"",
-      :align => :center,
-    }
+      :html =>"____________"
+    }]
   end
 
-  def elapsed_box()
-    return  {
-       :padding => '10px',
+  def elapsed_box(contents)
+    return  [{
+        :html=>"Elapsed Time"
+     },{
         :baseCls => 'elapsed',
-        :height => 80,
-        :width => 200,
-        :html=>"",
-        :align => :center,
-     }
+        :html=>"_____________"
+     }]
   end
 
-  def custom_panel(contents)
-    original_tabs= self.tab_items(contents)
-    title= "Doing #{contents[:activity_name]}"
-    return {
-      :layout => {
-        :type => 'vbox',
-        :align => 'center'
-      },
-      :items => [
-        self.top_box(title),
-        self.clock_box(),
-        self.elapsed_box(),
-      {
-        :height => 80,
+  def stop_button(contents)
+    return  {
+        :width => '100%',
         :handler => 'stpBtnHandler',
-        :xtype => 'button',
         :ui  => 'decline-round',
         :cls  => 'stopBtn',
         :text => 'STOP'
-      }]
     }
   end
+
+#################
 
   def configuration
     self.class.route_toolbars if @toolbars_routed.nil?
     super.merge(self.screen_config).merge({
-      :ui        => 'dark',
+      :ui => 'dark',
       :style => Screen.default.component_style,
+      :layout => {
+          :type => 'fit'
+      },
+      :bodyCssClass => 'message',
+      :items =>[{
+        :baseCls => 'message',
+        :cls => 'transparent-class',
+        :defaults => {
+          :height => 40,
+          :style => 'margin-top: 5px 0 0 0'
+        },
+        :layout => {
+          :type => 'vbox',
+          :pack => 'center'
+        },
+        :items =>[
+          clock_box(session_config),
+          elapsed_box(session_config)
+        ].flatten
+      }],
       :docked_items => [
         {
           :dock => :top,
           :xtype => :toolbar,
           :title => session_config[:title].to_s
         },
+        self.top_box(session_config).merge({
+          :dock => :top,
+          :xtype => :panel,
+        }),
         {
           :dock => :bottom,
           :xtype => :toolbar,
           :items => (session_config[:user_signed_in] ? self.user_toolbar_items : self.public_toolbar_items )
+        },
+        {
+          :dock => :bottom,
+          :xtype => :toolbar,
+          :items => [self.stop_button(session_config)]
         }
       ]
-    }).merge( custom_panel(session_config) )
+    })
   end
 
-  js_method :tick, <<-JS
-  function(){
-    this.current_time= new Date().getTime();
-    var ticks= Math.round( (this.current_time-this.start_time) /1000 );
-    Ext.select('div.elapsed div').elements[0].innerHTML='Elapsed '+ ticks+' secs';
-    Ext.select('div.clock div').elements[0].innerHTML= new Date().format('g : i A s');
-  }
-  JS
+###########
 
-  js_property :start_time
-  js_property :current_time
+  js_method :format_float, <<-JS
+    function(par) {
+      var str = new String(par);
+      var subs = str.split('.');
+      var int = subs[0];
+      var ndp = "0000";
 
-  js_method :stpBtnHandler, <<-JS
-    function(button, event) {
-        //alert('hh');
-        window.location= this.stopPath;
-        //alert('privVar1=' + privVar1);
-        //alert('this.btn1Text=' + this.btn1Text);
+      if ( subs.length > 1 ){
+        var ndp = subs[1].slice(0,3);
+      }
+
+      return int + '.' + ndp;
     }
   JS
 
+##########
 
+  js_property :elapsed_secs
+  js_property :elapsed_time_formatted
+
+  js_method :elapsed_secs_update, <<-JS
+    function() {
+      var current_time= new Date().getTime();
+
+      this.elapsed_secs = Math.round( (current_time-this.start_time) /1000 );
+
+      if ( this.elapsed_secs < 60) {
+        this.elapsed_time_formatted = this.elapsed_secs +' secs';
+      } else if ( this.elapsed_secs < (60 * 60) ) {
+        this.elapsed_time_formatted = this.formatFloat( this.elapsed_secs/60 ) +' min';
+      } else {
+        this.elapsed_time_formatted = this.formatFloat( this.elapsed_secs/(60*60) ) +' hr';
+      }
+
+    }
+  JS
+
+##########
+
+  js_property :current_time_formatted
+  js_method :current_time_update, <<-JS
+    function() {
+      this.current_time_formatted = new Date().format('g:i A');
+    } 
+  JS
+
+##########
+
+  js_method :push_text, <<-JS
+    function(button, event) {
+      Ext.select('div.clock div').elements[0].innerHTML= this.current_time_formatted;
+      Ext.select('div.elapsed div').elements[0].innerHTML= this.elapsed_time_formatted;
+    } 
+  JS
+
+##########
+
+  js_method :tick, <<-JS
+    function(){
+      this.currentTimeUpdate();
+      this.elapsedSecsUpdate();
+      this.pushText();
+    }
+  JS
+
+##########
+
+  js_method :stpBtnHandler, <<-JS
+    function(button, event) {
+      window.location= this.stopPath;
+    } 
+  JS
+
+  js_property :start_time
   js_method :init_component, <<-JS
     function(){
       // calling superclass's initComponent

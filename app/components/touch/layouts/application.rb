@@ -24,9 +24,5 @@ class Touch::Layouts::Application < Netzke::Base
     })
   end
 
-  endpoint :time_tracker_hello do |params|
-    {:update => "Hello from LivingToLearn TimeTracker at #{Time.now}!"}
-  end
-
 end
 

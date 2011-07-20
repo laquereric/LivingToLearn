@@ -4,7 +4,11 @@
       -khtml-opacity: 0.9;
       opacity: 0.9;
     }
-    div.message{
+    div { position: relative }
+    div.header{
+      background-color: #CCCC00;
+    }
+     div.message{
       background-color: #FFCECE;
     }
     div.target{

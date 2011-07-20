@@ -1,5 +1,6 @@
    body {
    }
+   div { position: relative }
 
    html body div#marquee_region {
      position: relative;
