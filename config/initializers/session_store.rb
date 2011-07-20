@@ -3,9 +3,9 @@
 
 case Rails.env
   when 'development'
-    LivingToLearn::Application.config.session_store :cookie_store, :domain => 'lvh.me' , :key => '_living_to_learn_session'
+    LivingToLearn::Application.config.session_store :active_record_store, :domain => 'lvh.me' , :key => '_living_to_learn_session'
   when 'production'
-    LivingToLearn::Application.config.session_store :cookie_store, :domain => 'livingtolearn.com' , :key => '_living_to_learn_session'
+    LivingToLearn::Application.config.session_store :active_record_store, :domain => 'livingtolearn.com' , :key => '_living_to_learn_session'
 end
 
 # Use the database for sessions instead of the cookie-based default,
