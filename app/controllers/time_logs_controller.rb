@@ -91,7 +91,7 @@ p "got activity #{@activity.inspect}"
   end
 
   def end
-    @time_log = TimeLog.find(params[:id])
+    @time_log = TimeLog.find(params[:time_log_id])
     @time_log.end_time = Time.now
     authorize! :update,  @time_log
     result= @time_log.update_attributes( params[:time_log] )
