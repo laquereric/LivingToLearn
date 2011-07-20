@@ -25,11 +25,25 @@
     form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
     form.submit()
   }
-  function onLoad(){
-    <%= yield :onload_script -%>
+
+  var tick_targets = new Array();
+  function deliver_ticks() {
+    for ( var i=0 ; i < tick_targets.length;i++){
+      tick_targets[i].tick();
+    }
   }
 
+  function tick() {
+    deliver_ticks();
+    var t = setTimeout("tick()",1000);
+  }
+
+  function onLoad(){
+    tick();
+    <%= yield :onload_script -%>
+  }
 </script>
+
 
 </head>
 
@@ -41,7 +55,7 @@
   </marquee>
 </div>
 
-<table id="body-table" class='transparent-class'>
+<table onLoad="onLoad()" id="body-table" class='transparent-class'>
 
   <tr id="site_title_top_line"><td colspan="3" class='transparent-class'>
     <div id="site_title_second_line">

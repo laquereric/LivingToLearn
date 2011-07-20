@@ -21,7 +21,28 @@
 
 </head>
 
-<body style="<%=Screen.default.html_body_style%>">
+<script>
+  var ticks = 1;
+
+  var tick_targets = new Array();
+  function deliver_ticks() {
+    for ( var i=0 ; i < tick_targets.length;i++){
+      tick_targets[i].tick();
+    }
+  }
+
+  function tick() {
+    deliver_ticks();
+    var t = setTimeout("tick()",1000);
+  }
+
+  function onLoad(){
+    tick();
+    <%= yield :onload_script -%>
+  }
+</script>
+
+<body onLoad="onLoad()" style="<%=Screen.default.html_body_style%>">
 
 <% if Screen.default.mode == :frame %>
   <% res = Screen.default.device.resolution %>
