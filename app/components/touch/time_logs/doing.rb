@@ -15,7 +15,7 @@ class Touch::TimeLogs::Doing < Netzke::Base
     return  {
       :padding => '10px',
       :baseCls => 'clock',
-      :height => 100,
+      :height => 80,
       :width => 140,
       :html =>"",
       :align => :center,
@@ -26,7 +26,7 @@ class Touch::TimeLogs::Doing < Netzke::Base
     return  {
        :padding => '10px',
         :baseCls => 'elapsed',
-        :height => 100,
+        :height => 80,
         :width => 200,
         :html=>"",
         :align => :center,
@@ -46,7 +46,7 @@ class Touch::TimeLogs::Doing < Netzke::Base
         self.clock_box(),
         self.elapsed_box(),
       {
-        :height => 100,
+        :height => 80,
         :handler => 'stpBtnHandler',
         :xtype => 'button',
         :ui  => 'decline-round',

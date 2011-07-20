@@ -27,7 +27,7 @@ p "got activity #{@activity.inspect}"
     @time_log = @activity.time_logs.create( params[:time_log] )
     respond_to do |format|
       if @time_log.save
-        format.html { 
+        format.html {
           redirect_to(
             activity_time_log_path(
               @activity.id,@time_log.id
@@ -65,7 +65,7 @@ p "got activity #{@activity.inspect}"
 
     respond_to do |format|
       if !first and result
-        format.html { redirect_to( 
+        format.html { redirect_to(
           activity_time_log_path(
             @activity.id,
             @time_log.id
@@ -81,6 +81,23 @@ p "got activity #{@activity.inspect}"
           :notice => 'TimeLog was successfully updated.')
         }
       elsif first and result
+        format.html { redirect_to :controller=> 'activities' , :action => "start", :action => @activity_id }
+        format.iphone { redirect_to :controller=> 'activities' , :action => "start", :id => @activity_id }
+      else
+        format.html { redirect_to :action => "edit" }
+        format.iphone { redirect_to :action => "edit" }
+      end
+    end
+  end
+
+  def end
+    @time_log = TimeLog.find(params[:id])
+    @time_log.end_time = Time.now
+    authorize! :update,  @time_log
+    result= @time_log.update_attributes( params[:time_log] )
+
+    respond_to do |format|
+      if result
         format.html { redirect_to :controller=> 'activities' , :action => "start", :action => @activity_id }
         format.iphone { redirect_to :controller=> 'activities' , :action => "start", :id => @activity_id }
       else
