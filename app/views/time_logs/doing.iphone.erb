@@ -1,28 +1,8 @@
-<% content_for :head do-%>
-  <style>
-    div.activity-frame{
-      margin: 20px
-    }
-    div.activity-frame table {
-      font-size: 20px
-    }
-
-  </style>
-<% end %>
-
-<%= Touch::TimeLogs::Doing.netzke(self) do |config| %>
-
-<% config.content_for :stop_path do-%>
-  <%= end_activity_path(@activity.id,@time_log.id) %>
-<% end %>
-
-<% config.content_for :activity_name do-%>
-   <%= @activity.name %>
-<% end %>
-
-<% config.content_for :title do-%>
-   LivingToLearn
-<% end %>
-
-<% end %>
+<%= Touch::TimeLogs::Doing.netzke(self) do |config| config.content_hash do 
+{
+  :stop_path => end_activity_path(@activity.id,@time_log.id),
+  :activity_name => @activity.name,
+  :title => "LivingToLearn"
+}
+end end %>
 

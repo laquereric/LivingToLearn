@@ -5,11 +5,22 @@ class Configurator
     @view= view
   end
 
-  def content_for(name,&block)
-    content = @view.capture(&block) if block_given?
+  def content_push(name,content)
     @_content_for[name] ||= ""
     @_content_for[name] << content if content
     @_content_for[name] unless content
+  end
+
+  def content_for(name,&block)
+    content = @view.capture(&block) if block_given?
+    content_push(name,content)
+  end
+
+  def content_hash(&block)
+    hash = yield if block_given?
+    hash.each_pair{ |name,content| 
+      content_push(name,content)
+    }
   end
 
   def erb(erb_template)
