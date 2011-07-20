@@ -10,26 +10,18 @@
   </style>
 <% end %>
 
-<%= Touch::Layouts::Application.netzke(self) do |config| %>
+<%= Touch::TimeLogs::Doing.netzke(self) do |config| %>
+
+<% config.content_for :stop_path do-%>
+  <%= end_activity_path(@activity.id,@time_log.id) %>
+<% end %>
+
+<% config.content_for :activity_name do-%>
+   <%= @activity.name %>
+<% end %>
 
 <% config.content_for :title do-%>
    LivingToLearn
-<% end %>
-
-<% config.content_for :target__title do-%>
-   Doing Activity
-<% end %>
-
-<% config.content_for :target__region do-%>
-<div class="activity-frame">
-<p>
-  <b>Started <%= @activity.name %> at</b></br>
-  <%=  @time_log.start_time.strftime('%m/%d/%Y %I:%M %p') %>
-</p>
-</br>
-
-<%= render 'stop_form.html.erb' %>
-</div>
 <% end %>
 
 <% end %>
