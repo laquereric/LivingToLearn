@@ -27,22 +27,6 @@ class CurriculumController < ApplicationController
     return ci
   end
 
-  def get_grades
-    filtered_by_grade = false
-    target_age= Curriculum::Grade::MaxAge
-    max_age= Curriculum::Grade::MaxAge
-    min_age= 0
-    if !params[:age].nil? and ( params[:age].to_i != Curriculum::Grade::MaxAge )
-      filtered_by_grade= true
-      target_age= params[:age].to_i
-      max_age= target_age + 1
-      min_age= target_age - 1
-      min_age= 0 if min_age < 0
-    end
-    all_grades= Curriculum::Grade.age_range(min_age,max_age)
-    return filtered_by_grade, all_grades,  Curriculum::Grade.create({:age => target_age})
-  end
-
   def display_by_grade?(child)
         start_grade= child.ti.start_grade
         r2 = if !start_grade.is_a? Hash and start_grade.age <= 0
@@ -62,7 +46,9 @@ p "#{child.id} #{ref_to_deadline}"
 
   def index()
     @curriculum_item = get_curriculum_item
-    @filtered_by_grade, @all_grades, @target_grade= get_grades
+    @filtered_by_grade, @all_grades, @target_grade=
+      Curriculum::Grade.get_grades_range( params[:age] )
+
     all_children = @curriculum_item.ch.sort{ |x,y|
       x.sort_term <=> y.sort_term
     }
@@ -75,6 +61,11 @@ p "#{child.id} #{ref_to_deadline}"
     else
       all_children
     end
+      respond_to do |format|
+        format.html
+        format.iphone
+      end
+
   end
 
 end

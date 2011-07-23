@@ -132,4 +132,21 @@ class Curriculum::Grade
     return r
   end
 
+  def self.get_grades_range( params_age )
+    filtered_by_grade = false
+    target_age= Curriculum::Grade::MaxAge
+    max_age= Curriculum::Grade::MaxAge
+    min_age= 0
+
+    if !params_age.nil? and ( params_age.to_i != Curriculum::Grade::MaxAge )
+      filtered_by_grade= true
+      target_age= params_age.to_i
+      max_age= target_age + 1
+      min_age= target_age - 1
+      min_age= 0 if min_age < 0
+    end
+    all_grades= Curriculum::Grade.age_range(min_age,max_age)
+    return filtered_by_grade, all_grades,  Curriculum::Grade.create({:age => target_age})
+  end
+
 end
