@@ -7,7 +7,7 @@ class Touch::Layouts::Application < Netzke::Base
     self.class.route_toolbars if @toolbars_routed.nil?
     super.merge(self.screen_config).merge({
       :items => self.tab_items(session_config),
-      :ui        => 'dark',
+      :ui => 'dark',
       :style => Screen.default.component_style,
       :docked_items => [
         {

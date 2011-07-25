@@ -27,6 +27,7 @@ end
     config= configr.contents
     config[:class_name]= self
     config[:user_signed_in]= view.user_signed_in?
+    config[:current_user]= view.current_user
 
     config[:notice]= view.notice
     config[:alert]= view.alert
