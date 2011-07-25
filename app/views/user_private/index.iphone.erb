@@ -1,27 +1,3 @@
-<% content_for :head do-%>
-  <style>
-    div.register-form-frame{
-      margin: 20px
-    }
-  </style>
-<% end %>
-
-<%= Touch::Layouts::Application.netzke(self) do |config| %>
-
-<% config.content_for :title do-%>
-  LivingToLearn
-<% end %>
-
-<%  config.content_for :message__title do %>
-  Summary
-<% end %>
-
-<%  config.content_for :message__region do %>
-  <div class="register-form-frame">
-    <%= render 'summary.html.erb' %>
-  </div>
-<% end %>
-
-
+<%= Touch::Lib::Main.netzke(self) do |config| %>
 <% end %>
 

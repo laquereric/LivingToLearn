@@ -18,3 +18,34 @@
       background-color: #F8CECE;
     }
 
+  div.about {
+    background-color: #33CCFF
+  }
+  div.user{
+     background-color: #3366FF
+  }
+  div.goals{
+    background-color:#33FFCC
+  }
+  div.commitments{
+    background-color:#33FF66
+  }
+  div.accountability{
+    background-color:#33FF66
+  }
+
+  div.x-tabbar{
+    font-size: 14px
+  }
+  div.top-tab-title{
+    padding: 5px;
+    font-size: 20px;
+  }
+  div.default-tab{
+    padding: 10px;
+    font-size: 12px;
+  }
+  div.x-form-label{
+    font-size: 12px;
+  }
+

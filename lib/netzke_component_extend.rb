@@ -8,18 +8,6 @@ module NetzkeComponentExtend
 def route_toolbars
   format='iphone'
 
-  js_method :to_login, <<-JS
-    function(){
-      window.location="/login.#{format}";
-    }
-  JS
-
-  js_method :to_register, <<-JS
-    function(){
-      window.location="/register.#{format}";
-    }
-  JS
-
   js_method :to_logout, <<-JS
     function(){
       window.location="/logout.#{format}";
