@@ -1,0 +1,233 @@
+<% config.content_for :head do -%>
+
+   <style>
+
+   table.std_curriculum{
+     border-width: 3px;
+     border-spacing: ;
+     border-style: outset;
+     background-color: #FFCECE;
+   }
+
+   table.std_curriculum tr.breadcrumb{
+     background-color: #FF99FF;
+   }
+
+   table.std_curriculum tr.header th{
+     font-size: 10pt;
+     text-align: center;
+     background-color: #FFFFCC;
+   }
+
+   table.std_curriculum th.curriculum-description{
+     font-size: 10pt;
+   }
+
+   table.std_curriculum td.class{
+     width: 20;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table.std_curriculum td.id{
+     width: 20;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table.std_curriculum td.code{
+     width: 20;
+   }
+
+   table.std_curriculum th.description{
+     padding:10px;
+     width: 400px;
+     color: #000000;
+     margin: 10pt;
+     border: 1;
+     font-size: 10pt;
+   }
+
+   table.std_curriculum td.description{
+     padding:5px;
+     width:400px;
+   }
+
+   table.std_curriculum th.grade{
+     width: 40px;
+     color: #000000;
+     font-size: 6pt;
+   }
+
+   table.std_curriculum td.grade{
+     text-align: center;
+     width: 40px;
+     color: #000000;
+     font-size: 6pt;
+   }
+
+   table.std_curriculum td.grade div.ref-line.ref-to-deadline--1{
+     background: #33FF66;
+   }
+   div.green{
+     background: #33FF66;
+   }
+
+   table.std_curriculum td.grade div.ref-line.ref-to-deadline-0{
+     background: #FFFF66
+   }
+   div.yellow{
+     background: #FFFF66;
+   }
+
+   table.std_curriculum td.grade div.ref-line.ref-to-deadline-1{
+     background: #FF3366;
+   }
+   div.red{
+     background: #FF3366;
+   }
+   div#top_table_region_frame{
+     margin: 20pt;
+     color: #000000
+   }
+   </style>
+
+<% end %>
+
+<%= Touch::Layouts::Application.netzke(self) do |config| %>
+
+<% config.content_for :title do %>
+  LivingToLearn
+<% end %>
+
+<% config.content_for :message__region do %>
+  All Curriculum Standards By Grade<br/>
+  <br/>
+  <div class='green'>Green = To Get Ready For Next Year</div><br/>
+  <div class='yellow'>Yellow = To Be Completed This Year</div><br/>
+  <div class='red'>Red = Should have Been Completed</div><br/>
+<% end %>
+
+<% config.content_for :target__title do %>
+Curricula
+<% end %>
+
+<% config.content_for :target__region do %>
+<table  class="std_curriculum">
+
+<tr class="breadcrumb" >
+<td colspan="<%=@all_grades.length+4%>">
+
+  <% if ref = @curriculum_item.great_great_grand_parent_ref %>
+    <% if ref[:target_name] == "Root" %>
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
+    <% else %>
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
+    <% end %>
+  <% end %>
+
+  <% if ref = @curriculum_item.great_grand_parent_ref %>
+    <% if ref[:target_name] == "Root" %>
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
+    <% else %>
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
+    <% end %>
+  <% end %>
+
+  <% if ref = @curriculum_item.grand_parent_ref %>
+    <% if ref[:target_name] == "Root" %>
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
+    <% else %>
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
+    <% end %>
+  <% end %>
+
+  <% if ref = @curriculum_item.parent_ref %>
+    <% if ref[:target_name] == "Root" %>
+      <%= link_to "Curricula", curriculum_root_age_path( @target_grade.age ) %> :
+    <% else %>
+      <%= link_to ref[:target_name], curriculum_node_age_path( ref[:id], @target_grade.age ) %> :
+    <% end %>
+  <% end %>
+
+  <% if ref = @curriculum_item.source_full_code == "root" %>
+    Curricula
+  <% else %>
+    <%= @curriculum_item.target_name %>
+  <% end %>
+
+</td>
+</tr>
+
+<% if @target_grade.age != Curriculum::Grade::MaxAge %>
+  <tr class="breadcrumb" >
+    <td colspan="<%=@all_grades.length+4%>">
+      <%= link_to 'All Grades', curriculum_node_age_path( @curriculum_item.id, Curriculum::Grade::MaxAge ) %>
+    </td>
+  </tr>
+<% end %>
+
+<tr class="header">
+  <th class="header">Klass</th>
+  <th  class="description" rowspan="3">Description</th>
+  <%  @all_grades.each do |grade| %>
+    <th rowspan="3" class="grade">
+      <%= link_to grade.cc_grade, curriculum_node_age_path( @curriculum_item.id, grade.age ) %>
+    </th>
+  <% end %>
+</tr>
+
+<tr class="header"><th>Id</th></tr>
+<tr class="header"><th>Code</th></tr>
+
+<% by_grade= ( @curriculum_item.ti.curriculum_class.nil? or @curriculum_item.ti.curriculum_class.by_grade? )%>
+
+<% @displayed_children.each do |child| %>
+  <tr>
+    <td colspan="1" class="class" >
+      <div><%=  child.target_klassname %></div>
+      <div><%=  child.target_id %></div>
+      <div><%=  child.target_full_code %></div>
+    </td>
+    <td colspan="1" class="description" >
+      <% if child.terminal %>
+        <%=  child.target_name %>
+      <% else %>
+        <%=  link_to child.target_name, curriculum_node_age_path( child.id, @target_grade.age ) %>
+      <% end %>
+    </td>
+
+<% if by_grade %>
+    <%  child.ti.deadlines_relative_to(@all_grades).each do |grade,ref_to_deadline| %>
+      <% ref_line = if !ref_to_deadline.nil? and ref_to_deadline > -2 and ref_to_deadline < 2 then
+           grade.cc_grade
+         else
+           nil
+         end
+      %>
+      <td rowspan="1" class="grade" id="<%="#{grade.age}--index#{child.id}"%>" >
+        <div class="ref-line <%= "ref-to-deadline-#{ref_to_deadline}" %>">
+          <%= ref_line %>
+        </div>
+
+        <div class="second_line">
+        </div>
+
+        <div class="third_line">
+        </div>
+
+      </td>
+    <% end %>
+<% end %>
+
+  </tr>
+<% end %>
+</table>
+
+<% end %>
+
+<% end %>
