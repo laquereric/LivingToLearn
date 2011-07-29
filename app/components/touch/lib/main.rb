@@ -55,7 +55,12 @@ class Touch::Lib::Main < Netzke::Base
          :title => 'Goals',
          :cls => 'transparent-class goals',
          :iconCls => 'download'
-       }.merge(Touch::Lib::GoalsPage.config_hash(session_config)),
+       }.merge( Touch::Lib::SimpleList.config_hash(
+         session_config.dup.merge({
+           :item_tpl => "Name: {name}",
+           :model => "Activity"
+         })
+       )),
 
        {
          :title => 'Commitments',
@@ -72,6 +77,21 @@ class Touch::Lib::Main < Netzke::Base
      ]
     })
   end
+
+
+  js_method :init_component, <<-JS
+    function(){
+      #{js_full_class_name}.superclass.initComponent.call(this);
+
+console.log('main');
+console.log( this );
+//console.log( Ext.ComponentMgr.all() );
+
+//console.log('main.getChildComponent');
+//console.log( this.getChildComponent() );
+
+    }
+  JS
 
 end
 
