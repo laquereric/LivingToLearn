@@ -3,6 +3,10 @@ class Activity < ActiveRecord::Base
   acts_as_nested_set :dependent => :destroy
   has_many :time_logs, :dependent => :destroy
 
+  def parent_id
+    return ( self.parent.nil? ? nil : self.parent.id )
+  end
+
   def hours_logged_during(period=:all)
     return self.hours_list_during(period).sum
   end

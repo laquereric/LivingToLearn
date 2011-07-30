@@ -57,9 +57,10 @@ class Touch::Lib::Main < Netzke::Base
          :iconCls => 'download'
        }.merge( Touch::Lib::SimpleList.config_hash(
          session_config.dup.merge({
-           :item_tpl => "Name: {name}",
+           :virtual_attrs => [:id,:level,:parent_id],
+           :item_tpl => "=> {name} {level} {id} {parent_id}",
            :model => "Activity"
-         })
+        })
        )),
 
        {
@@ -82,14 +83,6 @@ class Touch::Lib::Main < Netzke::Base
   js_method :init_component, <<-JS
     function(){
       #{js_full_class_name}.superclass.initComponent.call(this);
-
-console.log('main');
-console.log( this );
-//console.log( Ext.ComponentMgr.all() );
-
-//console.log('main.getChildComponent');
-//console.log( this.getChildComponent() );
-
     }
   JS
 

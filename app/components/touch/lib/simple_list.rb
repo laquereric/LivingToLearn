@@ -11,6 +11,7 @@ class Touch::Lib::SimpleList < Netzke::Base
        } )
        r[:model]= session_config[:model]
        r[:item_tpl]= session_config[:item_tpl]
+       r[:virtual_attrs]= session_config[:virtual_attrs]
        return r
     end
 
@@ -19,6 +20,7 @@ class Touch::Lib::SimpleList < Netzke::Base
 
       # extract model attributes that participate in the template
       attrs = extract_attrs(sup)
+      attrs= [attrs , sup[:virtual_attrs].map{|a| a.to_s} ].flatten if sup[:virtual_attrs]
 
       # model's class
       data_class = sup[:model].constantize
@@ -29,19 +31,19 @@ class Touch::Lib::SimpleList < Netzke::Base
         :item_tpl => sup[:item_tpl].gsub(/\{(\w+)\}/){|m| m.camelize(:lower)}, # same here
         :sort_attr => (sup[:sort_attr] || attrs.first).to_s.camelize(:lower) # ... and here
       )
-p sup
+
       return sup
     end
 
-  js_method :init_component, <<-JS
-    function(){
-      Ext.regModel(this.model, {
+    js_method :init_component, <<-JS
+      function(){
+        Ext.regModel(this.model, {
           fields: this.attrs
-      });
+        });
 
-      var sortAttr = this.sortAttr;
+        var sortAttr = this.sortAttr;
 
-      this.store = new Ext.data.JsonStore({
+        this.store = new Ext.data.JsonStore({
           model  : this.model,
           sorters: sortAttr,
 
@@ -50,11 +52,11 @@ p sup
           },
 
           data: this.data
-      });
+        });
 
-      #{js_full_class_name}.superclass.initComponent.call(this);
-  }
-  JS
+        #{js_full_class_name}.superclass.initComponent.call(this);
+      }
+    JS
 
     protected
       # Extracts names of the attributes from the temalpate, e.g.:
