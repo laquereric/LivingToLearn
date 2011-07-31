@@ -55,14 +55,7 @@ class Touch::Lib::Main < Netzke::Base
          :title => 'Goals',
          :cls => 'transparent-class goals',
          :iconCls => 'download'
-       #}.merge( Touch::Lib::SimpleList.config_hash(
-       }.merge( Touch::Lib::NestedList.config_hash(
-         session_config.dup.merge({
-           #:virtual_attrs => [:id,:level,:parent_id],
-           :item_tpl => "=> {name} {level} {id} {parent_id}",
-           :model => "Activity"
-        })
-       )),
+       }.merge( Touch::Tab::GoalsPage.config_hash ),
 
        {
          :title => 'Commitments',
@@ -79,7 +72,6 @@ class Touch::Lib::Main < Netzke::Base
      ]
     })
   end
-
 
   js_method :init_component, <<-JS
     function(){

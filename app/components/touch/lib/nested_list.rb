@@ -6,13 +6,9 @@ class Touch::Lib::NestedList < Netzke::Base
 
     #js_mixin :main
 
-    def self.config_hash(session_config)
-       r = {}.merge( {:class_name => self.to_s
+    def self.config_hash(session_config={})
+       r = session_config.merge( {:class_name => self.to_s
        } )
-
-       r[:model]= session_config[:model]
-       r[:item_tpl]= session_config[:item_tpl]
-       r[:virtual_attrs]= session_config[:virtual_attrs]
        return r
     end
 
@@ -36,24 +32,178 @@ class Touch::Lib::NestedList < Netzke::Base
       return sup
     end
 
-    js_property :cursor
-    js_method :set_cursor, <<-JS
+    js_property :target
+    js_method :set_target, <<-JS
       function(id){
-        this.cursor = this.store.getById( id ).data;
         this.store.clearFilter();
-        this.store.filter( 'parentId' , id );
+        if ( id > 0 ) {
+          this.target = this.store.getById( id ).data;
+          this.store.filter( 'parentId' , id );
+        } else {
+          this.target = null;
+          this.store.filterBy( function(record){ 
+            return ( (typeof record.data.parentId) == 'string' ) 
+          } );
+       }
+
+        this.parent = null;
+        if (this.target && this.target.parentId) {
+          this.parent = this.store.getById( this.target.parentId ).data;
+        } else {
+          this.parent = null;
+        }
+
+        var me= this;
+        me.children = new Array;
+          if ( this.store.getCount() >  0) {
+            this.store.each(
+              function(item){
+                me.children.push(item.data);
+                 return true;
+              }
+            );
+          }
      }
+    JS
+
+    js_property :parent
+    js_property :children
+
+    js_method :do_click_event, <<-JS
+      function(id){
+         if ( this.target && this.target.id == id ){
+          this.fireEvent('totarget', id );
+        } else {
+          this.setTarget( id );
+          this.fireEvent('settarget', this.target,this.parent,this.children);
+        }
+      }
     JS
 
     js_method :set_click_event, <<-JS
       function(){
         this.on('itemtap', function(obj, index, list_item, e) {
-          var rec = obj.store.getAt( index );
-          var data = rec.data;
-          this.setCursor( data.id );
+          this.doClickEvent(index);
         });
       }
     JS
+
+  js_property :parent_id
+
+  js_property :parent_el
+  js_property :parent_cmp
+  js_property :parent_tpl
+
+  js_property :target_id
+
+  js_property :target_el
+  js_property :target_cmp
+
+  js_property :child_ids
+
+  js_property :child_els
+  js_property :child_cmps
+
+  js_method :post_init, <<-JS
+    function(){
+          var listCmp = this;
+
+          listCmp.parent_el = Ext.select( '#' + listCmp.parent_id ).elements[0];
+          listCmp.parent_cmp = Ext.getCmp( listCmp.parent_id );
+          listCmp.parent_cmp.item_list = listCmp;
+          listCmp.parent_cmp.addListener('tap', function(button,e){
+              button.item_list.doClickEvent( button.item_id );
+          });
+          if ( listCmp.parent_tpl == null ){
+            listCmp.parent_tpl = '<= {name}';
+          }
+          listCmp.parent_template= new Ext.Template(listCmp.parent_tpl);
+          listCmp.parent_template.compile();
+
+          listCmp.target_el = Ext.select( '#' + listCmp.target_id ).elements[0];
+          listCmp.target_cmp =  Ext.getCmp(listCmp.target_id);
+          listCmp.target_cmp.item_list = listCmp;
+          listCmp.target_cmp.addListener('tap', function(button,e){
+              button.item_list.doClickEvent( button.item_id );
+          });
+
+          if ( listCmp.target_tpl == null ){
+            listCmp.target_tpl = '= {name}';
+          }
+          listCmp.target_template = new Ext.Template( listCmp.target_tpl );
+          listCmp.target_template.compile();
+
+          listCmp.child_els = new Array;
+          listCmp.child_cmps = new Array;
+          listCmp.child_template = new Ext.Template('=> {name}');
+          listCmp.child_template.compile();
+          for( var i=0; i < listCmp.child_ids.length; i++ ){
+            listCmp.child_els.push( Ext.select('.'+listCmp.child_ids[i] ).elements[0] );
+            listCmp.child_cmps.push( Ext.getCmp( listCmp.child_els[i].id ) );
+            listCmp.child_cmps[i].item_list = listCmp;
+            listCmp.child_cmps[i].addListener('tap', function(button,e){
+              button.item_list.doClickEvent( button.item_id );
+            });
+          }
+          if ( listCmp.child_tpl == null ){
+            listCmp.child_tpl = '=> {name}';
+          }
+          listCmp.child_template= new Ext.Template( listCmp.child_tpl );
+          listCmp.child_template.compile();
+    }
+  JS
+
+  js_method :set_target_events, <<-JS
+    function(){
+      var maxChildren = this.child_ids.length;
+      var me = this;
+      this.on('settarget', function(target_item, parent_item, child_items) {
+
+///////////////////////
+// Up Hier
+///////////////////////
+
+       if ( (target_item == null) && (parent_item == null) ){
+          me.parent_cmp.hide();
+        } else if ( parent_item == null ) {
+          me.parent_el.innerHTML = '<=' +'Top';
+          me.parent_cmp.show();
+          me.parent_cmp.item_id = -1;
+        } else  {
+          me.parent_template.overwrite( me.parent_el, parent_item );
+          me.parent_cmp.show();
+          me.parent_cmp.item_id =  parent_item.id;
+        }
+
+///////////////////////
+// At Level
+///////////////////////
+
+        if (target_item){
+          me.target_cmp.show();
+          me.target_cmp.item_id = target_item.id;
+          me.target_template.overwrite( me.target_el, target_item );
+        } else {
+          me.target_cmp.hide();
+        }
+
+///////////////////////
+// Down Level
+///////////////////////
+
+        for( var i=0; i < maxChildren; i++ ){
+          if (i < child_items.length ){
+            me.child_cmps[i].show();
+            me.child_cmps[i].item_id = child_items[i].id;
+            me.child_template.overwrite( me.child_els[i], child_items[i] );
+          } else {
+            me.child_cmps[i].hide();
+          }
+        };
+
+      });
+    }
+  JS
 
     js_method :init_component, <<-JS
       function(){
@@ -62,7 +212,6 @@ class Touch::Lib::NestedList < Netzke::Base
         });
 
         var sortAttr = this.sortAttr;
-
         this.store = new Ext.data.JsonStore({
           model  : this.model,
           storeId : this.model + '_store',
@@ -75,12 +224,15 @@ class Touch::Lib::NestedList < Netzke::Base
           getGroupString : function(record) {
               return record.get(sortAttr)[0];
           },
-
           data: this.data
         });
+        this.store.filter( 'level' , 0 );
 
         #{js_full_class_name}.superclass.initComponent.call(this);
-
+        this.addEvents(
+            'totarget',
+            'settarget'
+        );
         this.setClickEvent();
       }
     JS
