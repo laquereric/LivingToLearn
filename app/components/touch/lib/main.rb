@@ -12,6 +12,7 @@ class Touch::Lib::Main < Netzke::Base
     super.merge(self.screen_config).merge({
 
       :items => self.tab_items(session_config),
+      :cls => 'main',
       :ui => 'dark',
 
       :style => Screen.default.component_style,
@@ -58,6 +59,10 @@ class Touch::Lib::Main < Netzke::Base
        }.merge( Touch::Tab::GoalsPage.config_hash ),
 
        {
+         :cls => 'goal'
+       }.merge( Touch::Tab::GoalPage.config_hash ),
+
+       {
          :title => 'Commitments',
          :cls =>  'transparent-class commitments',
          :iconCls => 'download'
@@ -76,6 +81,15 @@ class Touch::Lib::Main < Netzke::Base
   js_method :init_component, <<-JS
     function(){
       #{js_full_class_name}.superclass.initComponent.call(this);
+      this.on('afterrender', function() {
+          var tab_els = Ext.select('.x-tab').elements;
+          for ( var i = 0; i < tab_els.length; i++){
+            if ( Ext.select('span',tab_els[i] ).elements.length == 0 ){
+              var tabCmp =  Ext.getCmp(tab_els[i].id);
+              this.tabBar.remove( Ext.getCmp(tab_els[i].id), true);
+            }
+          }
+        })
     }
   JS
 
