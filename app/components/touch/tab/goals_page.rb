@@ -11,6 +11,13 @@ class Touch::Tab::GoalsPage < Netzke::Base
      r = {}.merge( {:class_name => self.to_s } )
   end
 
+
+######################
+# Access to Embedded Data
+######################
+
+  js_property :store
+
 ######################
 # Navigation
 ######################
@@ -116,6 +123,7 @@ class Touch::Tab::GoalsPage < Netzke::Base
       goal_tab.target = this.target;
       goal_tab.actionKey = button.actionKey;
       goal_tab.actionTitle = button.text;
+      goal_tab.store = this.store;
 
       main_cmp.setActiveItem( goal_tab );
     }
@@ -213,6 +221,8 @@ class Touch::Tab::GoalsPage < Netzke::Base
           listCmp.child_tpl = Ext.getCmp(child_0_id ).itemTpl;
 
           listCmp.postInit();
+
+          this.store = listCmp.store;
 
           listCmp.setTargetEvents();
           listCmp.doClickEvent(-1);

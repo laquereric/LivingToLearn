@@ -11,12 +11,11 @@ class Touch::Tab::GoalPage < Netzke::Base
      r = {}.merge( {:class_name => self.to_s } )
   end
 
-
 ###########################
 # Dynamic Configuration
 ###########################
 
-
+  js_property :store
   js_property :target
   js_property :action_key
   js_property :action_title
@@ -139,7 +138,15 @@ class Touch::Tab::GoalPage < Netzke::Base
 
   js_method :deleteHandler, <<-JS
     function(button, event) {
-      console.log('deleteHandler');
+      this.store.clearFilter();
+      console.log( this.store.getCount() );
+      console.log('deleteHandler for id:' + this.target.id );
+
+      var rec = this.store.getById(this.target.id);
+      this.store.remove(rec);
+
+      console.log( this.store.getCount() );
+      console.log(this.store);
     }
   JS
 
