@@ -46,6 +46,10 @@ class Touch::Lib::Main < Netzke::Base
        }.merge(Touch::Lib::AboutPage.config_hash(session_config)),
 
        {
+         :cls =>  'now'
+       }.merge(Touch::Lib::Now.config_hash(session_config)),
+
+       {
          :title => 'User',
          :cls => 'transparent-class user',
          :iconCls => 'user',
@@ -59,7 +63,7 @@ class Touch::Lib::Main < Netzke::Base
        }.merge( Touch::Tab::GoalsPage.config_hash ),
 
        {
-         :cls => 'goal'
+         :cls => 'transparent-class goal'
        }.merge( Touch::Tab::GoalPage.config_hash ),
 
        {

@@ -17,33 +17,29 @@
 <%= stylesheet_link_tag "application.html.css", :media => "all" %>
 
 <script>
+
   function add_user_marketing_context(form,user_id,marketing_context_id) {
     form.action = 'user/' + user_id + '/add_marketing_context/' + marketing_context_id
     form.submit()
   }
+
   function select_user_marketing_context(form,user_id,marketing_context_id) {
     form.action = 'user/' + user_id + '/select_marketing_context/' + marketing_context_id
     form.submit()
   }
+</script>
 
-  var tick_targets = new Array();
-  function deliver_ticks() {
-    for ( var i=0 ; i < tick_targets.length;i++){
-      tick_targets[i].tick();
-    }
-  }
+<script src = '/javascripts/tick.js'>
+</script>
 
-  function tick() {
-    deliver_ticks();
-    var t = setTimeout("tick()",1000);
-  }
+<script>
 
   function onLoad(){
     tick();
     <%= yield :onload_script -%>
   }
-</script>
 
+</script>
 
 </head>
 
