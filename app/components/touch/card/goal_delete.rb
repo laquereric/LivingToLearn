@@ -7,7 +7,6 @@ class Touch::Card::GoalDelete < Touch::Tab::GoalPage
 
   js_method :deleteHandler, <<-JS
     function(button, event) {
-      this.store.clearFilter();
       this.target.set( { name: 'destroyed' } );
 
       //Fails!
@@ -17,8 +16,6 @@ class Touch::Card::GoalDelete < Touch::Tab::GoalPage
       //  }
       //});
 
-      console.log( this.store.getCount() );
-      console.log(this.store);
     }
   JS
 

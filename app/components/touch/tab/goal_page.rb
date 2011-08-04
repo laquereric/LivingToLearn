@@ -79,12 +79,14 @@ class Touch::Tab::GoalPage < Netzke::Base
 
         this.on('activate', function() {
 
-          var target_item_el = Ext.select( 'div .goal.x-panel.target_item' ).elements[0];
-          target_item_el.innerHTML = 'Selected: ' + me.target.data.name;
-
-          var action_item_el = Ext.select( 'div .goal.x-panel.action_item' ).elements[0];
+          var target_item_el = Ext.select( 'div .goal.x-panel.target-item' ).elements[0];
+          if ( me.target ) {
+            target_item_el.innerHTML = 'Selected: ' + me.target.data.name;
+          } else {
+            target_item_el.innerHTML = 'Selected: ' + 'Top';
+          }
+          var action_item_el = Ext.select( 'div .goal.x-panel.action-item' ).elements[0];
           action_item_el.innerHTML = 'Action: ' + me.actionTitle;
-
         });
 
         this.initCard();

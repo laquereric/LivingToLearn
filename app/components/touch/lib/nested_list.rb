@@ -37,17 +37,27 @@ class Touch::Lib::NestedList < Netzke::Base
       function(id){
 
         this.store.clearFilter();
+
         if ( id > 0 ) {
           this.target = this.store.getById( id );
-          this.store.filter( 'parentId' , id );
+
+          this.store.filterBy( function(record) {
+            var isChild = ( record.data.parentId == id );
+            var notDestroyed = ( isChild && record.data.name != 'destroyed' )
+            result = ( isChild && notDestroyed );
+
+            return result;
+          });
         } else {
           this.target = null;
-          this.store.filterBy( function(record){ 
+          this.store.filterBy( function(record){
             var okType = ( (typeof record.data.parentId) == 'string' );
-            var notDestroyed = ( okType &&  record.data.name != 'destroyed' )
-            return okType && notDestroyed;
+            var notDestroyed = ( okType && record.data.name != 'destroyed' )
+            result = ( okType && notDestroyed );
+
+            return result;
           } );
-       }
+        }
 
         this.parent = null;
         if (this.target && this.target.data.parentId) {
@@ -62,11 +72,11 @@ class Touch::Lib::NestedList < Netzke::Base
             this.store.each(
               function(item){
                 me.children.push(item);
-                 return true;
+                return true;
               }
             );
           }
-     }
+      }
     JS
 
     js_property :parent
@@ -80,14 +90,6 @@ class Touch::Lib::NestedList < Netzke::Base
           this.setTarget( id );
           this.fireEvent('settarget', this.target,this.parent,this.children);
         }
-      }
-    JS
-
-    js_method :set_click_event, <<-JS
-      function(){
-        this.on('itemtap', function(obj, index, list_item, e) {
-          this.doClickEvent(index);
-        });
       }
     JS
 
@@ -178,10 +180,12 @@ class Touch::Lib::NestedList < Netzke::Base
 ///////////////////////
 // Up Hier
 ///////////////////////
-
+       var topList = false;
        if ( (target_item == null) && (parent_item == null) ){
+          topList = true;
           me.parent_cmp.hide();
-        } else if ( parent_item == null ) {
+       } else if ( parent_item == null ) {
+          topList = true;
           me.parent_el.innerHTML = '<=' +'Top';
           me.parent_cmp.show();
           me.parent_cmp.item_id = -1;
@@ -207,8 +211,10 @@ class Touch::Lib::NestedList < Netzke::Base
 // Down Level
 ///////////////////////
 
-        for( var i=0; i < maxChildren; i++ ){
-          if (i < child_items.length ){
+        var parentNotDestroyed = ( topList || ( target_item && target_item.data.name != 'destroyed' ));
+        for( var i = 0; i < maxChildren; i++ ){
+          //if ( parentNotDestroyed && ( i < child_items.length ) && ( child_items[i].data.name != 'destroyed' ) ) {
+          if ( i < child_items.length ) {
             me.child_cmps[i].show();
             me.child_cmps[i].item_id = child_items[i].data.id;
             me.child_template.overwrite( me.child_els[i], child_items[i].data );
@@ -238,7 +244,7 @@ class Touch::Lib::NestedList < Netzke::Base
           autoLoad : false,
           remoteSort : false,
           getGroupString : function(record) {
-              return record.get(sortAttr)[0];
+            return record.get(sortAttr)[0];
           },
           data: this.data
         });
@@ -249,7 +255,6 @@ class Touch::Lib::NestedList < Netzke::Base
           'totarget',
           'settarget'
         );
-        this.setClickEvent();
       }
     JS
 

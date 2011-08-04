@@ -7,13 +7,17 @@ class Touch::Card::GoalAddsub < Touch::Tab::GoalPage
 
   js_method :addsubSubmitHandler, <<-JS
     function(button, event) {
-      console.log('addsubSubmitHandler')
-      var store = this.target.store;
-      var new_rec = {
-        name: this.getNameInput().value,
-        parentId: this.target.data.id
+      console.log('addsubSubmitHandler');
+      var store = Ext.StoreMgr.get('Activity_store');
+      var newRec = {
+        name: this.getNameInput().value
       };
-      store.add(new_rec);
+      if (this.target) {
+        newRec.parentId = this.target.data.id+''  ;
+      } else {
+        newRec.parentId = "";
+      };
+      store.add(newRec);
     }
   JS
 
