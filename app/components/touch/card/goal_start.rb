@@ -61,12 +61,14 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
 #############
 
   def card_configuration
-    { :items => [
+    {
+      :items => [
         clock_box,
         elapsed_box,
         stop_btn,
         start_btn
-    ]}
+      ]
+    }
   end
 
   js_method :get_now_cmp, <<-JS
@@ -92,15 +94,11 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
 
   js_method :init_card, <<-JS
     function(){
-console.log('ic');
-        //#{js_full_class_name}.superclass.initComponent.call(this);
         var me = this;
         this.on('afterrender', function() {
-console.log('ar');
 
           this.getNowCmp().on('tick', function(current_time,elapsed_time,elapsed_secs){
             me.elapsedSecs = elapsed_secs;
-console.log('tick');
             var current_time_input= Ext.select( 'div.current_time input' ).elements[0];
             if (current_time_input) current_time_input.value = current_time;
             var elapsed_time_input= Ext.select( 'div.elapsed_time input' ).elements[0];
@@ -118,8 +116,10 @@ console.log('tick');
         });
 
         this.on('deactivate', function() {
+
           this.getNowCmp().stop();
           this.logTime();
+
         });
     }
   JS

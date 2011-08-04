@@ -11,15 +11,7 @@ class Touch::Tab::GoalPage < Netzke::Base
      r = {}.merge( {:class_name => self.to_s } )
   end
 
-###########################
-# Dynamic Configuration
-###########################
-
-  js_property :store
-
   js_property :target
-
-  js_property :elapsed_secs
 
 #############
 # Main
@@ -88,7 +80,7 @@ class Touch::Tab::GoalPage < Netzke::Base
         this.on('activate', function() {
 
           var target_item_el = Ext.select( 'div .goal.x-panel.target_item' ).elements[0];
-          target_item_el.innerHTML = 'Selected: ' + me.target.name;
+          target_item_el.innerHTML = 'Selected: ' + me.target.data.name;
 
           var action_item_el = Ext.select( 'div .goal.x-panel.action_item' ).elements[0];
           action_item_el.innerHTML = 'Action: ' + me.actionTitle;

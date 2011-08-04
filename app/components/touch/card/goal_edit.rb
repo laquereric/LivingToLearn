@@ -6,7 +6,7 @@ class Touch::Card::GoalEdit < Touch::Tab::GoalPage
 
   js_method :editSubmitHandler, <<-JS
     function(button, event) {
-      console.log('editSubmitHandler');
+      this.target.set( { name: this.getNameInput().value } );
     }
   JS
 
@@ -14,6 +14,7 @@ class Touch::Card::GoalEdit < Touch::Tab::GoalPage
     {
       :items => [{
         :label => 'name',
+        :cls => 'name',
         :xtype => :textfield
       },{
         :text => 'Submit',
@@ -27,8 +28,17 @@ class Touch::Card::GoalEdit < Touch::Tab::GoalPage
 # Main
 #############
 
+  js_method :getNameInput, <<-JS
+    function(){
+      return Ext.select( 'div.name input' ).elements[0];
+    }
+  JS
+
   js_method :init_card, <<-JS
     function(){
+      this.on('activate', function() {
+        this.getNameInput().value = this.target.data.name;
+      });
     }
   JS
 

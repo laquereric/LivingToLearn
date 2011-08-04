@@ -35,20 +35,23 @@ class Touch::Lib::NestedList < Netzke::Base
     js_property :target
     js_method :set_target, <<-JS
       function(id){
+
         this.store.clearFilter();
         if ( id > 0 ) {
-          this.target = this.store.getById( id ).data;
+          this.target = this.store.getById( id );
           this.store.filter( 'parentId' , id );
         } else {
           this.target = null;
           this.store.filterBy( function(record){ 
-            return ( (typeof record.data.parentId) == 'string' ) 
+            var okType = ( (typeof record.data.parentId) == 'string' );
+            var notDestroyed = ( okType &&  record.data.name != 'destroyed' )
+            return okType && notDestroyed;
           } );
        }
 
         this.parent = null;
-        if (this.target && this.target.parentId) {
-          this.parent = this.store.getById( this.target.parentId ).data;
+        if (this.target && this.target.data.parentId) {
+          this.parent = this.store.getById( this.target.data.parentId );
         } else {
           this.parent = null;
         }
@@ -58,7 +61,7 @@ class Touch::Lib::NestedList < Netzke::Base
           if ( this.store.getCount() >  0) {
             this.store.each(
               function(item){
-                me.children.push(item.data);
+                me.children.push(item);
                  return true;
               }
             );
@@ -71,7 +74,7 @@ class Touch::Lib::NestedList < Netzke::Base
 
     js_method :do_click_event, <<-JS
       function(id){
-         if ( this.target && this.target.id == id ){
+        if ( this.target && this.target.id == id ){
           this.fireEvent('totarget', id );
         } else {
           this.setTarget( id );
@@ -124,7 +127,7 @@ class Touch::Lib::NestedList < Netzke::Base
           listCmp.target_cmp =  Ext.getCmp(listCmp.target_id);
           listCmp.target_cmp.item_list = listCmp;
           listCmp.target_cmp.addListener('tap', function(button,e){
-              button.item_list.doClickEvent( button.item_id );
+            button.item_list.doClickEvent( button.item_id );
           });
 
           if ( listCmp.target_tpl == null ){
@@ -170,9 +173,9 @@ class Touch::Lib::NestedList < Netzke::Base
           me.parent_cmp.show();
           me.parent_cmp.item_id = -1;
         } else  {
-          me.parent_template.overwrite( me.parent_el, parent_item );
+          me.parent_template.overwrite( me.parent_el, parent_item.data );
           me.parent_cmp.show();
-          me.parent_cmp.item_id =  parent_item.id;
+          me.parent_cmp.item_id =  parent_item.data.id;
         }
 
 ///////////////////////
@@ -181,8 +184,8 @@ class Touch::Lib::NestedList < Netzke::Base
 
         if (target_item){
           me.target_cmp.show();
-          me.target_cmp.item_id = target_item.id;
-          me.target_template.overwrite( me.target_el, target_item );
+          me.target_cmp.item_id = target_item.data.id;
+          me.target_template.overwrite( me.target_el, target_item.data );
         } else {
           me.target_cmp.hide();
         }
@@ -194,8 +197,8 @@ class Touch::Lib::NestedList < Netzke::Base
         for( var i=0; i < maxChildren; i++ ){
           if (i < child_items.length ){
             me.child_cmps[i].show();
-            me.child_cmps[i].item_id = child_items[i].id;
-            me.child_template.overwrite( me.child_els[i], child_items[i] );
+            me.child_cmps[i].item_id = child_items[i].data.id;
+            me.child_template.overwrite( me.child_els[i], child_items[i].data );
           } else {
             me.child_cmps[i].hide();
           }
@@ -230,8 +233,8 @@ class Touch::Lib::NestedList < Netzke::Base
 
         #{js_full_class_name}.superclass.initComponent.call(this);
         this.addEvents(
-            'totarget',
-            'settarget'
+          'totarget',
+          'settarget'
         );
         this.setClickEvent();
       }
