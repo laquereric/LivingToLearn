@@ -11,13 +11,6 @@ class Touch::Tab::GoalsPage < Netzke::Base
      r = {}.merge( {:class_name => self.to_s } )
   end
 
-
-######################
-# Access to Embedded Data
-######################
-
-  js_property :store
-
 ######################
 # Navigation
 ######################
@@ -58,7 +51,6 @@ class Touch::Tab::GoalsPage < Netzke::Base
       :item_tpl => "=> {name} {level} {id} {parent_id}",
       :model => "Activity",
       :cls => 'list',
-      :width => '100%',
       :height => 0
     })
   end
@@ -76,7 +68,10 @@ class Touch::Tab::GoalsPage < Netzke::Base
   def child_items( config = {} )
     self.class.child_item_ids.map{ |id|
       config.merge({
-        :cls => id
+        :cls => id,
+        :margin => '0 0 5 20',
+        #:style => '{padding-bottom:10;}'
+        #:style => '{border:10;}'
       })
     }
   end
@@ -87,7 +82,8 @@ class Touch::Tab::GoalsPage < Netzke::Base
 
   def parent_item( config = {} )
     config.merge({
-      :cls => 'parent_item'
+       :margin => '0 0 5 0',
+       :cls => 'parent_item'
     });
   end
 
@@ -154,6 +150,7 @@ class Touch::Tab::GoalsPage < Netzke::Base
       :ui => 'dark',
       :cls => 'goals',
       :style => Screen.default.component_style,
+      :scroll => false,
       :layout => {
           :type => 'fit'
       },
@@ -164,12 +161,12 @@ class Touch::Tab::GoalsPage < Netzke::Base
         :cls => 'transparent-class',
         :defaults => {
           :height => 40,
-          :style => 'margin-top: 5px 0 0 0',
           :xtype => 'button',
-          :width => '100%'
+          :width => '90%'
         },
         :layout => {
           :type => 'vbox',
+          :defaultMargins => {:top=>100, :right=>100, :bottom=>100, :left=>100},
           :pack => 'center'
         },
         :items =>[
@@ -220,8 +217,6 @@ class Touch::Tab::GoalsPage < Netzke::Base
           listCmp.child_tpl = Ext.getCmp(child_0_id ).itemTpl;
 
           listCmp.postInit();
-
-          this.store = listCmp.store;
 
           listCmp.setTargetEvents();
           listCmp.doClickEvent(-1);
