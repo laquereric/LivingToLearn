@@ -62,9 +62,7 @@ class Touch::Lib::Main < Netzke::Base
          :iconCls => 'download'
        }.merge( Touch::Tab::GoalsPage.config_hash ),
 
-       {
-         :cls => 'transparent-class goal'
-       }.merge( Touch::Tab::GoalPage.config_hash ),
+       Touch::Tab::GoalPage.configure_cards,
 
        {
          :title => 'Commitments',
@@ -78,7 +76,8 @@ class Touch::Lib::Main < Netzke::Base
          :iconCls => 'settings'
        }.merge(Touch::Lib::AccountabilityPage.config_hash(session_config))
 
-     ]
+     ].flatten
+
     })
   end
 

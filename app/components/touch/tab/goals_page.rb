@@ -109,7 +109,7 @@ class Touch::Tab::GoalsPage < Netzke::Base
 
   js_method :get_tab, <<-JS
     function(tab_cls){
-      var tab_el = Ext.select( '.' + tab_cls ).elements[0];
+      var tab_el = Ext.select( '.goal.' + tab_cls ).elements[0];
       var cmp = Ext.getCmp( tab_el.id );
       return cmp;
     }
@@ -118,10 +118,9 @@ class Touch::Tab::GoalsPage < Netzke::Base
   js_method :goto_goal_tab_action, <<-JS
     function(target,button){
       var main_cmp = this.getMainCmp();
-      var goal_tab = this.getTab( 'goal' );
+      var goal_tab = this.getTab( button.actionKey );
 
       goal_tab.target = this.target;
-      goal_tab.actionKey = button.actionKey;
       goal_tab.actionTitle = button.text;
       goal_tab.store = this.store;
 
