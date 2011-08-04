@@ -6,25 +6,21 @@ class Touch::Lib::Now < Netzke::Base
   js_method :start, <<-JS
     function() {
       var current_time= new Date().getTime();
-      this.start_time = current_time;
-//console.log('oldElapsedSecs');
-//console.log(this.oldElapsedSecs);
+      this.startTime = current_time;
       this.running = true;
     }
   JS
 
   js_method :stop, <<-JS
     function() {
-      this.old_elapsed_secs = this.elapsed_secs;
-console.log('oldElapsedSecs');
-console.log(this.old_elapsed_secs);
+      this.oldElapsedSecs = this.elapsedSecs;
       this.running = false;
     }
   JS
 
   js_method :reset, <<-JS
     function() {
-      this.old_elapsed_secs = 0;
+      this.oldElapsedSecs = 0;
     }
   JS
 
@@ -62,31 +58,28 @@ console.log(this.old_elapsed_secs);
   JS
 
 ##########
-  js_property :elapsed_time_formatted
 
-  js_property :elapsed_secs
-  js_property :new_elapsed_secs
-  js_property :old_elapsed_secs
+  js_property :elapsedTimeFormatted
 
-  js_method :elapsed_secs_update, <<-JS
+  js_property :elapsedSecs
+  js_property :newElapsedSecs
+  js_property :oldElapsedSecs
+
+  js_method :elapsedSecsUpdate, <<-JS
     function() {
       var current_time= new Date().getTime();
       if (this.running){
 
-console.log('oldElapsedSecs');
-console.log(this.old_elapsed_secs);
-        this.new_elapsed_secs = Math.round( (current_time-this.start_time) / 1000 );
+        this.newElapsedSecs = Math.round( (current_time-this.startTime) / 1000 );
 
-console.log('newElapsedSecs');
-console.log(this.new_elapsed_secs);
-         this.elapsed_secs = this.new_elapsed_secs + this.old_elapsed_secs;
+        this.elapsedSecs = this.newElapsedSecs + this.oldElapsedSecs;
 
-        if ( this.elapsed_secs < 60) {
-          this.elapsed_time_formatted = this.elapsed_secs +' secs';
-        } else if ( this.elapsed_secs < (60 * 60) ) {
-          this.elapsed_time_formatted = this.formatFloat( this.elapsed_secs/60 ) +' min';
+        if ( this.elapsedSecs < 60) {
+          this.elapsedTimeFormatted = this.elapsedSecs +' secs';
+        } else if ( this.elapsedSecs < (60 * 60) ) {
+          this.elapsedTimeFormatted = this.formatFloat( this.elapsedSecs/60 ) +' min';
         } else {
-          this.elapsed_time_formatted = this.formatFloat( this.elapsed_secs/(60*60) ) +' hr';
+          this.elapsedTimeFormatted = this.formatFloat( this.elapsedSecs/(60*60) ) +' hr';
         }
 
       }
@@ -94,10 +87,11 @@ console.log(this.new_elapsed_secs);
   JS
 
 ##########
-  js_property :current_time_formatted
-  js_method :current_time_update, <<-JS
+
+  js_property :currentTimeFormatted
+  js_method :currentTimeUpdate, <<-JS
     function() {
-      this.current_time_formatted = new Date().format('g:i A');
+      this.currentTimeFormatted = new Date().format('g:i A');
     } 
   JS
 
@@ -109,9 +103,9 @@ console.log(this.new_elapsed_secs);
       this.elapsedSecsUpdate();
       this.fireEvent(
         'tick',
-        this.current_time_formatted,
-        this.elapsed_time_formatted,
-        this.elapsed_secs
+        this.currentTimeFormatted,
+        this.elapsedTimeFormatted,
+        this.elapsedSecs
       );
     }
   JS
@@ -124,8 +118,8 @@ console.log(this.new_elapsed_secs);
     } 
   JS
 
-  js_property :start_time
-  js_method :init_component, <<-JS
+  js_property :startTime
+  js_method :initComponent, <<-JS
     function(){
       // calling superclass's initComponent
       #{js_full_class_name}.superclass.initComponent.call(this);
@@ -133,7 +127,7 @@ console.log(this.new_elapsed_secs);
         'tick'
       );
       tick_targets[tick_targets.length] = this;
-      this.start_time= new Date().getTime();
+      this.startTime= new Date().getTime();
     }
   JS
 
