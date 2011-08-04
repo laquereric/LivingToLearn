@@ -114,9 +114,13 @@ class Touch::Lib::NestedList < Netzke::Base
           listCmp.parent_el = Ext.select( '#' + listCmp.parent_id ).elements[0];
           listCmp.parent_cmp = Ext.getCmp( listCmp.parent_id );
           listCmp.parent_cmp.item_list = listCmp;
-          listCmp.parent_cmp.addListener('tap', function(button,e){
-              button.item_list.doClickEvent( button.item_id );
-          });
+          if ( typeof listCmp.parent_cmp.events.tap != "undefined" &&
+            listCmp.parent_cmp.events.tap &&
+            listCmp.parent_cmp.events.tap == true ){
+              listCmp.parent_cmp.addListener('tap', function(button,e){
+                button.item_list.doClickEvent( button.item_id );
+              });
+          };
           if ( listCmp.parent_tpl == null ){
             listCmp.parent_tpl = '<= {name}';
           }
@@ -126,9 +130,14 @@ class Touch::Lib::NestedList < Netzke::Base
           listCmp.target_el = Ext.select( '#' + listCmp.target_id ).elements[0];
           listCmp.target_cmp =  Ext.getCmp(listCmp.target_id);
           listCmp.target_cmp.item_list = listCmp;
-          listCmp.target_cmp.addListener('tap', function(button,e){
-            button.item_list.doClickEvent( button.item_id );
-          });
+          listCmp.target_cmp.item_list = listCmp;
+          if ( typeof listCmp.target_cmp.events.tap != "undefined" &&
+            listCmp.target_cmp.events.tap &&
+            listCmp.target_cmp.events.tap == true ){
+              listCmp.target_cmp.addListener('tap', function(button,e){
+                button.item_list.doClickEvent( button.item_id );
+              });
+          };
 
           if ( listCmp.target_tpl == null ){
             listCmp.target_tpl = '= {name}';
@@ -144,9 +153,13 @@ class Touch::Lib::NestedList < Netzke::Base
             listCmp.child_els.push( Ext.select('.'+listCmp.child_ids[i] ).elements[0] );
             listCmp.child_cmps.push( Ext.getCmp( listCmp.child_els[i].id ) );
             listCmp.child_cmps[i].item_list = listCmp;
-            listCmp.child_cmps[i].addListener('tap', function(button,e){
-              button.item_list.doClickEvent( button.item_id );
-            });
+            if ( typeof listCmp.child_cmps[i].events.tap != "undefined" &&
+              listCmp.child_cmps[i].events.tap &&
+              listCmp.child_cmps[i].events.tap == true ){
+                listCmp.child_cmps[i].addListener('tap', function(button,e){
+                button.item_list.doClickEvent( button.item_id );
+              });
+            }
           }
           if ( listCmp.child_tpl == null ){
             listCmp.child_tpl = '=> {name}';
