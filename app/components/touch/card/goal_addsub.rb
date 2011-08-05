@@ -7,7 +7,6 @@ class Touch::Card::GoalAddsub < Touch::Tab::GoalPage
 
   js_method :addsubSubmitHandler, <<-JS
     function(button, event) {
-      console.log('addsubSubmitHandler');
       var store = Ext.StoreMgr.get('Activity_store');
       var newRec = {
         name: this.getNameInput().value

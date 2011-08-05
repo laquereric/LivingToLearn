@@ -59,13 +59,13 @@ class Touch::Tab::GoalPage < Netzke::Base
           :dock => :top,
           :height => 40,
           :html => 'this.target.name',
-          :cls => 'goal target_item'
+          :cls => 'goal target-item'
         },
         {
           :dock => :top,
           :height => 40,
           :html => 'this.action',
-          :cls => 'goal action_item'
+          :cls => 'goal action-item'
         }
       ]
     })

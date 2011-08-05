@@ -45,7 +45,6 @@ class Touch::Lib::NestedList < Netzke::Base
             var isChild = ( record.data.parentId == id );
             var notDestroyed = ( isChild && record.data.name != 'destroyed' )
             result = ( isChild && notDestroyed );
-
             return result;
           });
         } else {
@@ -54,7 +53,6 @@ class Touch::Lib::NestedList < Netzke::Base
             var okType = ( (typeof record.data.parentId) == 'string' );
             var notDestroyed = ( okType && record.data.name != 'destroyed' )
             result = ( okType && notDestroyed );
-
             return result;
           } );
         }
@@ -131,7 +129,6 @@ class Touch::Lib::NestedList < Netzke::Base
 
           listCmp.target_el = Ext.select( '#' + listCmp.target_id ).elements[0];
           listCmp.target_cmp =  Ext.getCmp(listCmp.target_id);
-          listCmp.target_cmp.item_list = listCmp;
           listCmp.target_cmp.item_list = listCmp;
           if ( typeof listCmp.target_cmp.events.tap != "undefined" &&
             listCmp.target_cmp.events.tap &&
