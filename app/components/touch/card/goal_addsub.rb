@@ -8,15 +8,19 @@ class Touch::Card::GoalAddsub < Touch::Tab::GoalPage
   js_method :addsubSubmitHandler, <<-JS
     function(button, event) {
       var store = Ext.StoreMgr.get('Activity_store');
-      var newRec = {
+      var newData = {
         name: this.getNameInput().value
       };
       if (this.target) {
-        newRec.parentId = this.target.data.id+''  ;
+        newData.parentId = this.target.data.id;
+        newData.level = this.target.data.level + 1;
       } else {
-        newRec.parentId = "";
+        newData.parentId = "";
+        newData.level = 0;
       };
-      store.add(newRec);
+
+      var added = store.add(newData);
+      added[0].phantom = true;
     }
   JS
 

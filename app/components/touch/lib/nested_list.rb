@@ -60,8 +60,6 @@ class Touch::Lib::NestedList < Netzke::Base
         this.parent = null;
         if (this.target && this.target.data.parentId) {
           this.parent = this.store.getById( this.target.data.parentId );
-        } else {
-          this.parent = null;
         }
 
         var me= this;
@@ -210,7 +208,8 @@ class Touch::Lib::NestedList < Netzke::Base
 
         var parentNotDestroyed = ( topList || ( target_item && target_item.data.name != 'destroyed' ));
         for( var i = 0; i < maxChildren; i++ ){
-          if ( parentNotDestroyed && ( i < child_items.length ) && ( child_items[i].data.name != 'destroyed' ) ) {
+          if ( parentNotDestroyed && ( i < child_items.length ) &&
+             ( child_items[i].data.name != 'destroyed' ) ) {
             me.child_cmps[i].show();
             me.child_cmps[i].item_id = child_items[i].data.id;
             me.child_template.overwrite( me.child_els[i], child_items[i].data );
@@ -223,17 +222,126 @@ class Touch::Lib::NestedList < Netzke::Base
     }
   JS
 
-    js_method :grap, <<-JS
-      function(){
-        var recordsOfInterest = new Array;
-        store = Ext.StoreMgr.get('Activity_store');
-        store.getUpdatedRecords()
-        r.save()
-        store.getProxy().getWriter().url=store.proxy.url
-        store.getNewRecords();
+############
+# Adding
+############
+
+    js_method :nl_added, <<-JS
+      function(msg){
+        var rec = this.store.getById(-99);
+        rec.set('id', parseInt(msg.id) );
+        rec.dirty = false;
+        rec.sent = false;
+        rec.phantom = false;
       }
     JS
 
+    endpoint :nl_add do |params|
+      if params[:parent_id] and  params[:parent_id].length > 0
+        parent_activity = Activity.find( params[:parent_id].to_i )
+        activity = Activity.new
+        activity.update_attributes( :name => params[:name], :parent_id => params[:parent_id].to_i )
+        parent_activity.children << activity
+      else
+        activity = Activity.new
+        activity.update_attributes( :name => params[:name], :parent_id => nil )
+        activity.save
+      end
+      return { :nl_added => { :id => activity[:id] } }
+    end
+
+    js_method :nl_check_for_phantom, <<-JS
+      function( store , scope){
+        var nrs = store.getNewRecords();
+        Ext.each( nrs,
+          function(nr){
+            if (nr.phantom && !nr.sent) {
+                nr.set( 'id', -99);
+                scope.nlAdd({
+                id : nr.data.id ,
+                name : nr.data.name,
+                parent_id : nr.data.parentId
+              });
+              nr.sent = true;
+            }
+          }
+        );
+      }
+    JS
+
+############
+# Destroying & Updating
+############
+
+    js_method :nl_destroyed, <<-JS
+      function(msg){
+        var rec = this.store.getById( parseInt(msg.id) );
+        rec.dirty = false;
+        rec.sent = false;
+      }
+    JS
+
+    endpoint :nl_destroy do |params|
+      activity = Activity.find(params[:id])
+      activity.destroy
+      { :nl_destroyed => { :id => params[:id] }  }
+    end
+
+    js_method :nl_updated, <<-JS
+      function(msg){
+        var rec = this.store.getById( parseInt(msg.id) );
+        rec.dirty = false;
+        rec.sent = false;
+      }
+    JS
+
+    endpoint :nl_update do |params|
+      activity = Activity.find(params[:id])
+      activity.update_attributes( :name => params[:name], :parent_id => [:parentId] );
+      { :nl_updated => params  }
+    end
+
+    js_method :nl_check_for_dirty, <<-JS
+      function( store , scope ){
+        var urs = store.getUpdatedRecords()
+        Ext.each( urs,
+          function(ur){
+            if ( ur.dirty && !ur.sent && ur.data.id != -99 ){
+              if ( ur.data.name == 'destroyed' ){
+                scope.nlDestroy({
+                  id : ur.data.id ,
+                  name : ur.data.name,
+                  parentId : ur.data.parentId
+                });
+                ur.sent = true;
+              } else {
+                scope.nlUpdate({
+                  id : ur.data.id ,
+                  name : ur.data.name,
+                  parentId : ur.data.parentId
+                });
+                ur.sent = true;
+              }
+            }
+          }
+        );
+      }
+    JS
+
+####################
+#
+#####################
+
+    js_method :nl_data_changed, <<-JS
+      function( store ){
+        this.nlCheckForDirty(store,this);
+        this.nlCheckForPhantom(store,this);
+      }
+    JS
+
+####################
+#
+#####################
 
     js_method :init_component, <<-JS
       function(){
@@ -253,24 +361,16 @@ class Touch::Lib::NestedList < Netzke::Base
           getGroupString : function(record) {
             return record.get(sortAttr)[0];
           },
-          data : this.data,
-          autoSync : true,
-          proxy: {
-            type: 'ajax',
-            url : '/activities',
-            writer: {
-              type: 'json',
-              root: 'root'
-            }
-          }
+          data : this.data
         });
-        this.store.filter( 'level' , 0 );
 
         #{js_full_class_name}.superclass.initComponent.call(this);
         this.addEvents(
           'totarget',
           'settarget'
         );
+        this.store.filter( 'level' , 0 );
+        this.store.on('datachanged',this.nlDataChanged,this)
       }
     JS
 
