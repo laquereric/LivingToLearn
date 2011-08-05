@@ -210,8 +210,7 @@ class Touch::Lib::NestedList < Netzke::Base
 
         var parentNotDestroyed = ( topList || ( target_item && target_item.data.name != 'destroyed' ));
         for( var i = 0; i < maxChildren; i++ ){
-          //if ( parentNotDestroyed && ( i < child_items.length ) && ( child_items[i].data.name != 'destroyed' ) ) {
-          if ( i < child_items.length ) {
+          if ( parentNotDestroyed && ( i < child_items.length ) && ( child_items[i].data.name != 'destroyed' ) ) {
             me.child_cmps[i].show();
             me.child_cmps[i].item_id = child_items[i].data.id;
             me.child_template.overwrite( me.child_els[i], child_items[i].data );
@@ -223,6 +222,18 @@ class Touch::Lib::NestedList < Netzke::Base
       });
     }
   JS
+
+    js_method :grap, <<-JS
+      function(){
+        var recordsOfInterest = new Array;
+        store = Ext.StoreMgr.get('Activity_store');
+        store.getUpdatedRecords()
+        r.save()
+        store.getProxy().getWriter().url=store.proxy.url
+        store.getNewRecords();
+      }
+    JS
+
 
     js_method :init_component, <<-JS
       function(){
@@ -237,13 +248,21 @@ class Touch::Lib::NestedList < Netzke::Base
           sorters: sortAttr,
           remoteFilter : false,
           remoteGroup : false,
-          autoSync : false,
           autoLoad : false,
           remoteSort : false,
           getGroupString : function(record) {
             return record.get(sortAttr)[0];
           },
-          data: this.data
+          data : this.data,
+          autoSync : true,
+          proxy: {
+            type: 'ajax',
+            url : '/activities',
+            writer: {
+              type: 'json',
+              root: 'root'
+            }
+          }
         });
         this.store.filter( 'level' , 0 );
 
