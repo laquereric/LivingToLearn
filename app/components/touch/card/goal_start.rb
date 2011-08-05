@@ -11,6 +11,7 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
       this.getStartBtnCmp().show();
       this.getStopBtnCmp().hide();
       this.getNowCmp().stop();
+      this.tellServer({ event: 'stop', activity: this.target.data });
     }
   JS
 
@@ -19,6 +20,7 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
       this.getStartBtnCmp().hide();
       this.getStopBtnCmp().show();
       this.getNowCmp().start();
+      this.tellServer({ event: 'start', activity: this.target.data });
     }
   JS
 
@@ -34,6 +36,14 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
     return {
       :label => 'elapsed',
       :cls => :elapsed_time,
+      :xtype => :textfield
+    }
+  end
+
+  def server_box
+    return {
+      :label => 'server',
+      :cls => :server,
       :xtype => :textfield
     }
   end
@@ -63,6 +73,7 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
   def card_configuration
     {
       :items => [
+        server_box,
         clock_box,
         elapsed_box,
         stop_btn,
@@ -97,7 +108,7 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
         var me = this;
         this.on('afterrender', function() {
 
-          this.getNowCmp().on('tick', function(current_time,elapsed_time,elapsed_secs){
+          me.getNowCmp().on('tick', function(current_time,elapsed_time,elapsed_secs){
             me.elapsedSecs = elapsed_secs;
             var current_time_input= Ext.select( 'div.current_time input' ).elements[0];
             if (current_time_input) current_time_input.value = current_time;
@@ -113,14 +124,37 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
           me.getNowCmp().reset();
           me.getNowCmp().start();
 
+          me.tellServer({ event: 'init', activity: me.target.data });
+
         });
 
         this.on('deactivate', function() {
 
-          this.getNowCmp().stop();
-          this.logTime();
+          me.getNowCmp().stop();
+          me.tellServer({ event: 'done', activity: me.target.data });
 
         });
+    }
+  JS
+
+########################
+#
+########################
+
+  js_method :update_server_box, <<-JS
+    function(msg){
+      var el = Ext.select( 'div.x-field.server input' ).elements[0];
+      el.value = msg
+    }
+  JS
+
+  endpoint :register_event do |params|
+    { :update_server_box => "Got #{params[:event]}" }
+  end
+
+  js_method :tell_server, <<-JS
+    function(params){
+      this.registerEvent(params);
     }
   JS
 
