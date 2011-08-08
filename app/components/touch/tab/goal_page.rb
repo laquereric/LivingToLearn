@@ -79,15 +79,20 @@ class Touch::Tab::GoalPage < Netzke::Base
         var me = this;
 
         this.on('activate', function() {
-console.log('activate card');
-          var target_item_el = Ext.select( 'div.x-panel.goal.target-item div.x-panel-body' ).elements[0];
-          if ( me.target ) {
-            target_item_el.innerHTML = 'Selected: ' + me.target.data.name;
-          } else {
-            target_item_el.innerHTML = 'Selected: ' + 'Top';
-          }
-          var action_item_el = Ext.select( 'div.x-panel.goal.action-item div.x-panel-body' ).elements[0];
-          action_item_el.innerHTML = 'Action: ' + me.actionTitle;
+//console.log('activate card');
+
+          Ext.each( Ext.select( 'div.x-panel.goal.target-item div.x-panel-body' ).elements, function(target_item_el) {
+            if ( me.target ) {
+              target_item_el.innerHTML = 'Selected: ' + me.target.data.name;
+            } else {
+              target_item_el.innerHTML = 'Selected: ' + 'Top';
+            }
+          });
+
+          Ext.each( Ext.select( 'div.x-panel.goal.action-item div.x-panel-body' ).elements, function(action_item_el){
+            action_item_el.innerHTML = 'Action: ' + me.actionTitle;
+          });
+
         });
 
         this.initCard();
