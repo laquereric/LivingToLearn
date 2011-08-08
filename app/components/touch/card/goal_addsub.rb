@@ -26,7 +26,7 @@ class Touch::Card::GoalAddsub < Touch::Tab::GoalPage
 
   js_method :getNameInput, <<-JS
     function(){
-      return Ext.select( 'div.name input' ).elements[0];
+      return Ext.select( 'div.goal.addsub div.name input' ).elements[0];
     }
   JS
 
