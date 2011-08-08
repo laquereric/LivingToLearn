@@ -91,14 +91,14 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
 
   js_method :get_start_btn_cmp, <<-JS
     function(){
-      var el = Ext.select( 'div.goal.edit div.x-button.start' ).elements[0];
+      var el = Ext.select( 'div.goal.start div.x-button.start' ).elements[0];
       return Ext.getCmp( el.id );
     }
   JS
 
   js_method :get_stop_btn_cmp, <<-JS
     function(){
-      var el = Ext.select( 'div.goal.edit div.x-button.stop' ).elements[0];
+      var el = Ext.select( 'div.goal.start div.x-button.stop' ).elements[0];
       return Ext.getCmp( el.id );
     }
   JS
@@ -106,16 +106,20 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
   js_method :init_card, <<-JS
     function(){
         var me = this;
-        this.on('afterrender', function() {
+        this.on('activate', function() {
 
-          me.getNowCmp().on('tick', function(current_time,elapsed_time,elapsed_secs){
-            me.elapsedSecs = elapsed_secs;
-            var current_time_input= Ext.select( 'div.current_time input' ).elements[0];
-            if (current_time_input) current_time_input.value = current_time;
-            var elapsed_time_input= Ext.select( 'div.elapsed_time input' ).elements[0];
-            if (elapsed_time_input) elapsed_time_input.value = elapsed_time;
-          });
-
+          var nowCmp = me.getNowCmp();
+          if ( typeof nowCmp.events.tick != "undefined" &&
+              nowCmp.events.tick &&
+              nowCmp.events.tick == true ){
+            nowCmp .on('tick', function(current_time,elapsed_time,elapsed_secs){
+              me.elapsedSecs = elapsed_secs;
+              var current_time_input = Ext.select( 'div.current_time input' ).elements[0];
+              if (current_time_input) current_time_input.value = current_time;
+              var elapsed_time_input = Ext.select( 'div.elapsed_time input' ).elements[0];
+              if (elapsed_time_input) elapsed_time_input.value = elapsed_time;
+            });
+          }
         });
 
         this.on('activate', function() {
