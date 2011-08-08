@@ -5,19 +5,19 @@ class Screen
   cattr_accessor :default
 
   def html_body_style
-    if self.mode ==  :fullscreen
-      ""
-    else
+    #if self.mode ==  :fullscreen
+    #  ""
+    #else
       "background-image:url('/images/kids_hand_prints.jpg')"
-    end
+    #end
   end
 
   def  component_style
-   if self.mode ==  :fullscreen
-     "background-image:url('/images/kids_hand_prints.jpg')"
-    else
+   #if self.mode ==  :fullscreen
+   #  "background-image:url('/images/kids_hand_prints.jpg')"
+   # else
       ""
-    end
+   #end
   end
 
   def initialize

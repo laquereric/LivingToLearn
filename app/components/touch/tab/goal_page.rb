@@ -19,10 +19,11 @@ class Touch::Tab::GoalPage < Netzke::Base
 
   def self.configure_cards
     [
+=begin
        {
          :cls => 'transparent-class goal start'
        }.merge( Touch::Card::GoalStart.config_hash ),
-
+=end
        {
          :cls => 'transparent-class goal edit'
        }.merge( Touch::Card::GoalEdit.config_hash ),
@@ -78,7 +79,7 @@ class Touch::Tab::GoalPage < Netzke::Base
         var me = this;
 
         this.on('activate', function() {
-console.log('activate card');
+//console.log('activate card');
           var target_item_el = Ext.select( 'div .goal.x-panel.target-item' ).elements[0];
           if ( me.target ) {
             target_item_el.innerHTML = 'Selected: ' + me.target.data.name;

@@ -84,21 +84,21 @@ class Touch::Card::GoalStart < Touch::Tab::GoalPage
 
   js_method :get_now_cmp, <<-JS
     function(){
-      var now_el = Ext.select( '.now' ).elements[0];
+      var now_el = Ext.select( 'div.now' ).elements[0];
       return Ext.getCmp( now_el.id );
     }
   JS
 
   js_method :get_start_btn_cmp, <<-JS
     function(){
-      var el = Ext.select( 'div.x-button.start' ).elements[0];
+      var el = Ext.select( 'div.goal.edit div.x-button.start' ).elements[0];
       return Ext.getCmp( el.id );
     }
   JS
 
   js_method :get_stop_btn_cmp, <<-JS
     function(){
-      var el = Ext.select( 'div.x-button.stop' ).elements[0];
+      var el = Ext.select( 'div.goal.edit div.x-button.stop' ).elements[0];
       return Ext.getCmp( el.id );
     }
   JS
