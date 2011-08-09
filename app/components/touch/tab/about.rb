@@ -1,4 +1,4 @@
-class Touch::Lib::AboutPage
+class Touch::Tab::About
 
 ############################
 # About Page - Public

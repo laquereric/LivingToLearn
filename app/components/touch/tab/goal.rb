@@ -1,4 +1,4 @@
-class Touch::Tab::GoalPage < Netzke::Base
+class Touch::Tab::Goal < Netzke::Base
   MaxChildren = 10
   extend NetzkeComponentExtend
   include NetzkeComponentInclude

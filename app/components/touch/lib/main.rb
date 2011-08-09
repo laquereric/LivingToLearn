@@ -43,7 +43,7 @@ class Touch::Lib::Main < Netzke::Base
          :title => 'About',
          :iconCls => 'info',
          :cls =>  'transparent-class about',
-       }.merge(Touch::Lib::AboutPage.config_hash(session_config)),
+       }.merge(Touch::Tab::About.config_hash(session_config)),
 
        {
          :cls =>  'now'
@@ -54,27 +54,27 @@ class Touch::Lib::Main < Netzke::Base
          :cls => 'transparent-class user',
          :iconCls => 'user',
          :badgeText => 'Login?'
-       }.merge( Touch::Lib::UserPage.config_hash(session_config)),
+       }.merge( Touch::Tab::User.config_hash(session_config)),
 
        {
          :title => 'Goals',
          :cls => 'transparent-class goals',
          :iconCls => 'download'
-       }.merge( Touch::Tab::GoalsPage.config_hash ),
+       }.merge( Touch::Tab::Goals.config_hash ),
 
-       Touch::Tab::GoalPage.configure_cards,
+       Touch::Tab::Goal.configure_cards,
 
        {
          :title => 'Commitments',
          :cls =>  'transparent-class commitments',
          :iconCls => 'download'
-       }.merge(Touch::Lib::CommitmentsPage.config_hash(session_config)),
+       }.merge(Touch::Tab::Commitments.config_hash(session_config)),
 
        {
          :title => 'Accountability',
          :cls => 'transparent-class accountability',
          :iconCls => 'settings'
-       }.merge(Touch::Lib::AccountabilityPage.config_hash(session_config))
+       }.merge(Touch::Tab::Accountability.config_hash(session_config))
 
      ].flatten
 

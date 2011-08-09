@@ -1,4 +1,4 @@
-class Touch::Lib::UserPage
+class Touch::Tab::User
 
 ################################
 # Public Access

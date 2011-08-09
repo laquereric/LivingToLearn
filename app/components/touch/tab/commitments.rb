@@ -1,4 +1,4 @@
-class Touch::Lib::CommitmentsPage
+class Touch::Tab::Commitments
 
   def self.config_hash(session_config)
     r= if session_config[:user_signed_in]

@@ -1,4 +1,4 @@
-class Touch::Card::GoalStart < Touch::Tab::GoalPage
+class Touch::Card::GoalStart < Touch::Tab::Goal
 
   js_property :elapsed_secs
 

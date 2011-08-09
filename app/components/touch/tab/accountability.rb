@@ -1,4 +1,4 @@
-class Touch::Lib::AccountabilityPage
+class Touch::Tab::Accountability
 
   def self.config_hash(session_config)
     r= if session_config[:user_signed_in]
