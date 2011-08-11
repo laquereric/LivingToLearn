@@ -1,4 +1,8 @@
-class Touch::Tab::About
+class Touch::Tab::About < Netzke::Base
+
+  js_base_class "Ext.TabPanel"
+  extend NetzkeComponentExtend
+  include NetzkeComponentInclude
 
 ############################
 # About Page - Public
@@ -7,8 +11,8 @@ class Touch::Tab::About
   def self.about_page_tabs_public(session_config)
     [{
        :title =>'Mission',
-       :cls => 'default-tab',
-       :scroll => :vertical,
+       :cls => 'mission',
+       :scroll => :both,
        :html => <<-JS
 We help your friends help you improve some part of your life.</br>
 </br>
@@ -28,8 +32,8 @@ See 'Vision' to learn more.
 JS
     },{
       :title =>'Vision',
-      :cls => 'default-tab',
-      :scroll => :vertical,
+      :cls => 'vision',
+      :scroll => :both,
       :html => <<-JS
 You will begin moving to your goal in a matter of minutes! Please continue ...</br>
 </br>
@@ -53,7 +57,6 @@ JS
         :cls => :'top-tab-title',
         :html => 'Improve (part of) your life now!'
       }],
-      :xtype => :tabpanel,
       :items =>  about_page_tabs_public(session_config),
       }
   end
@@ -65,14 +68,14 @@ JS
   def self.about_page_tabs_private(session_config)
     [{
        :title =>'Mission',
-       :cls => 'default-tab',
+       :cls => 'mission',
        :scroll => :vertical,
        :html => <<-JS
 Welcome
 JS
     },{
       :title =>'Vision',
-      :cls => 'default-tab',
+      :cls => 'vision',
       :scroll => :vertical,
       :html => <<-JS
 Welcome
@@ -104,7 +107,68 @@ JS
     else
       config_hash_public(session_config)
     end
+    r.merge!({:class_name => self.to_s })
+    return r
   end
+
+  js_method :get_tab_scroller, <<-JS
+    function(title){
+      return Ext.select('div.x-panel.'+title+' div.x-scroller').elements[0];
+    }
+  JS
+
+  js_method :get_tab_component, <<-JS
+    function(title){
+      var panel_el = Ext.select('div.x-panel.'+title).elements[0];
+      return  Ext.getCmp(panel_el.id);
+    }
+  JS
+
+  js_method :init_component, <<-JS
+    function(){
+      #{js_full_class_name}.superclass.initComponent.call(this);
+      var me = this;
+      this.on('activate', function() {
+         var factor = 0.3;
+         var mission_body_el =  this.getTabScroller('mission');
+         var mission_body_cmp = this.getTabComponent('mission');
+
+         var dimensions = Ext.fly(mission_body_el).getSize();
+         mission_body_cmp.initial_width = dimensions.width;
+         mission_body_cmp.initial_height = dimensions.height;
+
+         mission_body_cmp.current_zoom = 1.0;
+
+         Ext.fly(mission_body_el).on('pinch', function(e){
+console.log('pinch');
+console.log(e);
+           if(e.deltaScale < 0){
+                factor *= -1;
+           }
+           mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
+           Ext.fly(mission_body_el).setStyle( "zoom" , mission_body_cmp.current_zoom );
+           Ext.fly(mission_body_el).setSize(
+             mission_body_cmp.initial_width * mission_body_cmp.current_zoom,
+             mission_body_cmp.initial_height * mission_body_cmp.current_zoom
+           );
+        });
+
+        Ext.fly(mission_body_el).on('tap', function(e){
+console.log('tap');
+console.log(e);
+           if(e.deltaScale < 0){
+                factor *= -1;
+           }
+           mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
+           Ext.fly(mission_body_el).setStyle( "zoom" , mission_body_cmp.current_zoom );
+           Ext.fly(mission_body_el).setSize(
+             mission_body_cmp.initial_width * mission_body_cmp.current_zoom,
+             mission_body_cmp.initial_height * mission_body_cmp.current_zoom
+           );
+        });
+      });
+    }
+  JS
 
 end
 

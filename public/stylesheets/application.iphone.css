@@ -41,7 +41,11 @@
     padding: 5px;
     font-size: 20px;
   }
-  div.default-tab{
+  div.mission{
+    padding: 10px;
+    font-size: 12px;
+  }
+  div.vision{
     padding: 10px;
     font-size: 12px;
   }
