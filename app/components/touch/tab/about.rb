@@ -124,48 +124,73 @@ JS
     }
   JS
 
+  js_method :set_tab_zoom, <<-JS
+    function(title,zoom){
+      var tabComp = this.getTabComponent('mission');
+      var tabScroller = this.getTabScroller('mission');
+      Ext.fly(tabScroller).setStyle( "zoom" , tabComp.current_zoom );
+      Ext.fly(tabScroller).setSize(
+        tabComp.initial_width * mission_body_cmp.current_zoom,
+        tabComp.initial_height * mission_body_cmp.current_zoom
+      );
+    }
+  JS
+
+  js_method :init_tab, <<-JS
+    function(title){
+        var body_el =  this.getTabScroller(title);
+        var body_cmp = this.getTabComponent(title);
+        body_cmp.current_zoom = 1.0;
+        var dimensions = Ext.fly(body_el).getSize();
+        body_cmp.initial_width = dimensions.width;
+        body_cmp.initial_height = dimensions.height;
+    }
+  JS
+
   js_method :init_component, <<-JS
     function(){
       #{js_full_class_name}.superclass.initComponent.call(this);
       var me = this;
+
+      this.on('cardswitch', function() {
+console.log('page cardswitch');
+        var mission_body_cmp = this.getTabComponent('mission');
+        mission_body_cmp.current_zoom = 1.0;
+        me.setTabZoom('mission',mission_body_cmp.current_zoom);
+      });
+
       this.on('activate', function() {
-         var factor = 0.3;
-         var mission_body_el =  this.getTabScroller('mission');
-         var mission_body_cmp = this.getTabComponent('mission');
+console.log('page activate');
 
-         var dimensions = Ext.fly(mission_body_el).getSize();
-         mission_body_cmp.initial_width = dimensions.width;
-         mission_body_cmp.initial_height = dimensions.height;
+        me.initTab('mission');
 
-         mission_body_cmp.current_zoom = 1.0;
+        var mission_body_cmp = this.getTabComponent('mission');
+        var mission_body_el = this.getTabScroller('mission');
 
-         Ext.fly(mission_body_el).on('pinch', function(e){
+        var factor = 0.3;
+
+          Ext.fly(mission_body_el).on('pinch', function(e){
 console.log('pinch');
 console.log(e);
-           if(e.deltaScale < 0){
+            if(e.deltaScale < 0){
                 factor *= -1;
-           }
-           mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
-           Ext.fly(mission_body_el).setStyle( "zoom" , mission_body_cmp.current_zoom );
-           Ext.fly(mission_body_el).setSize(
-             mission_body_cmp.initial_width * mission_body_cmp.current_zoom,
-             mission_body_cmp.initial_height * mission_body_cmp.current_zoom
-           );
-        });
+            }
+            mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
+            me.setTabZoom('mission',mission_body_cmp.current_zoom);
+          });
 
-        Ext.fly(mission_body_el).on('tap', function(e){
+          Ext.fly(mission_body_el).on('tap', function(e){
 console.log('tap');
 console.log(e);
-           if(e.deltaScale < 0){
+            if(e.deltaScale < 0){
                 factor *= -1;
-           }
-           mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
-           Ext.fly(mission_body_el).setStyle( "zoom" , mission_body_cmp.current_zoom );
-           Ext.fly(mission_body_el).setSize(
-             mission_body_cmp.initial_width * mission_body_cmp.current_zoom,
-             mission_body_cmp.initial_height * mission_body_cmp.current_zoom
-           );
-        });
+            }
+            var newZoom = mission_body_cmp.current_zoom * ( 1 + factor );
+            mission_body_cmp.current_zoom = newZoom;
+            if ( newZoom > 0 && newZoom < 2) {
+              me.setTabZoom( 'mission' , mission_body_cmp.current_zoom );
+            }
+          });
       });
     }
   JS
