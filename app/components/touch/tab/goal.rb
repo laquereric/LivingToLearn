@@ -70,6 +70,17 @@ class Touch::Tab::Goal < Netzke::Base
     })
   end
 
+  js_method :go_back, <<-JS
+    function(){
+      var mainEl = Ext.select( 'div.main' ).elements[0];
+      var mainCmp = Ext.getCmp( mainEl.id )
+      var goalsEl = Ext.select( 'div.goals' ).elements[0];
+      var goalsCmp = Ext.getCmp( goalsEl.id );
+      mainCmp.setActiveItem(goalsCmp);
+      return;
+    }
+  JS
+
   js_method :init_component, <<-JS
     function(){
 

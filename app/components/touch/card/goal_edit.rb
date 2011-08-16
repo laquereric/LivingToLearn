@@ -7,6 +7,7 @@ class Touch::Card::GoalEdit < Touch::Tab::Goal
   js_method :editSubmitHandler, <<-JS
     function(button, event) {
       this.target.set( { name: this.getNameInput().value } );
+      this.goBack();
     }
   JS
 

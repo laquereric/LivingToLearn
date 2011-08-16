@@ -8,6 +8,7 @@ class Touch::Card::GoalDelete < Touch::Tab::Goal
   js_method :deleteHandler, <<-JS
     function(button, event) {
       this.target.set( { name: 'destroyed' } );
+      this.goBack();
 
       //Fails!
       //this.target.destroy({

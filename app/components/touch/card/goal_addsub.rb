@@ -21,6 +21,7 @@ class Touch::Card::GoalAddsub < Touch::Tab::Goal
 
       var added = store.add(newData);
       added[0].phantom = true;
+      this.goBack();
     }
   JS
 
