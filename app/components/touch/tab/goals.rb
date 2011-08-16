@@ -40,10 +40,12 @@ class Touch::Tab::Goals < Netzke::Base
         :items =>[
           self.list_instance(session_config),
           {
-            :item_tpl => "<== {name} {level} {id} {parent_id}"
+            #:item_tpl => "<== {name} {level} {id} {parent_id}"
+            :item_tpl => "<== {name}"
           }.merge( self.parent_item ),
           self.child_items({
-            :item_tpl => "==> {name} {level} {id} {parent_id}"
+            #:item_tpl => "==> {name} {level} {id} {parent_id}"
+            :item_tpl => "==> {name}"
           })
         ].flatten
       }],
@@ -56,7 +58,8 @@ class Touch::Tab::Goals < Netzke::Base
         {
           :dock => :top,
           :height => 40,
-          :item_tpl => "Selected: {name} {level}"
+          #:item_tpl => "Selected: {name} {level}"
+          :item_tpl => "Selected: {name}"
         }.merge( self.target_item ),
         navigation_toolbar,
         {
