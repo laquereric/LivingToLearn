@@ -125,14 +125,14 @@ JS
   JS
 
   js_method :set_tab_zoom, <<-JS
-    function(title,zoom){
+    function(tabId,zoom){
       if ( zoom > 0 && zoom < 2) {
-        var tabComp = this.getTabComponent('mission');
-        var tabScroller = this.getTabScroller('mission');
+        var tabComp = this.getTabComponent(tabId);
+        var tabScroller = this.getTabScroller(tabId);
         Ext.fly(tabScroller).setStyle( "zoom" , tabComp.current_zoom );
         Ext.fly(tabScroller).setSize(
-          tabComp.initial_width * mission_body_cmp.current_zoom,
-          tabComp.initial_height * mission_body_cmp.current_zoom
+          tabComp.initial_width * tabComp.current_zoom,
+          tabComp.initial_height * tabComp.current_zoom
         );
       }
     }
@@ -149,48 +149,71 @@ JS
     }
   JS
 
-  js_method :init_component, <<-JS
+  js_method :getTabIds, <<-JS
     function(){
-      #{js_full_class_name}.superclass.initComponent.call(this);
       var me = this;
-
-      this.on('cardswitch', function() {
-console.log('page cardswitch');
-        var mission_body_cmp = this.getTabComponent('mission');
-        mission_body_cmp.current_zoom = 1.0;
-        me.setTabZoom('mission',mission_body_cmp.current_zoom);
+      var tabIds = new Array();
+      var tabEls = Ext.select('div.about div.x-panel').elements;
+      Ext.each( tabEls, function(tabEl){
+        var classes = Ext.fly(tabEl).getAttribute('class');
+        Ext.each( classes.split(' '), function(class){
+          var hasLen = ( class.length > 0 );
+          var isX = (class.slice(0,1) != 'x' && class.slice(1,2) != '-' );
+          var isTop = (class.slice(0,3) != 'top');
+          if (hasLen && isX && isTop) {
+            tabIds.push(class);
+          }
+        } );
       });
+      return tabIds;
+    }
+  JS
 
-      this.on('activate', function() {
-console.log('page activate');
+  js_method :setTabZoomable, <<-JS
+    function( tabId ){
+        var me = this;
 
-        me.initTab('mission');
+        me.initTab(tabId);
 
-        var mission_body_cmp = this.getTabComponent('mission');
-        var mission_body_el = this.getTabScroller('mission');
+        var mission_body_cmp = this.getTabComponent(tabId);
+        var mission_body_el = this.getTabScroller(tabId);
 
         var factor = 0.3;
 
           Ext.fly(mission_body_el).on('pinch', function(e){
-console.log('pinch');
-console.log(e);
             if(e.deltaScale < 0){
                 factor *= -1;
             }
             mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
-            me.setTabZoom('mission',mission_body_cmp.current_zoom);
+            me.setTabZoom(tabId,mission_body_cmp.current_zoom);
           });
 
           Ext.fly(mission_body_el).on('tap', function(e){
-console.log('tap');
-console.log(e);
             if(e.deltaScale < 0){
                 factor *= -1;
             }
             var newZoom = mission_body_cmp.current_zoom * ( 1 + factor );
             mission_body_cmp.current_zoom = newZoom;
-            me.setTabZoom( 'mission' , mission_body_cmp.current_zoom );
+            me.setTabZoom( tabId , mission_body_cmp.current_zoom );
           });
+    }
+  JS
+
+  js_method :init_component, <<-JS
+    function(){
+      #{js_full_class_name}.superclass.initComponent.call(this);
+      var me = this;
+      this.on('cardswitch', function() {
+        Ext.each( me.getTabIds(), function(tabId){
+          var mission_body_cmp = me.getTabComponent(tabId);
+          mission_body_cmp.current_zoom = 1.0;
+          me.setTabZoom(tabId,mission_body_cmp.current_zoom);
+        });
+      });
+      this.on('activate', function() {
+        Ext.each( me.getTabIds(), function(tabId){
+          me.setTabZoomable(tabId);
+        });
       });
     }
   JS
