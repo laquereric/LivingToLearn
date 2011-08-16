@@ -11,23 +11,8 @@ class Touch::Lib::NestedList < Netzke::Base
        return r
     end
 
-    def get_data( data_class, attrs )
-      return data_class.all.map{ |r| attrs.inject({}){|hsh,a| hsh.merge(a.to_sym => r.send(a))}}
-    end
-
     def configuration
       sup = super
-
-      # extract model attributes that participate in the template
-      attrs = [ extract_attrs(sup) , [:id,:level,:parent_id] ].flatten.uniq.map{|a| a.to_s }
-
-      sup.merge!(
-        :data => get_data( sup[:model].constantize , attrs ),
-        :attrs => attrs.map{|a| a.camelize(:lower)}, # convert camelcase (more natural in JavaScript)
-        :item_tpl => sup[:item_tpl].gsub(/\{(\w+)\}/){|m| m.camelize(:lower)}, # same here
-        :sort_attr => (sup[:sort_attr] || attrs.first).to_s.camelize(:lower) # ... and here
-      )
-
       return sup
     end
 

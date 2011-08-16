@@ -48,13 +48,26 @@ class Touch::Tab::Goals < Netzke::Base
     }
   end
 
+  def get_data( data_class, attrs )
+   return data_class.all.map{ |r| attrs.inject({}){|hsh,a| hsh.merge(a.to_sym => r.send(a))}}
+  end
+
+  def get_data_hash
+    attrs = [:id,:name,:level,:parent_id].map{|a| a.to_s }
+    r= {
+      :data => self.get_data( Activity, attrs ),
+      :attrs => attrs.map{|a| a.camelize(:lower)}, # convert camelcase (more natural in JavaScript)
+    }
+    return r
+  end
+
   def list_instance( config = {} )
     list = Touch::Lib::NestedList.config_hash({
-      :item_tpl => "=> {name} {level} {id} {parent_id}",
+      :item_tpl => "== Placeholder Only ==",
       :model => "Activity",
       :cls => 'list',
       :height => 0
-    })
+    }).merge( self.get_data_hash )
   end
 
   def target_item( config = {} )
@@ -71,9 +84,7 @@ class Touch::Tab::Goals < Netzke::Base
     self.class.child_item_ids.map{ |id|
       config.merge({
         :cls => id,
-        :margin => '0 0 5 20',
-        #:style => '{padding-bottom:10;}'
-        #:style => '{border:10;}'
+        :margin => '0 0 5 20'
       })
     }
   end
@@ -168,11 +179,11 @@ class Touch::Tab::Goals < Netzke::Base
         },
         :layout => {
           :type => 'vbox',
-          :defaultMargins => {:top=>100, :right=>100, :bottom=>100, :left=>100},
+          :defaultMargins => {:top => 100, :right => 100, :bottom => 100, :left => 100},
           :pack => 'center'
         },
         :items =>[
-          self.list_instance,
+          self.list_instance(),
           {
             :item_tpl => "<== {name} {level} {id} {parent_id}"
           }.merge( self.parent_item ),
