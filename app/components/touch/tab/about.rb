@@ -126,13 +126,15 @@ JS
 
   js_method :set_tab_zoom, <<-JS
     function(title,zoom){
-      var tabComp = this.getTabComponent('mission');
-      var tabScroller = this.getTabScroller('mission');
-      Ext.fly(tabScroller).setStyle( "zoom" , tabComp.current_zoom );
-      Ext.fly(tabScroller).setSize(
-        tabComp.initial_width * mission_body_cmp.current_zoom,
-        tabComp.initial_height * mission_body_cmp.current_zoom
-      );
+      if ( zoom > 0 && zoom < 2) {
+        var tabComp = this.getTabComponent('mission');
+        var tabScroller = this.getTabScroller('mission');
+        Ext.fly(tabScroller).setStyle( "zoom" , tabComp.current_zoom );
+        Ext.fly(tabScroller).setSize(
+          tabComp.initial_width * mission_body_cmp.current_zoom,
+          tabComp.initial_height * mission_body_cmp.current_zoom
+        );
+      }
     }
   JS
 
@@ -187,9 +189,7 @@ console.log(e);
             }
             var newZoom = mission_body_cmp.current_zoom * ( 1 + factor );
             mission_body_cmp.current_zoom = newZoom;
-            if ( newZoom > 0 && newZoom < 2) {
-              me.setTabZoom( 'mission' , mission_body_cmp.current_zoom );
-            }
+            me.setTabZoom( 'mission' , mission_body_cmp.current_zoom );
           });
       });
     }
