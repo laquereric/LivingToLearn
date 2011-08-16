@@ -85,7 +85,7 @@ class Touch::Lib::Main < Netzke::Base
     function(){
       #{js_full_class_name}.superclass.initComponent.call(this);
       this.on('afterrender', function() {
-          var tab_els = Ext.select('.x-tab').elements;
+          var tab_els = Ext.select('div.main div.x-tab').elements;
           for ( var i = 0; i < tab_els.length; i++){
             if ( Ext.select('span',tab_els[i] ).elements.length == 0 ){
               var tabCmp =  Ext.getCmp(tab_els[i].id);
