@@ -8,7 +8,9 @@ class Touch::Tab::Goals < Netzke::Base
 ###############
 
   def self.config_hash( session_config = {} )
-     r = {}.merge( {:class_name => self.to_s } )
+     r = {}.merge( {
+       :class_name => self.to_s
+     } )
   end
 
 ######################

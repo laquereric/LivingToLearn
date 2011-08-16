@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
   end
 
   def get_topic
-    @goto_topic_symbol = session[:goto_topic_symbol] = if  params[:topic_symbol]
+    @goto_topic_symbol = session[:goto_topic_symbol] = if params[:topic_symbol]
       params[:topic_symbol]
     elsif user_signed_in? and current_user.marketing_contexts.length > 0
       current_user.current_marketing_context_type.name

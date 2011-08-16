@@ -4,10 +4,9 @@ class Touch::Lib::NestedList < Netzke::Base
     extend NetzkeComponentExtend
     include NetzkeComponentInclude
 
-    #js_mixin :main
-
     def self.config_hash(session_config={})
-       r = session_config.merge( {:class_name => self.to_s
+       r = session_config.merge( {
+         :class_name => self.to_s
        } )
        return r
     end
