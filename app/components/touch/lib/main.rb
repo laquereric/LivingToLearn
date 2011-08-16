@@ -60,7 +60,7 @@ class Touch::Lib::Main < Netzke::Base
          :title => 'Goals',
          :cls => 'transparent-class goals',
          :iconCls => 'download'
-       }.merge( Touch::Tab::Goals.config_hash ),
+       }.merge( Touch::Tab::Goals.config_hash(session_config) ),
 
        Touch::Tab::Goal.configure_cards,
 

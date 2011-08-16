@@ -89,6 +89,8 @@ class Touch::Lib::NestedList < Netzke::Base
   js_property :child_els
   js_property :child_cmps
 
+  js_property :user_id
+
   js_method :post_init, <<-JS
     function(){
           var listCmp = this;
@@ -221,14 +223,12 @@ class Touch::Lib::NestedList < Netzke::Base
     JS
 
     endpoint :nl_add do |params|
+      activity = Activity.new
+      activity.update_attributes( :name => params[:name], :user_id => params[:user_id].to_i, :parent_id => params[:parent_id].to_i )
       if params[:parent_id] and  params[:parent_id].length > 0
         parent_activity = Activity.find( params[:parent_id].to_i )
-        activity = Activity.new
-        activity.update_attributes( :name => params[:name], :parent_id => params[:parent_id].to_i )
         parent_activity.children << activity
       else
-        activity = Activity.new
-        activity.update_attributes( :name => params[:name], :parent_id => nil )
         activity.save
       end
       return { :nl_added => { :id => activity[:id] } }
@@ -244,6 +244,7 @@ class Touch::Lib::NestedList < Netzke::Base
                 scope.nlAdd({
                 id : nr.data.id ,
                 name : nr.data.name,
+                user_id : scope.userId,
                 parent_id : nr.data.parentId
               });
               nr.sent = true;
@@ -358,12 +359,5 @@ class Touch::Lib::NestedList < Netzke::Base
       }
     JS
 
-    protected
-      # Extracts names of the attributes from the temalpate, e.g.:
-      # "{last_name}, ${salary}" =>
-      # ["last_name", "salary"]
-      def extract_attrs(config)
-        config[:item_tpl].scan(/\{(\w+)\}/).map{ |m| m.first }
-      end
-  end
+end
 
