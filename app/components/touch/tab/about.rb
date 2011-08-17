@@ -71,7 +71,7 @@ JS
        :cls => 'mission',
        :scroll => :vertical,
        :html => <<-JS
-Welcome
+Welcome! Plese go ahead and press 'Goals' to start an activity. That page will also give you the option of maintaining your list of activitires.<br/>
 JS
     },{
       :title =>'Vision',
@@ -158,9 +158,9 @@ JS
         var classes = Ext.fly(tabEl).getAttribute('class');
         Ext.each( classes.split(' '), function(clss){
           var hasLen = ( clss.length > 0 );
-          var isX = (clss.slice(0,1) != 'x' && clss.slice(1,2) != '-' );
-          var isTop = (clss.slice(0,3) != 'top');
-          if (hasLen && isX && isTop) {
+          var notX = (clss.slice(0,1) != 'x' && clss.slice(1,2) != '-' );
+          var notTop = (clss.slice(0,3) != 'top');
+          if (hasLen && notX && notTop) {
             tabIds.push(clss);
           }
         } );
@@ -180,22 +180,22 @@ JS
 
         var factor = 0.3;
 
-          Ext.fly(mission_body_el).on('pinch', function(e){
+        Ext.fly(mission_body_el).on('pinch', function(e){
             if(e.deltaScale < 0){
                 factor *= -1;
             }
             mission_body_cmp.current_zoom = mission_body_cmp.current_zoom * ( 1 + factor );
             me.setTabZoom(tabId,mission_body_cmp.current_zoom);
-          });
+        });
 
-          Ext.fly(mission_body_el).on('tap', function(e){
+        Ext.fly(mission_body_el).on('tap', function(e){
             if(e.deltaScale < 0){
                 factor *= -1;
             }
             var newZoom = mission_body_cmp.current_zoom * ( 1 + factor );
             mission_body_cmp.current_zoom = newZoom;
             me.setTabZoom( tabId , mission_body_cmp.current_zoom );
-          });
+        });
     }
   JS
 

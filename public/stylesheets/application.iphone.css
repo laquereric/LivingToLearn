@@ -31,7 +31,7 @@
     background-color:#33FF66
   }
   div.accountability{
-    background-color:#33FF66
+    background-color:#cc66cc
   }
 
   div.x-tabbar{
@@ -48,6 +48,22 @@
   div.vision{
     padding: 10px;
     font-size: 12px;
+  }
+  div.user{
+    padding: 10px;
+    font-size: 14px;
+  }
+  div.goals{
+    padding: 10px;
+    font-size: 14px;
+  }
+  div.commitments{
+    padding: 10px;
+    font-size: 14px;
+  }
+  div.accountability{
+    padding: 10px;
+    font-size: 14px;
   }
   div.x-form-label{
     font-size: 12px;

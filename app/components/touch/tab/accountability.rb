@@ -7,7 +7,9 @@ class Touch::Tab::Accountability
       }
     else
       {
-        :html => '<h1>Accountability</h1><p>Make yourself accountable to ... </p><p>First and foremost .. yourself. Also, anyone else you choose.</p>'
+        :html =>  <<-HTML
+<br/><h1><b>Accountability</b></h1><br/><br/>Who is going to hold you accountable for how you spend your time?<br/><br/>Once you are logged in, this tab will allow you to enter your Accountability partners for your activities.<br/><br/>Please press 'User' then either 'Login' to your account or 'Register' to create an new account.
+HTML
       }
     end
     return r

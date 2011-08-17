@@ -7,7 +7,9 @@ class Touch::Tab::Commitments
       }
     else
       {
-        :html =>  '<h1>Commitments</h1><p>Make personal commitments to the steps meeting your goals.</p>',
+      :html => <<-HTML
+<br/><h1><b>Commitments</b></h1><br/><br/>How much time do you want to dedicate to each of your activities?<br/><br/>Once you are logged in, this tab will allow you make commitments for each of your activities.<br/><br/>Please press 'User' then either 'Login' to your account or 'Register' to create an new account.
+HTML
       }
     end
   end
