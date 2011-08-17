@@ -70,16 +70,9 @@ JS
        :title =>'Mission',
        :cls => 'mission',
        :scroll => :vertical,
-       :html => <<-JS
-Welcome! Plese go ahead and press 'Goals' to start an activity. That page will also give you the option of maintaining your list of activitires.<br/>
-JS
-    },{
-      :title =>'Vision',
-      :cls => 'vision',
-      :scroll => :vertical,
-      :html => <<-JS
-Welcome
-JS
+       :html =>  <<-HTML
+<br/><h1><b>Welcome!</b></h1><br/><br/>Plese go ahead and press 'Goals' to start an activity. That page will also give you the option of maintaining your list of activities.
+HTML
     }
     ]
   end
@@ -89,7 +82,7 @@ JS
       :docked_items => [{
         :dock => :top,
         :xtype => :panel,
-        :cls => :'top-tab-title',
+#        :cls => :'top-tab-title',
         :html => 'Improve (part of) your life now!'
       }],
       :xtype => :tabpanel,

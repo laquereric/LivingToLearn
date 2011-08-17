@@ -128,6 +128,9 @@ class Touch::Lib::NestedList < Netzke::Base
           listCmp.target_template = new Ext.Template( listCmp.target_tpl );
           listCmp.target_template.compile();
 
+          listCmp.top_template = new Ext.Template( listCmp.top_tpl );
+          //listCmp.top_template.compile();
+
           listCmp.child_els = new Array;
           listCmp.child_cmps = new Array;
           listCmp.child_template = new Ext.Template('=> {name}');
@@ -186,6 +189,8 @@ class Touch::Lib::NestedList < Netzke::Base
           me.target_template.overwrite( me.target_el, target_item.data );
         } else {
           me.target_cmp.hide();
+          //me.target_cmp.show();
+          //me.top_template.overwrite( me.target_el );
         }
 
 ///////////////////////

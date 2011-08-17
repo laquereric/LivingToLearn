@@ -34,37 +34,36 @@
     background-color:#cc66cc
   }
 
-  div.x-tabbar{
-    font-size: 14px
-  }
-  div.top-tab-title{
-    padding: 5px;
-    font-size: 20px;
-  }
-  div.mission{
+  div.about .x-panel{
     padding: 10px;
     font-size: 12px;
   }
-  div.vision{
+
+  div.mission .x-panel{
     padding: 10px;
     font-size: 12px;
   }
-  div.user{
+  div.vision .x-panel{
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
-  div.goals{
+  div.user .x-panel{
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
-  div.commitments{
+  div.goals .x-panel {
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
-  div.accountability{
+  div.commitments {
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
+  div.accountability {
+    padding: 10px;
+    font-size: 12px;
+  }
+
   div.x-form-label{
     font-size: 12px;
   }

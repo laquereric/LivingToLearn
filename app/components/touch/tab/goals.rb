@@ -52,16 +52,17 @@ HTML
         ].flatten
       }],
       :docked_items => [
-        {
-          :dock => :top,
-          :xtype => :toolbar,
-          :title => session_config[:title].to_s
-        },
+        #{
+        #  :dock => :top,
+        #  :xtype => :toolbar,
+        #  :title => session_config[:title].to_s
+        #},
         {
           :dock => :top,
           :height => 40,
           #:item_tpl => "Selected: {name} {level}"
-          :item_tpl => "Selected: {name}"
+          :item_tpl => "Selected: {name}",
+          :top_tpl => "Top: Please addSub or select"
         }.merge( self.target_item ),
         navigation_toolbar,
         {

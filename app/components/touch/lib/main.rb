@@ -7,6 +7,15 @@ class Touch::Lib::Main < Netzke::Base
   extend NetzkeComponentExtend
   include NetzkeComponentInclude
 
+  def user_badge(session_config)
+    r = if not session_config[:user_signed_in] then
+      {:badgeText => 'Login?'}
+    else
+      {}
+    end
+    return r
+  end
+
   def configuration
     self.class.route_toolbars if @toolbars_routed.nil?
     super.merge(self.screen_config).merge({
@@ -53,9 +62,11 @@ class Touch::Lib::Main < Netzke::Base
          :title => 'User',
          :cls => 'transparent-class user',
          :iconCls => 'user',
-         :badgeText => 'Login?'
-       }.merge( Touch::Tab::User.config_hash(session_config)),
-
+       }.merge(
+         Touch::Tab::User.config_hash(session_config)
+       ).merge(
+         self.user_badge(session_config)
+       ),
        {
          :title => 'Goals',
          :cls => 'transparent-class goals',
