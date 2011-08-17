@@ -156,12 +156,12 @@ JS
       var tabEls = Ext.select('div.about div.x-panel').elements;
       Ext.each( tabEls, function(tabEl){
         var classes = Ext.fly(tabEl).getAttribute('class');
-        Ext.each( classes.split(' '), function(class){
-          var hasLen = ( class.length > 0 );
-          var isX = (class.slice(0,1) != 'x' && class.slice(1,2) != '-' );
-          var isTop = (class.slice(0,3) != 'top');
+        Ext.each( classes.split(' '), function(clss){
+          var hasLen = ( clss.length > 0 );
+          var isX = (clss.slice(0,1) != 'x' && clss.slice(1,2) != '-' );
+          var isTop = (clss.slice(0,3) != 'top');
           if (hasLen && isX && isTop) {
-            tabIds.push(class);
+            tabIds.push(clss);
           }
         } );
       });
