@@ -8,8 +8,9 @@ class Touch::Tab::Goals < Netzke::Base
 ###############
   def self.config_hash_public(session_config)
     return {
+      :cls => 'goals private',
       :html =>  <<-HTML
-<br/><h1><b>Goals</b></h1><br/><br/>What are you intending to spend time doing?<br/><br/>Once you are logged in, this tab will allow you to enter your Activities and to log time to them.<br/><br/>Please press 'User' then either 'Login' to your account or 'Register' to create an new account.
+<br/><h2>Goals</h2><br/><br/>What are you intending to spend time doing?<br/><br/>Once you are logged in, this tab will allow you to enter your Activities and to log time to them.<br/><br/>Please press 'User' then either 'Login' to your account or 'Register' to create an new account.
 HTML
     }
   end
