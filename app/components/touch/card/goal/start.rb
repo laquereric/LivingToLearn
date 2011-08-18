@@ -124,6 +124,7 @@ class Touch::Card::Goal::Start < Touch::Tab::Goal
 
         this.on('activate', function() {
 
+          me.getStopBtnCmp().show();
           me.getStartBtnCmp().hide();
           me.getNowCmp().reset();
           me.getNowCmp().start();
