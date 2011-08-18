@@ -1,4 +1,4 @@
-class Touch::Card::GoalEdit < Touch::Tab::Goal
+class Touch::Card::Goal::Edit < Touch::Tab::Goal
   js_base_class "Ext.form"
 ##########################
 #

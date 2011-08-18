@@ -21,18 +21,18 @@ class Touch::Tab::Goal < Netzke::Base
     [
        {
          :cls => 'transparent-class goal start'
-       }.merge( Touch::Card::GoalStart.config_hash ),
+       }.merge( Touch::Card::Goal::Start.config_hash ),
        {
          :cls => 'transparent-class goal edit'
-       }.merge( Touch::Card::GoalEdit.config_hash ),
+       }.merge( Touch::Card::Goal::Edit.config_hash ),
 
        {
          :cls => 'transparent-class goal addsub'
-       }.merge( Touch::Card::GoalAddsub.config_hash ),
+       }.merge( Touch::Card::Goal::Addsub.config_hash ),
 
        {
          :cls => 'transparent-class goal delete'
-       }.merge( Touch::Card::GoalDelete.config_hash ),
+       }.merge( Touch::Card::Goal::Delete.config_hash ),
 
     ]
   end
