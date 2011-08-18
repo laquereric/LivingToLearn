@@ -73,9 +73,7 @@ class ComponentBuilder
   def self.missing_classes(key)
     self.views(key).select{ |h|
       !h[:defined]
-    } #.map{ |h|
-    #  { :classname => h[:classname], :type => h[:type] }
-    #}
+    }
   end
 
   def self.missing_classes_of_type(key,type)
@@ -84,9 +82,11 @@ class ComponentBuilder
     }
   end
 
-  def self.generate_flat_tab_class(key,name)
+  def self.generate_flat_tab_class(key,full_name)
+    name = full_name.split('::')[-1]
     text = <<-RUBY
-      class Touch::Tab::#{name}  < TabBase
+      # Auto Generated #{Time.now}
+      class #{key.camelcase}::Tab::#{name}  < TabBase
       end
     RUBY
     filename = File.join( Rails.root,'app','components',key,'tab',"#{name.downcase}.rb")
@@ -94,14 +94,16 @@ class ComponentBuilder
       f.write(text)
     }
     p "Generated in #{key} for #{name} this object #{text}"
+    return
   end
 
-  def self.create_flat_tab_classes(key)
+  def self.generate_flat_tab_classes(key)
     self.missing_classes(key).select{ |h|
       h[:type] == :tab and h[:hier] == :flat
     }.each{ |h|
       self.generate_flat_tab_class( key, h[:classname] )
     }
+    return
   end
 
 end
