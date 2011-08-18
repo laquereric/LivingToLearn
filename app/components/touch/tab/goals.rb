@@ -8,7 +8,7 @@ class Touch::Tab::Goals < Netzke::Base
 ###############
   def self.config_hash_public(session_config)
     return {
-      :cls => 'goals private',
+      :cls => 'goals public',
       :html => Content.get_html( self, {
          :access => :public
       })
