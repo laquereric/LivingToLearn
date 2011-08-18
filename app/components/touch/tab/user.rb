@@ -80,7 +80,7 @@ HTML
       :dock => :top,
       :xtype => :panel,
       :cls => :'top-tab-title',
-      :html => 'Our Service is Ready for You'
+      :html => '<h1>Our Service is Ready for You</h1>'
     }],
     :xtype => :tabpanel,
     :items =>  user_page_tabs_private( session_config )

@@ -5,6 +5,7 @@
       opacity: 0.9;
     }
     div { position: relative }
+    span { position: relative }
     div.header{
       background-color: #CCCC00;
     }
@@ -35,8 +36,13 @@
   }
 
   div.about .x-panel{
-    padding: 10px;
-    font-size: 12px;
+     padding: 10px;
+     font-size: 12px;
+  }
+
+  div.goals .x-panel{
+     padding: 10px;
+     font-size: 12px;
   }
 
   div.mission .x-panel{
@@ -51,10 +57,6 @@
     padding: 10px;
     font-size: 12px;
   }
-  div.goals .x-panel {
-    padding: 10px;
-    font-size: 12px;
-  }
   div.commitments {
     padding: 10px;
     font-size: 12px;
@@ -66,5 +68,17 @@
 
   div.x-form-label{
     font-size: 12px;
+  }
+
+  span.x-button-label{
+    font-size: 8px !important ;
+  }
+
+  h1{
+    font-size: 16px;
+  }
+  h2{
+    font-size: 14px;
+    font-weight: bold;
   }
 

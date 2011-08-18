@@ -54,8 +54,7 @@ JS
       :docked_items => [{
         :dock => :top,
         :xtype => :panel,
-        :cls => :'top-tab-title',
-        :html => 'Improve (part of) your life now!'
+        :html => '<h1>Improve (part of) your life now!</h1>'
       }],
       :items =>  about_page_tabs_public(session_config),
       }
@@ -71,7 +70,7 @@ JS
        :cls => 'mission',
        :scroll => :vertical,
        :html =>  <<-HTML
-<br/><h1><b>Welcome!</b></h1><br/><br/>Plese go ahead and press 'Goals' to start an activity. That page will also give you the option of maintaining your list of activities.
+<br/><h2>Welcome!</h2><br/><br/>Plese go ahead and press 'Goals' to start an activity. That page will also give you the option of maintaining your list of activities.
 HTML
     }
     ]
@@ -83,7 +82,7 @@ HTML
         :dock => :top,
         :xtype => :panel,
 #        :cls => :'top-tab-title',
-        :html => 'Improve (part of) your life now!'
+        :html => '<h1>Improve (part of) your life now!</h1>'
       }],
       :xtype => :tabpanel,
       :items =>  about_page_tabs_private(session_config),

@@ -61,8 +61,9 @@ HTML
           :dock => :top,
           :height => 40,
           #:item_tpl => "Selected: {name} {level}"
+          :html => "<h1>T</h1>",
           :item_tpl => "Selected: {name}",
-          :top_tpl => "Top: Please addSub or select"
+          :top_html => "Top: Please addSub or select"
         }.merge( self.target_item ),
         navigation_toolbar,
         {
@@ -99,22 +100,22 @@ HTML
           :items => [
             {
               :cls => 'goal_start',
-              :text => 'START',
+              :text => 'Start',
               :action_key => 'start',
               :handler => 'targetHandler'
             },{
               :cls => 'goal_edit',
-              :text => 'EDIT',
+              :text => 'Edit',
               :action_key => 'edit',
               :handler => 'targetHandler'
             },{
               :cls => 'goal_add_sub',
-              :text => 'AddSUB',
+              :text => 'AddSub',
               :action_key => 'addsub',
                :handler => 'targetOptHandler'
             },{
               :cls => 'goal_delete',
-              :text => 'DELETE',
+              :text => 'Delete',
               :action_key => 'delete',
               :handler => 'targetHandler'
             }
@@ -269,6 +270,7 @@ HTML
 
             listCmp.target_id = Ext.select('.target_item').elements[0].id;
             listCmp.target_tpl = Ext.getCmp(listCmp.target_id).itemTpl;
+            listCmp.top_html = Ext.getCmp(listCmp.target_id).topHtml;
 
             listCmp.child_ids = #{child_item_ids_js};
             var child_0_id = Ext.select('.'+listCmp.child_ids[0]).elements[0].id;

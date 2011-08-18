@@ -128,9 +128,6 @@ class Touch::Lib::NestedList < Netzke::Base
           listCmp.target_template = new Ext.Template( listCmp.target_tpl );
           listCmp.target_template.compile();
 
-          listCmp.top_template = new Ext.Template( listCmp.top_tpl );
-          //listCmp.top_template.compile();
-
           listCmp.child_els = new Array;
           listCmp.child_cmps = new Array;
           listCmp.child_template = new Ext.Template('=> {name}');
@@ -182,15 +179,16 @@ class Touch::Lib::NestedList < Netzke::Base
 ///////////////////////
 // At Level
 ///////////////////////
+        var textEl = Ext.select('#' + me.target_el.id + ' div' + ' h1').elements[0];
 
         if (target_item){
           me.target_cmp.show();
           me.target_cmp.item_id = target_item.data.id;
-          me.target_template.overwrite( me.target_el, target_item.data );
+          me.target_template.overwrite( textEl, target_item.data );
         } else {
-          me.target_cmp.hide();
-          //me.target_cmp.show();
-          //me.top_template.overwrite( me.target_el );
+console.log(me.target_el);
+console.log(textEl);
+           Ext.DomHelper.overwrite( textEl, me.top_html );
         }
 
 ///////////////////////
