@@ -20,9 +20,8 @@ class Content
     else
       target.class.to_s
     end
-p "class_name #{class_name}"
+
     class_name_parsed = class_name.split('::').map { |n| n.downcase.to_sym }
-p "class_name_parsed #{class_name_parsed.inspect}"
 
     if class_name_parsed[1] == :tab
       if config[:tab].nil?
@@ -34,8 +33,6 @@ p "class_name_parsed #{class_name_parsed.inspect}"
       config[:tab] = class_name_parsed[3]  if config[:tab].nil?
       config[:card] = class_name_parsed[4]  if config[:card].nil?
     end
-
-p "config #{config.inspect}"
 
     filename =  if config[:filename]
       config[:filename]
