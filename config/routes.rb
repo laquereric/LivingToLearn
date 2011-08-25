@@ -1,4 +1,5 @@
 LivingToLearn::Application.routes.draw do
+  match 'manifest.manifest', :to => 'manifest#manifest', :as => 'manifest'
 
   #match 'curriculum/root', :to => 'curriculum#index', :as => 'curriculum_root'
   #match 'curriculum/age/:age', :to => 'curriculum#index', :as => 'curriculum_age'
