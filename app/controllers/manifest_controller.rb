@@ -4,7 +4,10 @@ class ManifestController  < ApplicationController
     r = <<-MANIFESTCONTENT
 CACHE MANIFEST
 
-http://lvh.me:3001/404.html
+404.html
+
+NETWORK:
+*
 
 MANIFESTCONTENT
     return r

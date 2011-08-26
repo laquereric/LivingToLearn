@@ -18,13 +18,13 @@
     margin: 10px
   }
 </style>
+
 <%= yield(:head) %>
 <title>LivingToLearn - Your Family's Education Matters</title>
   <%= netzke_init :platform => :touch %>
   <%= csrf_meta_tag %>
 <%= stylesheet_link_tag "application.iphone.css", :media => "all" %>
 
-</head>
 <script src = '/javascripts/tick.js'>
 </script>
 
@@ -34,6 +34,8 @@
     <%= yield :onload_script -%>
   }
 </script>
+
+</head>
 
 <body onLoad="onLoad()" style="<%=Screen.default.html_body_style%>">
 
