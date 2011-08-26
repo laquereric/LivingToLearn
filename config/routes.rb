@@ -1,5 +1,5 @@
 LivingToLearn::Application.routes.draw do
-  match 'cache.manifest', :to => 'manifest#manifest', :as => 'manifest'
+  #match "/application.manifest" => Rails::Offline
 
   #match 'curriculum/root', :to => 'curriculum#index', :as => 'curriculum_root'
   #match 'curriculum/age/:age', :to => 'curriculum#index', :as => 'curriculum_age'
